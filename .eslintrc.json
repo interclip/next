@@ -1,3 +1,25 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next", "next/core-web-vitals", "plugin:react/recommended"],
+  "plugins": [
+    "@typescript-eslint",
+    "unused-imports",
+    "simple-import-sort",
+    "prettier"
+  ],
+  "rules": {
+    "react/display-name": "off",
+    "prettier/prettier": ["error"],
+    "react/prop-types": "off",
+    "semi": [2, "never"],
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "react/no-unescaped-entities": "off",
+    "no-unused-vars": "warn",
+    "unused-imports/no-unused-imports": "error",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@next/next/no-img-element": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "jsx-a11y/role-supports-aria-props": "off"
+  }
 }

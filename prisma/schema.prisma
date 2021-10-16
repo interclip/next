@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["filterJson", "referentialIntegrity"]
+}
+
+model Clip {
+  id        Int       @id @default(autoincrement())
+  code      String    @unique
+  url       String
+  createdAt DateTime  @default(now())
+  expires   DateTime?
+}
