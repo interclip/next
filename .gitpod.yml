@@ -1,7 +1,45 @@
+image:
+  file: .gitpod.Dockerfile
+
 tasks:
-  - init: yarn dev
+  - name: Setup
+    init: >
+      yarn --network-timeout 100000;
+      cp .env.example .env;
+      echo "BASE_URL=\"$(gp url 3000)\"" >> .env;
+      yarn prisma:migrate;
+      gp sync-done setup;
+    command: echo "Welcome!"
+  - name: Prisma Studio
+    init: gp sync-await setup
+    command: BROWSER=none yarn prisma studio
+  - name: Dev Server
+    init: gp sync-await setup
     command: yarn dev
 
 ports:
-  - port: 3000
+  - port: 3000 # Web app
     onOpen: open-browser
+    visibility: public
+  - port: 5555 # Prisma Studio
+    onOpen: notify
+    visibility: public
+  - port: 3306 # MySQL
+    onOpen: ignore
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - mikestead.dotenv
+    - graphql.vscode-graphql
+    - christian-kohler.npm-intellisense
+    - esbenp.prettier-vscode
+    - prisma.prisma
+    - eamodio.gitlens
+    - pflannery.vscode-versionlens
+    - wix.vscode-import-cost
+    - formulahendry.auto-close-tag
+    - github.github-vscode-theme
+    - bradlc.vscode-tailwindcss
+    - bierner.markdown-preview-github-styles
+    - editorconfig.editorconfig
