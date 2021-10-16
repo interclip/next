@@ -4,11 +4,14 @@ import { APIResponse } from '../../lib/types';
 import { db } from '../../lib/prisma';
 import { dateAddDays } from '../../lib/dates';
 import { getRandomID } from '../../lib/generateID';
+import { getSession } from "next-auth/react"
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<APIResponse>
 ) {
+    const session = await getSession({ req })
+
     const { url: clipURL } = req.query;
 
     if (!clipURL) {
@@ -44,13 +47,16 @@ export default async function handler(
         res.status(200).json({ status: 'success', result: duplicateClip });
     } else {
 
-        const getUserIDFromEmail = async (email: string) => {
+        const getUserIDFromEmail = async (email: string | null | undefined) => {
+            if (!email) {
+                return null;
+            }
             const user = await db.user.findUnique({
                 where: {
                     email
                 }
             });
-            return user?.id;
+            return user?.id || null;
         }
 
         const newClip = db.clip.create({
@@ -60,7 +66,7 @@ export default async function handler(
                 expiresAt: dateAddDays(new Date(), 30),
                 createdAt: new Date(),
                 // Todo(ft): get the real user email
-                ownerID: await getUserIDFromEmail("ff@duck.com")
+                ownerID: await getUserIDFromEmail(session?.user?.email)
             }
         });
 
