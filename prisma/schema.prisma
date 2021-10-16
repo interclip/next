@@ -18,5 +18,5 @@ model Clip {
   code      String    @unique
   url       String
   createdAt DateTime  @default(now())
-  expiresAt   DateTime?
+  expiresAt DateTime?
 }
