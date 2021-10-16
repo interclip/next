@@ -65,7 +65,6 @@ export default async function handler(
                 url: clipURL,
                 expiresAt: dateAddDays(new Date(), 30),
                 createdAt: new Date(),
-                // Todo(ft): get the real user email
                 ownerID: await getUserIDFromEmail(session?.user?.email)
             }
         });
