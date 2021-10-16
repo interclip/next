@@ -43,12 +43,24 @@ export default async function handler(
     if (duplicateClip) {
         res.status(200).json({ status: 'success', result: duplicateClip });
     } else {
+
+        const getUserIDFromEmail = async (email: string) => {
+            const user = await db.user.findUnique({
+                where: {
+                    email
+                }
+            });
+            return user?.id;
+        }
+
         const newClip = db.clip.create({
             data: {
                 code: getRandomID(5),
                 url: clipURL,
                 expiresAt: dateAddDays(new Date(), 30),
-                createdAt: new Date()
+                createdAt: new Date(),
+                // Todo(ft): get the real user email
+                ownerID: await getUserIDFromEmail("ff@duck.com")
             }
         });
 

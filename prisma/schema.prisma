@@ -19,5 +19,21 @@ model Clip {
   createdAt DateTime  @default(now())
   expiresAt DateTime?
 
+  ownerID String?
+  owner   User?   @relation(fields: [ownerID], references: [id])
+
   @@map("clips")
+}
+
+model User {
+  id         String @id @default(uuid())
+  username   String @unique @default(uuid())
+  email      String @unique
+  ownedClips Clip[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+
+  // Attributes
+  @@map("users")
 }
