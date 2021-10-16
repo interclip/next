@@ -15,7 +15,7 @@ generator client {
 model Clip {
   id        Int       @id @default(autoincrement())
   code      String    @unique
-  url       String
+  url       String    @unique
   createdAt DateTime  @default(now())
   expiresAt DateTime?
 

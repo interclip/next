@@ -1,17 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import isURL from 'validator/lib/isURL';
+import { APIResponse } from '../../lib/types';
 import { db } from '../../lib/prisma';
 import { dateAddDays } from '../../lib/dates';
 import { getRandomID } from '../../lib/generateID';
 
-type Data = {
-    status: 'error' | 'success',
-    result: any
-}
-
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse<APIResponse>
 ) {
     const { url: clipURL } = req.query;
 
