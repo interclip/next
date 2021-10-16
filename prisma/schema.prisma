@@ -20,5 +20,5 @@ model Clip {
   createdAt DateTime  @default(now())
   expiresAt DateTime?
 
-  @@map('clips')
+  @@map("clips")
 }
