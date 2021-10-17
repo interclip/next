@@ -5,6 +5,7 @@ import { db } from '../../lib/prisma';
 import { dateAddDays } from '../../lib/dates';
 import { getRandomID } from '../../lib/generateID';
 import { getSession } from "next-auth/react"
+import { getUserIDFromEmail } from '../../lib/dbHelpers';
 
 export default async function handler(
     req: NextApiRequest,
@@ -46,31 +47,18 @@ export default async function handler(
     if (duplicateClip) {
         res.status(200).json({ status: 'success', result: duplicateClip });
     } else {
-
-        const getUserIDFromEmail = async (email: string | null | undefined) => {
-            if (!email) {
-                return null;
-            }
-            const user = await db.user.findUnique({
-                where: {
-                    email
+        try {
+            const newClip = await db.clip.create({
+                data: {
+                    code: getRandomID(5),
+                    url: clipURL,
+                    expiresAt: dateAddDays(new Date(), 30),
+                    createdAt: new Date(),
+                    ownerID: await getUserIDFromEmail(session?.user?.email)
                 }
             });
-            return user?.id || null;
-        }
+            res.status(200).json({ status: 'success', result: newClip })
 
-        const newClip = db.clip.create({
-            data: {
-                code: getRandomID(5),
-                url: clipURL,
-                expiresAt: dateAddDays(new Date(), 30),
-                createdAt: new Date(),
-                ownerID: await getUserIDFromEmail(session?.user?.email)
-            }
-        });
-
-        try {
-            res.status(200).json({ status: 'success', result: await newClip })
         } catch (e) {
             res.status(500).json({
                 status: 'error',
@@ -78,5 +66,4 @@ export default async function handler(
             });
         }
     }
-
 }
