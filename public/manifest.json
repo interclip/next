@@ -1,0 +1,17 @@
+{
+  "name": "interclip",
+  "short_name": "interclip",
+  "theme_color": "#157EFB",
+  "background_color": "#157EFB",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "icons/favicon-1024x1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

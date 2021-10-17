@@ -21,7 +21,7 @@ class DevpartyDocument extends Document<Props> {
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <link rel="icon" href="/favicon.svg" />
+          <link rel="icon" href="/icons/logo.svg" />
           <link rel="manifest" href="/manifest.json" />
           <meta name="description" content="The next generation of sharing" />
           <meta property="og:type" content="website" />
