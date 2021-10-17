@@ -6,11 +6,25 @@ import { dateAddDays } from '../../lib/dates';
 import { getRandomID } from '../../lib/generateID';
 import { getSession } from "next-auth/react"
 import { getUserIDFromEmail } from '../../lib/dbHelpers';
+import rateLimit from '../../lib/rateLimit';
+
+
+const limiter = rateLimit({
+    interval: 60 * 1000, // 60 seconds
+    uniqueTokenPerInterval: 500, // Max 500 reqs per second
+})
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<APIResponse>
 ) {
+
+    try {
+        await limiter.check(res, 60, 'CACHE_TOKEN');
+    } catch {
+        res.status(429).json({ status: 'error', result: 'Rate limit exceeded' })
+    }
+
     const session = await getSession({ req })
 
     const { url: clipURL } = req.query;
@@ -37,6 +51,7 @@ export default async function handler(
             result: 'An invalid URL provided.'
         });
     }
+
 
     const duplicateClip = await db.clip.findFirst({
         where: {
