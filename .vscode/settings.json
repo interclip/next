@@ -6,5 +6,8 @@
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-  "terminal.integrated.gpuAcceleration": "canvas"
+  "terminal.integrated.gpuAcceleration": "canvas",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }
