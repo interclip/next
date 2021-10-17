@@ -10,11 +10,11 @@ const SettingsCard = ({
   warning,
   buttonText,
 }: {
-  children: any;
+  children: JSX.Element | string;
   title: string;
   description?: string;
   footerDescription?: string;
-  onSave?: any;
+  onSave?: () => any;
   warning?: boolean;
   buttonText?: string;
 }) => {

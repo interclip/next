@@ -1,5 +1,5 @@
 import { Input } from '@nextui-org/react';
-import React, { useState } from 'react';
+import React from 'react';
 import SettingsCard from '../SettingsCard';
 
 const GeneralSettings = () => {
@@ -37,9 +37,8 @@ const GeneralSettings = () => {
         warning
         buttonText="Delete Personal Account"
       >
-        Permanently remove your Personal Account and all of its contents from
-        the Vercel platform. This action is not reversible, so please continue
-        with caution.
+        Permanently remove your account and all of its contents from Interclip.
+        This action is not reversible, so please continue with caution.
       </SettingsCard>
     </>
   );
