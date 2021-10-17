@@ -1,5 +1,10 @@
 {
-  "extends": ["next", "next/core-web-vitals", "plugin:react/recommended"],
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "prettier"
+  ],
   "plugins": [
     "@typescript-eslint",
     "unused-imports",
@@ -8,12 +13,14 @@
   ],
   "rules": {
     "react/display-name": "off",
+    "comma-dangle": ["error", "never"],
     "prettier/prettier": ["error"],
     "react/prop-types": "off",
     "semi": [2, "never"],
-    "quotes": [2, "single", { "avoidEscape": true }],
+    "quotes": ["single"],
     "react/no-unescaped-entities": "off",
     "no-unused-vars": "warn",
+    "indent": ["error", 4],
     "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
