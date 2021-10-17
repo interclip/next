@@ -3,7 +3,7 @@ import { Layout } from '../components/Layout';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-const Error404: React.FC = () => {
+const Error500: React.FC = () => {
   return (
     <Layout>
       <section className="flex h-[30em] items-center mt-[20%]">
@@ -36,9 +36,9 @@ const Error404: React.FC = () => {
               '0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)',
           }}
         >
-          <div className="text-9xl font-bold absolute bottom-[50%]">404</div>
+          <div className="text-9xl font-bold absolute bottom-[50%]">500</div>
           <div className="font-semibold h-[40%] mt-0 pt-0 text-6xl absolute top-[50%]">
-            Page not found
+            Unexpected error occured
           </div>
         </motion.div>
       </section>
@@ -46,4 +46,4 @@ const Error404: React.FC = () => {
   );
 };
 
-export default Error404;
+export default Error500;
