@@ -21,7 +21,7 @@ async function main() {
   const userIDs: any[] = [undefined];
 
   // Fake User
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 25; i++) {
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
     const username = `${firstName}${lastName}`.toLocaleLowerCase();
@@ -34,6 +34,7 @@ async function main() {
             username,
             isStaff: false,
             name: `${firstName} ${lastName}`,
+            image: faker.internet.avatar(),
           },
         })
       ).id,
