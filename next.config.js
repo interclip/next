@@ -8,4 +8,7 @@ module.exports = withPWA({
     skipWaiting: true,
   },
   reactStrictMode: true,
+  images: {
+    domains: ['avatar.tobi.sh'],
+  },
 });
