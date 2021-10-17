@@ -15,7 +15,10 @@ export default async function handler(
   try {
     await limiter.check(res, 169, 'CACHE_TOKEN');
   } catch {
-    res.status(429).json({ status: 'error', result: 'Rate limit exceeded' });
+    res.status(429).json({
+      status: 'error',
+      result: 'Rate limit exceeded',
+    });
   }
 
   const { code: clipCode } = req.query;
