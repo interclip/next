@@ -24,15 +24,8 @@ export default async function handler(
     });
 
     try {
-        const clipResult = await queriedClips;
-        if (clipResult) {
-            res.status(200).json({ status: 'success', result: clipResult })
-        } else {
-            res.status(404).json({
-                status: 'error',
-                result: 'Clip not found.'
-            });
-        }
+        const result = await queriedClips;
+        res.status(200).json({ status: 'success', result: result })
     } catch (e) {
         res.status(500).json({
             status: 'error',
