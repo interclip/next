@@ -20,7 +20,6 @@
     "quotes": ["single"],
     "react/no-unescaped-entities": "off",
     "no-unused-vars": "warn",
-    "indent": ["error", 4],
     "unused-imports/no-unused-imports": "error",
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
