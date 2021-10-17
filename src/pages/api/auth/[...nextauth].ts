@@ -9,6 +9,10 @@ const prisma = new PrismaClient();
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
+  theme: {
+    logo: 'https://raw.githubusercontent.com/interclip/interclip/main/img/logo.svg',
+    colorScheme: 'auto'
+  },
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
