@@ -8,7 +8,7 @@ tasks:
       cp .env.example .env;
       echo "BASE_URL=\"$(gp url 3000)\"" >> .env;
       yarn prisma:migrate;
-      yarn prisma:seed
+      yarn prisma:seed;
       gp sync-done setup;
     command: echo "Welcome!"
   - name: Prisma Studio
