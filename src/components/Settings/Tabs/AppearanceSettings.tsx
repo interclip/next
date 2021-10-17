@@ -1,13 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SettingsCard from '../SettingsCard';
-import Cookies from 'js-cookie';
+import useLocalStorage from 'react-use-localstorage';
 import Select from 'react-select';
 
+const useSSRLocalStorage = (
+  key: string,
+  initial: string,
+): [string, React.Dispatch<string>] => {
+  return typeof window === 'undefined'
+    ? [initial, () => undefined]
+    : useLocalStorage(key, initial);
+};
+
 const AppearanceSettings = () => {
-  const [theme, setTheme] = useState('system');
+  const [theme, setTheme] = useSSRLocalStorage('theme', 'system');
 
   useEffect(() => {
-    setTheme(Cookies.get('theme') ?? 'system');
+    setTheme(localStorage.getItem('theme') ?? 'system');
   }, []);
 
   const themeOptions = [
@@ -21,7 +30,7 @@ const AppearanceSettings = () => {
       <SettingsCard
         title="Color Scheme"
         onSave={() => {
-          Cookies.set('theme', theme);
+          setTheme(theme);
         }}
       >
         <Select
