@@ -26,7 +26,7 @@ const AppearanceSettings = () => {
       >
         <Select
           options={themeOptions}
-          onChange={(e: any) => setTheme(e.value)}
+          onChange={(e) => setTheme(e?.value || 'system')}
         />
       </SettingsCard>
     </>
