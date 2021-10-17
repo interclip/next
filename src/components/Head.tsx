@@ -14,8 +14,6 @@ const PageHead = (props: { titlePrefix?: string }): JSX.Element => {
   return (
     <Head>
       <title>{titlePrefix && `${titlePrefix} |`} Interclip</title>
-      <meta name="description" content="The next generation of sharing" />
-      <meta property="og:type" content="website" />
     </Head>
   );
 };
