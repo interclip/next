@@ -15,6 +15,7 @@
   "dependencies": {
     "@next-auth/prisma-adapter": "^0.5.2-next.15",
     "@prisma/client": "^3.2.1",
+    "framer-motion": "^4.1.17",
     "get-random-values": "^1.2.2",
     "ioredis": "^4.28.0",
     "lru-cache": "^6.0.0",
