@@ -7,6 +7,7 @@
     "build": "yarn generate && next build",
     "generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --preview-feature",
+    "prisma:seed": "ts-node prisma/seed.ts",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
@@ -23,9 +24,11 @@
     "next-auth": "^4.0.0-beta.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "ts-node": "^10.3.0",
     "validator": "^13.6.0"
   },
   "devDependencies": {
+    "@types/faker": "^5.5.9",
     "@types/lru-cache": "^5.1.1",
     "@types/react": "17.0.30",
     "@types/validator": "^13.6.3",
