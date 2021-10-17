@@ -8,11 +8,10 @@ import { getSession } from "next-auth/react"
 import { getUserIDFromEmail } from '../../lib/dbHelpers';
 import rateLimit from '../../lib/rateLimit';
 
-
 const limiter = rateLimit({
     interval: 60 * 1000, // 60 seconds
     uniqueTokenPerInterval: 500, // Max 500 reqs per second
-})
+});
 
 export default async function handler(
     req: NextApiRequest,
