@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import NextAuth from 'next-auth';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { PrismaClient } from '@prisma/client';
 
-import DiscordProvider from "next-auth/providers/discord";
-import GitlabProvider from "next-auth/providers/gitlab";
+import DiscordProvider from 'next-auth/providers/discord';
+import GitlabProvider from 'next-auth/providers/gitlab';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),

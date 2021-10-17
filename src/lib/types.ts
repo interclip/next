@@ -1,4 +1,4 @@
 export interface APIResponse {
-    status: 'error' | 'success';
-    result: any;
+  status: 'error' | 'success';
+  result: any;
 }
