@@ -1,11 +1,13 @@
 import React from 'react';
-import Link from 'next/link';
 import NavbarItem from './NavbarItem';
 import { Button } from '../Button';
 import Image from 'next/image';
 import NavbarSection from './NavbarSection';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 const Navbar = () => {
+  const { data: session } = useSession();
+
   return (
     <>
       <nav className="bg-white h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
@@ -20,18 +22,28 @@ const Navbar = () => {
           </NavbarSection>
           <NavbarSection>
             <NavbarItem url="/" name="Clip" />
-            <NavbarItem url="/dashboard" name="Receive" />
-            <NavbarItem url="/dashboard" name="File" />
+            <NavbarItem url="/receive" name="Receive" />
+            <NavbarItem url="/file" name="File" />
             <NavbarItem url="/about" name="About" />
           </NavbarSection>
           <NavbarSection>
-            <Button
-              content="Login"
-              background_color="light-bg"
-              hover_color="blue-600"
-              focus_ring_color="blue-400"
-              url="/"
-            />
+            {session ? (
+              <Image
+                src="https://avatar.tobi.sh/name.svg?"
+                height={50}
+                width={50}
+                className="rounded-full cursor-pointer"
+                onClick={() => signOut()}
+              />
+            ) : (
+              <Button
+                content="Login"
+                background_color="light-bg"
+                hover_color="blue-600"
+                focus_ring_color="blue-400"
+                onClick={() => signIn()}
+              />
+            )}
           </NavbarSection>
         </div>
       </nav>
