@@ -18,10 +18,7 @@ const Navbar = () => {
               <Image
                 src="/images/Interclip.svg"
                 alt="Interclip logo"
-<<<<<<< HEAD
-=======
                 className="cursor-pointer"
->>>>>>> 38d7676ee1600331e63a8041722129179a8cea91
                 width={50}
                 height={50}
               />

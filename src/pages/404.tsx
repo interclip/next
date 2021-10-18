@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 const Error404: React.FC = () => {
   return (
-    <Layout>
+    <Layout titlePrefix="Page not found">
       <section className="flex h-[30em] max-w-6xl w-full items-center mt-[20%] ">
         <motion.div
           initial={{ rotate: 60, scale: 0.5, opacity: 0 }}
