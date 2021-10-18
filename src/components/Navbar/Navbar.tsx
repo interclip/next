@@ -4,6 +4,7 @@ import { Button } from '../Button';
 import Image from 'next/image';
 import NavbarSection from './NavbarSection';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -13,12 +14,15 @@ const Navbar = () => {
       <nav className="bg-white h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
         <div className="md:container md:mx-auto flex justify-around">
           <NavbarSection>
-            <Image
-              src="/images/Interclip.svg"
-              alt="Interclip logo"
-              width={50}
-              height={50}
-            />
+            <Link href="/">
+              <Image
+                src="/images/Interclip.svg"
+                alt="Interclip logo"
+                className="cursor-pointer"
+                width={50}
+                height={50}
+              />
+            </Link>
           </NavbarSection>
           <NavbarSection>
             <NavbarItem url="/" name="Clip" />
