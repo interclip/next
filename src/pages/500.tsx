@@ -3,10 +3,10 @@ import { Layout } from '../components/Layout';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-const Error500: React.FC = () => {
+const Error404: React.FC = () => {
   return (
     <Layout>
-      <section className="flex h-[30em] items-center mt-[20%]">
+      <section className="flex h-[30em] max-w-6xl w-full items-center mt-[20%] ">
         <motion.div
           initial={{ rotate: 60, scale: 0.5, opacity: 0 }}
           animate={{ rotate: 0, scale: 1, opacity: 1 }}
@@ -38,7 +38,7 @@ const Error500: React.FC = () => {
         >
           <div className="text-9xl font-bold absolute bottom-[50%]">500</div>
           <div className="font-semibold h-[40%] mt-0 pt-0 text-6xl absolute top-[50%]">
-            Unexpected error occured
+            Unexpected error
           </div>
         </motion.div>
       </section>
@@ -46,4 +46,4 @@ const Error500: React.FC = () => {
   );
 };
 
-export default Error500;
+export default Error404;
