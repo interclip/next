@@ -9,6 +9,6 @@ module.exports = withPWA({
   },
   reactStrictMode: true,
   images: {
-    domains: ['avatar.tobi.sh'],
+    domains: ['avatar.tobi.sh', 'avatars.githubusercontent.com'],
   },
 });
