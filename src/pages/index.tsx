@@ -6,10 +6,6 @@ const Home: NextPage = () => {
   return (
     <>
       <PageHead />
-
-      <Layout>
-        <h1>test</h1>
-      </Layout>
     </>
   );
 };
