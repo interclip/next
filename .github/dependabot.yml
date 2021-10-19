@@ -9,7 +9,5 @@ updates:
       prefix-development: '⬆️ deps(dev):'
     assignees:
       - filiptronicek
-    reviewers:
-      - filiptronicek
     open-pull-requests-limit: 69
     rebase-strategy: auto
