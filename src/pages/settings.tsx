@@ -68,12 +68,17 @@ const Settings = (props: {
 };
 
 export async function getServerSideProps(context: { req: NextApiRequest }) {
-  const userData = await getUserDetails(
-    ['username', 'name', 'image'],
-    context.req,
-  );
-  console.log(userData);
-  return { props: { user: userData } };
+  try {
+    const userData = await getUserDetails(
+      ['username', 'name', 'image'],
+      context.req,
+    );
+    return { props: { user: userData } };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 }
 
 export default Settings;

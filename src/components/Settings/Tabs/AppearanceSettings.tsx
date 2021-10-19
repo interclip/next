@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SettingsCard from '../SettingsCard';
-import Cookies from 'js-cookie';
 import Select from 'react-select';
+import { useTheme } from 'next-themes';
 
 const AppearanceSettings = () => {
-  const [theme, setTheme] = useState('system');
-
-  useEffect(() => {
-    setTheme(Cookies.get('theme') ?? 'system');
-  }, []);
+  const { theme, setTheme } = useTheme();
 
   const themeOptions = [
     { value: 'light', label: 'Light ☀' },
@@ -18,12 +14,7 @@ const AppearanceSettings = () => {
 
   return (
     <>
-      <SettingsCard
-        title="Color Scheme"
-        onSave={() => {
-          Cookies.set('theme', theme);
-        }}
-      >
+      <SettingsCard title="Color Scheme" onSave={() => {}}>
         <Select
           options={themeOptions}
           onChange={(e) => setTheme(e?.value || 'system')}
