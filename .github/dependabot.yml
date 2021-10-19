@@ -5,8 +5,8 @@ updates:
     schedule:
       interval: 'daily'
     commit-message:
-      prefix: '⬆️ bump(deps):'
-      prefix-development: '⬆️ bump(dev-deps):'
+      prefix: '⬆️ deps:'
+      prefix-development: '⬆️ deps(dev):'
     assignees:
       - filiptronicek
     reviewers:
