@@ -7,6 +7,7 @@ tasks:
       yarn --network-timeout 100000;
       cp .env.example .env;
       echo "BASE_URL=\"$(gp url 3000)\"" >> .env;
+      echo "NEXTAUTH_URL=\"$(gp url 3000)\"" >> .env;
       yarn prisma:migrate;
       yarn prisma:seed;
       gp sync-done setup;
