@@ -24,7 +24,7 @@
     "js-cookie": "^3.0.1",
     "lru-cache": "^6.0.0",
     "next": "11.1.2",
-    "next-auth": "^4.0.0-beta.4",
+    "next-auth": "^4.0.0-next.26",
     "next-pwa": "^5.4.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
