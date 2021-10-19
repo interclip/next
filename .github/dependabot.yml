@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    commit-message:
+      prefix: '⬆️ bump(deps):'
+      prefix-development: '⬆️ bump(dev-deps):'
+    assignees:
+      - filiptronicek
+    reviewers:
+      - filiptronicek
+    open-pull-requests-limit: 69
+    rebase-strategy: auto
