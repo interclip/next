@@ -1,3 +1,3 @@
-## Interclip-next
+## Interclip Next
 
-Something new is cookin' for the next generation of sharing.
+Something new is cookin' for the Next® generation of sharing.
