@@ -14,7 +14,7 @@
     "pretty": "prettier --write ."
   },
   "dependencies": {
-    "@next-auth/prisma-adapter": "^0.5.2-next.15",
+    "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.52",
     "@prisma/client": "^3.3.0",
     "faker": "^5.5.3",
