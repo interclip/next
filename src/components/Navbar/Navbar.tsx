@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
+      <nav className="bg-white dark:bg-[#262626] h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
         <div className="w-full max-w-6xl md:mx-auto mx-4 flex justify-around">
           <NavbarSection>
             <Link href="/">
