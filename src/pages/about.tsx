@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <section className="w-full flex flex-col items-center">
-        <div className="w-[30em]">
+        <div className="w-[30em] max-w-[93vw]">
           <H1>About Interclip</H1>
           <H2>What is Interclip?</H2>
           <p>
