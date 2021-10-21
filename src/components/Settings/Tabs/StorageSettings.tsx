@@ -1,7 +1,7 @@
 import React from 'react';
 import SettingsCard from '../SettingsCard';
 import Select from 'react-select';
-import { Input } from '@nextui-org/react';
+import { Input } from '@components/Input';
 
 const StorageSettings = () => {
   const uploadOptions = [
@@ -21,7 +21,10 @@ const StorageSettings = () => {
         title="Clip Expiration"
         description="Select time after which will clips be deleted"
       >
-        <Input bordered shadow={false} animated={false} type="number" />
+        <div className="max-w-[200px]">
+          {/* @ts-ignore */}
+          <Input type="number" />
+        </div>
       </SettingsCard>
     </>
   );

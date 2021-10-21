@@ -1,4 +1,4 @@
-import { Input } from '@nextui-org/react';
+import { Input } from '@components/Input';
 import React from 'react';
 import SettingsCard from '../SettingsCard';
 
@@ -14,13 +14,7 @@ const GeneralSettings = (props: {
         footerDescription="Please use 48 characters at maximum."
       >
         <div className="max-w-[50%]">
-          <Input
-            bordered
-            shadow={false}
-            animated={false}
-            defaultValue={props.username}
-            fullWidth
-          />
+          <Input />
         </div>
       </SettingsCard>
       <SettingsCard
@@ -30,13 +24,7 @@ const GeneralSettings = (props: {
         footerDescription="Please use 32 characters at maximum."
       >
         <div className="max-w-[50%]">
-          <Input
-            bordered
-            shadow={false}
-            animated={false}
-            defaultValue={props.name}
-            fullWidth
-          />
+          <Input />
         </div>
       </SettingsCard>{' '}
       <SettingsCard
@@ -45,13 +33,7 @@ const GeneralSettings = (props: {
         footerDescription="We will email you to verify the change."
       >
         <div className="max-w-[50%]">
-          <Input
-            bordered
-            shadow={false}
-            animated={false}
-            defaultValue={props.email}
-            fullWidth
-          />
+          <Input />
         </div>
       </SettingsCard>{' '}
       <SettingsCard
