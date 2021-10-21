@@ -22,7 +22,6 @@ const StorageSettings = () => {
         description="Select time after which will clips be deleted"
       >
         <div className="max-w-[200px]">
-          {/* @ts-ignore */}
           <Input type="number" />
         </div>
       </SettingsCard>
