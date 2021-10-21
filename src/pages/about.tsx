@@ -1,10 +1,10 @@
 import { H1, H2 } from '@components/Text/headings';
-import type { NextPage } from 'next';
 import { Link } from '@components/Text/link';
 import React from 'react';
 import { Layout } from '../components/Layout';
+import { db } from '@utils/prisma';
 
-const Home: NextPage = () => {
+const About = (props: { clipCount: number; version: string }): JSX.Element => {
   return (
     <Layout>
       <section className="w-full flex flex-col items-center">
@@ -37,12 +37,14 @@ const Home: NextPage = () => {
           <H2>Facts about Interclip</H2>
           <ul className="facts">
             <li>
-              Latest release: 0.420.0{' '}
-              <Link href="https://github.com/interclip/interclip/releases/tag/v1.0">
+              Release: {props.version}{' '}
+              <Link
+                href={`https://github.com/interclip/interclip/releases/tag/v${props.version}`}
+              >
                 (changelog)
               </Link>
             </li>
-            <li>Total clips made: 69</li>
+            <li>Total clips made: {props.clipCount}</li>
           </ul>
         </div>
       </section>
@@ -50,4 +52,18 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export async function getServerSideProps() {
+  try {
+    const clipCount = await db.clip.count();
+    const packageJSON = require('../../package.json');
+    const { version } = packageJSON;
+    return { props: { clipCount, version } };
+  } catch (e) {
+    console.error(e);
+    return {
+      notFound: true,
+    };
+  }
+}
+
+export default About;
