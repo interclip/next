@@ -11,8 +11,8 @@ const Home: NextPage = () => {
         </h1>
         <div className="max-w-5xl lg:w-full mx-5 lg:mx-auto">
           <input
-            type="text"
-            className="mt-12 text-3xl w-full text-black py-2 px-3 rounded-2xl"
+            type="url"
+            className="mt-12 text-3xl w-full text-light-text dark:text-dark-text py-2 px-3 rounded-2xl"
             placeholder="https://www.histories.cc/krystofex"
           />
         </div>
