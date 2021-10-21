@@ -38,7 +38,7 @@
     "@types/faker": "^5.5.9",
     "@types/js-cookie": "^3.0.0",
     "@types/lru-cache": "^5.1.1",
-    "@types/react": "17.0.30",
+    "@types/react": "17.0.31",
     "@types/validator": "^13.6.4",
     "autoprefixer": "^10.3.7",
     "eslint": "^8.0.1",
