@@ -16,22 +16,18 @@ const Button = ({
   url?: any;
   onClick?: () => any;
 }) => {
+  const buttonClasses = `bg-${background_color} hover:bg-${hover_color} border dark:border-none text-white focus:ring-${focus_ring_color} px-4 py-1.5 rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none`;
   return url ? (
     <>
       <Link href={`${url}`} passHref={true}>
-        <button
-          className={`bg-${background_color} hover:bg-${hover_color} border text-white focus:ring-${focus_ring_color} px-4 py-1.5 rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none`}
-        >
+        <button className={buttonClasses}>
           <div>{content}</div>
         </button>
       </Link>
     </>
   ) : (
     <>
-      <button
-        onClick={onClick}
-        className={`bg-${background_color} hover:bg-${hover_color} border text-white focus:ring-${focus_ring_color} px-4 py-1.5 rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none`}
-      >
+      <button className={buttonClasses} onClick={onClick}>
         <div>{content}</div>
       </button>
     </>
