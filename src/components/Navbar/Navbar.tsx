@@ -29,6 +29,7 @@ const Navbar = () => {
             <NavbarItem url="/receive" name="Receive" />
             <NavbarItem url="/file" name="File" />
             <NavbarItem url="/about" name="About" />
+            {session && <NavbarItem url="/settings" name="Settings" />}
           </NavbarSection>
           <NavbarSection>
             {session ? (
