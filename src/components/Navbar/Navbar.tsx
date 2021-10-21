@@ -34,7 +34,7 @@ const Navbar = () => {
           <NavbarSection>
             {session ? (
               <Image
-                src="https://avatar.tobi.sh/name.svg?"
+                src={session?.user?.image || 'https://avatar.tobi.sh/name.svg?'}
                 height={50}
                 width={50}
                 className="rounded-full cursor-pointer"

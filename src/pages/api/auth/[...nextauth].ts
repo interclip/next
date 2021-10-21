@@ -45,6 +45,9 @@ export default NextAuth({
               const newUser = await db.user.create({
                 data: {
                   email: credentials.email,
+                  name: 'Demo User',
+                  isStaff: true,
+                  image: 'https://thispersondoesnotexist.com/image',
                 },
               });
               return newUser;

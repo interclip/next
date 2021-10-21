@@ -9,6 +9,10 @@ module.exports = withPWA({
   },
   reactStrictMode: true,
   images: {
-    domains: ['avatar.tobi.sh', 'avatars.githubusercontent.com'],
+    domains: [
+      'avatar.tobi.sh',
+      'avatars.githubusercontent.com',
+      'thispersondoesnotexist.com',
+    ],
   },
 });
