@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Layout } from '@components/Layout';
 import { db } from '@utils/prisma';
 import { NextApiRequest } from 'next';
+import Image from 'next/image';
 import QRModal from '@components/shared/QRModal';
 import { QRIcon } from '@components/Icons';
 import { Link } from '@components/Text/link';
@@ -36,11 +37,23 @@ const Redirect = (props: { code: string; url: string; oembed: OEmbed }) => {
               </Link>
             </h3>
           </div>
-          <QRIcon
-            onClick={() => {
-              setQrCodeZoom(true);
-            }}
-          />
+          <div className="flex flex-col items-center">
+            {props.oembed.favicons.length > 0 && (
+              <Image
+                src={`https://images.weserv.nl/?url=${props.oembed.favicons.at(
+                  -1,
+                )}&w=300&h=300`}
+                className="rounded"
+                width={72}
+                height={72}
+              />
+            )}
+            <QRIcon
+              onClick={() => {
+                setQrCodeZoom(true);
+              }}
+            />
+          </div>
           {qrCodeZoom && (
             <QRModal url={props.url} setQrCodeZoom={setQrCodeZoom} />
           )}
@@ -80,7 +93,8 @@ export async function getServerSideProps({
           code: selectedClip.code,
           url: selectedClip.url,
           oembed: {
-            title: additionalDetails.title || null,
+            title:
+              additionalDetails.title || additionalDetails.siteName || null,
             description: additionalDetails.description || null,
             favicons: additionalDetails.favicons,
           },

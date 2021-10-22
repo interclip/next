@@ -13,6 +13,7 @@ module.exports = withPWA({
       'avatar.tobi.sh',
       'avatars.githubusercontent.com',
       'thispersondoesnotexist.com',
+      'images.weserv.nl',
     ],
   },
 });
