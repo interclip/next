@@ -19,6 +19,16 @@ interface OEmbed {
   favicons: string[];
 }
 
+function getBestFavicon(faviconsList: string[]) {
+  if (faviconsList.length === 1) {
+    return faviconsList.at(0);
+  }
+  // Todo(ft): determine the highest resolution favicon
+  const matchesResolutionRegex = new RegExp(/\d{1,5}x\d{1,5}/);
+  faviconsList.filter((favicon) => favicon.match(matchesResolutionRegex));
+  return faviconsList.at(-1);
+}
+
 const Redirect = (props: { code: string; url: string; oembed: OEmbed }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(props.url);
@@ -40,8 +50,8 @@ const Redirect = (props: { code: string; url: string; oembed: OEmbed }) => {
           <div className="flex flex-col items-center">
             {props.oembed.favicons.length > 0 && (
               <Image
-                src={`https://images.weserv.nl/?url=${props.oembed.favicons.at(
-                  -1,
+                src={`https://images.weserv.nl/?url=${getBestFavicon(
+                  props.oembed.favicons,
                 )}&w=300&h=300`}
                 className="rounded"
                 width={72}
