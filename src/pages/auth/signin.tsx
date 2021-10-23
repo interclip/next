@@ -4,6 +4,7 @@ import useHover from '@utils/hooks/useHover';
 import { useState } from 'react';
 import { NextApiRequest } from 'next';
 import { IS_PROD } from '../../lib/constants';
+import Image from 'next/image';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -41,24 +42,27 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
         <div className="bg-gray-100 text-black w-96 h-auto rounded-lg pt-8 pb-8 px-8 flex flex-col items-center">
-          <label className="font-light text-4xl mb-4 font-bolder">
-            Interclip
-          </label>
+          <div className="mb-8">
+            <Image
+              src="/images/Interclip.svg"
+              alt="Interclip's logo"
+              width={128}
+              height={128}
+            />
+          </div>
           {!IS_PROD && (
             <>
-              <span className="mb-2">
-                Sign in with email (development only)
-              </span>
+              <span className="mb-2">Log in with email (development only)</span>
               <input
                 type="text"
                 className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
                 autoComplete="email"
-                placeholder="Email"
+                placeholder="Your email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={inputEmail}
               />
               <button
-                className="w-full h-12 rounded-lg bg-blue-600 text-gray-200 uppercase font-semibold hover:bg-blue-700 transition mb-4"
+                className="w-full h-12 rounded-lg bg-light-bg text-gray-200 uppercase font-semibold hover:bg-blue-600 transition mb-4"
                 onClick={() => signIn('credentials', { email: inputEmail })}
               >
                 Login
