@@ -55,7 +55,7 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
           </div>
           {!IS_PROD && (
             <>
-              <span className="mb-2">Log in with email (development only)</span>
+              <span className="text-gray-700 dark:text-light-text mb-4">Log in with email (development only)</span>
               <input
                 type="text"
                 className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
@@ -70,7 +70,7 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
               >
                 Login
               </button>
-              <label className="text-gray-800 mb-4">or</label>
+              <span className="text-gray-800 dark:text-light-text mb-4">or</span>
             </>
           )}
           {Object.values(providers).map((provider: any) => {
