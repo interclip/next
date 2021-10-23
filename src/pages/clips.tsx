@@ -36,7 +36,12 @@ const MyClips = (): JSX.Element => {
       <section className="w-full grid justify-center">
         <div className="w-[50em] max-w-[93vw]">
           <H1>Clips you made</H1>
-          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 mx-auto">
+          <div
+            className="grid gap-8 grid-cols-1 sm:grid-cols-2 mx-auto"
+            style={{
+              gridAutoRows: '1fr',
+            }}
+          >
             {loadedClips === null ? (
               <>Loading..</>
             ) : loadedClips.length === 0 ? (

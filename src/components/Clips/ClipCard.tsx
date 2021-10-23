@@ -9,7 +9,7 @@ const ClipCard = ({ clip }: { clip: Clip }) => {
   return (
     <Link href={`/${clip.code}+`}>
       <a href={`/${clip.code}+`}>
-        <div className="max-w-none sm:max-w-sm bg-white dark:bg-dark-secondary dark:text-dark-text border-2 cursor-pointer border-gray-300 p-6 rounded-md tracking-wide shadow-lg">
+        <div className="max-w-none sm:max-w-sm bg-white dark:bg-dark-secondary dark:text-dark-text border-2 cursor-pointer h-full border-gray-300 p-6 rounded-md tracking-wide shadow-lg">
           <>
             <div className="flex items-center mb-4">
               <div className="leading-5 sm">
