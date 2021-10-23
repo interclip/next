@@ -9,7 +9,7 @@ const Layout: React.FC<{ titlePrefix?: string }> = ({
   return (
     <>
       <PageHead titlePrefix={titlePrefix} />
-      <div className="flex flex-col items-center bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text h-screen">
+      <div className="flex flex-col items-center bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text h-min-full h-screen">
         <Navbar />
         {children}
       </div>
