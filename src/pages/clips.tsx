@@ -49,7 +49,11 @@ const MyClips = (): JSX.Element => {
                     new Date(a.createdAt).getTime(),
                 )
                 .map((clip) => {
-                  return <ClipCard key={clip.code} clip={clip} />;
+                  return (
+                    <div className="px-0 sm:px-10">
+                      <ClipCard key={clip.code} clip={clip} />
+                    </div>
+                  );
                 })
             )}
           </div>
