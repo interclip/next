@@ -21,8 +21,8 @@ export default NextAuth({
     jwt: true,
   },
   pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
+    signIn: '/auth/login',
+    signOut: '/auth/logout',
   },
   secret: process.env.AUTH_SECRET,
   jwt: {

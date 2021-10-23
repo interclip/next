@@ -3,8 +3,8 @@ import { getProviders, signIn, getSession } from 'next-auth/react';
 import useHover from '@utils/hooks/useHover';
 import { useState } from 'react';
 import { NextApiRequest } from 'next';
-import { IS_PROD } from '../../lib/constants';
 import Image from 'next/image';
+import { IS_PROD } from '../../lib/constants';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -41,7 +41,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
   return (
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
-        <div className="bg-gray-100 text-black w-96 h-auto rounded-lg pt-8 pb-8 px-8 flex flex-col items-center">
+        <div className="bg-gray-100 text-black w-screen h-screen md:w-96 md:h-auto md:pt-8 md:rounded-lg pb-8 px-8 flex flex-col justify-center items-center">
           <div className="mb-8">
             <Image
               src="/images/Interclip.svg"
