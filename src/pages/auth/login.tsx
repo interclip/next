@@ -35,6 +35,7 @@ function changeColorBrightness(color: string, luminosity: number) {
     ).toString(16);
     newColor += ('00' + c).substr(c.length);
   }
+
   return newColor;
 }
 
