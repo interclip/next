@@ -14,7 +14,6 @@ const requestClip = async (url: string) => {
   try {
     const clipResponse = await fetch(`/api/clip/set?url=${url}`);
     const clip: ClipResponse = await clipResponse.json();
-    toast.success(clip.result.code);
     return clip;
   } catch (e: any) {
     toast.error(e);
