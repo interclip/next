@@ -39,7 +39,7 @@ function changeColorBrightness(color: string, luminosity: number) {
   return newColor;
 }
 
-export default function SignIn({ providers }: { providers: any }): JSX.Element {
+const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
   const [inputEmail, setEmail] = useState('');
   return (
     <Layout>
@@ -100,7 +100,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
       </div>
     </Layout>
   );
-}
+};
 
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const providers = await getProviders();
@@ -118,3 +118,5 @@ export async function getServerSideProps({ req }: { req: NextApiRequest }) {
     };
   }
 }
+
+export default LogIn;

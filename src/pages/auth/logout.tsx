@@ -4,7 +4,7 @@ import Router from 'next/router';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 
-export default function Logout(): JSX.Element {
+const Logout = (): React.ReactNode => {
   return (
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
@@ -37,7 +37,7 @@ export default function Logout(): JSX.Element {
       </div>
     </Layout>
   );
-}
+};
 
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const session = await getSession({ req });
@@ -52,3 +52,5 @@ export async function getServerSideProps({ req }: { req: NextApiRequest }) {
     };
   }
 }
+
+export default Logout;
