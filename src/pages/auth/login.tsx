@@ -17,7 +17,7 @@ const brandColors = {
 /**
  * Created a lighter/darker shade of a given color
  * @param color the hexadecimal representation of the color to be adjusted
- * @param luminosity number ranging from -1 to 1 which represents the brightness addition/subtration
+ * @param luminosity number ranging from -1 to 1 which represents the brightness addition/subtraction
  * @returns a new color value in the hexadecimal format
  */
 function changeColorBrightness(color: string, luminosity: number) {
