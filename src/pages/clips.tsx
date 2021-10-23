@@ -1,65 +1,34 @@
-import { H1 } from '@components/Text/headings';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { Layout } from '../components/Layout';
-
-const dayjs = require('dayjs');
-const relativeTime = require('dayjs/plugin/relativeTime');
-dayjs.extend(relativeTime);
-
-interface Clip {
-  code: string;
-  url: string;
-  createdAt: string;
-  expiresAt: string;
-}
+import { H1 } from '@components/Text/headings';
+import { Layout } from '@components/Layout';
+import ClipCard from '@components/Clips/ClipCard';
+import { useRouter } from 'next/router';
 
 interface ClipsResponse {
   status: 'error' | 'success';
   result: Clip[];
 }
 
-const ClipCard = ({ clip }: { clip: Clip }) => {
-  const relativeTimeDiff = dayjs().to(dayjs(clip.createdAt));
-
-  return (
-    <Link href={`/${clip.code}+`} passHref>
-      <div className="max-w-sm bg-white border-2 cursor-pointer border-gray-300 p-6 rounded-md tracking-wide shadow-lg">
-        <>
-          <div id="header" className="flex items-center mb-4">
-            <div id="header-text" className="leading-5 sm">
-              <h4 id="name" className="text-xl font-semibold text-gray-800">
-                Code: {clip.code}
-              </h4>
-              <h5 id="job" className="font-semibold text-blue-600">
-                Created {relativeTimeDiff}
-              </h5>
-            </div>
-          </div>
-          <div id="quote">
-            <span className="italic break-words text-gray-600">{clip.url}</span>
-          </div>
-        </>
-      </div>
-    </Link>
-  );
-};
-
 const MyClips = (): JSX.Element => {
   const [loadedClips, setClips] = useState<null | Clip[]>(null);
+  const router = useRouter();
 
   useEffect(() => {
     fetch('/api/clip/myclips')
       .then((res) => {
         if (res.ok) {
           return res.json();
+        } else if (res.status === 401) {
+          router.push('/auth/login');
+          throw new Error('Unauthenticated');
         } else {
-          alert('Bruh');
+          alert('Error fetching clips');
         }
       })
       .then((clips: ClipsResponse) => {
         setClips(clips.result);
-      });
+      })
+      .catch((e) => {});
   }, []);
 
   return (
