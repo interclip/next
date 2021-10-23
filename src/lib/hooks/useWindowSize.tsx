@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react';
 
 /**
  * @returns a react hook used to get the window's height and width
- * @lisense CC BY-SA 4.0 (changes made)
+ * @license CC BY-SA 4.0 (changes made)
  * @author @sophiebits
  */
 export function useWindowSize(): number[] {
