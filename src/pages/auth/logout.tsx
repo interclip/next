@@ -1,10 +1,12 @@
 import { Layout } from '@components/Layout';
 import { signOut, getSession } from 'next-auth/react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 
 const Logout = (): React.ReactNode => {
+  const router = useRouter();
+
   return (
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
@@ -22,14 +24,16 @@ const Logout = (): React.ReactNode => {
             className="w-full h-12 rounded-lg bg-blue-600 text-gray-200 font-semibold hover:bg-blue-700 transition mb-4"
             onClick={() => {
               signOut();
-              Router.push('/');
+              router.push('/');
             }}
           >
             Log me out
           </button>
           <button
             className="w-full h-12 rounded-lg bg-red-600 text-gray-200 font-semibold hover:bg-red-700 transition mb-4"
-            onClick={() => Router.push('/')}
+            onClick={() => {
+              router.push('/');
+            }}
           >
             Cancel
           </button>
