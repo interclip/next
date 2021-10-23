@@ -40,7 +40,7 @@ function changeColorBrightness(color: string, luminosity: number) {
 }
 
 const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
-  const [inputEmail, setEmail] = useState('');
+  const [inputEmail, setEmail] = useState<string>('');
   return (
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
