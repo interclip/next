@@ -25,7 +25,7 @@ const Settings = (props: {
 
   return (
     <Layout>
-      <div className="bg-white dark:bg-dark-bg h-full text-black dark:text-dark-text w-full max-w-6xl w-full m-auto">
+      <div className="bg-white dark:bg-dark-bg h-full text-black dark:text-dark-text w-full max-w-6xl m-auto">
         <div className="flex gap-4 mt-10 ml-8 ">
           <div className="relative rounded-full w-32 h-32 border-8 border-white">
             <Image

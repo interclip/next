@@ -6,9 +6,8 @@ import DiscordProvider from 'next-auth/providers/discord';
 import GitlabProvider from 'next-auth/providers/gitlab';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { db } from '@utils/prisma';
-const IS_PROD = process.env.NODE_ENV === 'production';
-
 import isEmail from 'validator/lib/isEmail';
+import { IS_PROD } from '../../../lib/constants';
 
 const prisma = new PrismaClient();
 
@@ -20,6 +19,15 @@ export default NextAuth({
   },
   session: {
     jwt: true,
+  },
+  pages: {
+    signIn: '/auth/login',
+    signOut: '/auth/logout',
+  },
+  secret: process.env.AUTH_SECRET,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    signingKey: '{"kty":"oct","kid":"<the-kid>","alg":"HS512","k":"<the-key>"}',
   },
   providers: [
     !IS_PROD &&
