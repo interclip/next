@@ -28,13 +28,13 @@ const Navbar = () => {
             <NavbarItem url="/" name="Clip" />
             <NavbarItem url="/receive" name="Receive" />
             <NavbarItem url="/file" name="File" />
-            <NavbarItem url="/about" name="About" />
             {session && (
               <>
                 <NavbarItem url="/clips" name="My Clips" />
                 <NavbarItem url="/settings" name="Settings" />
               </>
             )}
+            <NavbarItem url="/about" name="About" />
           </NavbarSection>
           <NavbarSection>
             {session ? (
