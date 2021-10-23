@@ -1,5 +1,5 @@
 import { db } from '@utils/prisma';
-import { NextApiRequest } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
 export const getUserDetails = async (fields: string[], req: NextApiRequest) => {
@@ -22,3 +22,28 @@ export const getUserDetails = async (fields: string[], req: NextApiRequest) => {
   });
   return selectedDetails;
 };
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
+  if (typeof req.query.params === 'object') {
+    res.status(400).json({
+      status: 'error',
+      result:
+        'Too many code query params provided. Please only query one code per request.',
+    });
+    return;
+  }
+
+  const selectedFields = req.query.params.split(',');
+
+  try {
+    res.json(await getUserDetails(selectedFields, req));
+  } catch (e) {
+    res.status(500).json({
+      status: 'error',
+      result: 'An error with the database has occured.',
+    });
+  }
+}
