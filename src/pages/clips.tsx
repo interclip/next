@@ -33,10 +33,10 @@ const MyClips = (): JSX.Element => {
 
   return (
     <Layout>
-      <section className="w-full flex flex-col items-center">
+      <section className="w-full grid justify-center">
         <div className="w-[50em] max-w-[93vw]">
           <H1>Clips you made</H1>
-          <div className="grid gap-8 grid-cols-1 md:grid-cols-2 mx-auto">
+          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 mx-auto">
             {loadedClips === null ? (
               <>Loading..</>
             ) : loadedClips.length === 0 ? (
@@ -50,9 +50,7 @@ const MyClips = (): JSX.Element => {
                 )
                 .map((clip) => {
                   return (
-                    <div className="px-0 sm:px-10">
                       <ClipCard key={clip.code} clip={clip} />
-                    </div>
                   );
                 })
             )}
