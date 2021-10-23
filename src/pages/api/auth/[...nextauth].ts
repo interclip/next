@@ -21,6 +21,11 @@ export default NextAuth({
   session: {
     jwt: true,
   },
+  secret: process.env.AUTH_SECRET,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    signingKey: '{"kty":"oct","kid":"<the-kid>","alg":"HS512","k":"<the-key>"}',
+  },
   providers: [
     !IS_PROD &&
       CredentialsProvider({
