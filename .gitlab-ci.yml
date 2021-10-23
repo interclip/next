@@ -56,8 +56,3 @@ seed:
   only:
     - main
   when: manual
-
-housekeeping:
-  before_script: []
-  only:
-    - main
