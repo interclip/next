@@ -1,7 +1,8 @@
 import { Layout } from '@components/Layout';
-import { getProviders, signIn } from 'next-auth/react';
+import { getProviders, signIn, getSession } from 'next-auth/react';
 import useHover from '@utils/hooks/useHover';
 import { useState } from 'react';
+import { NextApiRequest } from 'next';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -86,9 +87,19 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const providers = await getProviders();
-  return {
-    props: { providers },
-  };
+  const session = await getSession({ req });
+  if (!session) {
+    return {
+      props: { providers },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 }
