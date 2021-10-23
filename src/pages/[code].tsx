@@ -29,9 +29,17 @@ function getBestFavicon(faviconsList: string[]) {
   return faviconsList.at(-1);
 }
 
-const Redirect = (props: { code: string; url: string; oembed: OEmbed }) => {
+const Redirect = ({
+  code,
+  url,
+  oembed,
+}: {
+  code: string;
+  url: string;
+  oembed: OEmbed;
+}) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
-  const urlObject = new URL(props.url);
+  const urlObject = new URL(url);
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
   return (
     <Layout>
@@ -39,19 +47,19 @@ const Redirect = (props: { code: string; url: string; oembed: OEmbed }) => {
         <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
             <h2 className="text-4xl mb-2 max-w-[30rem]">
-              {props.oembed.title || props.code}
+              {oembed.title || code}
             </h2>
             <h3 className="text-2xl text-gray-400">
-              <Link className="no-underline" href={props.url}>
+              <Link className="no-underline" href={url}>
                 {simplifiedURL}
               </Link>
             </h3>
           </div>
           <div className="flex flex-col items-center">
-            {props.oembed.favicons.length > 0 && (
+            {oembed.favicons.length > 0 && (
               <Image
                 src={`https://images.weserv.nl/?url=${getBestFavicon(
-                  props.oembed.favicons,
+                  oembed.favicons,
                 )}&w=300&h=300`}
                 className="rounded"
                 width={72}
@@ -64,9 +72,7 @@ const Redirect = (props: { code: string; url: string; oembed: OEmbed }) => {
               }}
             />
           </div>
-          {qrCodeZoom && (
-            <QRModal url={props.url} setQrCodeZoom={setQrCodeZoom} />
-          )}
+          {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
       </section>
     </Layout>
