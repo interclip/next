@@ -75,6 +75,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
           )}
           {Object.values(providers).map((provider: any) => {
             const [hoverRef, isHovered] = useHover();
+
             return provider.id !== 'credentials' ? (
               <button
                 className={`w-full h-12 rounded-lg text-white font-bold transition mb-4 filter`}
