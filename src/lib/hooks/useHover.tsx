@@ -16,6 +16,7 @@ function useHover() {
       };
     }
   }, [ref.current]);
+
   return [ref, value];
 }
 
