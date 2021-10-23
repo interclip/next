@@ -66,6 +66,11 @@ const Redirect = ({
           </div>
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
+        <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
+          <div className="mr-6">
+            <h2 className="text-4xl mb-2 text-center mx-auto">Code: {code}</h2>
+          </div>
+        </div>
       </section>
     </Layout>
   );
@@ -77,59 +82,35 @@ export async function getServerSideProps({
   query: NextApiRequest['query'];
 }) {
   const userCode = query.code;
-  const isPreviewPage = userCode.indexOf('+') === userCode.length - 1;
   if (userCode && typeof userCode === 'object') {
     return { notFound: true };
-  }
-
-  if (isPreviewPage) {
-    try {
-      const selectedClip = await db.clip.findUnique({
-        where: { code: userCode.slice(0, -1) },
-      });
-
-      if (!selectedClip) {
-        return { notFound: true };
-      }
-      const additionalDetails = (await getLinkPreview(
-        selectedClip.url,
-      )) as OEmbed;
-      console.log(additionalDetails);
-
-      return {
-        props: {
-          code: selectedClip.code,
-          url: selectedClip.url,
-          oembed: {
-            title:
-              additionalDetails.title || additionalDetails.siteName || null,
-            description: additionalDetails.description || null,
-            favicons: additionalDetails.favicons,
-          },
-        },
-      };
-    } catch (e) {
-      console.error(e);
-      return {
-        notFound: true,
-      };
-    }
   }
 
   try {
     const selectedClip = await db.clip.findUnique({
       where: { code: userCode },
     });
+
     if (!selectedClip) {
       return { notFound: true };
     }
+    const additionalDetails = (await getLinkPreview(
+      selectedClip.url,
+    )) as OEmbed;
+
     return {
-      redirect: {
-        destination: selectedClip.url,
-        permanent: true,
+      props: {
+        code: selectedClip.code,
+        url: selectedClip.url,
+        oembed: {
+          title: additionalDetails.title || additionalDetails.siteName || null,
+          description: additionalDetails.description || null,
+          favicons: additionalDetails.favicons,
+        },
       },
     };
   } catch (e) {
+    console.error(e);
     return {
       notFound: true,
     };
