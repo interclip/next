@@ -8,7 +8,7 @@ export default function Logout(): JSX.Element {
   return (
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
-        <div className="bg-gray-100 text-black w-screen h-screen md:w-96 md:h-auto md:pt-8 md:rounded-lg pt-[20vh] pb-8 px-8 flex flex-col items-center">
+        <div className="bg-gray-100 text-black dark:bg-dark-secondary dark:text-dark-text w-screen h-screen md:w-96 md:h-auto md:pt-8 md:rounded-lg pt-[20vh] pb-8 px-8 flex flex-col items-center">
           <div className="mb-4">
             <Image
               src="/images/Interclip.svg"
