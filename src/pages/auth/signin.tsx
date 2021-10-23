@@ -62,7 +62,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
                 value={inputEmail}
               />
               <button
-                className="w-full h-12 rounded-lg bg-light-bg text-gray-200 uppercase font-semibold hover:bg-blue-600 transition mb-4"
+                className="w-full h-12 rounded-lg bg-light-bg text-white font-bold hover:bg-blue-600 transition mb-4"
                 onClick={() => signIn('credentials', { email: inputEmail })}
               >
                 Login
@@ -74,7 +74,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
             const [hoverRef, isHovered] = useHover();
             return provider.id !== 'credentials' ? (
               <button
-                className={`w-full h-12 rounded-lg text-white uppercase font-semibold transition mb-4 filter`}
+                className={`w-full h-12 rounded-lg text-white font-bold transition mb-4 filter`}
                 style={{
                   backgroundColor: changeBrightness(
                     // @ts-ignore
@@ -86,7 +86,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
                 // @ts-ignore
                 ref={hoverRef}
               >
-                Sign in with {provider.name}
+                Login with {provider.name}
               </button>
             ) : (
               <></>
