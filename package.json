@@ -17,6 +17,7 @@
     "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.53",
     "@prisma/client": "^3.3.0",
+    "dayjs": "^1.10.7",
     "faker": "^5.5.3",
     "framer-motion": "^4.1.17",
     "get-random-values": "^1.2.2",

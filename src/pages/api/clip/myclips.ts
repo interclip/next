@@ -36,6 +36,12 @@ export default async function handler(
     where: {
       ownerID: await getUserIDFromEmail(session?.user?.email),
     },
+    select: {
+      code: true,
+      url: true,
+      createdAt: true,
+      expiresAt: true,
+    },
   });
 
   try {
