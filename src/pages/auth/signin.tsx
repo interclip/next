@@ -1,6 +1,7 @@
 import { Layout } from '@components/Layout';
 import { getProviders, signIn } from 'next-auth/react';
 import useHover from '@utils/hooks/useHover';
+import { useState } from 'react';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -33,6 +34,7 @@ function changeBrightness(color: string, luminosity: number) {
 }
 
 export default function SignIn({ providers }: { providers: any }): JSX.Element {
+  const [inputEmail, setEmail] = useState('');
   return (
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
@@ -46,10 +48,12 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
             className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
             autoComplete="email"
             placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={inputEmail}
           />
           <button
             className="w-full h-12 rounded-lg bg-blue-600 text-gray-200 uppercase font-semibold hover:bg-blue-700 transition mb-4"
-            onClick={() => signIn('credentials')}
+            onClick={() => signIn('credentials', { email: inputEmail })}
           >
             Login
           </button>
