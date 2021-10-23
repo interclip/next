@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import { IS_PROD } from '../../lib/constants';
+import { changeColorBrightness } from '@utils/colors';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -13,31 +14,6 @@ const brandColors = {
   github: '#4078c0',
   apple: '#000000',
 };
-
-/**
- * Created a lighter/darker shade of a given color
- * @param color the hexadecimal representation of the color to be adjusted
- * @param luminosity number ranging from -1 to 1 which represents the brightness addition/subtraction
- * @returns a new color value in the hexadecimal format
- */
-function changeColorBrightness(color: string, luminosity: number) {
-  const black = 0;
-  const white = 255;
-  let newColor = '#';
-  let newColorValue;
-
-  color = color.replace(/[^0-9a-f]/gi, '');
-
-  for (let i = 0; i < 3; i++) {
-    newColorValue = parseInt(color.substr(i * 2, 2), 16);
-    newColorValue = Math.round(
-      Math.min(Math.max(black, newColorValue + luminosity * white), white),
-    ).toString(16);
-    newColor += ('00' + newColorValue).substr(newColorValue.length);
-  }
-
-  return newColor;
-}
 
 const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
   const [inputEmail, setEmail] = useState<string>('');
@@ -55,7 +31,9 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
           </div>
           {!IS_PROD && (
             <>
-              <span className="text-gray-700 dark:text-light-text mb-4">Log in with email (development only)</span>
+              <span className="text-gray-700 dark:text-light-text mb-4">
+                Log in with email (development only)
+              </span>
               <input
                 type="text"
                 className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
@@ -70,7 +48,9 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
               >
                 Login
               </button>
-              <span className="text-gray-800 dark:text-light-text mb-4">or</span>
+              <span className="text-gray-800 dark:text-light-text mb-4">
+                or
+              </span>
             </>
           )}
           {Object.values(providers).map((provider: any) => {
