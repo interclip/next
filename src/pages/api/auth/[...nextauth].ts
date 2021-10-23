@@ -6,9 +6,8 @@ import DiscordProvider from 'next-auth/providers/discord';
 import GitlabProvider from 'next-auth/providers/gitlab';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { db } from '@utils/prisma';
-const IS_PROD = process.env.NODE_ENV === 'production';
-
 import isEmail from 'validator/lib/isEmail';
+import { IS_PROD } from '../../../lib/constants';
 
 const prisma = new PrismaClient();
 

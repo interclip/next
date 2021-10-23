@@ -3,7 +3,7 @@ import { signOut, getSession } from 'next-auth/react';
 import Router from 'next/router';
 import { NextApiRequest } from 'next';
 
-export default function SignIn(): JSX.Element {
+export default function Logout(): JSX.Element {
   return (
     <Layout>
       <div className="w-full h-screen flex items-center justify-center">
@@ -23,7 +23,7 @@ export default function SignIn(): JSX.Element {
           </button>
           <button
             className="w-full h-12 rounded-lg bg-red-600 text-gray-200 font-semibold hover:bg-blue-700 transition mb-4"
-            onClick={() => alert('Cancelled')}
+            onClick={() => Router.push('/')}
           >
             Cancel
           </button>
@@ -36,7 +36,7 @@ export default function SignIn(): JSX.Element {
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const session = await getSession({ req });
   if (session) {
-    return {};
+    return { props: {} };
   } else {
     return {
       redirect: {
