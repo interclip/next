@@ -56,24 +56,24 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
           {Object.values(providers).map((provider: any) => {
             const [hoverRef, isHovered] = useHover();
 
-            return provider.id !== 'credentials' ? (
-              <button
-                className={`w-full h-12 rounded-lg text-white font-bold transition mb-4 filter`}
-                style={{
-                  backgroundColor: changeColorBrightness(
-                    // @ts-ignore
-                    brandColors[provider.id],
-                    !isHovered ? 0 : -0.15,
-                  ),
-                }}
-                onClick={() => signIn(provider.id)}
-                // @ts-ignore
-                ref={hoverRef}
-              >
-                Login with {provider.name}
-              </button>
-            ) : (
-              <></>
+            return (
+              provider.id !== 'credentials' && (
+                <button
+                  className={`w-full h-12 rounded-lg text-white font-bold transition mb-4 filter`}
+                  style={{
+                    backgroundColor: changeColorBrightness(
+                      // @ts-ignore
+                      brandColors[provider.id],
+                      !isHovered ? 0 : -0.15,
+                    ),
+                  }}
+                  onClick={() => signIn(provider.id)}
+                  // @ts-ignore
+                  ref={hoverRef}
+                >
+                  Login with {provider.name}
+                </button>
+              )
             );
           })}
         </div>
