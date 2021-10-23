@@ -16,13 +16,6 @@ module.exports = {
           bg: '#151515',
           text: '#e4e4e4',
         },
-        brand: {
-          gitlab: '#fca326',
-          discord: '#7289da',
-          google: '#4285f4',
-          github: '#4078c0',
-          apple: '#000000',
-        },
       },
     },
   },
