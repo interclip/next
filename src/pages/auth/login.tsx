@@ -14,19 +14,21 @@ const brandColors = {
   apple: '#000000',
 };
 
-function changeBrightness(color: string, luminosity: number) {
-  color = new String(color).replace(/[^0-9a-f]/gi, '');
-  if (color.length < 6) {
-    color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
-  }
-  luminosity = luminosity || 0;
+/**
+ * Created a lighter/darker shade of a given color
+ * @param color the hexadecimal representation of the color to be adjusted
+ * @param luminosity number ranging from -1 to 1 which represents the brightness addition/subtration
+ * @returns a new color value in the hexadecimal format
+ */
+function changeColorBrightness(color: string, luminosity: number) {
+  const black = 0;
+  const white = 255;
+  let newColor = '#';
+  let c;
 
-  let newColor = '#',
-    c,
-    i,
-    black = 0,
-    white = 255;
-  for (i = 0; i < 3; i++) {
+  color = new String(color).replace(/[^0-9a-f]/gi, '');
+
+  for (let i = 0; i < 3; i++) {
     c = parseInt(color.substr(i * 2, 2), 16);
     c = Math.round(
       Math.min(Math.max(black, c + luminosity * white), white),
@@ -76,7 +78,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
               <button
                 className={`w-full h-12 rounded-lg text-white font-bold transition mb-4 filter`}
                 style={{
-                  backgroundColor: changeBrightness(
+                  backgroundColor: changeColorBrightness(
                     // @ts-ignore
                     brandColors[provider.id],
                     !isHovered ? 0 : -0.15,
