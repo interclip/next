@@ -7,17 +7,6 @@ import QRModal from '@components/shared/QRModal';
 import { QRIcon } from '@components/Icons';
 import { Link } from '@components/Text/link';
 import { getLinkPreview } from 'link-preview-js';
-interface OEmbed {
-  url: string;
-  title: string;
-  siteName: string | null;
-  description: string | null;
-  mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
-  favicons: string[];
-}
 
 /**
  * Returns the highest resolution favicon from a provided list
@@ -130,20 +119,20 @@ export async function getServerSideProps({
       if (!selectedClip) {
         return { notFound: true };
       }
-      const additionalDetails = (await getLinkPreview(
-        selectedClip.url,
-      )) as OEmbed;
-      console.log(additionalDetails);
+      const additionalDetails = await db.clipPreview.findUnique({
+        where: {
+          id: selectedClip.id,
+        },
+      });
 
       return {
         props: {
           code: selectedClip.code,
           url: selectedClip.url,
           oembed: {
-            title:
-              additionalDetails.title || additionalDetails.siteName || null,
-            description: additionalDetails.description || null,
-            favicons: additionalDetails.favicons,
+            title: additionalDetails?.title || null,
+            description: additionalDetails?.description || null,
+            favicons: additionalDetails?.favicons,
           },
         },
       };

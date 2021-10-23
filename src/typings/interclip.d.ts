@@ -12,4 +12,17 @@ interface Clip {
    */
   createdAt: string;
   expiresAt: string;
+  oembed?: OEmbed;
+}
+
+interface OEmbed {
+  url: string;
+  title: string;
+  siteName: string | null;
+  description: string | null;
+  mediaType: string;
+  contentType: string | null;
+  images: string[];
+  videos: {}[];
+  favicons: string[];
 }

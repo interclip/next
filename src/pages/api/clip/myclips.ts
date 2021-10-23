@@ -31,22 +31,42 @@ export default async function handler(
       result: 'Unauthenticated.',
     });
   }
-
-  const queriedClips = db.clip.findMany({
-    where: {
-      ownerID: await getUserIDFromEmail(session?.user?.email),
-    },
-    select: {
-      code: true,
-      url: true,
-      createdAt: true,
-      expiresAt: true,
-    },
-  });
-
   try {
-    const result = await queriedClips;
-    res.status(200).json({ status: 'success', result: result });
+    const queriedClips = await db.clip.findMany({
+      where: {
+        ownerID: await getUserIDFromEmail(session?.user?.email),
+      },
+      select: {
+        code: true,
+        url: true,
+        createdAt: true,
+        expiresAt: true,
+        id: true,
+      },
+    });
+
+    const newClips = [];
+
+    for (const clip of queriedClips) {
+      const additionalDetails = await db.clipPreview.findUnique({
+        where: {
+          id: clip.id,
+        },
+      });
+
+      if (additionalDetails) {
+        newClips.push({
+          ...clip,
+          oembed: {
+            ...additionalDetails,
+          },
+        });
+      } else {
+        newClips.push(clip);
+      }
+    }
+
+    res.status(200).json({ status: 'success', result: newClips });
   } catch (e) {
     res.status(500).json({
       status: 'error',

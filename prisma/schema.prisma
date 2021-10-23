@@ -22,7 +22,18 @@ model Clip {
   ownerID String?
   owner   User?   @relation(fields: [ownerID], references: [id])
 
+  ClipPreview ClipPreview[]
   @@map("clips")
+}
+
+model ClipPreview {
+  id   Int  @unique
+  clip Clip @relation(fields: [id], references: [id])
+
+  title       String?
+  favicons    Json?
+  images      Json?
+  description String?
 }
 
 model User {

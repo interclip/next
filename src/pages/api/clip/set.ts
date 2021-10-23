@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import isURL from 'validator/lib/isURL';
 import { APIResponse } from '../../../lib/types';
 import { db } from '../../../lib/prisma';
+import { getLinkPreview } from 'link-preview-js';
 import { dateAddDays } from '../../../lib/dates';
 import { getRandomID } from '../../../lib/generateID';
 import { getSession } from 'next-auth/react';
@@ -64,6 +65,7 @@ export default async function handler(
     res.status(200).json({ status: 'success', result: duplicateClip });
   } else {
     try {
+      const linkPreview = (await getLinkPreview(clipURL)) as OEmbed;
       const newClip = await db.clip.create({
         data: {
           code: getRandomID(5),
@@ -71,6 +73,15 @@ export default async function handler(
           expiresAt: dateAddDays(new Date(), 30),
           createdAt: new Date(),
           ownerID: await getUserIDFromEmail(session?.user?.email),
+        },
+      });
+      await db.clipPreview.create({
+        data: {
+          id: newClip.id,
+          title: linkPreview.title || linkPreview.siteName,
+          description: linkPreview.description,
+          favicons: linkPreview.favicons,
+          images: linkPreview.images,
         },
       });
       res.status(200).json({ status: 'success', result: newClip });

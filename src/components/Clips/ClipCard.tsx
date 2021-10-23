@@ -6,7 +6,6 @@ dayjs.extend(relativeTime);
 
 const ClipCard = ({ clip }: { clip: Clip }) => {
   const relativeTimeDiff = dayjs().to(dayjs(clip.createdAt));
-
   return (
     <Link href={`/${clip.code}+`}>
       <a href={`/${clip.code}+`}>
@@ -15,7 +14,7 @@ const ClipCard = ({ clip }: { clip: Clip }) => {
             <div className="flex items-center mb-4">
               <div className="leading-5 sm">
                 <h4 className="text-xl font-semibold text-gray-800 dark:text-dark-text">
-                  Code: {clip.code}
+                  {clip.oembed?.title || `Code: ${clip.code}`}
                 </h4>
                 <h5 className="font-semibold text-blue-600">
                   Created {relativeTimeDiff}
