@@ -2,7 +2,7 @@ import { Clip } from '.prisma/client';
 import type { NextPage } from 'next';
 import React, { useState } from 'react';
 import { Layout } from '../components/Layout';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 
 interface ClipResponse {
@@ -26,7 +26,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   return (
     <Layout>
-      <Toaster />
       <section className="my-auto w-full">
         <h1 className="text-center font-semibold text-6xl font-sans">
           Paste your link here!

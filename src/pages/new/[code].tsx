@@ -8,6 +8,7 @@ import { QRIcon } from '@components/Icons';
 import { Link } from '@components/Text/link';
 import { getLinkPreview } from 'link-preview-js';
 import getBestFavicon from '@utils/highestResolutionFavicon';
+import toast from 'react-hot-toast';
 
 interface OEmbed {
   url: string;
@@ -33,6 +34,8 @@ const Redirect = ({
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(url);
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
+  const [isCopied, setIsCopied] = useState(false);
+
   return (
     <Layout>
       <section className="w-full h-full flex flex-col items-center justify-center">
@@ -68,7 +71,46 @@ const Redirect = ({
         </div>
         <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
-            <h2 className="text-4xl mb-2 text-center mx-auto">Code: {code}</h2>
+            <h2 className="text-4xl mb-2 text-center mx-auto">
+              Created clip with code:{' '}
+              <div
+                className="flex justify-center items-center cursor-pointer"
+                title="Copy code to the clipboard"
+                onClick={() => {
+                  navigator.clipboard.writeText(code);
+                  toast.success('Successfully copied to clipboard');
+                  setIsCopied(true);
+                  setTimeout(() => {
+                    setIsCopied(false);
+                  }, 6900);
+                }}
+              >
+                <span>{code}</span>
+                <svg
+                  className="w-10 h-10 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {isCopied ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
+                    />
+                  )}
+                </svg>
+              </div>
+            </h2>
           </div>
         </div>
       </section>
