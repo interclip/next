@@ -40,7 +40,7 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
           <label className="font-light text-4xl mb-4 font-bolder">
             Interclip
           </label>
-          Sign in with email (development only)
+          <span className="mb-2">Sign in with email (development only)</span>
           <input
             type="text"
             className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
@@ -56,8 +56,6 @@ export default function SignIn({ providers }: { providers: any }): JSX.Element {
           <label className="text-gray-800 mb-4">or</label>
           {Object.values(providers).map((provider: any) => {
             const [hoverRef, isHovered] = useHover();
-
-            console.log(provider);
             return provider.id !== 'credentials' ? (
               <button
                 className={`w-full h-12 rounded-lg text-white uppercase font-semibold transition mb-4 filter`}
