@@ -24,16 +24,16 @@ function changeColorBrightness(color: string, luminosity: number) {
   const black = 0;
   const white = 255;
   let newColor = '#';
-  let c;
+  let newColorValue;
 
-  color = new String(color).replace(/[^0-9a-f]/gi, '');
+  color = color.replace(/[^0-9a-f]/gi, '');
 
   for (let i = 0; i < 3; i++) {
-    c = parseInt(color.substr(i * 2, 2), 16);
-    c = Math.round(
-      Math.min(Math.max(black, c + luminosity * white), white),
+    newColorValue = parseInt(color.substr(i * 2, 2), 16);
+    newColorValue = Math.round(
+      Math.min(Math.max(black, newColorValue + luminosity * white), white),
     ).toString(16);
-    newColor += ('00' + c).substr(c.length);
+    newColor += ('00' + newColorValue).substr(newColorValue.length);
   }
 
   return newColor;
