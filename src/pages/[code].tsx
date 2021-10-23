@@ -74,7 +74,7 @@ const Redirect = ({
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
   return (
     <Layout>
-      <section className="w-full h-full flex flex-col items-center justify-center">
+      <section className="h-full my-auto">
         <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
             <h2 className="text-4xl mb-2 max-w-[30rem]">
