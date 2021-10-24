@@ -30,12 +30,6 @@ prettier:
   script:
     - yarn prettier:check
 
-typecheck:
-  extends: .prepare
-  script:
-    - yarn generate
-    - yarn typecheck
-
 build:
   extends: .prepare
   script:
@@ -48,11 +42,3 @@ migrate:
     - main
   when: manual
 
-# Remove after Devparty release
-seed:
-  extends: .prepare
-  script:
-    - DATABASE_URL=$PROD_DATABASE_URL yarn prisma:seed
-  only:
-    - main
-  when: manual
