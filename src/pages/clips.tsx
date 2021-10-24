@@ -3,6 +3,7 @@ import { H1 } from '@components/Text/headings';
 import { Layout } from '@components/Layout';
 import ClipCard from '@components/Clips/ClipCard';
 import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
 
 interface ClipsResponse {
   status: 'error' | 'success';
@@ -28,7 +29,9 @@ const MyClips = (): React.ReactNode => {
       .then((clips: ClipsResponse) => {
         setClips(clips.result);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        toast.error('There was an error when fetching your clips');
+      });
   }, []);
 
   return (
