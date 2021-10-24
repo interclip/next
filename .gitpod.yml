@@ -8,8 +8,8 @@ tasks:
       cp .env.example .env;
       echo "BASE_URL=\"$(gp url 3000)\"" >> .env;
       echo "NEXTAUTH_URL=\"$(gp url 3000)\"" >> .env;
-      echo "JWT_SECRET=\"$(head -1 <(fold -w 20  <(tr -dc 'a-zA-Z0-9' < /dev/urandom)))\"" >> .env
-      echo "AUTH_SECRET=\"$(head -1 <(fold -w 20  <(tr -dc 'a-zA-Z0-9' < /dev/urandom)))\"" >> .env
+      echo "JWT_SECRET=\"$(head -1 <(fold -w 20  <(tr -dc 'a-zA-Z0-9' < /dev/urandom)))\"" >> .env;
+      echo "AUTH_SECRET=\"$(head -1 <(fold -w 20  <(tr -dc 'a-zA-Z0-9' < /dev/urandom)))\"" >> .env;
       yarn prisma:migrate;
       yarn prisma:seed;
       gp sync-done setup;

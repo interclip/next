@@ -1,0 +1,58 @@
+include:
+  - template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/License-Scanning.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+
+image: node:latest
+
+variables:
+  SAST_EXCLUDED_PATHS: 'node_modules, .next, yarn.lock'
+  SECRET_DETECTION_EXCLUDED_PATHS: 'node_modules, .next, yarn.lock'
+
+cache:
+  paths:
+    - node_modules/
+    - .next/cache/
+
+.prepare:
+  before_script:
+    - cp .env.example .env
+    - yarn install --frozen-lockfile --silent
+
+lint:
+  extends: .prepare
+  script:
+    - yarn lint
+
+prettier:
+  extends: .prepare
+  script:
+    - yarn prettier:check
+
+typecheck:
+  extends: .prepare
+  script:
+    - yarn generate
+    - yarn typecheck
+
+build:
+  extends: .prepare
+  script:
+    - yarn build
+
+migrate:
+  script:
+    - npx prisma migrate reset --force
+  only:
+    - main
+  when: manual
+
+# Remove after Devparty release
+seed:
+  extends: .prepare
+  script:
+    - DATABASE_URL=$PROD_DATABASE_URL yarn prisma:seed
+  only:
+    - main
+  when: manual
