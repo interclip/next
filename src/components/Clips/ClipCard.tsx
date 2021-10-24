@@ -6,6 +6,7 @@ dayjs.extend(relativeTime);
 
 const ClipCard = ({ clip }: { clip: Clip }) => {
   const relativeTimeDiff = dayjs().to(dayjs(clip.createdAt));
+
   return (
     <Link href={`/${clip.code}+`}>
       <a href={`/${clip.code}+`}>
