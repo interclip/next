@@ -2,12 +2,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import isURL from 'validator/lib/isURL';
 import { APIResponse } from '../../../lib/types';
 import { db } from '../../../lib/prisma';
-import { getLinkPreview } from 'link-preview-js';
 import { dateAddDays } from '../../../lib/dates';
 import { getRandomID } from '../../../lib/generateID';
 import { getSession } from 'next-auth/react';
 import { getUserIDFromEmail } from '../../../lib/dbHelpers';
 import rateLimit from '../../../lib/rateLimit';
+import { storeLinkPreviewInCache } from '@utils/clipPreview';
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
@@ -65,7 +65,6 @@ export default async function handler(
     res.status(200).json({ status: 'success', result: duplicateClip });
   } else {
     try {
-      const linkPreview = (await getLinkPreview(clipURL)) as OEmbed;
       const newClip = await db.clip.create({
         data: {
           code: getRandomID(5),
@@ -75,15 +74,7 @@ export default async function handler(
           ownerID: await getUserIDFromEmail(session?.user?.email),
         },
       });
-      await db.clipPreview.create({
-        data: {
-          id: newClip.id,
-          title: linkPreview.title || linkPreview.siteName,
-          description: linkPreview.description,
-          favicons: linkPreview.favicons,
-          images: linkPreview.images,
-        },
-      });
+      await storeLinkPreviewInCache(clipURL);
       res.status(200).json({ status: 'success', result: newClip });
     } catch (e) {
       res.status(500).json({

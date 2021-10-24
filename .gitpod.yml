@@ -20,6 +20,11 @@ tasks:
   - name: Dev Server
     init: gp sync-await setup
     command: yarn dev
+  - name: Redis
+    command: >
+      sudo apt update;
+      sudo apt install redis-server -y;
+      redis-server;
 
 ports:
   - port: 3000 # Web app

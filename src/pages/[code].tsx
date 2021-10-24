@@ -6,20 +6,11 @@ import Image from 'next/image';
 import QRModal from '@components/shared/QRModal';
 import { QRIcon } from '@components/Icons';
 import { Link } from '@components/Text/link';
-import { getLinkPreview } from 'link-preview-js';
 import getBestFavicon from '@utils/highestResolutionFavicon';
-
-interface OEmbed {
-  url: string;
-  title: string;
-  siteName: string | null;
-  description: string | null;
-  mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
-  favicons: string[];
-}
+import {
+  getLinkPreviewFromCache,
+  storeLinkPreviewInCache,
+} from '@utils/clipPreview';
 
 const Redirect = ({
   code,
@@ -91,11 +82,9 @@ export async function getServerSideProps({
       if (!selectedClip) {
         return { notFound: true };
       }
-      const additionalDetails = await db.clipPreview.findUnique({
-        where: {
-          id: selectedClip.id,
-        },
-      });
+      const additionalDetails =
+        (await getLinkPreviewFromCache(selectedClip.url)) ||
+        (await storeLinkPreviewInCache(selectedClip.url));
 
       return {
         props: {

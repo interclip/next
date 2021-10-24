@@ -4,6 +4,7 @@ import { db } from '../../../lib/prisma';
 import { getSession } from 'next-auth/react';
 import { getUserIDFromEmail } from '../../../lib/dbHelpers';
 import rateLimit from '../../../lib/rateLimit';
+import { getLinkPreviewFromCache, storeLinkPreviewInCache } from '@utils/clipPreview';
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
@@ -48,11 +49,9 @@ export default async function handler(
     const newClips = [];
 
     for (const clip of clips) {
-      const additionalDetails = await db.clipPreview.findUnique({
-        where: {
-          id: clip.id,
-        },
-      });
+      const additionalDetails =
+        (await getLinkPreviewFromCache(clip.url)) ||
+        (await storeLinkPreviewInCache(clip.url));
 
       if (additionalDetails) {
         newClips.push({
