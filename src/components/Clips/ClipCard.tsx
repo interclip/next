@@ -5,8 +5,6 @@ const relativeTime = require('dayjs/plugin/relativeTime');
 dayjs.extend(relativeTime);
 
 const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
-  const relativeTimeDiff = dayjs().to(dayjs(clip.createdAt));
-
   return (
     <Link href={`/${clip.code}+`}>
       <a href={`/${clip.code}+`}>
@@ -18,7 +16,7 @@ const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
                   {clip.oembed?.title || `Code: ${clip.code}`}
                 </h4>
                 <h5 className="font-semibold text-blue-600">
-                  Created {relativeTimeDiff}
+                  Created {dayjs().to(dayjs(clip.createdAt))}
                 </h5>
               </div>
             </div>
