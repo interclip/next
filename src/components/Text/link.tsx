@@ -10,7 +10,7 @@ export const Link = forwardRef<HTMLInputElement, Props>(function Link({
   ...props
 }) {
   return (
-    <NextLink href={props.href as string} passHref>
+    <NextLink href={props.href as string}>
       <a
         target={openInNewTab ? '_blank' : undefined}
         rel={openInNewTab ? 'noopener noreferrer' : undefined}
