@@ -4,7 +4,7 @@ const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
 dayjs.extend(relativeTime);
 
-const ClipCard = ({ clip }: { clip: Clip }) => {
+const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
   const relativeTimeDiff = dayjs().to(dayjs(clip.createdAt));
 
   return (

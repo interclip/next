@@ -32,7 +32,7 @@ export default async function handler(
     });
   }
   try {
-    const queriedClips = await db.clip.findMany({
+    const clips = await db.clip.findMany({
       where: {
         ownerID: await getUserIDFromEmail(session?.user?.email),
       },
@@ -47,7 +47,7 @@ export default async function handler(
 
     const newClips = [];
 
-    for (const clip of queriedClips) {
+    for (const clip of clips) {
       const additionalDetails = await db.clipPreview.findUnique({
         where: {
           id: clip.id,

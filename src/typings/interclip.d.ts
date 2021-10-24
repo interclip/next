@@ -1,4 +1,4 @@
-interface Clip {
+interface ClipWithPreview {
   /**
    * A random 5 character long alpha-numeric code identifying the code
    */

@@ -6,11 +6,11 @@ import { useRouter } from 'next/router';
 
 interface ClipsResponse {
   status: 'error' | 'success';
-  result: Clip[];
+  result: ClipWithPreview[];
 }
 
-const MyClips = (): JSX.Element => {
-  const [loadedClips, setClips] = useState<null | Clip[]>(null);
+const MyClips = (): React.ReactNode => {
+  const [loadedClips, setClips] = useState<null | ClipWithPreview[]>(null);
   const router = useRouter();
 
   useEffect(() => {
