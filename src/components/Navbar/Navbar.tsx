@@ -1,9 +1,4 @@
-import React, {
-  ComponentProps,
-  forwardRef,
-  JSXElementConstructor,
-  ReactElement,
-} from 'react';
+import React, { ComponentProps, forwardRef } from 'react';
 import NavbarItem from './NavbarItem';
 import { Button } from '../Button';
 import Image from 'next/image';
