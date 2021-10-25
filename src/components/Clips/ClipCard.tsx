@@ -20,11 +20,9 @@ const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
                 </h5>
               </div>
             </div>
-            <div>
-              <span className="italic break-words text-gray-600 dark:text-dark-text">
-                {clip.url}
-              </span>
-            </div>
+            <span className="italic break-words text-gray-600 dark:text-dark-text">
+              {clip.url}
+            </span>
           </>
         </div>
       </a>
