@@ -1,4 +1,9 @@
-import React from 'react';
+import React, {
+  ComponentProps,
+  forwardRef,
+  JSXElementConstructor,
+  ReactElement,
+} from 'react';
 import NavbarItem from './NavbarItem';
 import { Button } from '../Button';
 import Image from 'next/image';
@@ -17,6 +22,54 @@ import {
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
+
+const MenuItem = ({
+  title,
+  link,
+  type,
+  onClick,
+  children,
+  openInNewTab,
+}: {
+  title: string;
+  type: 'button' | 'link';
+  link?: string;
+  openInNewTab?: boolean;
+  onClick?: () => any;
+  children: JSX.Element;
+}): JSX.Element => {
+  const Button = forwardRef<HTMLInputElement, ComponentProps<'button'>>(
+    function Button({ ...props }) {
+      return <button {...props}>{props.children}</button>;
+    },
+  );
+
+  const Wrapper = type === 'button' ? Button : Link;
+  const additionalProps =
+    type === 'link'
+      ? { href: link, openInNewTab: openInNewTab || false }
+      : { onClick: onClick };
+  return (
+    <Menu.Item>
+      {({ active }) => (
+        <Wrapper
+          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${classNames(
+            active
+              ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
+              : 'dark:bg-dark-secondary text-gray-700',
+            'block px-4',
+          )}`}
+          {...additionalProps}
+        >
+          <div className="flex items-center text-xl lg:text-base">
+            {children}
+            {title}
+          </div>
+        </Wrapper>
+      )}
+    </Menu.Item>
+  );
+};
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -71,61 +124,25 @@ const Navbar = () => {
                 >
                   <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-dark-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            href="/settings"
-                            openInNewTab={false}
-                            className={`dark:text-light-text ${classNames(
-                              active
-                                ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
-                                : 'dark:bg-dark-secondary text-gray-700',
-                              'block px-4 py-2 text-sm',
-                            )}`}
-                          >
-                            <div className="flex items-center">
-                              <CogIcon className="mr-2 h-5 w-5" />
-                              Settings
-                            </div>
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            href="https://github.com/interclip/interclip-next/issues/new"
-                            className={`dark:text-light-text ${classNames(
-                              active
-                                ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
-                                : 'dark:bg-dark-secondary text-gray-700',
-                              'block px-4 py-2 text-sm',
-                            )}`}
-                          >
-                            <div className="flex items-center">
-                              <ExclamationCircleIcon className="mr-2 h-5 w-5" />
-                              Report an issue
-                            </div>
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            onClick={() => signOut()}
-                            className={`dark:text-light-text w-full text-left ${classNames(
-                              active
-                                ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
-                                : 'dark:bg-dark-secondary text-gray-700',
-                              'block px-4 py-2 text-sm',
-                            )}`}
-                          >
-                            <div className="flex items-center">
-                              <LogoutIcon className="mr-2 h-5 w-5" />
-                              Sign out
-                            </div>
-                          </button>
-                        )}
-                      </Menu.Item>
+                      <MenuItem title="Settings" type="link" link="/settings">
+                        <CogIcon className="mr-2 h-5 w-5" />
+                      </MenuItem>
+                      <MenuItem
+                        title="Report an issue"
+                        type="link"
+                        link="https://github.com/interclip/interclip-next/issues/new"
+                        openInNewTab={true}
+                      >
+                        <ExclamationCircleIcon className="mr-2 h-5 w-5" />
+                      </MenuItem>
+                      <MenuItem
+                        title="Sign out"
+                        type="button"
+                        onClick={() => signOut()}
+                        openInNewTab={true}
+                      >
+                        <LogoutIcon className="mr-2 h-5 w-5" />
+                      </MenuItem>
                     </div>
                   </Menu.Items>
                 </Transition>
