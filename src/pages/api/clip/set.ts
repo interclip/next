@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import isURL from 'validator/lib/isURL';
-import { APIResponse } from '../../../lib/types';
 import { db } from '../../../lib/prisma';
 import { dateAddDays } from '../../../lib/dates';
 import { getRandomID } from '../../../lib/generateID';

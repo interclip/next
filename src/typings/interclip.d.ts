@@ -26,3 +26,8 @@ interface OEmbed {
   videos: {}[];
   favicons: string[];
 }
+
+interface APIResponse {
+  status: 'error' | 'success';
+  result: any;
+}
