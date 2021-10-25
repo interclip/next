@@ -8,6 +8,11 @@ import NextLink from 'next/link';
 import Link from '@components/Text/link';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
+import {
+  CogIcon,
+  ExclamationCircleIcon,
+  LogoutIcon,
+} from '@heroicons/react/solid';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -78,7 +83,10 @@ const Navbar = () => {
                               'block px-4 py-2 text-sm',
                             )}`}
                           >
-                            Settings
+                            <div className="flex items-center">
+                              <CogIcon className="mr-2 h-5 w-5" />
+                              Settings
+                            </div>
                           </Link>
                         )}
                       </Menu.Item>
@@ -93,7 +101,10 @@ const Navbar = () => {
                               'block px-4 py-2 text-sm',
                             )}`}
                           >
-                            Report an issue
+                            <div className="flex items-center">
+                              <ExclamationCircleIcon className="mr-2 h-5 w-5" />
+                              Report an issue
+                            </div>
                           </Link>
                         )}
                       </Menu.Item>
@@ -108,7 +119,10 @@ const Navbar = () => {
                               'block px-4 py-2 text-sm',
                             )}`}
                           >
-                            Sign out
+                            <div className="flex items-center">
+                              <LogoutIcon className="mr-2 h-5 w-5" />
+                              Sign out
+                            </div>
                           </button>
                         )}
                       </Menu.Item>
