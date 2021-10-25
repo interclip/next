@@ -13,10 +13,6 @@ const prisma = new PrismaClient();
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
-  theme: {
-    logo: 'https://raw.githubusercontent.com/interclip/interclip/main/img/logo.svg',
-    colorScheme: 'auto',
-  },
   session: {
     jwt: true,
   },
