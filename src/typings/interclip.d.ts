@@ -11,7 +11,13 @@ interface ClipWithPreview {
    * A stringified DateTime object of the moment the clip was created
    */
   createdAt: string;
+  /**
+   * A stringified DateTime object of the moment the clip will expire
+   */
   expiresAt: string;
+  /**
+   * An object which stores all info for the OEmbed preview to work
+   */
   oembed?: OEmbed;
 }
 

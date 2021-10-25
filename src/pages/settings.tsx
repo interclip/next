@@ -70,7 +70,7 @@ const Settings = (props: {
 export async function getServerSideProps(context: { req: NextApiRequest }) {
   try {
     const userData = await getUserDetails(
-      ['username', 'name', 'image'],
+      ['username', 'name', 'image', 'email'],
       context.req,
     );
     return { props: { user: userData } };

@@ -2,7 +2,11 @@ import { Input } from '@components/Input';
 import React from 'react';
 import SettingsCard from '../SettingsCard';
 
-const GeneralSettings = (props: {
+const GeneralSettings = ({
+  username,
+  name,
+  email,
+}: {
   username?: string;
   name?: string;
   email?: string;
@@ -14,7 +18,7 @@ const GeneralSettings = (props: {
         footerDescription="Please use 48 characters at maximum."
       >
         <div className="max-w-[50%]">
-          <Input />
+          <Input defaultValue={username} />
         </div>
       </SettingsCard>
       <SettingsCard
@@ -24,16 +28,15 @@ const GeneralSettings = (props: {
         footerDescription="Please use 32 characters at maximum."
       >
         <div className="max-w-[50%]">
-          <Input />
+          <Input defaultValue={name} />
         </div>
       </SettingsCard>{' '}
       <SettingsCard
         title="Your Email"
-        description="Please enter the email address you want to use to log in to Interclip."
-        footerDescription="We will email you to verify the change."
+        description="Your email address cannot be changed."
       >
         <div className="max-w-[50%]">
-          <Input />
+          <Input disabled value={email} />
         </div>
       </SettingsCard>{' '}
       <SettingsCard

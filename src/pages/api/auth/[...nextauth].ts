@@ -8,15 +8,12 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { db } from '@utils/prisma';
 import isEmail from 'validator/lib/isEmail';
 import { IS_PROD } from '../../../lib/constants';
+import faker from 'faker';
 
 const prisma = new PrismaClient();
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
-  theme: {
-    logo: 'https://raw.githubusercontent.com/interclip/interclip/main/img/logo.svg',
-    colorScheme: 'auto',
-  },
   session: {
     jwt: true,
   },
@@ -53,9 +50,9 @@ export default NextAuth({
               const newUser = await db.user.create({
                 data: {
                   email: credentials.email,
-                  name: 'Demo User',
+                  name: faker.name.firstName(),
                   isStaff: true,
-                  image: 'https://thispersondoesnotexist.com/image',
+                  image: faker.internet.avatar(),
                 },
               });
               return newUser;
