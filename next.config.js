@@ -14,6 +14,7 @@ module.exports = withPWA({
       'avatars.githubusercontent.com',
       'thispersondoesnotexist.com',
       'images.weserv.nl',
+      'cdn.fakercloud.com',
     ],
   },
 });
