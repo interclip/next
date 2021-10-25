@@ -18,7 +18,7 @@ const GeneralSettings = ({
         footerDescription="Please use 48 characters at maximum."
       >
         <div className="max-w-[50%]">
-          <Input defaultValue={username} />
+          <Input defaultValue={username} maxLength={48} />
         </div>
       </SettingsCard>
       <SettingsCard
@@ -28,7 +28,7 @@ const GeneralSettings = ({
         footerDescription="Please use 32 characters at maximum."
       >
         <div className="max-w-[50%]">
-          <Input defaultValue={name} />
+          <Input defaultValue={name} maxLength={32} />
         </div>
       </SettingsCard>{' '}
       <SettingsCard
