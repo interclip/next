@@ -4,7 +4,14 @@ import { Button } from '../Button';
 import Image from 'next/image';
 import NavbarSection from './NavbarSection';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import Link from '@components/Text/link';
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -14,7 +21,7 @@ const Navbar = () => {
       <nav className="bg-white dark:bg-dark-secondary h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
         <div className="w-full max-w-6xl md:mx-auto mx-4 flex justify-around">
           <NavbarSection>
-            <Link href="/">
+            <NextLink href="/">
               <Image
                 src="/images/Interclip.svg"
                 alt="Interclip logo"
@@ -22,7 +29,7 @@ const Navbar = () => {
                 width={50}
                 height={50}
               />
-            </Link>
+            </NextLink>
           </NavbarSection>
           <NavbarSection>
             <NavbarItem url="/" name="Clip" />
@@ -33,13 +40,82 @@ const Navbar = () => {
           </NavbarSection>
           <NavbarSection>
             {session ? (
-              <Image
-                src={session?.user?.image || 'https://avatar.tobi.sh/name.svg?'}
-                height={50}
-                width={50}
-                className="rounded-full cursor-pointer"
-                onClick={() => signOut()}
-              />
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button>
+                    <Image
+                      src={
+                        session?.user?.image ||
+                        'https://avatar.tobi.sh/name.svg?'
+                      }
+                      height={50}
+                      width={50}
+                      className="rounded-full cursor-pointer"
+                    />
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-dark-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            href="/settings"
+                            openInNewTab={false}
+                            className={`dark:text-light-text ${classNames(
+                              active
+                                ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
+                                : 'dark:bg-dark-secondary text-gray-700',
+                              'block px-4 py-2 text-sm',
+                            )}`}
+                          >
+                            Settings
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            href="https://github.com/interclip/interclip-next/issues/new"
+                            className={`dark:text-light-text ${classNames(
+                              active
+                                ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
+                                : 'dark:bg-dark-secondary text-gray-700',
+                              'block px-4 py-2 text-sm',
+                            )}`}
+                          >
+                            Report an issue
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={() => signOut()}
+                            className={`dark:text-light-text w-full text-left ${classNames(
+                              active
+                                ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
+                                : 'dark:bg-dark-secondary text-gray-700',
+                              'block px-4 py-2 text-sm',
+                            )}`}
+                          >
+                            Sign out
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
             ) : (
               <Button
                 content="Login"

@@ -5,7 +5,7 @@ import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import QRModal from '@components/shared/QRModal';
 import { QRIcon } from '@components/Icons';
-import { Link } from '@components/Text/link';
+import Link from '@components/Text/link';
 import { getLinkPreview } from 'link-preview-js';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 
