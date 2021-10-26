@@ -4,6 +4,7 @@ import { Layout } from '@components/Layout';
 import ClipCard from '@components/Clips/ClipCard';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
+import { SyncLoader } from 'react-spinners';
 
 interface ClipsResponse {
   status: 'error' | 'success';
@@ -46,7 +47,9 @@ const MyClips = (): React.ReactNode => {
             }}
           >
             {loadedClips === null ? (
-              <>Loading..</>
+              <div className="m-auto mt-20">
+                <SyncLoader color="#FFFFFF" speedMultiplier={0.75} />
+              </div>
             ) : loadedClips.length === 0 ? (
               <>You didn't make any clips yet..</>
             ) : (
