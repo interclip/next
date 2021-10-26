@@ -79,7 +79,7 @@ const Navbar = () => {
               <Image
                 src="/images/Interclip.svg"
                 alt="Interclip logo"
-                className="cursor-pointer"
+                className="cursor-pointer md:hide show"
                 width={50}
                 height={50}
               />

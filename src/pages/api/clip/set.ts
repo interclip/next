@@ -47,7 +47,12 @@ export default async function handler(
     return;
   }
 
-  if (!isURL(clipURL)) {
+  if (
+    !isURL(clipURL, {
+      require_valid_protocol: true,
+      protocols: ['http', 'https', 'ipfs', 'ipns'],
+    })
+  ) {
     res.status(400).json({
       status: 'error',
       result: 'An invalid URL provided.',

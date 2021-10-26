@@ -9,13 +9,14 @@ interface ClipResponse extends APIResponse {
   result: Clip;
 }
 
-const requestClip = async (url: string) => {
+const requestClip = async (url: string): Promise<ClipResponse | void> => {
   try {
     const clipResponse = await fetch(`/api/clip/set?url=${url}`);
     const clip: ClipResponse = await clipResponse.json();
     return clip;
   } catch (e: any) {
     toast.error(e);
+    return;
   }
 };
 
@@ -33,7 +34,16 @@ const Home: NextPage = () => {
             onSubmit={(e) => {
               e.preventDefault();
               requestClip(clipURL).then((clip) => {
-                router.push(`/new/${clip?.result.code}`);
+                if (clip && clip.status !== 'error') {
+                  router.push(`/new/${clip?.result.code}`);
+                } else {
+                  console.log(clip);
+                  if (!clip) {
+                    return;
+                  }
+                  //@ts-ignore
+                  toast.error(clip.result);
+                }
               });
             }}
           >
