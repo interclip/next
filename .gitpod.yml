@@ -26,10 +26,10 @@ tasks:
 
 ports:
   - port: 3000 # Web app
-    onOpen: open-browser
+    onOpen: notify
     visibility: public
   - port: 5555 # Prisma Studio
-    onOpen: notify
+    onOpen: ignore
     visibility: public
   - port: 3306 # MySQL
     onOpen: ignore
