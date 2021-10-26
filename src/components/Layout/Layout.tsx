@@ -11,7 +11,7 @@ const Layout: React.FC<{ titlePrefix?: string }> = ({
     <>
       <PageHead titlePrefix={titlePrefix} />
       <Toaster />
-      <div className="flex flex-col items-center bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text h-screen">
+      <div className="flex flex-col items-center bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text pb-8 h-full min-h-screen">
         <Navbar />
         {children}
       </div>

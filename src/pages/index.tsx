@@ -5,8 +5,7 @@ import { Layout } from '../components/Layout';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 
-interface ClipResponse {
-  status: 'error' | 'success';
+interface ClipResponse extends APIResponse {
   result: Clip;
 }
 

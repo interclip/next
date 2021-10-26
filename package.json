@@ -20,6 +20,7 @@
     "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.55",
     "@prisma/client": "^3.3.0",
+    "dayjs": "^1.10.7",
     "faker": "^5.5.3",
     "framer-motion": "^4.1.17",
     "get-random-values": "^1.2.2",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "@types/faker": "^5.5.9",
+    "@types/ioredis": "^4.27.8",
     "@types/js-cookie": "^3.0.0",
     "@types/lru-cache": "^5.1.1",
     "@types/react": "17.0.32",

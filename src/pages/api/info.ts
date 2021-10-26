@@ -21,11 +21,14 @@ function getGitRemote() {
 
 export default async function handler(
   _req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse<APIResponse>,
 ) {
   res.json({
-    react_version: REACT_VERSION,
-    commit: GIT_COMMIT_SHA || getGitRevision(),
-    git_remote: getGitRemote(),
+    status: 'success',
+    result: {
+      react_version: REACT_VERSION,
+      commit: GIT_COMMIT_SHA || getGitRevision(),
+      git_remote: getGitRemote(),
+    },
   });
 }

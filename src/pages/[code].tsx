@@ -6,20 +6,11 @@ import Image from 'next/image';
 import QRModal from '@components/shared/QRModal';
 import { QRIcon } from '@components/Icons';
 import Link from '@components/Text/link';
-import { getLinkPreview } from 'link-preview-js';
 import getBestFavicon from '@utils/highestResolutionFavicon';
-
-interface OEmbed {
-  url: string;
-  title: string;
-  siteName: string | null;
-  description: string | null;
-  mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
-  favicons: string[];
-}
+import {
+  getLinkPreviewFromCache,
+  storeLinkPreviewInCache,
+} from '@utils/clipPreview';
 
 const Redirect = ({
   code,
@@ -35,7 +26,7 @@ const Redirect = ({
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
   return (
     <Layout>
-      <section className="w-full h-full flex flex-col items-center justify-center">
+      <section className="h-full my-auto">
         <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
             <h2 className="text-4xl mb-2 max-w-[30rem]">
@@ -91,20 +82,18 @@ export async function getServerSideProps({
       if (!selectedClip) {
         return { notFound: true };
       }
-      const additionalDetails = (await getLinkPreview(
-        selectedClip.url,
-      )) as OEmbed;
-      console.log(additionalDetails);
+      const additionalDetails =
+        (await getLinkPreviewFromCache(selectedClip.url)) ||
+        (await storeLinkPreviewInCache(selectedClip.url));
 
       return {
         props: {
           code: selectedClip.code,
           url: selectedClip.url,
           oembed: {
-            title:
-              additionalDetails.title || additionalDetails.siteName || null,
-            description: additionalDetails.description || null,
-            favicons: additionalDetails.favicons,
+            title: additionalDetails?.title || null,
+            description: additionalDetails?.description || null,
+            favicons: additionalDetails?.favicons,
           },
         },
       };
