@@ -14,6 +14,7 @@ import {
   InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
+import Logo from '@components/Logo';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -76,13 +77,7 @@ const Navbar = () => {
         <div className="w-full max-w-6xl md:mx-auto mx-4 flex justify-around">
           <NavbarSection>
             <NextLink href="/">
-              <Image
-                src="/images/Interclip.svg"
-                alt="Interclip logo"
-                className="cursor-pointer md:hide show"
-                width={50}
-                height={50}
-              />
+              <Logo height={50} width={50} />
             </NextLink>
           </NavbarSection>
           <NavbarSection>
