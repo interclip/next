@@ -1,9 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { APIResponse } from '../../../lib/types';
 import { db } from '../../../lib/prisma';
 import { getSession } from 'next-auth/react';
 import { getUserIDFromEmail } from '../../../lib/dbHelpers';
 import rateLimit from '../../../lib/rateLimit';
+import {
+  getLinkPreviewFromCache,
+  storeLinkPreviewInCache,
+} from '@utils/clipPreview';
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
@@ -31,16 +34,43 @@ export default async function handler(
       result: 'Unauthenticated.',
     });
   }
-
-  const queriedClips = db.clip.findMany({
-    where: {
-      ownerID: await getUserIDFromEmail(session?.user?.email),
-    },
-  });
-
   try {
-    const result = await queriedClips;
-    res.status(200).json({ status: 'success', result: result });
+    const clips = await db.clip.findMany({
+      where: {
+        ownerID: await getUserIDFromEmail(session?.user?.email),
+      },
+      select: {
+        code: true,
+        url: true,
+        createdAt: true,
+        expiresAt: true,
+        id: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const newClips = [];
+
+    for (const clip of clips) {
+      const additionalDetails =
+        (await getLinkPreviewFromCache(clip.url)) ||
+        (await storeLinkPreviewInCache(clip.url));
+
+      if (additionalDetails) {
+        newClips.push({
+          ...clip,
+          oembed: {
+            ...additionalDetails,
+          },
+        });
+      } else {
+        newClips.push(clip);
+      }
+    }
+
+    res.status(200).json({ status: 'success', result: newClips });
   } catch (e) {
     res.status(500).json({
       status: 'error',

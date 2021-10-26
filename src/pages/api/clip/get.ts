@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { APIResponse } from '../../../lib/types';
 import { db } from '../../../lib/prisma';
 import rateLimit from '../../../lib/rateLimit';
 

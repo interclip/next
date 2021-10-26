@@ -88,8 +88,13 @@ const Navbar = () => {
             <NavbarItem url="/" name="Clip" />
             <NavbarItem url="/receive" name="Receive" />
             <NavbarItem url="/file" name="File" />
+            {session && (
+              <>
+                <NavbarItem url="/clips" name="My Clips" />
+                <NavbarItem url="/settings" name="Settings" />
+              </>
+            )}
             <NavbarItem url="/about" name="About" />
-            {session && <NavbarItem url="/settings" name="Settings" />}
           </NavbarSection>
           <NavbarSection>
             {session ? (

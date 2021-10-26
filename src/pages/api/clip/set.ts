@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import isURL from 'validator/lib/isURL';
-import { APIResponse } from '../../../lib/types';
 import { db } from '../../../lib/prisma';
 import { dateAddDays } from '../../../lib/dates';
 import { getRandomID } from '../../../lib/generateID';
 import { getSession } from 'next-auth/react';
 import { getUserIDFromEmail } from '../../../lib/dbHelpers';
 import rateLimit from '../../../lib/rateLimit';
+import { storeLinkPreviewInCache } from '@utils/clipPreview';
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
@@ -73,6 +73,7 @@ export default async function handler(
           ownerID: await getUserIDFromEmail(session?.user?.email),
         },
       });
+      await storeLinkPreviewInCache(clipURL);
       res.status(200).json({ status: 'success', result: newClip });
     } catch (e) {
       res.status(500).json({
