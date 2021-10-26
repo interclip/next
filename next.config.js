@@ -7,8 +7,14 @@ module.exports = withPWA({
     register: true,
     skipWaiting: true,
   },
+  swcMinify: true,
+  experimental: {
+    concurrentFeatures: true,
+    serverComponents: true,
+  },
   reactStrictMode: true,
   images: {
+    formats: ['image/avif', 'image/webp'],
     domains: [
       'avatar.tobi.sh',
       'avatars.githubusercontent.com',
