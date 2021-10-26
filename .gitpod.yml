@@ -21,8 +21,7 @@ tasks:
     init: gp sync-await setup
     command: yarn dev
   - name: Redis
-    command: >
-      redis-server;
+    command: redis-server
 
 ports:
   - port: 3000 # Web app
