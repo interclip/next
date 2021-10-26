@@ -50,15 +50,9 @@ const MyClips = (): React.ReactNode => {
             ) : loadedClips.length === 0 ? (
               <>You didn't make any clips yet..</>
             ) : (
-              loadedClips
-                .sort(
-                  (a, b) =>
-                    new Date(b.createdAt).getTime() -
-                    new Date(a.createdAt).getTime(),
-                )
-                .map((clip) => {
-                  return <ClipCard key={clip.code} clip={clip} />;
-                })
+              loadedClips.map((clip) => {
+                return <ClipCard key={clip.code} clip={clip} />;
+              })
             )}
           </div>
         </div>

@@ -3,7 +3,10 @@ import { db } from '../../../lib/prisma';
 import { getSession } from 'next-auth/react';
 import { getUserIDFromEmail } from '../../../lib/dbHelpers';
 import rateLimit from '../../../lib/rateLimit';
-import { getLinkPreviewFromCache, storeLinkPreviewInCache } from '@utils/clipPreview';
+import {
+  getLinkPreviewFromCache,
+  storeLinkPreviewInCache,
+} from '@utils/clipPreview';
 
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
@@ -42,6 +45,9 @@ export default async function handler(
         createdAt: true,
         expiresAt: true,
         id: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
 
