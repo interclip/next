@@ -11,6 +11,7 @@ import { Menu, Transition } from '@headlessui/react';
 import {
   CogIcon,
   ExclamationCircleIcon,
+  InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
 
@@ -88,13 +89,13 @@ const Navbar = () => {
             <NavbarItem url="/" name="Clip" />
             <NavbarItem url="/receive" name="Receive" />
             <NavbarItem url="/file" name="File" />
-            {session && (
+            {session ? (
               <>
                 <NavbarItem url="/clips" name="My Clips" />
-                <NavbarItem url="/settings" name="Settings" />
               </>
+            ) : (
+              <NavbarItem url="/about" name="About" />
             )}
-            <NavbarItem url="/about" name="About" />
           </NavbarSection>
           <NavbarSection>
             {session ? (
@@ -136,10 +137,16 @@ const Navbar = () => {
                         <ExclamationCircleIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
+                        title="About Interclip"
+                        type="link"
+                        link="/about"
+                      >
+                        <InformationCircleIcon className="mr-2 h-5 w-5" />
+                      </MenuItem>
+                      <MenuItem
                         title="Sign out"
                         type="button"
                         onClick={() => signOut()}
-                        openInNewTab={true}
                       >
                         <LogoutIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
