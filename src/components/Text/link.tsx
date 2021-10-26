@@ -5,7 +5,7 @@ interface Props extends ComponentProps<'a'> {
   openInNewTab?: boolean;
 }
 
-export const Link = forwardRef<HTMLInputElement, Props>(function Link({
+const Link = forwardRef<HTMLInputElement, Props>(function Link({
   openInNewTab = true,
   ...props
 }) {
@@ -22,3 +22,5 @@ export const Link = forwardRef<HTMLInputElement, Props>(function Link({
     </NextLink>
   );
 });
+
+export default Link;

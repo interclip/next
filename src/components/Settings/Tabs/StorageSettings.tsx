@@ -1,7 +1,6 @@
 import React from 'react';
 import SettingsCard from '../SettingsCard';
-import Select from 'react-select';
-import { Input } from '@components/Input';
+import { Input, Select } from '@components/Input';
 
 const StorageSettings = () => {
   const uploadOptions = [
@@ -15,7 +14,9 @@ const StorageSettings = () => {
         title="File Upload"
         description="Select if files should be uploaded to Interclip S3 or IPFS"
       >
-        <Select options={uploadOptions} />
+        <div className="max-w-[50%]">
+          <Select options={uploadOptions} />
+        </div>
       </SettingsCard>
       <SettingsCard
         title="Clip Expiration"

@@ -1,5 +1,5 @@
 import { H1, H2 } from '@components/Text/headings';
-import { Link } from '@components/Text/link';
+import Link from '@components/Text/link';
 import React from 'react';
 import { Layout } from '../components/Layout';
 import { db } from '@utils/prisma';
