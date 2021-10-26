@@ -12,8 +12,8 @@ const Link = forwardRef<HTMLInputElement, Props>(function Link({
   return (
     <NextLink href={props.href as string}>
       <a
-        target={openInNewTab ? '_blank' : undefined}
-        rel={openInNewTab ? 'noopener noreferrer' : undefined}
+        target={openInNewTab ? '_blank' : ''}
+        rel={openInNewTab ? 'noopener noreferrer' : ''}
         className="underline"
         {...props}
       >
