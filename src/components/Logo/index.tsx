@@ -6,7 +6,7 @@ const currentDate = dayjs().format('MM/DD');
 let logoName: string;
 
 switch (currentDate) {
-  case '10/27':
+  case '10/31':
     logoName = 'seasonal/halloween.png';
     break;
   case '12/24':
