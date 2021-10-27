@@ -12,6 +12,7 @@ module.exports = withPWA({
     concurrentFeatures: true,
     serverComponents: true,
   },
+  optimizeCss: true,
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],
