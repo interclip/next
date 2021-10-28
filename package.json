@@ -22,7 +22,7 @@
     "@prisma/client": "^3.3.0",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
-    "framer-motion": "^4.1.17",
+    "framer-motion": "^5.0.0",
     "get-random-values": "^1.2.2",
     "ioredis": "^4.28.0",
     "js-cookie": "^3.0.1",
