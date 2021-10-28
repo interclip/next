@@ -6,6 +6,7 @@ import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import { IS_PROD } from '../../lib/constants';
 import { changeColorBrightness } from '@utils/colors';
+import Logo from '@components/Logo';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -22,12 +23,7 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
       <div className="w-full h-screen flex items-center justify-center">
         <div className="bg-gray-100 dark:bg-dark-secondary dark:text-dark-text text-black w-screen h-screen md:w-96 md:h-auto md:pt-8 md:rounded-lg pb-8 px-8 flex flex-col justify-center items-center">
           <div className="mb-8">
-            <Image
-              src="/images/Interclip.svg"
-              alt="Interclip's logo"
-              width={128}
-              height={128}
-            />
+            <Logo width={128} height={128} />
           </div>
           {!IS_PROD && (
             <>
