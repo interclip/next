@@ -46,9 +46,12 @@ export default async function handler(
     });
     return;
   }
+  const parsedURL = encodeURI(clipURL);
+
+  console.log(parsedURL);
 
   if (
-    !isURL(clipURL, {
+    !isURL(parsedURL, {
       require_valid_protocol: true,
       protocols: ['http', 'https', 'ipfs', 'ipns'],
     })
@@ -61,7 +64,7 @@ export default async function handler(
 
   const duplicateClip = await db.clip.findFirst({
     where: {
-      url: clipURL,
+      url: parsedURL,
     },
   });
 
@@ -72,13 +75,13 @@ export default async function handler(
       const newClip = await db.clip.create({
         data: {
           code: getRandomID(5),
-          url: clipURL,
+          url: parsedURL,
           expiresAt: dateAddDays(new Date(), 30),
           createdAt: new Date(),
           ownerID: await getUserIDFromEmail(session?.user?.email),
         },
       });
-      await storeLinkPreviewInCache(clipURL);
+      await storeLinkPreviewInCache(parsedURL);
       res.status(200).json({ status: 'success', result: newClip });
     } catch (e) {
       res.status(500).json({

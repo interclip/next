@@ -22,7 +22,7 @@ interface OEmbed {
   favicons: string[];
 }
 
-const Redirect = ({
+const CodeView = ({
   code,
   url,
   oembed,
@@ -164,4 +164,4 @@ export async function getServerSideProps({
   }
 }
 
-export default Redirect;
+export default CodeView;
