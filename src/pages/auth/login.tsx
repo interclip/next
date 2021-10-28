@@ -55,9 +55,9 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
           )}
           {Object.values(providers).map((provider: any) => {
             const [hoverRef, isHovered] = useHover();
-
             return (
-              provider.id !== 'credentials' && (
+              provider.id !== 'credentials' &&
+              provider.id && (
                 <button
                   className={`w-full h-12 rounded-lg text-white font-bold transition mb-4 filter`}
                   style={{
