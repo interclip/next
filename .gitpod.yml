@@ -50,3 +50,4 @@ vscode:
     - bradlc.vscode-tailwindcss
     - bierner.markdown-preview-github-styles
     - editorconfig.editorconfig
+    - cweijan.vscode-redis-client

@@ -20,6 +20,7 @@
       "@utils*": ["src/lib*"]
     }
   },
+  "ts-node": { "files": true },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "**/schema.generated"]
 }
