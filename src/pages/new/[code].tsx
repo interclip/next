@@ -9,6 +9,7 @@ import Link from '@components/Text/link';
 import { getLinkPreview } from 'link-preview-js';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import toast from 'react-hot-toast';
+import truncate from '@utils/smartTruncate';
 
 interface OEmbed {
   url: string;
@@ -33,7 +34,7 @@ const CodeView = ({
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(url);
-  const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
+  const simplifiedURL = truncate(urlObject, 40);
   const [isCopied, setIsCopied] = useState(false);
 
   return (
@@ -89,7 +90,7 @@ const CodeView = ({
               {oembed.title || code}
             </h2>
             <h3 className="text-2xl text-gray-400">
-              <Link className="no-underline" href={url}>
+              <Link className="no-underline" href={url} title={url}>
                 {simplifiedURL}
               </Link>
             </h3>
