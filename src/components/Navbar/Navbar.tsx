@@ -4,7 +4,6 @@ import { Button } from '../Button';
 import Image from 'next/image';
 import NavbarSection from './NavbarSection';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import NextLink from 'next/link';
 import Link from '@components/Text/link';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
