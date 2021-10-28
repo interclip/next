@@ -19,7 +19,7 @@ const brandColors = {
 const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
   const [inputEmail, setEmail] = useState<string>('');
   return (
-    <Layout>
+    <Layout titlePrefix="Log in">
       <div className="w-full h-screen flex items-center justify-center">
         <div className="bg-gray-100 dark:bg-dark-secondary dark:text-dark-text text-black w-screen h-screen md:w-96 md:h-auto md:pt-8 md:rounded-lg pb-8 px-8 flex flex-col justify-center items-center">
           <div className="mb-8">

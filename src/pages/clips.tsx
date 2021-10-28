@@ -36,7 +36,7 @@ const MyClips = (): React.ReactNode => {
   }, []);
 
   return (
-    <Layout>
+    <Layout titlePrefix="My clips">
       <section className="w-full grid justify-center">
         <div className="w-[50em] max-w-[93vw]">
           <H1>Clips you made</H1>

@@ -6,7 +6,7 @@ import { db } from '@utils/prisma';
 
 const About = (props: { clipCount: number; version: string }): JSX.Element => {
   return (
-    <Layout>
+    <Layout titlePrefix="About">
       <section className="w-full flex flex-col items-center">
         <div className="w-[30em] max-w-[93vw]">
           <H1>About Interclip</H1>
