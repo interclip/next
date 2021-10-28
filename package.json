@@ -18,7 +18,7 @@
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.5",
     "@next-auth/prisma-adapter": "^0.5.4",
-    "@nextui-org/react": "^1.0.1-alpha.55",
+    "@nextui-org/react": "^1.0.1-alpha.56",
     "@prisma/client": "^3.3.0",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
