@@ -1,6 +1,6 @@
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout } from '../components/Layout';
 import { db } from '@utils/prisma';
 import { getUserDetails } from './api/account/getDetails';
@@ -8,6 +8,19 @@ import { NextApiRequest } from 'next';
 import { Tab } from '@headlessui/react';
 import { classNames } from '@components/Navbar/Navbar';
 import { User } from '@prisma/client';
+
+interface UserResponce extends APIResponse {
+  result: User[];
+}
+
+const fetchUsers = async (): Promise<User[]> => {
+  const responce = await fetch('/api/admin/getUsers');
+  if (!responce.ok) {
+    throw new Error('Not ok');
+  }
+  const data: UserResponce = await responce.json();
+  return data.result;
+};
 
 const TabHeader = ({ title }: { title: string }) => {
   return (
@@ -53,7 +66,6 @@ const About = ({
   clipCount,
   version,
   user,
-  allUsers = ['', ''],
 }: {
   clipCount: number;
   version: string;
@@ -71,6 +83,8 @@ const About = ({
     'focus:outline-none focus:ring-2 text-black ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
   );
 
+  const [users, setUsers] = useState<User[]>([]);
+
   return (
     <Layout titlePrefix="About">
       <section className="w-full flex flex-col items-center">
@@ -80,9 +94,14 @@ const About = ({
 
           <div className="w-full max-w-md px-2 py-16 sm:px-0">
             <Tab.Group
-              defaultIndex={1}
+              defaultIndex={0}
               onChange={(index) => {
-                console.log('Changed selected tab to:', index);
+                switch (index) {
+                  case 2:
+                    fetchUsers().then((users) => setUsers(users));
+                    break;
+                  default:
+                }
               }}
             >
               <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
@@ -95,19 +114,9 @@ const About = ({
                 <Tab.Panel className={panelClassNames}>hello, gaming</Tab.Panel>
                 <Tab.Panel className={panelClassNames}>Hello, facts</Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
-                  <UserCard
-                    user={{
-                      name: 'Filip Troníček',
-                      id: 'faa',
-                      isStaff: false,
-                      email: 'fafq@faf.com',
-                      username: 'filip',
-                      createdAt: new Date(),
-                      image:
-                        'https://avatars.githubusercontent.com/u/29888641?v=4',
-                      emailVerified: new Date(),
-                    }}
-                  />
+                  {users.map((user) => {
+                    return <UserCard user={user} />;
+                  })}
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>

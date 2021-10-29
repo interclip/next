@@ -1,0 +1,62 @@
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { db } from '../../../lib/prisma';
+import rateLimit from '../../../lib/rateLimit';
+
+const limiter = rateLimit({
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 500, // Max 500 reqs per second
+});
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<APIResponse>,
+) {
+  try {
+    await limiter.check(res, 169, 'CACHE_TOKEN');
+  } catch {
+    res.status(429).json({
+      status: 'error',
+      result: 'Rate limit exceeded',
+    });
+  }
+
+  const { limit = '50' } = req.query;
+
+  if (typeof limit === 'object') {
+    res.status(400).json({
+      status: 'error',
+      result:
+        'Too many limit query params provided. Please only query one code per request.',
+    });
+    return;
+  }
+
+  if (isNaN(Number(limit))) {
+    res.status(400).json({
+      status: 'error',
+      result: 'The provided limit has an invalid format.',
+    });
+  }
+
+  try {
+    const queriedUsers = await db.user.findMany({
+      take: Number(limit),
+      where: {},
+    });
+
+    if (queriedUsers) {
+      res.status(200).json({ status: 'success', result: queriedUsers });
+    } else {
+      res.status(404).json({
+        status: 'error',
+        result: 'Users not found.',
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({
+      status: 'error',
+      result: 'An error with the database has occured.',
+    });
+  }
+}
