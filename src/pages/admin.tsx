@@ -36,7 +36,7 @@ const UserCard = ({ user }: { user: User }) => {
             user.image ||
             `https://avatar.tobi.sh/name.svg?text=${user.name?.at(0)}`
           }
-          alt="My profile"
+          alt={`${user.name || '@' + user.username}'s avatar'`}
           className="w-16 h-16 rounded-full"
         />
       </div>
