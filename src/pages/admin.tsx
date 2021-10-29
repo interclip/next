@@ -114,9 +114,9 @@ const About = ({
                 <Tab.Panel className={panelClassNames}>hello, gaming</Tab.Panel>
                 <Tab.Panel className={panelClassNames}>Hello, facts</Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
-                  {users.map((user) => {
-                    return <UserCard user={user} />;
-                  })}
+                  {users.map((user) => (
+                    <UserCard user={user} />
+                  ))}
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
