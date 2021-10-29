@@ -54,7 +54,7 @@
     "@types/lru-cache": "^5.1.1",
     "@types/node-fetch": "^3.0.3",
     "@types/react": "17.0.33",
-    "@types/validator": "^13.6.5",
+    "@types/validator": "^13.6.6",
     "autoprefixer": "^10.4.0",
     "cli-progress": "^3.9.1",
     "eslint": "<8.0.0",
