@@ -1,0 +1,150 @@
+import { H1, H2 } from '@components/Text/headings';
+import Link from '@components/Text/link';
+import React, { useState } from 'react';
+import { Layout } from '../components/Layout';
+import { db } from '@utils/prisma';
+import { getUserDetails } from './api/account/getDetails';
+import { NextApiRequest } from 'next';
+import { Tab } from '@headlessui/react';
+import { classNames } from '@components/Navbar/Navbar';
+import { User } from '@prisma/client';
+
+const TabHeader = ({ title }: { title: string }) => {
+  return (
+    <Tab
+      className={({ selected }) =>
+        classNames(
+          'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-lg',
+          'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+          selected
+            ? 'bg-white shadow'
+            : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
+        )
+      }
+    >
+      {title}
+    </Tab>
+  );
+};
+
+const UserCard = ({ user }: { user: User }) => {
+  return (
+    <div className="bg-white w-full flex items-center p-2 rounded-xl shadow border">
+      <div className="flex items-center space-x-4">
+        <img
+          src={
+            user.image ||
+            `https://avatar.tobi.sh/name.svg?text=${user.name?.at(0)}`
+          }
+          alt="My profile"
+          className="w-16 h-16 rounded-full"
+        />
+      </div>
+      <div className="flex-grow p-3">
+        <div className="font-semibold text-gray-700">{user.name}</div>
+        <div className="text-sm text-gray-500">{user.email}</div>
+      </div>
+      <span className="p-2">{user.isStaff && 'Staff'}</span>
+    </div>
+  );
+};
+
+const About = ({
+  clipCount,
+  version,
+  user,
+  allUsers = ['', ''],
+}: {
+  clipCount: number;
+  version: string;
+  allUsers: any[];
+  user: {
+    image: string;
+    id: string;
+    email: string;
+    name: string;
+    username: string;
+  };
+}): JSX.Element => {
+  const panelClassNames = classNames(
+    'bg-white rounded-xl p-3',
+    'focus:outline-none focus:ring-2 text-black ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+  );
+
+  return (
+    <Layout titlePrefix="About">
+      <section className="w-full flex flex-col items-center">
+        <div className="w-[30em] max-w-[93vw]">
+          <H1>Interclip Admin</H1>
+          <H2>Hi {user.name} </H2>
+
+          <div className="w-full max-w-md px-2 py-16 sm:px-0">
+            <Tab.Group
+              defaultIndex={1}
+              onChange={(index) => {
+                console.log('Changed selected tab to:', index);
+              }}
+            >
+              <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
+                <TabHeader title="Statistics"></TabHeader>
+                <TabHeader title="Controls"></TabHeader>
+                <TabHeader title="Users"></TabHeader>
+                <TabHeader title="Clips"></TabHeader>
+              </Tab.List>
+              <Tab.Panels className="mt-2">
+                <Tab.Panel className={panelClassNames}>hello, gaming</Tab.Panel>
+                <Tab.Panel className={panelClassNames}>Hello, facts</Tab.Panel>
+                <Tab.Panel className={panelClassNames}>
+                  <UserCard
+                    user={{
+                      name: 'Filip Troníček',
+                      id: 'faa',
+                      isStaff: false,
+                      email: 'fafq@faf.com',
+                      username: 'filip',
+                      createdAt: new Date(),
+                      image:
+                        'https://avatars.githubusercontent.com/u/29888641?v=4',
+                      emailVerified: new Date(),
+                    }}
+                  />
+                </Tab.Panel>
+              </Tab.Panels>
+            </Tab.Group>
+          </div>
+          <ul className="facts">
+            <li>
+              Release: {version}{' '}
+              <Link
+                href={`https://github.com/interclip/interclip/releases/tag/v${version}`}
+              >
+                (changelog)
+              </Link>
+            </li>
+            <li>Total clips made: {clipCount}</li>
+          </ul>
+        </div>
+      </section>
+    </Layout>
+  );
+};
+
+export async function getServerSideProps(context: { req: NextApiRequest }) {
+  try {
+    const userData = await getUserDetails(
+      ['username', 'name', 'image', 'email'],
+      context.req,
+    );
+    const clipCount = await db.clip.count();
+    const packageJSON = require('../../package.json');
+    const { version } = packageJSON;
+    return { props: { clipCount, version, user: userData } };
+  } catch (e) {
+    console.error(e);
+    return {
+      notFound: true,
+    };
+  }
+}
+
+export default About;

@@ -15,7 +15,7 @@ import {
 } from '@heroicons/react/solid';
 import Logo from '@components/Logo';
 
-function classNames(...classes: string[]) {
+export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
@@ -75,7 +75,7 @@ const Navbar = () => {
       <nav className="bg-white dark:bg-dark-secondary h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
         <div className="w-full max-w-6xl md:mx-auto mx-4 flex justify-around">
           <NavbarSection>
-              <Logo height={50} width={50} />
+            <Logo height={50} width={50} />
           </NavbarSection>
           <NavbarSection>
             <NavbarItem url="/" name="Clip" />
