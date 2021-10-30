@@ -72,11 +72,9 @@ const About = ({
   version: string;
   allUsers: any[];
   user: {
-    image: string;
-    id: string;
-    email: string;
     name: string;
     username: string;
+    isStaff: boolean;
   };
 }): JSX.Element => {
   const panelClassNames = classNames(
@@ -91,7 +89,7 @@ const About = ({
       <section className="w-full flex flex-col items-center">
         <div className="w-[30em] max-w-[93vw]">
           <H1>Interclip Admin</H1>
-          <H2>Hi {user.name} </H2>
+          <H2>Hi {user.name || user.username} </H2>
 
           <div className="w-full max-w-md px-2 py-16 sm:px-0">
             <Tab.Group
@@ -141,13 +139,17 @@ const About = ({
 
 export async function getServerSideProps(context: { req: NextApiRequest }) {
   try {
-    const userData = await getUserDetails(
-      ['username', 'name', 'image', 'email'],
-      context.req,
-    );
+    // @ts-ignore
+    const userData: {isStaff: boolean, name: string, username: string} | null = await getUserDetails(['isStaff', 'name'], context.req);
     const clipCount = await db.clip.count();
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
+
+    // Return 404 if user is not an admin
+    if (!userData || !userData.isStaff) {
+      return { notFound: true} ;
+    }
+
     return { props: { clipCount, version, user: userData } };
   } catch (e) {
     console.error(e);
