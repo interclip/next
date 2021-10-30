@@ -110,8 +110,18 @@ const About = ({
                 <TabHeader title="Clips"></TabHeader>
               </Tab.List>
               <Tab.Panels className="mt-2">
-                <Tab.Panel className={panelClassNames}>hello, gaming</Tab.Panel>
-                <Tab.Panel className={panelClassNames}>Hello, facts</Tab.Panel>
+                <Tab.Panel className={panelClassNames}>
+                  <li>
+                    Release: {version}{' '}
+                    <Link
+                      href={`https://github.com/interclip/interclip/releases/tag/v${version}`}
+                    >
+                      (changelog)
+                    </Link>
+                  </li>
+                  <li>Total clips made: {clipCount}</li>
+                </Tab.Panel>
+                <Tab.Panel className={panelClassNames}></Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
                   {users.map((user) => (
                     <UserCard key={user.id} user={user} />
@@ -120,17 +130,6 @@ const About = ({
               </Tab.Panels>
             </Tab.Group>
           </div>
-          <ul className="facts">
-            <li>
-              Release: {version}{' '}
-              <Link
-                href={`https://github.com/interclip/interclip/releases/tag/v${version}`}
-              >
-                (changelog)
-              </Link>
-            </li>
-            <li>Total clips made: {clipCount}</li>
-          </ul>
         </div>
       </section>
     </Layout>
@@ -140,14 +139,18 @@ const About = ({
 export async function getServerSideProps(context: { req: NextApiRequest }) {
   try {
     // @ts-ignore
-    const userData: {isStaff: boolean, name: string, username: string} | null = await getUserDetails(['isStaff', 'name'], context.req);
+    const userData: {
+      isStaff: boolean;
+      name: string;
+      username: string;
+    } | null = await getUserDetails(['isStaff', 'name'], context.req);
     const clipCount = await db.clip.count();
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
 
     // Return 404 if user is not an admin
     if (!userData || !userData.isStaff) {
-      return { notFound: true} ;
+      return { notFound: true };
     }
 
     return { props: { clipCount, version, user: userData } };
