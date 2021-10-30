@@ -108,7 +108,7 @@ const About = ({
   const [moreUsersToLoad, setMoreUsersToLoad] = useState<boolean>(true);
 
   return (
-    <Layout titlePrefix="About">
+    <Layout titlePrefix="Admin">
       <section className="w-full flex flex-col items-center">
         <div className="w-[30em] max-w-[93vw]">
           <H1>Interclip Admin</H1>
