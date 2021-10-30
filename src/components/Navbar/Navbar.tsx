@@ -1,11 +1,5 @@
-import React, { ComponentProps, forwardRef } from 'react';
-import NavbarItem from './NavbarItem';
-import { Button } from '../Button';
-import Image from 'next/image';
-import NavbarSection from './NavbarSection';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import Logo from '@components/Logo';
 import Link from '@components/Text/link';
-import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
   CogIcon,
@@ -13,7 +7,14 @@ import {
   InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
-import Logo from '@components/Logo';
+import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import React, { ComponentProps, forwardRef } from 'react';
+import { Fragment } from 'react';
+
+import { Button } from '../Button';
+import NavbarItem from './NavbarItem';
+import NavbarSection from './NavbarSection';
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -101,6 +102,7 @@ const Navbar = () => {
                       }
                       height={50}
                       width={50}
+                      alt="Your avatar"
                       className="rounded-full cursor-pointer"
                     />
                   </Menu.Button>

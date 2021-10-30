@@ -1,9 +1,10 @@
-import { Clip } from '.prisma/client';
 import type { NextPage } from 'next';
-import React, { useState } from 'react';
-import { Layout } from '../components/Layout';
-import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
+
+import { Layout } from '../components/Layout';
+import { Clip } from '.prisma/client';
 
 interface ClipResponse extends APIResponse {
   result: Clip;

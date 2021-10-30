@@ -1,5 +1,6 @@
-import { ComponentProps, forwardRef } from 'react';
 import NextLink from 'next/link';
+import { ComponentProps, forwardRef } from 'react';
+import React from 'react';
 
 interface Props extends ComponentProps<'a'> {
   openInNewTab?: boolean;

@@ -1,13 +1,13 @@
 //import 'tsconfig-paths/register';
 
 import { PrismaClient } from '@prisma/client';
-import { dateAddDays } from '../src/lib/dates';
-import faker from 'faker';
-import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
-import youtubeVideo from 'random-youtube-music-video';
 import cliProgress from 'cli-progress';
-
+import faker from 'faker';
 import fetch from 'node-fetch';
+import youtubeVideo from 'random-youtube-music-video';
+
+import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
+import { dateAddDays } from '../src/lib/dates';
 
 const getRandomID = (length = 5) => {
   return Math.random().toString(36).substr(2, length);

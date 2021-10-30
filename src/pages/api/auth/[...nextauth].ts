@@ -1,14 +1,14 @@
-import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
-
+import { db } from '@utils/prisma';
+import faker from 'faker';
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
 import GitlabProvider from 'next-auth/providers/gitlab';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { db } from '@utils/prisma';
 import isEmail from 'validator/lib/isEmail';
+
 import { IS_PROD } from '../../../lib/constants';
-import faker from 'faker';
 
 const prisma = new PrismaClient();
 

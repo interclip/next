@@ -1,4 +1,5 @@
 import { ComponentProps, forwardRef } from 'react';
+import React from 'react';
 
 export const H1 = forwardRef<HTMLInputElement, ComponentProps<'h1'>>(
   function H1({ ...props }) {

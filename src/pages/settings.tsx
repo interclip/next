@@ -1,14 +1,15 @@
 import { Layout } from '@components/Layout';
+import LeftColumn from '@components/Settings/LeftColumn';
 import {
   AppearanceSettings,
   GeneralSettings,
   StorageSettings,
 } from '@components/Settings/Tabs';
-import LeftColumn from '@components/Settings/LeftColumn';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
-import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
+import React, { useState } from 'react';
+
 import { getUserDetails } from './api/account/getDetails';
 
 const Settings = (props: {

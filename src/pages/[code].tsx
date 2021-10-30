@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Layout } from '@components/Layout';
-import { db } from '@utils/prisma';
-import { NextApiRequest } from 'next';
-import Image from 'next/image';
-import QRModal from '@components/shared/QRModal';
 import { QRIcon } from '@components/Icons';
+import { Layout } from '@components/Layout';
+import QRModal from '@components/shared/QRModal';
 import Link from '@components/Text/link';
-import getBestFavicon from '@utils/highestResolutionFavicon';
 import {
   getLinkPreviewFromCache,
   storeLinkPreviewInCache,
 } from '@utils/clipPreview';
+import getBestFavicon from '@utils/highestResolutionFavicon';
+import { db } from '@utils/prisma';
+import { NextApiRequest } from 'next';
+import Image from 'next/image';
+import React, { useState } from 'react';
 
 const Redirect = ({
   code,
@@ -44,6 +44,7 @@ const Redirect = ({
                 src={`https://images.weserv.nl/?url=${getBestFavicon(
                   oembed.favicons,
                 )}&w=300&h=300`}
+                alt="The site's favicon"
                 className="rounded"
                 width={72}
                 height={72}

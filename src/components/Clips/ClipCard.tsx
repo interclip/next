@@ -1,11 +1,11 @@
 import Link from 'next/link';
+import React from 'react';
 
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
 dayjs.extend(relativeTime);
 
 const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
-
   return (
     <Link href={`/new/${clip.code}`} passHref>
       <div className="max-w-none sm:max-w-sm bg-white dark:bg-dark-secondary dark:text-dark-text cursor-pointer h-full p-6 rounded-2xl tracking-wide shadow-lg hover:scale-[0.99]">

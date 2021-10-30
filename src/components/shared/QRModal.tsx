@@ -1,5 +1,6 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import { useWindowSize } from '@utils/hooks/useWindowSize';
+import { AnimatePresence, motion } from 'framer-motion';
+import React from 'react';
 import QRCode from 'react-qr-code';
 
 const QRModal = (props: {

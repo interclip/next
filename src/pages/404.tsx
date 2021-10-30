@@ -1,7 +1,7 @@
-import React from 'react';
 import { Layout } from '@components/Layout';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import React from 'react';
 
 const Error404: React.FC = () => {
   return (
@@ -21,6 +21,7 @@ const Error404: React.FC = () => {
             layout="fill"
             objectFit="contain"
             objectPosition="right"
+            alt="A paperplane"
           />
         </motion.div>
         <motion.div
