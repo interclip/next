@@ -1,3 +1,4 @@
+import { needsAdmin } from '@utils/api/ensureAuth';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { db } from '../../../lib/prisma';
@@ -20,6 +21,9 @@ export default async function handler(
       result: 'Rate limit exceeded',
     });
   }
+
+  // Make sure the user is logged in and is an admin
+  needsAdmin(req, res);
 
   const { limit = '50' } = req.query;
 

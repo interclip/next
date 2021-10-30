@@ -1,3 +1,4 @@
+import { needsAuth } from '@utils/api/ensureAuth';
 import {
   getLinkPreviewFromCache,
   storeLinkPreviewInCache,
@@ -29,12 +30,8 @@ export default async function handler(
 
   const session = await getSession({ req });
 
-  if (!session) {
-    res.status(401).json({
-      status: 'error',
-      result: 'Unauthenticated.',
-    });
-  }
+  needsAuth(req, res);
+
   try {
     const clips = await db.clip.findMany({
       where: {
