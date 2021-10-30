@@ -4,6 +4,9 @@ import { PrismaClient } from '@prisma/client';
 import { dateAddDays } from '../src/lib/dates';
 import faker from 'faker';
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
+import youtubeVideo from 'random-youtube-music-video';
+import cliProgress from 'cli-progress';
+
 import fetch from 'node-fetch';
 
 const getRandomID = (length = 5) => {
@@ -12,9 +15,9 @@ const getRandomID = (length = 5) => {
 
 const db = new PrismaClient();
 
-const randomWikipediaArticle = async () => {
+const randomWikipediaArticle = async (amount: number) => {
   const responce = await fetch(
-    'https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=revisions|images&rvprop=content&grnlimit=100',
+    `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=revisions|images&rvprop=content&grnlimit=${amount}`,
   );
   try {
     const data: any = await responce.json();
@@ -60,7 +63,30 @@ async function main() {
     );
   }
 
-  const urls = await randomWikipediaArticle();
+  const amountsToGenerate = {
+    wikipedia: 20,
+    youtube: 20,
+  };
+
+  const urls = new Set([
+    ...(await randomWikipediaArticle(amountsToGenerate.wikipedia)),
+  ]);
+
+  console.log('Generating YouTube videos');
+  const youtubeProgress = new cliProgress.SingleBar(
+    {},
+    cliProgress.Presets.shades_classic,
+  );
+  youtubeProgress.start(amountsToGenerate.youtube, 0, { speed: 'N/A' });
+
+  for (let i = 0; i < amountsToGenerate.youtube; i++) {
+    const youtubeURL = await youtubeVideo.getRandomMusicVideoUrl();
+    urls.add(youtubeURL);
+    youtubeProgress.update(i);
+  }
+
+  youtubeProgress.stop();
+
   for (const url of urls) {
     try {
       const ownerID = userIDs[Math.floor(Math.random() * userIDs.length)];
