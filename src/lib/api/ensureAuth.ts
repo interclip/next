@@ -39,4 +39,4 @@ const needsAdmin = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export { needsAuth, needsAdmin };
+export { needsAdmin, needsAuth };
