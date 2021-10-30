@@ -30,10 +30,10 @@ const MyClips = (): React.ReactNode => {
       .then((clips: ClipsResponse) => {
         setClips(clips.result);
       })
-      .catch((e) => {
+      .catch(() => {
         toast.error('There was an error when fetching your clips');
       });
-  }, []);
+  }, [router]);
 
   return (
     <Layout titlePrefix="My clips">

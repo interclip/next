@@ -44,6 +44,7 @@ const Redirect = ({
                 src={`https://images.weserv.nl/?url=${getBestFavicon(
                   oembed.favicons,
                 )}&w=300&h=300`}
+                alt="The site's favicon"
                 className="rounded"
                 width={72}
                 height={72}

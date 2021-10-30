@@ -21,6 +21,7 @@ const Error404: React.FC = () => {
             layout="fill"
             objectFit="contain"
             objectPosition="right"
+            alt="A paperplane"
           />
         </motion.div>
         <motion.div
