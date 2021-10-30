@@ -116,7 +116,7 @@ const About = ({
                 <Tab.Panel className={panelClassNames}>Hello, facts</Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
                   {users.map((user) => (
-                    <UserCard user={user} />
+                    <UserCard key={user.id} user={user} />
                   ))}
                 </Tab.Panel>
               </Tab.Panels>
