@@ -1,3 +1,3 @@
-declare module "node-fetch" {
-    export default fetch = async(any) => any
+declare module 'node-fetch' {
+  export default fetch = async (any) => any;
 }

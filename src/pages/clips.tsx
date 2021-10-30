@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { H1 } from '@components/Text/headings';
-import { Layout } from '@components/Layout';
 import ClipCard from '@components/Clips/ClipCard';
+import { Layout } from '@components/Layout';
+import { H1 } from '@components/Text/headings';
 import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { SyncLoader } from 'react-spinners';
 

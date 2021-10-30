@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+
 import { GIT_COMMIT_SHA, REACT_VERSION } from '../../lib/runtimeInfo';
 
 function getGitRevision() {
