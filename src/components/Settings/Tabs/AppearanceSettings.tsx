@@ -1,7 +1,8 @@
-import React from 'react';
-import SettingsCard from '../SettingsCard';
-import { useTheme } from 'next-themes';
 import { Select } from '@components/Input';
+import { useTheme } from 'next-themes';
+import React from 'react';
+
+import SettingsCard from '../SettingsCard';
 
 const AppearanceSettings = () => {
   const { theme, setTheme } = useTheme();

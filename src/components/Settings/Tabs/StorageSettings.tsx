@@ -1,6 +1,7 @@
-import React from 'react';
-import SettingsCard from '../SettingsCard';
 import { Input, Select } from '@components/Input';
+import React from 'react';
+
+import SettingsCard from '../SettingsCard';
 
 const StorageSettings = () => {
   const uploadOptions = [

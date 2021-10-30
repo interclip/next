@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import { ComponentProps, forwardRef, Props } from 'react';
 import NextLink from 'next/link';
+import { ComponentProps, forwardRef } from 'react';
+import React from 'react';
 
 const currentDate = dayjs().format('MM/DD');
 let logoName: string;

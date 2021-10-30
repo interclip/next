@@ -1,12 +1,13 @@
 import { Layout } from '@components/Layout';
-import { getProviders, signIn, getSession } from 'next-auth/react';
-import useHover from '@utils/hooks/useHover';
-import { useState } from 'react';
-import { NextApiRequest } from 'next';
-import Image from 'next/image';
-import { IS_PROD } from '../../lib/constants';
-import { changeColorBrightness } from '@utils/colors';
 import Logo from '@components/Logo';
+import { changeColorBrightness } from '@utils/colors';
+import useHover from '@utils/hooks/useHover';
+import { NextApiRequest } from 'next';
+import { getProviders, getSession, signIn } from 'next-auth/react';
+import { useState } from 'react';
+import React from 'react';
+
+import { IS_PROD } from '../../lib/constants';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -55,7 +56,9 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
               provider.id !== 'credentials' &&
               provider.id && (
                 <button
-                  className={`w-full h-12 rounded-lg text-white font-bold transition mb-4 filter`}
+                  className={
+                    'w-full h-12 rounded-lg text-white font-bold transition mb-4 filter'
+                  }
                   style={{
                     backgroundColor: changeColorBrightness(
                       // @ts-ignore

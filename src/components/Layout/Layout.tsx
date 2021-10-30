@@ -1,8 +1,9 @@
 import PageHead from '@components/Head';
+import { NextSeo } from 'next-seo';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
+
 import { Navbar } from '../Navbar';
-import { NextSeo } from 'next-seo';
 
 const Layout: React.FC<{ titlePrefix?: string }> = ({
   children,

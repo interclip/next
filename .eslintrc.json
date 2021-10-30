@@ -13,7 +13,7 @@
   ],
   "rules": {
     "react/display-name": "off",
-    "comma-dangle": ["error", "never"],
+    "comma-dangle": ["off", "always"],
     "prettier/prettier": ["error"],
     "react/prop-types": "off",
     "semi": [2, "always"],

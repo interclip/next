@@ -1,8 +1,9 @@
 import { Layout } from '@components/Layout';
-import { signOut, getSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { getSession, signOut } from 'next-auth/react';
+import React from 'react';
 
 const Logout = (): React.ReactNode => {
   const router = useRouter();

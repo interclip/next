@@ -1,11 +1,5 @@
-import React, { ComponentProps, forwardRef } from 'react';
-import NavbarItem from './NavbarItem';
-import { Button } from '../Button';
-import Image from 'next/image';
-import NavbarSection from './NavbarSection';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import Logo from '@components/Logo';
 import Link from '@components/Text/link';
-import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import {
   CogIcon,
@@ -13,7 +7,14 @@ import {
   InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
-import Logo from '@components/Logo';
+import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import React, { ComponentProps, forwardRef } from 'react';
+import { Fragment } from 'react';
+
+import { Button } from '../Button';
+import NavbarItem from './NavbarItem';
+import NavbarSection from './NavbarSection';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -75,7 +76,7 @@ const Navbar = () => {
       <nav className="bg-white dark:bg-dark-secondary h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
         <div className="w-full max-w-6xl md:mx-auto mx-4 flex justify-around">
           <NavbarSection>
-              <Logo height={50} width={50} />
+            <Logo height={50} width={50} />
           </NavbarSection>
           <NavbarSection>
             <NavbarItem url="/" name="Clip" />
@@ -101,6 +102,7 @@ const Navbar = () => {
                       }
                       height={50}
                       width={50}
+                      alt="Your avatar"
                       className="rounded-full cursor-pointer"
                     />
                   </Menu.Button>

@@ -1,3 +1,5 @@
+import React from 'react';
+
 const LeftColumn = ({
   settings,
   setSettings,
@@ -11,6 +13,7 @@ const LeftColumn = ({
     <div className="flex flex-col px-12">
       {options.map((option: string) => (
         <div
+          key={option}
           className={`${
             option === settings ? 'font-semibold' : ''
           } text-xl cursor-pointer pb-2`}
