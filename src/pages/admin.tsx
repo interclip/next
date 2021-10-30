@@ -1,13 +1,14 @@
+import { classNames } from '@components/Navbar/Navbar';
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import React, { useEffect, useState } from 'react';
-import { Layout } from '../components/Layout';
-import { db } from '@utils/prisma';
-import { getUserDetails } from './api/account/getDetails';
-import { NextApiRequest } from 'next';
 import { Tab } from '@headlessui/react';
-import { classNames } from '@components/Navbar/Navbar';
 import { User } from '@prisma/client';
+import { db } from '@utils/prisma';
+import { NextApiRequest } from 'next';
+import React, { useState } from 'react';
+
+import { Layout } from '../components/Layout';
+import { getUserDetails } from './api/account/getDetails';
 
 interface UserResponce extends APIResponse {
   result: User[];
