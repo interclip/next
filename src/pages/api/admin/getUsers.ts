@@ -25,13 +25,22 @@ export default async function handler(
   // Make sure the user is logged in and is an admin
   needsAdmin(req, res);
 
-  const { limit = '50' } = req.query;
+  const { limit = '50', from = 0 } = req.query;
 
   if (typeof limit === 'object') {
     res.status(400).json({
       status: 'error',
       result:
         'Too many limit query params provided. Please only query one code per request.',
+    });
+    return;
+  }
+
+  if (typeof from === 'object') {
+    res.status(400).json({
+      status: 'error',
+      result:
+        'Too many from query params provided. Please only query one code per request.',
     });
     return;
   }
@@ -46,8 +55,17 @@ export default async function handler(
   try {
     const queriedUsers = await db.user.findMany({
       take: Number(limit),
+      skip: Number(from) || 0,
       where: {},
     });
+
+    if (queriedUsers.length === 0) {
+      res.status(204).json({
+        status: 'error',
+        result: '',
+      });
+      return;
+    }
 
     if (queriedUsers) {
       res.status(200).json({ status: 'success', result: queriedUsers });

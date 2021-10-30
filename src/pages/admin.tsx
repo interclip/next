@@ -6,6 +6,8 @@ import { User } from '@prisma/client';
 import { db } from '@utils/prisma';
 import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
+import Image from 'next/image';
 
 import { Layout } from '../components/Layout';
 import { getUserDetails } from './api/account/getDetails';
@@ -14,11 +16,24 @@ interface UserResponce extends APIResponse {
   result: User[];
 }
 
-const fetchUsers = async (): Promise<User[]> => {
-  const response = await fetch('/api/admin/getUsers');
+const initialUsersToLoad = 15;
+
+const fetchUsers = async (
+  from: number,
+  setMoreUsersToLoad: React.Dispatch<React.SetStateAction<boolean>>,
+): Promise<User[]> => {
+  const response = await fetch(
+    `/api/admin/getUsers?from=${from}&limit=${
+      from === 0 ? initialUsersToLoad : 5
+    }`,
+  );
   if (!response.ok) {
     throw new Error('Not ok');
+  } else if (response.status === 204) {
+    setMoreUsersToLoad(false);
+    return [];
   }
+
   const data: UserResponce = await response.json();
   return data.result;
 };
@@ -43,20 +58,26 @@ const TabHeader = ({ title }: { title: string }) => {
 
 const UserCard = ({ user }: { user: User }) => {
   return (
-    <div className="bg-white w-full flex items-center p-2 rounded-xl shadow border">
+    <div className="bg-white dark:bg-dark-secondary dark:text-dark-text w-full flex items-center p-2 rounded-xl shadow border dark:border-none my-4">
       <div className="flex items-center space-x-4">
-        <img
+        <Image
           src={
             user.image ||
             `https://avatar.tobi.sh/name.svg?text=${user.name?.at(0)}`
           }
+          width={60}
+          height={60}
           alt={`${user.name || '@' + user.username}'s avatar'`}
           className="w-16 h-16 rounded-full"
         />
       </div>
       <div className="flex-grow p-3">
-        <div className="font-semibold text-gray-700">{user.name}</div>
-        <div className="text-sm text-gray-500">{user.email}</div>
+        <div className="font-semibold text-gray-700 dark:text-dark-text">
+          {user.name}
+        </div>
+        <div className="text-sm text-gray-500 dark:text-gray-200">
+          {user.email}
+        </div>
       </div>
       <span className="p-2">{user.isStaff && 'Staff'}</span>
     </div>
@@ -78,11 +99,13 @@ const About = ({
   };
 }): JSX.Element => {
   const panelClassNames = classNames(
-    'bg-white rounded-xl p-3',
-    'focus:outline-none focus:ring-2 text-black ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
+    'bg-white dark:bg-[#4c4c4c] dark:text-dark-text rounded-xl p-3',
+    'focus:outline-none focus:ring-2 text-black ring-offset-2 ring-offset-blue-400 dark:ring-transparent ring-white ring-opacity-60',
   );
 
   const [users, setUsers] = useState<User[]>([]);
+  const [loadedCount, setLoadedCount] = useState<number>(0);
+  const [moreUsersToLoad, setMoreUsersToLoad] = useState<boolean>(true);
 
   return (
     <Layout titlePrefix="About">
@@ -96,13 +119,6 @@ const About = ({
               defaultIndex={0}
               onChange={(index) => {
                 switch (index) {
-                  case 2:
-                    if (users.length === 0) {
-                      fetchUsers().then((users) => {
-                        setUsers(users);
-                      });
-                    }
-                    break;
                   default:
                 }
               }}
@@ -127,9 +143,27 @@ const About = ({
                 </Tab.Panel>
                 <Tab.Panel className={panelClassNames}></Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
-                  {users.map((user) => (
-                    <UserCard key={user.id} user={user} />
-                  ))}
+                  <InfiniteScroll
+                    pageStart={0}
+                    loadMore={() => {
+                      fetchUsers(loadedCount, setMoreUsersToLoad).then(
+                        (newUsers) => {
+                          setUsers([...users, ...newUsers]);
+                          setLoadedCount(loadedCount + initialUsersToLoad);
+                        },
+                      );
+                    }}
+                    hasMore={moreUsersToLoad}
+                    loader={
+                      <div className="loader" key={0}>
+                        Loading ...
+                      </div>
+                    }
+                  >
+                    {users.map((user) => (
+                      <UserCard key={user.id} user={user} />
+                    ))}
+                  </InfiniteScroll>
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
