@@ -14,11 +14,11 @@ interface UserResponce extends APIResponse {
 }
 
 const fetchUsers = async (): Promise<User[]> => {
-  const responce = await fetch('/api/admin/getUsers');
-  if (!responce.ok) {
+  const response = await fetch('/api/admin/getUsers');
+  if (!response.ok) {
     throw new Error('Not ok');
   }
-  const data: UserResponce = await responce.json();
+  const data: UserResponce = await response.json();
   return data.result;
 };
 
