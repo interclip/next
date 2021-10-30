@@ -51,6 +51,7 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
             </>
           )}
           {Object.values(providers).map((provider: any) => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             const [hoverRef, isHovered] = useHover();
             return (
               provider.id !== 'credentials' &&
