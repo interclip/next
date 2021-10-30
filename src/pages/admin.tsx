@@ -97,7 +97,11 @@ const About = ({
               onChange={(index) => {
                 switch (index) {
                   case 2:
-                    fetchUsers().then((users) => setUsers(users));
+                    if (users.length === 0) {
+                      fetchUsers().then((users) => {
+                        setUsers(users);
+                      });
+                    }
                     break;
                   default:
                 }
