@@ -33,7 +33,7 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
               </span>
               <input
                 type="text"
-                className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
+                className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4 dark:bg-[#222222]"
                 autoComplete="email"
                 placeholder="Your email"
                 onChange={(e) => setEmail(e.target.value)}
