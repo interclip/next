@@ -8,6 +8,8 @@ import { useState } from 'react';
 import React from 'react';
 
 import { IS_PROD } from '../../lib/constants';
+import isEmail from 'validator/lib/isEmail';
+import toast from 'react-hot-toast';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -36,12 +38,20 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
                 className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4 dark:bg-[#222222]"
                 autoComplete="email"
                 placeholder="Your email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 value={inputEmail}
               />
               <button
                 className="w-full h-12 rounded-lg bg-light-bg text-white font-bold hover:bg-blue-600 transition mb-4"
-                onClick={() => signIn('credentials', { email: inputEmail })}
+                onClick={() => {
+                  if (isEmail(inputEmail)) {
+                    signIn('credentials', { email: inputEmail });
+                  } else {
+                    toast.error('Invalid email provided');
+                  }
+                }}
               >
                 Login
               </button>
