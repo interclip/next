@@ -148,7 +148,8 @@ const About = ({
                     loadMore={() => {
                       fetchUsers(loadedCount, setMoreUsersToLoad).then(
                         (newUsers) => {
-                          setUsers([...users, ...newUsers]);
+                          // @ts-ignore
+                          setUsers(Array.from(new Set([...users, ...newUsers].map(JSON.stringify))).map(JSON.parse));
                           setLoadedCount(loadedCount + initialUsersToLoad);
                         },
                       );
