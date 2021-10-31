@@ -12,15 +12,38 @@ import { dateAddDays } from '../src/lib/dates';
 
 const db = new PrismaClient();
 
+interface WikipediaArticle {
+  pageid: number;
+  ns: number;
+  title: string;
+  images: {
+    ns: number;
+    description: string;
+  }[];
+}
+
+interface WikipediaResponse {
+  batchcomplete: string;
+  continue: {
+    grncontinue: string;
+    continue: string;
+  };
+  warnings: any;
+  query: {
+    pages: {
+      [key: string]: WikipediaArticle;
+    };
+  };
+}
+
 const randomWikipediaArticle = async (amount: number) => {
   const responce = await fetch(
     `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=revisions|images&rvprop=content&grnlimit=${amount}`,
   );
   try {
-    const data: any = await responce.json();
-    const urls: string[] = Object.values(data.query.pages).map(
-      (dp: any) =>
-        `https://en.wikipedia.org/wiki/${encodeURIComponent(dp.title)}`,
+    const data: WikipediaResponse = await responce.json();
+    const urls = Object.values(data.query.pages).map(
+      (dp) => `https://en.wikipedia.org/wiki/${encodeURIComponent(dp.title)}`,
     );
     return urls;
   } catch (e) {
