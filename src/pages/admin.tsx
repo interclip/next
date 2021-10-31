@@ -11,6 +11,12 @@ import Image from 'next/image';
 
 import { Layout } from '../components/Layout';
 import { getUserDetails } from './api/account/getDetails';
+import {
+  GIT_COMMIT_AUTHOR,
+  GIT_COMMIT_MESSAGE,
+  GIT_COMMIT_REF,
+  GIT_COMMIT_SHA,
+} from '@utils/runtimeInfo';
 
 interface UserResponce extends APIResponse {
   result: User[];
@@ -56,6 +62,37 @@ const TabHeader = ({ title }: { title: string }) => {
   );
 };
 
+const InfoCard = ({
+  name,
+  value,
+  description,
+  children,
+}: {
+  name: string;
+  value?: string;
+  description?: string;
+  children?: JSX.Element;
+}) => {
+  return (
+    <div className="flex flex-row flex-wrap -mx-2 min-w-8 w-full">
+      <div className="mb-4 px-2 w-full">
+        <div className="relative bg-white rounded border w-full">
+          <div className="p-4">
+            <h3 className="text-lg font-bold">
+              <a className="stretched-link" href="#" title="Card 1">
+                {name}
+              </a>
+            </h3>
+            <p className="block mb-2 text-sm text-gray-600">{description}</p>
+            {value}
+            <p>{children}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const UserCard = ({ user }: { user: User }) => {
   return (
     <div className="bg-white dark:bg-dark-secondary dark:text-dark-text w-full flex items-center p-2 rounded-xl shadow border dark:border-none my-4">
@@ -88,10 +125,18 @@ const About = ({
   clipCount,
   version,
   user,
+  commitSHA,
+  commitRef,
+  commitMessage,
+  commitAuthor,
 }: {
   clipCount: number;
   version: string;
   allUsers: any[];
+  commitSHA: string;
+  commitRef: string;
+  commitMessage: string;
+  commitAuthor: string;
   user: {
     name: string;
     username: string;
@@ -131,15 +176,35 @@ const About = ({
               </Tab.List>
               <Tab.Panels className="mt-2">
                 <Tab.Panel className={panelClassNames}>
-                  <li>
-                    Release: {version}{' '}
-                    <Link
-                      href={`https://github.com/interclip/interclip/releases/tag/v${version}`}
+                  <div className="grid gap-8 grid-cols-1 items-center md:grid-cols-2 lg:grid-cols-3 mx-auto space-y-2 justify-around">
+                    <InfoCard
+                      name="Clips"
+                      value={clipCount.toString()}
+                      description="Total clips"
+                    />
+                    <InfoCard
+                      name="Version"
+                      value={version}
+                      description="Interclip's version"
+                    />
+                    <InfoCard
+                      name="Commit"
+                      description="Commit of this preview"
                     >
-                      (changelog)
-                    </Link>
-                  </li>
-                  <li>Total clips made: {clipCount}</li>
+                      {commitSHA && commitAuthor && commitMessage ? (
+                        <>
+                          <Link
+                            href={`https://github.com/interclip/interclip-next/commit/${commitSHA}`}
+                          >
+                            {commitMessage}
+                          </Link>{' '}
+                          by {commitAuthor}
+                        </>
+                      ) : (
+                        <>'N/A'</>
+                      )}
+                    </InfoCard>
+                  </div>
                 </Tab.Panel>
                 <Tab.Panel className={panelClassNames}></Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
@@ -198,7 +263,17 @@ export async function getServerSideProps(context: { req: NextApiRequest }) {
       return { notFound: true };
     }
 
-    return { props: { clipCount, version, user: userData } };
+    return {
+      props: {
+        clipCount,
+        version,
+        user: userData,
+        commitSHA: GIT_COMMIT_SHA || '',
+        commitRef: GIT_COMMIT_REF || '',
+        commitAuthor: GIT_COMMIT_AUTHOR || '',
+        commitMessage: GIT_COMMIT_MESSAGE || '',
+      },
+    };
   } catch (e) {
     console.error(e);
     return {
