@@ -97,7 +97,7 @@ const About = ({
     username: string;
     isStaff: boolean;
   };
-}): JSX.Element => {
+}): React.ReactNode => {
   const panelClassNames = classNames(
     'bg-white dark:bg-[#4c4c4c] dark:text-dark-text rounded-xl p-3',
     'focus:outline-none focus:ring-2 text-black ring-offset-2 ring-offset-blue-400 dark:ring-transparent ring-white ring-opacity-60',
