@@ -100,7 +100,7 @@ async function main() {
   youtubeProgress.start(amountsToGenerate.youtube, 0, { speed: 'N/A' });
 
   for (let i = 0; i < amountsToGenerate.youtube; i++) {
-    const youtubeURL = await youtubeVideo.getRandomMusicVideoUrl();
+    const youtubeURL = await youtubeVideo.getRandomMusicVideoUrl(true);
     urls.add(youtubeURL);
     youtubeProgress.update(i);
   }
