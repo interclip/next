@@ -110,11 +110,11 @@ const About = ({
   return (
     <Layout titlePrefix="Admin">
       <section className="w-full flex flex-col items-center">
-        <div className="w-[30em] max-w-[93vw]">
+        <div className="w-[60em] max-w-[93vw]">
           <H1>Interclip Admin</H1>
           <H2>Hi {user.name || user.username} </H2>
 
-          <div className="w-full max-w-md px-2 py-16 sm:px-0">
+          <div className="w-full px-2 py-16 sm:px-0">
             <Tab.Group
               defaultIndex={0}
               onChange={(index) => {
@@ -149,7 +149,13 @@ const About = ({
                       fetchUsers(loadedCount, setMoreUsersToLoad).then(
                         (newUsers) => {
                           // @ts-ignore
-                          setUsers(Array.from(new Set([...users, ...newUsers].map(JSON.stringify))).map(JSON.parse));
+                          setUsers(
+                            Array.from(
+                              new Set(
+                                [...users, ...newUsers].map(JSON.stringify),
+                              ),
+                            ).map(JSON.parse),
+                          );
                           setLoadedCount(loadedCount + initialUsersToLoad);
                         },
                       );
