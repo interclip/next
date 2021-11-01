@@ -3,11 +3,14 @@ import Logo from '@components/Logo';
 import { changeColorBrightness } from '@utils/colors';
 import useHover from '@utils/hooks/useHover';
 import { NextApiRequest } from 'next';
-import { getProviders, getSession, signIn } from 'next-auth/react';
+import { ClientSafeProvider, getProviders, getSession, LiteralUnion, signIn } from 'next-auth/react';
 import { useState } from 'react';
 import React from 'react';
 
 import { IS_PROD } from '../../lib/constants';
+import isEmail from 'validator/lib/isEmail';
+import toast from 'react-hot-toast';
+import { BuiltInProviderType } from 'next-auth/providers';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -17,7 +20,7 @@ const brandColors = {
   apple: '#000000',
 };
 
-const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
+const LogIn = ({ providers }: { providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> }): React.ReactNode => {
   const [inputEmail, setEmail] = useState<string>('');
   return (
     <Layout titlePrefix="Log in">
@@ -33,15 +36,23 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
               </span>
               <input
                 type="text"
-                className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4"
+                className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4 dark:bg-[#222222]"
                 autoComplete="email"
                 placeholder="Your email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
                 value={inputEmail}
               />
               <button
                 className="w-full h-12 rounded-lg bg-light-bg text-white font-bold hover:bg-blue-600 transition mb-4"
-                onClick={() => signIn('credentials', { email: inputEmail })}
+                onClick={() => {
+                  if (isEmail(inputEmail)) {
+                    signIn('credentials', { email: inputEmail });
+                  } else {
+                    toast.error('Invalid email provided');
+                  }
+                }}
               >
                 Login
               </button>
@@ -50,7 +61,7 @@ const LogIn = ({ providers }: { providers: any }): React.ReactNode => {
               </span>
             </>
           )}
-          {Object.values(providers).map((provider: any) => {
+          {Object.values(providers).map((provider) => {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const [hoverRef, isHovered] = useHover();
             return (

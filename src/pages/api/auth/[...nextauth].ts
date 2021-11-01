@@ -1,7 +1,7 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
 import { db } from '@utils/prisma';
-import faker from 'faker';
+import { internet, name } from 'faker';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
@@ -50,9 +50,9 @@ export default NextAuth({
               const newUser = await db.user.create({
                 data: {
                   email: credentials.email,
-                  name: faker.name.firstName(),
+                  name: name.firstName(),
                   isStaff: true,
-                  image: faker.internet.avatar(),
+                  image: internet.avatar(),
                 },
               });
               return newUser;

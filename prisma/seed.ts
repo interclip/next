@@ -1,6 +1,7 @@
 //import 'tsconfig-paths/register';
 
 import { PrismaClient } from '@prisma/client';
+import { getRandomID } from '../src/lib/generateID';
 import cliProgress from 'cli-progress';
 import faker from 'faker';
 import fetch from 'node-fetch';
@@ -9,21 +10,40 @@ import youtubeVideo from 'random-youtube-music-video';
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
 import { dateAddDays } from '../src/lib/dates';
 
-const getRandomID = (length = 5) => {
-  return Math.random().toString(36).substr(2, length);
-};
-
 const db = new PrismaClient();
+
+interface WikipediaArticle {
+  pageid: number;
+  ns: number;
+  title: string;
+  images: {
+    ns: number;
+    description: string;
+  }[];
+}
+
+interface WikipediaResponse {
+  batchcomplete: string;
+  continue: {
+    grncontinue: string;
+    continue: string;
+  };
+  warnings: any;
+  query: {
+    pages: {
+      [key: string]: WikipediaArticle;
+    };
+  };
+}
 
 const randomWikipediaArticle = async (amount: number) => {
   const responce = await fetch(
     `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=revisions|images&rvprop=content&grnlimit=${amount}`,
   );
   try {
-    const data: any = await responce.json();
-    const urls: string[] = Object.values(data.query.pages).map(
-      (dp: any) =>
-        `https://en.wikipedia.org/wiki/${encodeURIComponent(dp.title)}`,
+    const data: WikipediaResponse = await responce.json();
+    const urls = Object.values(data.query.pages).map(
+      (dp) => `https://en.wikipedia.org/wiki/${encodeURIComponent(dp.title)}`,
     );
     return urls;
   } catch (e) {
@@ -80,7 +100,7 @@ async function main() {
   youtubeProgress.start(amountsToGenerate.youtube, 0, { speed: 'N/A' });
 
   for (let i = 0; i < amountsToGenerate.youtube; i++) {
-    const youtubeURL = await youtubeVideo.getRandomMusicVideoUrl();
+    const youtubeURL = await youtubeVideo.getRandomMusicVideoUrl(true);
     urls.add(youtubeURL);
     youtubeProgress.update(i);
   }
