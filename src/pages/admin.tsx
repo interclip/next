@@ -40,7 +40,7 @@ const fetchUsers = async (
     return [];
   }
 
-  const data: UserResponce = await response.json();
+  const data: UserResponse = await response.json();
   return data.result;
 };
 
