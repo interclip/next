@@ -18,7 +18,7 @@ import {
   GIT_COMMIT_SHA,
 } from '@utils/runtimeInfo';
 
-interface UserResponce extends APIResponse {
+interface UserResponse extends APIResponse {
   result: User[];
 }
 
