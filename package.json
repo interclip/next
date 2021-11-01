@@ -44,7 +44,7 @@
     "react-spinners": "^0.11.0",
     "sharp": "^0.29.2",
     "ts-node": "^10.4.0",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.9.2",
