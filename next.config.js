@@ -6,14 +6,9 @@ module.exports = withPWA({
     dest: 'public',
     disable: process.env.NODE_ENV === 'development',
     skipWaiting: true,
-    runtimeCaching: true,
-    buildExcludes: [/middleware-manifest.json$/],
+    buildExcludes: [/middleware-manifest\.json$/],
   },
   swcMinify: true,
-  experimental: {
-    concurrentFeatures: true,
-    serverComponents: true,
-  },
   optimizeCss: true,
   reactStrictMode: true,
   images: {
