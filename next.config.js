@@ -13,6 +13,7 @@ module.exports = withPWA({
   experimental: {
     concurrentFeatures: true,
     serverComponents: true,
+    reactRoot: true,
   },
   optimizeCss: true,
   reactStrictMode: true,
