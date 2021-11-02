@@ -3,14 +3,20 @@ import Logo from '@components/Logo';
 import { changeColorBrightness } from '@utils/colors';
 import useHover from '@utils/hooks/useHover';
 import { NextApiRequest } from 'next';
-import { ClientSafeProvider, getProviders, getSession, LiteralUnion, signIn } from 'next-auth/react';
+import { BuiltInProviderType } from 'next-auth/providers';
+import {
+  ClientSafeProvider,
+  getProviders,
+  getSession,
+  LiteralUnion,
+  signIn,
+} from 'next-auth/react';
 import { useState } from 'react';
 import React from 'react';
+import toast from 'react-hot-toast';
+import isEmail from 'validator/lib/isEmail';
 
 import { IS_PROD } from '../../lib/constants';
-import isEmail from 'validator/lib/isEmail';
-import toast from 'react-hot-toast';
-import { BuiltInProviderType } from 'next-auth/providers';
 
 const brandColors = {
   gitlab: '#fc6d26',
@@ -20,7 +26,14 @@ const brandColors = {
   apple: '#000000',
 };
 
-const LogIn = ({ providers }: { providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> }): React.ReactNode => {
+const LogIn = ({
+  providers,
+}: {
+  providers: Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  >;
+}): React.ReactNode => {
   const [inputEmail, setEmail] = useState<string>('');
   return (
     <Layout titlePrefix="Log in">
