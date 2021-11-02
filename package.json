@@ -23,7 +23,7 @@
     "@prisma/client": "^3.3.0",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
-    "framer-motion": "^5.0.0",
+    "framer-motion": "^5.0.1",
     "get-random-values": "^1.2.2",
     "ioredis": "^4.28.0",
     "js-cookie": "^3.0.1",
@@ -44,7 +44,7 @@
     "react-spinners": "^0.11.0",
     "sharp": "^0.29.2",
     "ts-node": "^10.4.0",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.9.2",
