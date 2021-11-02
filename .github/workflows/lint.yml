@@ -18,7 +18,11 @@ jobs:
         node-version: '16.x'
         cache: 'yarn'
 
+    - name: Install Dependencies
+      run: yarn
+
     - name: Lint with ES Lint
-      run: |
-        yarn
-        yarn lint
+      run: yarn lint
+
+    - name: Build
+      run: yarn
