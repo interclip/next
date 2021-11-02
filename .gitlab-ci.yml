@@ -34,11 +34,3 @@ build:
   extends: .prepare
   script:
     - yarn build
-
-migrate:
-  script:
-    - npx prisma migrate reset --force
-  only:
-    - main
-  when: manual
-
