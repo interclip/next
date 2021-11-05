@@ -10,9 +10,7 @@ const getCacheToken = (req: NextApiRequest): string => {
     req.headers['x-forwarded-for']?.toString() ||
     req.socket.remoteAddress ||
     'anonymous';
-  const hash = createHash('sha256').update(ip).digest('hex');
-  console.log(ip + ' = ' + hash);
-  return hash;
+  return createHash('sha256').update(ip).digest('hex');
 };
 
 export default getCacheToken;
