@@ -1,4 +1,5 @@
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
+import getCacheToken from '@utils/determineCacheToken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import isURL from 'validator/lib/isURL';
@@ -7,19 +8,14 @@ import { dateAddDays } from '../../../lib/dates';
 import { getUserIDFromEmail } from '../../../lib/dbHelpers';
 import { getRandomID } from '../../../lib/generateID';
 import { db } from '../../../lib/prisma';
-import rateLimit from '../../../lib/rateLimit';
-
-const limiter = rateLimit({
-  interval: 60 * 1000, // 60 seconds
-  uniqueTokenPerInterval: 500, // Max 500 reqs per second
-});
+import limiter from '../../../lib/rateLimit';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>,
 ) {
   try {
-    await limiter.check(res, 60, 'CACHE_TOKEN');
+    await limiter.check(res, 60, getCacheToken(req));
   } catch {
     res.status(429).json({
       status: 'error',

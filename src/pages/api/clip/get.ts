@@ -1,19 +1,15 @@
+import getCacheToken from '@utils/determineCacheToken';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { db } from '../../../lib/prisma';
-import rateLimit from '../../../lib/rateLimit';
-
-const limiter = rateLimit({
-  interval: 60 * 1000, // 60 seconds
-  uniqueTokenPerInterval: 500, // Max 500 reqs per second
-});
+import limiter from '../../../lib/rateLimit';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>,
 ) {
   try {
-    await limiter.check(res, 169, 'CACHE_TOKEN');
+    await limiter.check(res, 169, getCacheToken(req));
   } catch {
     res.status(429).json({
       status: 'error',
