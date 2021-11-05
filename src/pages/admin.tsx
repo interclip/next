@@ -1,22 +1,22 @@
-import { classNames } from '@components/Navbar/Navbar';
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { Tab } from '@headlessui/react';
 import { User } from '@prisma/client';
 import { db } from '@utils/prisma';
-import { NextApiRequest } from 'next';
-import React, { useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import Image from 'next/image';
-
-import { Layout } from '../components/Layout';
-import { getUserDetails } from './api/account/getDetails';
 import {
   GIT_COMMIT_AUTHOR,
   GIT_COMMIT_MESSAGE,
   GIT_COMMIT_REF,
   GIT_COMMIT_SHA,
 } from '@utils/runtimeInfo';
+import clsx from 'clsx';
+import { NextApiRequest } from 'next';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
+
+import { Layout } from '../components/Layout';
+import { getUserDetails } from './api/account/getDetails';
 
 interface UserResponse extends APIResponse {
   result: User[];
@@ -48,7 +48,7 @@ const TabHeader = ({ title }: { title: string }) => {
   return (
     <Tab
       className={({ selected }) =>
-        classNames(
+        clsx(
           'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-lg',
           'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
           selected
@@ -143,7 +143,7 @@ const About = ({
     isStaff: boolean;
   };
 }): React.ReactNode => {
-  const panelClassNames = classNames(
+  const panelClassNames = clsx(
     'bg-white dark:bg-[#4c4c4c] dark:text-dark-text rounded-xl p-3',
     'focus:outline-none focus:ring-2 text-black ring-offset-2 ring-offset-blue-400 dark:ring-transparent ring-white ring-opacity-60',
   );

@@ -7,18 +7,13 @@ import {
   InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
-import Image from 'next/image';
+import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import React, { ComponentProps, forwardRef } from 'react';
-import { Fragment } from 'react';
-
+import Image from 'next/image';
+import React, { ComponentProps, forwardRef, Fragment } from 'react';
 import { Button } from '../Button';
 import NavbarItem from './NavbarItem';
 import NavbarSection from './NavbarSection';
-
-export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
 
 const MenuItem = ({
   title,
@@ -50,7 +45,7 @@ const MenuItem = ({
     <Menu.Item>
       {({ active }) => (
         <Wrapper
-          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${classNames(
+          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${clsx(
             active
               ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
               : 'dark:bg-dark-secondary text-gray-700',
