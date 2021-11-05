@@ -121,15 +121,7 @@ const UserCard = ({ user }: { user: User }) => {
   );
 };
 
-const About = ({
-  clipCount,
-  version,
-  user,
-  commitSHA,
-  commitRef,
-  commitMessage,
-  commitAuthor,
-}: {
+interface AboutPageProps {
   clipCount: number;
   version: string;
   allUsers: any[];
@@ -142,7 +134,16 @@ const About = ({
     username: string;
     isStaff: boolean;
   };
-}): React.ReactNode => {
+}
+
+const About = ({
+  clipCount,
+  version,
+  user,
+  commitSHA,
+  commitMessage,
+  commitAuthor,
+}: AboutPageProps): React.ReactNode => {
   const panelClassNames = clsx(
     'bg-white dark:bg-[#4c4c4c] dark:text-dark-text rounded-xl p-3',
     'focus:outline-none focus:ring-2 text-black ring-offset-2 ring-offset-blue-400 dark:ring-transparent ring-white ring-opacity-60',
