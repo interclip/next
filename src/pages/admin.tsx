@@ -213,12 +213,13 @@ const About = ({
                     loadMore={() => {
                       fetchUsers(loadedCount, setMoreUsersToLoad).then(
                         (newUsers) => {
-                          // @ts-ignore
                           setUsers(
                             Array.from(
                               new Set(
+                                // @ts-ignore
                                 [...users, ...newUsers].map(JSON.stringify),
                               ),
+                              // @ts-ignore
                             ).map(JSON.parse),
                           );
                           setLoadedCount(loadedCount + initialUsersToLoad);

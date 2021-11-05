@@ -8,9 +8,10 @@ import {
   LogoutIcon,
 } from '@heroicons/react/solid';
 import clsx from 'clsx';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import React, { ComponentProps, forwardRef, Fragment } from 'react';
+
 import { Button } from '../Button';
 import NavbarItem from './NavbarItem';
 import NavbarSection from './NavbarSection';
