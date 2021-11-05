@@ -1,14 +1,13 @@
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
+import { dateAddDays } from '@utils/dates';
+import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
+import { getRandomID } from '@utils/generateID';
+import { db } from '@utils/prisma';
+import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import isURL from 'validator/lib/isURL';
-
-import { dateAddDays } from '../../../lib/dates';
-import { getUserIDFromEmail } from '../../../lib/dbHelpers';
-import { getRandomID } from '../../../lib/generateID';
-import { db } from '../../../lib/prisma';
-import limiter from '../../../lib/rateLimit';
 
 export default async function handler(
   req: NextApiRequest,

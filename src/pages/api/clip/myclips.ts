@@ -2,13 +2,12 @@ import {
   getLinkPreviewFromCache,
   storeLinkPreviewInCache,
 } from '@utils/clipPreview';
+import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
+import { db } from '@utils/prisma';
+import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-
-import { getUserIDFromEmail } from '../../../lib/dbHelpers';
-import { db } from '../../../lib/prisma';
-import limiter from '../../../lib/rateLimit';
 
 export default async function handler(
   req: NextApiRequest,

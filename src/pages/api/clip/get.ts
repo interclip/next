@@ -1,8 +1,7 @@
 import getCacheToken from '@utils/determineCacheToken';
+import { db } from '@utils/prisma';
+import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-import { db } from '../../../lib/prisma';
-import limiter from '../../../lib/rateLimit';
 
 export default async function handler(
   req: NextApiRequest,
