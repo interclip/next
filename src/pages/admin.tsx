@@ -1,3 +1,6 @@
+import InfoCard from '@components/Admin/InfoCard';
+import TabHeader from '@components/Admin/TabHeader';
+import UserCard from '@components/Admin/UserCard';
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { Tab } from '@headlessui/react';
@@ -11,7 +14,6 @@ import {
 } from '@utils/runtimeInfo';
 import clsx from 'clsx';
 import { NextApiRequest } from 'next';
-import Image from 'next/image';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -42,83 +44,6 @@ const fetchUsers = async (
 
   const data: UserResponse = await response.json();
   return data.result;
-};
-
-const TabHeader = ({ title }: { title: string }) => {
-  return (
-    <Tab
-      className={({ selected }) =>
-        clsx(
-          'w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-lg',
-          'focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60',
-          selected
-            ? 'bg-white shadow'
-            : 'text-blue-100 hover:bg-white/[0.12] hover:text-white',
-        )
-      }
-    >
-      {title}
-    </Tab>
-  );
-};
-
-const InfoCard = ({
-  name,
-  value,
-  description,
-  children,
-}: {
-  name: string;
-  value?: string;
-  description?: string;
-  children?: JSX.Element;
-}) => {
-  return (
-    <div className="flex flex-row flex-wrap -mx-2 min-w-8 w-full">
-      <div className="mb-4 px-2 w-full">
-        <div className="relative bg-white rounded border w-full">
-          <div className="p-4">
-            <h3 className="text-lg font-bold">
-              <a className="stretched-link" href="#" title="Card 1">
-                {name}
-              </a>
-            </h3>
-            <p className="block mb-2 text-sm text-gray-600">{description}</p>
-            {value}
-            <p>{children}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const UserCard = ({ user }: { user: User }) => {
-  return (
-    <div className="bg-white dark:bg-dark-secondary dark:text-dark-text w-full flex items-center p-2 rounded-xl shadow border dark:border-none my-4">
-      <div className="flex items-center space-x-4">
-        <Image
-          src={
-            user.image ||
-            `https://avatar.tobi.sh/name.svg?text=${user.name?.at(0)}`
-          }
-          width={60}
-          height={60}
-          alt={`${user.name || '@' + user.username}'s avatar'`}
-          className="w-16 h-16 rounded-full"
-        />
-      </div>
-      <div className="flex-grow p-3">
-        <div className="font-semibold text-gray-700 dark:text-dark-text">
-          {user.name}
-        </div>
-        <div className="text-sm text-gray-500 dark:text-gray-200">
-          {user.email}
-        </div>
-      </div>
-      <span className="p-2">{user.isStaff && 'Staff'}</span>
-    </div>
-  );
 };
 
 interface AboutPageProps {
