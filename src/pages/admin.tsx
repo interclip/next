@@ -132,7 +132,7 @@ const About = ({
                     </InfoCard>
                   </div>
                 </Tab.Panel>
-                <Tab.Panel className={panelClassNames}></Tab.Panel>
+                <Tab.Panel className={panelClassNames}>WIP 🚧</Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
                   <InfiniteScroll
                     pageStart={0}
@@ -164,6 +164,7 @@ const About = ({
                     ))}
                   </InfiniteScroll>
                 </Tab.Panel>
+                <Tab.Panel className={panelClassNames}>WIP 🚧</Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
           </div>
