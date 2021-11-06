@@ -17,14 +17,14 @@ const InfoCard = ({
         <div className="relative bg-white dark:bg-dark-secondary rounded border w-full">
           <div className="p-4">
             <h3 className="text-lg font-bold">
-              <a className="stretched-link" href="#" title="Card 1">
+              <a className="stretched-link" href="#" title={name}>
                 {name}
               </a>
             </h3>
             <p className="block mb-2 text-sm text-gray-600 dark:text-gray-300">
               {description}
             </p>
-            {value}
+            <span>{value}</span>
             <p>{children}</p>
           </div>
         </div>
