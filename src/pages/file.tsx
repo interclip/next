@@ -5,7 +5,7 @@ import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/requestClip';
 import uploadFile from '@utils/uploadFile';
 import React, { useState } from 'react';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function HomePage() {
   const filesEndpoint = 'https://files.interclip.app';
@@ -16,20 +16,28 @@ export default function HomePage() {
   const [fileURL, setFileURL] = useState(filesEndpoint);
   const [code, setCode] = useState<null | string>(null);
 
-  // reset counter and append file to gallery when file is dropped
-  const dropHandler = async (e: any) => {
-    e.preventDefault();
+  const uploadHandler = async (e: any) => {
     setShowOverlay(false);
     setLoading(true);
-    const fileURL = await uploadFile(filesEndpoint, e);
-    const clipResponse = await requestClip(fileURL);
-    if (clipResponse) {
-      setCode(clipResponse.result.code);
-      setUploaded(true);
+    try {
+      const fileURL = await uploadFile(filesEndpoint, e);
+      const clipResponse = await requestClip(fileURL);
+      if (clipResponse) {
+        setCode(clipResponse.result.code);
+        setUploaded(true);
+      }
+    } catch (e) {
+      toast.error(e as string);
     }
 
     setFileURL(fileURL);
     setLoading(false);
+  };
+
+  // reset counter and append file to gallery when file is dropped
+  const dropHandler = async (e: any) => {
+    e.preventDefault();
+    await uploadHandler(e);
   };
 
   // only react to actual files being dragged
@@ -102,20 +110,7 @@ export default function HomePage() {
                               id="hidden-input"
                               type="file"
                               onChange={async (e) => {
-                                setLoading(true);
-                                const fileURL = await uploadFile(
-                                  filesEndpoint,
-                                  e,
-                                );
-                                const clipResponse = await requestClip(fileURL);
-                                if (clipResponse) {
-                                  setCode(clipResponse.result.code);
-                                  setUploaded(true);
-                                }
-
-                                setFileURL(fileURL);
-                                setLoading(false);
-                                setShowOverlay(false);
+                                await uploadHandler(e);
                               }}
                               className="hidden"
                             />
