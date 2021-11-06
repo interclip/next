@@ -1,4 +1,5 @@
 import Logo from '@components/Logo';
+import Avatar from '@components/shared/Avatar';
 import Link from '@components/Text/link';
 import { Menu, Transition } from '@headlessui/react';
 import {
@@ -8,13 +9,13 @@ import {
   LogoutIcon,
 } from '@heroicons/react/solid';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import React, { ComponentProps, forwardRef, Fragment } from 'react';
 
 import { Button } from '../Button';
 import NavbarItem from './NavbarItem';
 import NavbarSection from './NavbarSection';
+import { User } from '.prisma/client';
 
 const MenuItem = ({
   title,
@@ -91,16 +92,7 @@ const Navbar = () => {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button>
-                    <Image
-                      src={
-                        session?.user?.image ||
-                        'https://avatar.tobi.sh/name.svg?'
-                      }
-                      height={50}
-                      width={50}
-                      alt="Your avatar"
-                      className="rounded-full cursor-pointer"
-                    />
+                    <Avatar user={session.user as User} size={50} />
                   </Menu.Button>
                 </div>
 
