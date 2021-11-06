@@ -9,7 +9,7 @@ const InfoCard = ({
   name: string;
   value?: string;
   description?: string;
-  children?: JSX.Element;
+  children?: React.ReactNode;
 }) => {
   return (
     <div className="flex flex-row flex-wrap -mx-2 min-w-8 w-full">
