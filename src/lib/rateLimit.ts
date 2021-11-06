@@ -32,4 +32,9 @@ const rateLimit = (options: {
   };
 };
 
-export default rateLimit;
+const limiter = rateLimit({
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 500, // Max 500 reqs per second
+});
+
+export default limiter;
