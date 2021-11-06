@@ -20,7 +20,7 @@
     "@heroicons/react": "^1.0.5",
     "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.57",
-    "@prisma/client": "^3.4.0",
+    "@prisma/client": "^3.4.1",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
     "framer-motion": "^5.2.1",
