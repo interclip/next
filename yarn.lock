@@ -1075,10 +1075,10 @@
   resolved "https://registry.yarnpkg.com/@next/env/-/env-12.0.2.tgz#e823e0784ba932982568589e8e1fda1bf4949715"
   integrity sha512-4ndC5Rj0lTpF6Cs6evHNLtOXXmsD5a09pLFp+KkgbTESuycPASQHlQVqtr5UGEZORa3Q9ljdTiCkVEiI6qtcIg==
 
-"@next/eslint-plugin-next@12.0.2":
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-12.0.2.tgz#9dd96fbae043cf967572d805f3054b9f0aaf5b3a"
-  integrity sha512-mmMlik6cuTkcHFi6CTdLeX0aPUceBi6gP3/k9dxjMjpiTBL5qXO+zwsGmGyg01MeeSC3tJpUEqOZVnxaFvKccA==
+"@next/eslint-plugin-next@12.0.3":
+  version "12.0.3"
+  resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-12.0.3.tgz#3945c251d551bacc3712d4a18d6ca56d2938f175"
+  integrity sha512-P7i+bMypneQcoRN+CX79xssvvIJCaw7Fndzbe7/lB0+LyRbVvGVyMUsFmLLbSxtZq4hvFMJ1p8wML/gsulMZWQ==
   dependencies:
     glob "7.1.7"
 
@@ -1209,10 +1209,10 @@
   resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-3.4.0-27.1c9fdaa9e2319b814822d6dbfd0a69e1fcc13a85.tgz#87868281c28b6b9b9e13ee844bd93edf0f38390a"
   integrity sha512-acL30wD3lj6qGAN9JIA+fhcd8j5I+Db9d1Pge2jwmK/QVbmbnH+lhTMV5pYIdgxbZWs9R+DoNnOHvUQCOW1xeQ==
 
-"@prisma/engines@3.4.0-27.1c9fdaa9e2319b814822d6dbfd0a69e1fcc13a85":
-  version "3.4.0-27.1c9fdaa9e2319b814822d6dbfd0a69e1fcc13a85"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-3.4.0-27.1c9fdaa9e2319b814822d6dbfd0a69e1fcc13a85.tgz#5ec71566f215f6834b0f4be267cd9690e086210a"
-  integrity sha512-jyCjXhX1ZUbzA7+6Hm0iEdeY+qFfpD/RB7iSwMrMoIhkVYvnncSdCLBgbK0yqxTJR2nglevkDY2ve3QDxFciMA==
+"@prisma/engines@3.4.1-2.57771c0558568c7d08bd34c7248af5244ae16bd9":
+  version "3.4.1-2.57771c0558568c7d08bd34c7248af5244ae16bd9"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-3.4.1-2.57771c0558568c7d08bd34c7248af5244ae16bd9.tgz#8e5534bfe255210c29b5181f694c9acd32d558c2"
+  integrity sha512-NO4Q88k3CfUpYzfpDD+0wSVCqhaeljCFAGSe1XyvmXAOlMU2AAjCwmRn6S4UXlT9yEGB/LwFjdvGjcgfUQ+Mtw==
 
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.0"
@@ -2800,12 +2800,12 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-config-next@12.0.2:
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-next/-/eslint-config-next-12.0.2.tgz#87ea50cf062d5701294948182cea9217ac0a45a4"
-  integrity sha512-Tck3Ga3IQ+/6ziTraLc1CTQ9kw2jWzjgZtB6wsBOAvMauK25a/ociCW8SFXsYWVFb899tdqPemrTZEeXjXjrvQ==
+eslint-config-next@12.0.3:
+  version "12.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-next/-/eslint-config-next-12.0.3.tgz#a85ad423997f098b41b61c279472e0642e200a9e"
+  integrity sha512-q+mX6jhk3HrCo39G18MLhiC6f8zJnTA00f30RSuVUWsv45SQUm6r62oXVqrbAgMEybe0yx/GDRvfA6LvSolw6Q==
   dependencies:
-    "@next/eslint-plugin-next" "12.0.2"
+    "@next/eslint-plugin-next" "12.0.3"
     "@rushstack/eslint-patch" "^1.0.6"
     "@typescript-eslint/parser" "^4.20.0"
     eslint-import-resolver-node "^0.3.4"
@@ -4965,12 +4965,12 @@ pretty-format@^3.8.0:
   resolved "https://registry.npmjs.org/pretty-format/-/pretty-format-3.8.0.tgz"
   integrity sha1-v77VbV6ad2ZF9LH/eqGjrE+jw4U=
 
-prisma@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/prisma/-/prisma-3.4.0.tgz#3ac310c9bf390c366b198d4aec14f728e390752d"
-  integrity sha512-W0AFjVxPOLW5SEnf0ZwbOu4k8ElX98ioFC1E8Gb9Q/nuO2brEwxFJebXglfG+N6zphGbu2bG1I3VAu7aYzR3VA==
+prisma@3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-3.4.1.tgz#a6c406301e67716009dcbdedc09a1c9bf7bd3b2d"
+  integrity sha512-APws/xRa1wYd064KV7hByQzWiBMUy/yQ501XXrsRZegXAQ/j1obG2HCk34MEbgn8IqLSRLaXyhCYz4R4HwRmMQ==
   dependencies:
-    "@prisma/engines" "3.4.0-27.1c9fdaa9e2319b814822d6dbfd0a69e1fcc13a85"
+    "@prisma/engines" "3.4.1-2.57771c0558568c7d08bd34c7248af5244ae16bd9"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
