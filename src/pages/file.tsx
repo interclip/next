@@ -19,15 +19,17 @@ export default function HomePage() {
   // reset counter and append file to gallery when file is dropped
   const dropHandler = async (e: any) => {
     e.preventDefault();
+    setShowOverlay(false);
+    setLoading(true);
     const fileURL = await uploadFile(filesEndpoint, e);
     const clipResponse = await requestClip(fileURL);
     if (clipResponse) {
       setCode(clipResponse.result.code);
+      setUploaded(true);
     }
+
     setFileURL(fileURL);
     setLoading(false);
-    setUploaded(true);
-    setShowOverlay(false);
   };
 
   // only react to actual files being dragged
@@ -100,6 +102,7 @@ export default function HomePage() {
                               id="hidden-input"
                               type="file"
                               onChange={async (e) => {
+                                setLoading(true);
                                 const fileURL = await uploadFile(
                                   filesEndpoint,
                                   e,
@@ -107,10 +110,11 @@ export default function HomePage() {
                                 const clipResponse = await requestClip(fileURL);
                                 if (clipResponse) {
                                   setCode(clipResponse.result.code);
+                                  setUploaded(true);
                                 }
+
                                 setFileURL(fileURL);
                                 setLoading(false);
-                                setUploaded(true);
                                 setShowOverlay(false);
                               }}
                               className="hidden"
