@@ -14,13 +14,12 @@ export default function HomePage() {
   const [uploaded, setUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fileURL, setFileURL] = useState(filesEndpoint);
-  const [code, setCode] = useState('iosxd');
+  const [code, setCode] = useState<null | string>(null);
 
   // reset counter and append file to gallery when file is dropped
   const dropHandler = async (e: any) => {
     e.preventDefault();
     const fileURL = await uploadFile(filesEndpoint, e);
-    console.log(fileURL);
     const clipResponse = await requestClip(fileURL);
     if (clipResponse) {
       setCode(clipResponse.result.code);
@@ -100,8 +99,19 @@ export default function HomePage() {
                             <input
                               id="hidden-input"
                               type="file"
-                              onChange={(e) => {
-                                uploadFile(filesEndpoint, e);
+                              onChange={async (e) => {
+                                const fileURL = await uploadFile(
+                                  filesEndpoint,
+                                  e,
+                                );
+                                const clipResponse = await requestClip(fileURL);
+                                if (clipResponse) {
+                                  setCode(clipResponse.result.code);
+                                }
+                                setFileURL(fileURL);
+                                setLoading(false);
+                                setUploaded(true);
+                                setShowOverlay(false);
                               }}
                               className="hidden"
                             />
