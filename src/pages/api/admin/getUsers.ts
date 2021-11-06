@@ -2,12 +2,7 @@ import { needsAdmin } from '@utils/api/ensureAuth';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { db } from '../../../lib/prisma';
-import rateLimit from '../../../lib/rateLimit';
-
-const limiter = rateLimit({
-  interval: 60 * 1000, // 60 seconds
-  uniqueTokenPerInterval: 500, // Max 500 reqs per second
-});
+import limiter from '../../../lib/rateLimit';
 
 export default async function handler(
   req: NextApiRequest,
