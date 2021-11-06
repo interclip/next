@@ -10,5 +10,6 @@ export const requestClip = async (
   const clipResponse = await fetch(`/api/clip/set?url=${url}`);
   if (!clipResponse.ok) throw new Error(await clipResponse.text());
   const clip: ClipResponse = await clipResponse.json();
+
   return clip;
 };
