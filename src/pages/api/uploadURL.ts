@@ -11,12 +11,11 @@ export default async function handler(
   const { file, fileType } = req.query;
 
   if (typeof file === 'object') {
-    res.status(400).json({
+    return res.status(400).json({
       status: 'error',
       result:
         'Too many file query params provided. You can only upload one file per request.',
     });
-    return;
   }
 
   aws.config.update({
