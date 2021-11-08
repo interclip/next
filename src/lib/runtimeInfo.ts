@@ -18,10 +18,14 @@ export function getGitRevision() {
 }
 
 export function getGitRef() {
-  return require('child_process')
-    .execSync('git symbolic-ref --short HEAD')
-    .toString()
-    .trim();
+  try {
+    return require('child_process')
+      .execSync('git symbolic-ref --short HEAD')
+      .toString()
+      .trim();
+  } catch (e) {
+    return null;
+  }
 }
 
 export function getCommitMessageFromSha(sha: string) {
@@ -50,7 +54,7 @@ export function getGitRemote() {
 
 export const GIT_COMMIT_SHA =
   process.env.GIT_COMMIT_SHA?.slice(0, 7) || getGitRevision();
-export const GIT_COMMIT_REF = process.env.GIT_COMMIT_REF || getGitRef();
+export const GIT_COMMIT_REF: string | null = process.env.GIT_COMMIT_REF || getGitRef();
 export const GIT_COMMIT_MESSAGE =
   process.env.GIT_COMMIT_MESSAGE || getCommitMessageFromSha(GIT_COMMIT_SHA);
 export const GIT_COMMIT_AUTHOR =
