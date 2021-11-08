@@ -16,7 +16,7 @@
     "pretty": "prettier --write ."
   },
   "dependencies": {
-    "@headlessui/react": "^1.4.1",
+    "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
     "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.57",
