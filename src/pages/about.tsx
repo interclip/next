@@ -1,15 +1,39 @@
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { db } from '@utils/prisma';
-import React from 'react';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { CountUp } from 'use-count-up';
 
 import { Layout } from '../components/Layout';
 
-const About = (props: { clipCount: number; version: string }): JSX.Element => {
+const About = (props: {
+  clipCount: number;
+  userCount: number;
+  version: string;
+}): JSX.Element => {
+  const [contributorsCount, setContributorsCount] = useState(0);
+
+  useEffect(() => {
+    fetch('https://api.github.com/repos/interclip/interclip-next/contributors')
+      .then((res) => res.json())
+      .then((res) => {
+        setContributorsCount(
+          res.filter(
+            (user: { login: string; id: number }) =>
+              !user.login.includes('bot'),
+          ).length,
+        );
+      })
+      .catch(() => {
+        console.error('There was an error when fetching from github api');
+      });
+  }, []);
+
   return (
     <Layout titlePrefix="About">
       <section className="w-full flex flex-col items-center">
-        <div className="w-[30em] max-w-[93vw]">
+        <div className="w-full max-w-[40rem]">
           <H1>About Interclip</H1>
           <H2>What is Interclip?</H2>
           <p>
@@ -36,6 +60,11 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
             we use to make it easier upon ourselves.
           </p>
           <H2>Facts about Interclip</H2>
+          <p className="border-y border-gray-300 dark:border-gray-700 w-full py-2 flex justify-around mb-2">
+            <Fact title="Total clips made" value={props.clipCount} />
+            <Fact title="Users" value={props.userCount} />
+            <Fact title="Contributors" value={contributorsCount} />
+          </p>
           <ul className="facts">
             <li>
               Release: {props.version}{' '}
@@ -45,20 +74,61 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
                 (changelog)
               </Link>
             </li>
-            <li>Total clips made: {props.clipCount}</li>
           </ul>
+          <H2>Mobile app</H2>
+          <div className="w-full">
+            {' '}
+            <div className="h-16 relative m-2">
+              <Link href="https://apps.apple.com/cz/app/interclip/id1546777494">
+                <Image
+                  src="/images/appstore.png"
+                  layout="fill"
+                  objectFit="scale-down"
+                  alt="Apple app store"
+                />
+              </Link>{' '}
+            </div>
+            <div className="h-16 relative m-2">
+              <Link href="https://play.google.com/store/apps/details?id=com.filiptronicek.iclip">
+                <Image
+                  src="/images/googleplay.webp"
+                  layout="fill"
+                  objectFit="scale-down"
+                  alt="Google play"
+                />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </Layout>
   );
 };
 
+const Fact = ({
+  title,
+  value,
+}: {
+  title: string;
+  value: number;
+}): JSX.Element => {
+  return (
+    <div className="text-center w-full cursor-pointer">
+      <h3 className="font-semibold text-3xl font-sans">
+        <CountUp isCounting end={value} duration={1.4} />
+      </h3>
+      {title}
+    </div>
+  );
+};
+
 export async function getServerSideProps() {
   try {
     const clipCount = await db.clip.count();
+    const userCount = await db.user.count();
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
-    return { props: { clipCount, version } };
+    return { props: { clipCount, userCount, version } };
   } catch (e) {
     console.error(e);
     return {
