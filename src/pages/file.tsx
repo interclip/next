@@ -59,12 +59,12 @@ export default function HomePage() {
     <Layout titlePrefix="Upload a file">
       <section className="my-auto w-full">
         <Toaster />
-        <div className="bg-[#005AC7] h-full w-screen sm:px-8 md:px-16 sm:py-8">
+        <div className="bg-[#005AC7] dark:bg-dark-bg h-full w-screen sm:px-8 md:px-16 sm:py-8">
           <main className="container mx-auto max-w-screen-lg h-full">
             {!uploaded ? (
               <article
                 aria-label="File Upload Modal"
-                className="relative h-full flex flex-col bg-white shadow-xl rounded-md"
+                className="relative h-full flex flex-col bg-white dark:bg-dark-secondary dark:text-white shadow-xl rounded-md"
                 onDrop={dropHandler}
                 onDragOver={dragOverHandler}
                 onDragLeave={dragLeaveHandler}
@@ -86,7 +86,9 @@ export default function HomePage() {
                         <path d="M19.479 10.092c-.212-3.951-3.473-7.092-7.479-7.092-4.005 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408zm-7.479-1.092l4 4h-3v4h-2v-4h-3l4-4z" />
                       </svg>
                     </i>
-                    <p className="text-lg text-blue-700">Drop your file here</p>
+                    <p className="text-lg text-blue-700 dark:text-white">
+                      Drop your file here
+                    </p>
                   </div>
                 )}
 
@@ -95,13 +97,13 @@ export default function HomePage() {
                     {!showOverlay && (
                       <>
                         {loading ? (
-                          <p className="mb-3 font-semibold text-gray-900 flex flex-col justify-center gap-8">
+                          <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 flex flex-col justify-center gap-8">
                             <span>Uploading your file...</span>
                             <Loading />
                           </p>
                         ) : (
                           <>
-                            <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                            <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 flex flex-wrap justify-center">
                               <span>Drag and drop your</span>&nbsp;
                               <span>file anywhere or</span>
                             </p>
@@ -134,13 +136,13 @@ export default function HomePage() {
                 </section>
               </article>
             ) : (
-              <article className="relative h-full flex flex-col bg-white shadow-xl rounded-md">
+              <article className="relative h-full flex flex-col bg-white dark:bg-dark-secondary  dark:text-white shadow-xl rounded-md">
                 <section className="h-full overflow-auto p-8 w-full flex flex-col">
                   <header className="border-solid border-2 h-full border-gray-400 py-12 flex flex-col justify-center items-center">
-                    <p className="mb-3 font-semibold text-gray-900 text-2xl flex flex-wrap justify-center">
+                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-2xl flex flex-wrap justify-center">
                       <span>Your file has been uploaded to</span>
                     </p>
-                    <p className="mb-3 font-semibold text-gray-900 text-3xl flex flex-wrap justify-center text-center hover:underline">
+                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-3xl flex flex-wrap justify-center text-center hover:underline">
                       <span>
                         <a
                           href={fileURL}
@@ -151,10 +153,10 @@ export default function HomePage() {
                         </a>
                       </span>
                     </p>
-                    <p className="mb-3 font-semibold text-gray-900 text-2xl flex flex-wrap justify-center">
+                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-2xl flex flex-wrap justify-center">
                       <span>as the code</span>
                     </p>
-                    <p className="mb-3 font-semibold text-gray-900 text-3xl flex flex-wrap justify-center">
+                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-3xl flex flex-wrap justify-center">
                       <span>
                         <a
                           href={`https://interclip.app/${code}`}
