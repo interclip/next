@@ -90,9 +90,10 @@ export default async function handler(
       },
     });
 
-    res
-      .status(200)
-      .json({ status: 'success', result: clipHash.slice(0, equal + 1) });
+    res.status(200).json({
+      status: 'success',
+      result: { ...existingClip, hashLength: equal + 1 },
+    });
   } else {
     try {
       const newClip = await db.clip.create({

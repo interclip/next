@@ -8,7 +8,7 @@ import youtubeVideo from 'random-youtube-music-video';
 
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
 import { dateAddDays } from '../src/lib/dates';
-import { nonCollidingID } from '../src/lib/generateID';
+import { getClipHash } from '../src/lib/generateID';
 
 const db = new PrismaClient();
 
@@ -110,8 +110,8 @@ async function main() {
   for (const url of urls) {
     try {
       const ownerID = userIDs[Math.floor(Math.random() * userIDs.length)];
-      const code = nonCollidingID(url);
-      console.log(`Seeding fake clip - ${url} (${code} 🔑) 🌐`);
+      const code = getClipHash(url);
+      console.log(`Seeding fake clip - ${url} (${code.slice(0, 5)} 🔑) 🌐`);
       await db.clip.create({
         data: {
           url,
