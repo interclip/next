@@ -1,7 +1,6 @@
 //import 'tsconfig-paths/register';
 
 import { PrismaClient } from '@prisma/client';
-import { getRandomID } from '../src/lib/generateID';
 import cliProgress from 'cli-progress';
 import faker from 'faker';
 import fetch from 'node-fetch';
@@ -9,6 +8,7 @@ import youtubeVideo from 'random-youtube-music-video';
 
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
 import { dateAddDays } from '../src/lib/dates';
+import { nonCollidingID } from '../src/lib/generateID';
 
 const db = new PrismaClient();
 
@@ -110,7 +110,7 @@ async function main() {
   for (const url of urls) {
     try {
       const ownerID = userIDs[Math.floor(Math.random() * userIDs.length)];
-      const code = getRandomID(5);
+      const code = nonCollidingID(url);
       console.log(`Seeding fake clip - ${url} (${code} 🔑) 🌐`);
       await db.clip.create({
         data: {

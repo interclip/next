@@ -2,7 +2,7 @@ import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { dateAddDays } from '@utils/dates';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
-import { getRandomID } from '@utils/generateID';
+import { getClipHash } from '@utils/generateID';
 import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -70,7 +70,7 @@ export default async function handler(
     try {
       const newClip = await db.clip.create({
         data: {
-          code: getRandomID(5),
+          code: getClipHash(parsedURL),
           url: parsedURL,
           expiresAt: dateAddDays(new Date(), 30),
           createdAt: new Date(),

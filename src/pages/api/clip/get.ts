@@ -35,16 +35,18 @@ export default async function handler(
     return;
   }
 
-  if (!clipCode.match(new RegExp(/^[A-Za-z0-9]{5}$/))) {
+  if (!clipCode.match(new RegExp(/^[A-Za-z0-9]{5,99}$/))) {
     res.status(400).json({
       status: 'error',
       result: 'The provided code has an invalid format.',
     });
   }
 
-  const queriedClip = db.clip.findUnique({
+  const queriedClip = db.clip.findMany({
     where: {
-      code: clipCode,
+      code: {
+        startsWith: clipCode,
+      },
     },
   });
 
