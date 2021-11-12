@@ -44,8 +44,6 @@ export default async function handler(
   }
   const parsedURL = encodeURI(clipURL);
 
-  console.log(parsedURL);
-
   if (
     !isURL(parsedURL, {
       require_valid_protocol: true,
@@ -58,14 +56,43 @@ export default async function handler(
     });
   }
 
-  const duplicateClip = await db.clip.findFirst({
+  // If a clip with the same 5-character hash already exists, adjust the hash to be a character longer
+  const clipHash = getClipHash(clipURL);
+  const existingClip = await db.clip.findFirst({
     where: {
-      url: parsedURL,
+      code: {
+        startsWith: clipHash.slice(0, 5),
+      },
+    },
+    select: {
+      hashLength: true,
+      code: true,
     },
   });
 
-  if (duplicateClip) {
-    res.status(200).json({ status: 'success', result: duplicateClip });
+  if (existingClip) {
+    let equal = 0;
+    // Get number of equal characters between `clipHash` and `existingClip.code`
+    for (; equal < clipHash.length; equal++) {
+      if (clipHash[equal] !== existingClip.code[equal]) {
+        break;
+      }
+    }
+
+    const newHash = getClipHash(clipURL);
+    await db.clip.update({
+      where: {
+        code: existingClip.code,
+      },
+      data: {
+        hashLength: equal + 1,
+        code: newHash,
+      },
+    });
+
+    res
+      .status(200)
+      .json({ status: 'success', result: clipHash.slice(0, equal + 1) });
   } else {
     try {
       const newClip = await db.clip.create({

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `clips` ADD COLUMN `hashLength` INTEGER NOT NULL DEFAULT 5;
