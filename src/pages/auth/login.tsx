@@ -74,32 +74,33 @@ const LogIn = ({
               </span>
             </>
           )}
-          {Object.values(providers).map((provider) => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const [hoverRef, isHovered] = useHover();
-            return (
-              provider.id !== 'credentials' &&
-              provider.id && (
-                <button
-                  className={
-                    'w-full h-12 rounded-lg text-white font-bold transition mb-4 filter'
-                  }
-                  style={{
-                    backgroundColor: changeColorBrightness(
-                      // @ts-ignore
-                      brandColors[provider.id],
-                      !isHovered ? 0 : -0.15,
-                    ),
-                  }}
-                  onClick={() => signIn(provider.id)}
-                  // @ts-ignore
-                  ref={hoverRef}
-                >
-                  Login with {provider.name}
-                </button>
-              )
-            );
-          })}
+          {providers &&
+            Object.values(providers).map((provider) => {
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const [hoverRef, isHovered] = useHover();
+              return (
+                provider.id !== 'credentials' &&
+                provider.id && (
+                  <button
+                    className={
+                      'w-full h-12 rounded-lg text-white font-bold transition mb-4 filter'
+                    }
+                    style={{
+                      backgroundColor: changeColorBrightness(
+                        // @ts-ignore
+                        brandColors[provider.id],
+                        !isHovered ? 0 : -0.15,
+                      ),
+                    }}
+                    onClick={() => signIn(provider.id)}
+                    // @ts-ignore
+                    ref={hoverRef}
+                  >
+                    Login with {provider.name}
+                  </button>
+                )
+              );
+            })}
         </div>
       </div>
     </Layout>

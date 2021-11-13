@@ -37,7 +37,7 @@ export default async function handler(
       key: `${cuid()}.${fileExt}`,
       'Content-Type': fileType,
       // Todo(ft): preserve filenames
-      //"Content-Disposition": `attachment; filename="${file}"
+      //'Content-Disposition': `attachment; filename="${file}"`,
     },
     Expires: 60,
     Conditions: [['content-length-range', 0, fileSizeLimit]],
