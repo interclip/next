@@ -1,8 +1,8 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import Link from 'next/link';
 import React from 'react';
-
-const dayjs = require('dayjs');
-const relativeTime = require('dayjs/plugin/relativeTime');
+import { ClipWithPreview } from 'src/typings/interclip';
 dayjs.extend(relativeTime);
 
 const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
