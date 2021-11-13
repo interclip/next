@@ -33,6 +33,8 @@ ports:
     visibility: public
   - port: 3306 # MySQL
     onOpen: ignore
+  - port: 6379 # Redis
+    onOpen: ignore
 
 vscode:
   extensions:
