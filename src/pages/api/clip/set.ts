@@ -70,10 +70,17 @@ export default async function handler(
     },
   });
 
-  if (existingClip) {
+  if (existingClip && existingClip.code === clipHash) {
+    // Duplicate clip
+    res.status(200).json({
+      status: 'success',
+      result: existingClip,
+    });
+  } else if (existingClip) {
+    // Clip with equal starting hash
     let equal = 0;
     // Get number of equal characters between `clipHash` and `existingClip.code`
-    for (; equal < clipHash.length; equal++) {
+    for (; equal < clipHash.length - 1; equal++) {
       if (clipHash[equal] !== existingClip.code[equal]) {
         break;
       }
