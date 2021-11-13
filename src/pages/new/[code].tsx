@@ -10,18 +10,7 @@ import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-
-interface OEmbed {
-  url: string;
-  title: string;
-  siteName: string | null;
-  description: string | null;
-  mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
-  favicons: string[];
-}
+import { OEmbed } from 'src/typings/interclip';
 
 const CodeView = ({
   code,

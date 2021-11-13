@@ -1,7 +1,8 @@
 import { Clip } from '@prisma/client';
+import { APIResponse } from 'src/typings/interclip';
 
 interface ClipResponse extends APIResponse {
-  result: Clip;
+  result: Clip | string;
 }
 
 export const requestClip = async (

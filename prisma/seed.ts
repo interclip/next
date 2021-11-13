@@ -12,30 +12,6 @@ import { getClipHash } from '../src/lib/generateID';
 
 const db = new PrismaClient();
 
-interface WikipediaArticle {
-  pageid: number;
-  ns: number;
-  title: string;
-  images: {
-    ns: number;
-    description: string;
-  }[];
-}
-
-interface WikipediaResponse {
-  batchcomplete: string;
-  continue: {
-    grncontinue: string;
-    continue: string;
-  };
-  warnings: any;
-  query: {
-    pages: {
-      [key: string]: WikipediaArticle;
-    };
-  };
-}
-
 const randomWikipediaArticle = async (amount: number) => {
   const responce = await fetch(
     `https://en.wikipedia.org/w/api.php?format=json&action=query&generator=random&grnnamespace=0&prop=revisions|images&rvprop=content&grnlimit=${amount}`,
