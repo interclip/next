@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-const IS_PROD = process.env.NODE_ENV === 'production';
+import { createPrismaRedisCache } from 'prisma-redis-middleware';
+
+import { IS_PROD } from './constants';
 
 /**
  * Ensure that there's only a single Prisma instance in dev. This is detailed here:
@@ -8,6 +10,17 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 declare global {
   var __globalPrisma__: PrismaClient;
 }
+
+const cache = {
+  model: 'Clip',
+  cacheTime: 60 * 1000 * 30,
+};
+
+const config = {
+  REDIS_HOST: 'localhost',
+  REDIS_PORT: '6379',
+  REDIS_AUTH: '',
+};
 
 export let db: PrismaClient;
 
@@ -24,3 +37,4 @@ if (IS_PROD) {
 
   db = global.__globalPrisma__;
 }
+db.$use(createPrismaRedisCache(cache, config));
