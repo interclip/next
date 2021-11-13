@@ -24,7 +24,7 @@
     "aws-sdk": "^2.1023.0",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
-    "framer-motion": "^5.2.1",
+    "framer-motion": "^5.3.0",
     "get-random-values": "^1.2.2",
     "ioredis": "^4.28.0",
     "js-cookie": "^3.0.1",
