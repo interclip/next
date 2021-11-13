@@ -24,7 +24,7 @@ interface UserResponse extends APIResponse {
   result: User[];
 }
 
-const initialUsersToLoad = 15;
+const initialItemsToLoad = 15;
 
 const fetchUsers = async (
   from: number,
@@ -32,13 +32,33 @@ const fetchUsers = async (
 ): Promise<User[]> => {
   const response = await fetch(
     `/api/admin/getUsers?from=${from}&limit=${
-      from === 0 ? initialUsersToLoad : 5
+      from === 0 ? initialItemsToLoad : 5
     }`,
   );
   if (!response.ok) {
     throw new Error('Not ok');
   } else if (response.status === 204) {
     setMoreUsersToLoad(false);
+    return [];
+  }
+
+  const data: UserResponse = await response.json();
+  return data.result;
+};
+
+const fetchClips = async (
+  from: number,
+  setMoreClipsToLoad: React.Dispatch<React.SetStateAction<boolean>>,
+): Promise<User[]> => {
+  const response = await fetch(
+    `/api/admin/getClips?from=${from}&limit=${
+      from === 0 ? initialItemsToLoad : 5
+    }`,
+  );
+  if (!response.ok) {
+    throw new Error('Not ok');
+  } else if (response.status === 204) {
+    setMoreClipsToLoad(false);
     return [];
   }
 
@@ -75,8 +95,12 @@ const About = ({
   );
 
   const [users, setUsers] = useState<User[]>([]);
-  const [loadedCount, setLoadedCount] = useState<number>(0);
+  const [loadedUsersCount, setLoadedUsersCount] = useState<number>(0);
   const [moreUsersToLoad, setMoreUsersToLoad] = useState<boolean>(true);
+
+  const [clips, setClips] = useState<ClipWithPreview[]>([]);
+  const [loadedClipsCount, setLoadedClipsCount] = useState<number>(0);
+  const [moreClipsToLoad, setMoreClipsToLoad] = useState<boolean>(true);
 
   return (
     <Layout titlePrefix="Admin">
@@ -137,7 +161,7 @@ const About = ({
                   <InfiniteScroll
                     pageStart={0}
                     loadMore={() => {
-                      fetchUsers(loadedCount, setMoreUsersToLoad).then(
+                      fetchUsers(loadedUsersCount, setMoreUsersToLoad).then(
                         (newUsers) => {
                           setUsers(
                             Array.from(
@@ -148,7 +172,9 @@ const About = ({
                               // @ts-ignore
                             ).map(JSON.parse),
                           );
-                          setLoadedCount(loadedCount + initialUsersToLoad);
+                          setLoadedUsersCount(
+                            loadedUsersCount + initialItemsToLoad,
+                          );
                         },
                       );
                     }}
@@ -164,7 +190,39 @@ const About = ({
                     ))}
                   </InfiniteScroll>
                 </Tab.Panel>
-                <Tab.Panel className={panelClassNames}>WIP 🚧</Tab.Panel>
+                <Tab.Panel className={panelClassNames}>
+                  <InfiniteScroll
+                    pageStart={0}
+                    loadMore={() => {
+                      fetchClips(loadedClipsCount, setMoreClipsToLoad).then(
+                        (newClips) => {
+                          setClips(
+                            Array.from(
+                              new Set(
+                                // @ts-ignore
+                                [...users, ...newClips].map(JSON.stringify),
+                              ),
+                              // @ts-ignore
+                            ).map(JSON.parse),
+                          );
+                          setLoadedClipsCount(
+                            loadedClipsCount + initialItemsToLoad,
+                          );
+                        },
+                      );
+                    }}
+                    hasMore={moreClipsToLoad}
+                    loader={
+                      <div className="loader" key={0}>
+                        Loading ...
+                      </div>
+                    }
+                  >
+                    {clips.map((clip) => (
+                      <span key={clip.code}>{JSON.stringify(clip)}</span>
+                    ))}
+                  </InfiniteScroll>
+                </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
           </div>
