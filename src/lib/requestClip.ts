@@ -2,7 +2,7 @@ import { Clip } from '@prisma/client';
 import { APIResponse } from 'src/typings/interclip';
 
 interface ClipResponse extends APIResponse {
-  result: Clip | string;
+  result: Clip;
 }
 
 export const requestClip = async (
@@ -11,6 +11,9 @@ export const requestClip = async (
   const clipResponse = await fetch(`/api/clip/set?url=${url}`);
   if (!clipResponse.ok) throw new Error(await clipResponse.text());
   const clip: ClipResponse = await clipResponse.json();
+  if (clip.status === 'error') {
+    throw new Error(clip.result.toString());
+  }
 
   return clip;
 };
