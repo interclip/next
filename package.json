@@ -21,6 +21,7 @@
     "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.57",
     "@prisma/client": "^3.4.2",
+    "aws-sdk": "^2.1023.0",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
     "framer-motion": "^5.3.0",
@@ -43,10 +44,12 @@
     "react-qr-code": "^2.0.2",
     "react-spinners": "^0.11.0",
     "sharp": "^0.29.2",
+    "simple-xml-to-json": "^1.0.8",
     "ts-node": "^10.4.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
     "@types/cli-progress": "^3.9.2",
     "@types/faker": "^5.5.9",
     "@types/ioredis": "^4.28.1",

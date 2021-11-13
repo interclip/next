@@ -1,25 +1,10 @@
+import { requestClip } from '@utils/requestClip';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { Layout } from '../components/Layout';
-import { Clip } from '.prisma/client';
-
-interface ClipResponse extends APIResponse {
-  result: Clip;
-}
-
-const requestClip = async (url: string): Promise<ClipResponse | void> => {
-  try {
-    const clipResponse = await fetch(`/api/clip/set?url=${url}`);
-    const clip: ClipResponse = await clipResponse.json();
-    return clip;
-  } catch (e: any) {
-    toast.error(e);
-    return;
-  }
-};
 
 const Home: NextPage = () => {
   const [clipURL, setURL] = useState<string>('');
