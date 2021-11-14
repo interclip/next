@@ -1,5 +1,6 @@
 import Redis from 'ioredis';
 import { getLinkPreview } from 'link-preview-js';
+import { OEmbed } from 'src/typings/interclip';
 const redis = new Redis();
 
 export const getLinkPreviewFromCache = async (
