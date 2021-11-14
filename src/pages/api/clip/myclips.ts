@@ -8,6 +8,7 @@ import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
+import { APIResponse } from 'src/typings/interclip';
 
 export default async function handler(
   req: NextApiRequest,
