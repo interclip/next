@@ -58,7 +58,7 @@
     "@types/node-fetch": "^3.0.3",
     "@types/react": "17.0.35",
     "@types/validator": "^13.7.0",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
     "autoprefixer": "^10.4.0",
     "cli-progress": "^3.9.1",
     "eslint": "<8.0.0",
