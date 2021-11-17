@@ -5,17 +5,19 @@ import {
   KBarProvider,
   KBarSearch,
 } from 'kbar';
+import { useRouter } from 'next/router';
 import { useTheme } from 'next-themes';
 import React from 'react';
 
-import actions from './Actions';
+import Actions from './Actions';
 import RenderResults from './RenderResults';
 
 const Kbar: React.FC = ({ children }) => {
   const { setTheme } = useTheme();
+  const router = useRouter();
 
   return (
-    <KBarProvider actions={actions({ setTheme })}>
+    <KBarProvider actions={Actions({ setTheme, router })}>
       <KBarPortal>
         <KBarPositioner>
           <KBarAnimator className="max-w-[600px] w-full rounded-[8px] bg-white dark:bg-dark-secondary overflow-hidden shadow-xl text-black dark:text-dark-text">
