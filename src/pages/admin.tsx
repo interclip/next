@@ -1,6 +1,7 @@
 import InfoCard from '@components/Admin/InfoCard';
 import TabHeader from '@components/Admin/TabHeader';
 import UserCard from '@components/Admin/UserCard';
+import ClipCard from '@components/Clips/ClipCard';
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { Tab } from '@headlessui/react';
@@ -16,6 +17,7 @@ import clsx from 'clsx';
 import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
+import { SyncLoader } from 'react-spinners';
 
 import { Layout } from '../components/Layout';
 import { getUserDetails } from './api/account/getDetails';
@@ -31,8 +33,7 @@ const fetchUsers = async (
   setMoreUsersToLoad: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<User[]> => {
   const response = await fetch(
-    `/api/admin/getUsers?from=${from}&limit=${
-      from === 0 ? initialItemsToLoad : 5
+    `/api/admin/getUsers?from=${from}&limit=${from === 0 ? initialItemsToLoad : 5
     }`,
   );
   if (!response.ok) {
@@ -51,8 +52,7 @@ const fetchClips = async (
   setMoreClipsToLoad: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<User[]> => {
   const response = await fetch(
-    `/api/admin/getClips?from=${from}&limit=${
-      from === 0 ? initialItemsToLoad : 5
+    `/api/admin/getClips?from=${from}&limit=${from === 0 ? initialItemsToLoad : 5
     }`,
   );
   if (!response.ok) {
@@ -104,7 +104,7 @@ const About = ({
 
   return (
     <Layout titlePrefix="Admin">
-      <section className="w-full flex flex-col items-center">
+      <section className="flex flex-col items-center w-full">
         <div className="w-[60em] max-w-[93vw]">
           <H1>Interclip Admin</H1>
           <H2>Hi {user.name || user.username} </H2>
@@ -126,7 +126,7 @@ const About = ({
               </Tab.List>
               <Tab.Panels className="mt-2">
                 <Tab.Panel className={panelClassNames}>
-                  <div className="grid gap-8 grid-cols-1 items-center md:grid-cols-2 lg:grid-cols-3 mx-auto space-y-2 justify-around">
+                  <div className="items-center justify-around mx-auto grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 space-y-2">
                     <InfoCard
                       name="Clips"
                       value={clipCount.toString()}
@@ -191,37 +191,51 @@ const About = ({
                   </InfiniteScroll>
                 </Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
-                  <InfiniteScroll
-                    pageStart={0}
-                    loadMore={() => {
-                      fetchClips(loadedClipsCount, setMoreClipsToLoad).then(
-                        (newClips) => {
-                          setClips(
-                            Array.from(
-                              new Set(
-                                // @ts-ignore
-                                [...users, ...newClips].map(JSON.stringify),
-                              ),
-                              // @ts-ignore
-                            ).map(JSON.parse),
-                          );
-                          setLoadedClipsCount(
-                            loadedClipsCount + initialItemsToLoad,
-                          );
-                        },
-                      );
-                    }}
-                    hasMore={moreClipsToLoad}
-                    loader={
-                      <div className="loader" key={0}>
-                        Loading ...
+                  <section className="justify-center w-full grid">
+                    <div className="m-16 w-[50em] max-w-[93vw]">
+                      <div
+                        className="mx-auto grid gap-8 grid-cols-1 sm:grid-cols-2"
+                        style={{
+                          gridAutoRows: '1fr',
+                        }}
+                      >
+                        {clips.map((clip) => (
+                          <ClipCard key={clip.code} clip={clip} />
+                        ))}
+                        <InfiniteScroll
+                          pageStart={0}
+                          loadMore={() => {
+                            fetchClips(
+                              loadedClipsCount,
+                              setMoreClipsToLoad,
+                            ).then((newClips) => {
+                              setClips(
+                                Array.from(
+                                  new Set(
+                                    // @ts-ignore
+                                    [...clips, ...newClips].map(JSON.stringify),
+                                  ),
+                                  // @ts-ignore
+                                ).map(JSON.parse),
+                              );
+                              setLoadedClipsCount(
+                                loadedClipsCount + initialItemsToLoad,
+                              );
+                            });
+                          }}
+                          hasMore={moreClipsToLoad}
+                          loader={
+                            <div className="m-auto mt-20">
+                              <SyncLoader
+                                color="#FFFFFF"
+                                speedMultiplier={0.75}
+                              />
+                            </div>
+                          }
+                        ></InfiniteScroll>
                       </div>
-                    }
-                  >
-                    {clips.map((clip) => (
-                      <span key={clip.code}>{JSON.stringify(clip)}</span>
-                    ))}
-                  </InfiniteScroll>
+                    </div>
+                  </section>
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
