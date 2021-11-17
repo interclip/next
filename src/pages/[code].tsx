@@ -27,9 +27,9 @@ const Redirect = ({
   return (
     <Layout>
       <section className="h-full my-auto">
-        <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
+        <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
-            <h2 className="text-4xl mb-2 max-w-[30rem]">
+            <h2 className="mb-2 text-4xl max-w-[30rem]">
               {oembed.title || code}
             </h2>
             <h3 className="text-2xl text-gray-400">

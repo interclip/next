@@ -37,19 +37,19 @@ const LogIn = ({
   const [inputEmail, setEmail] = useState<string>('');
   return (
     <Layout titlePrefix="Log in">
-      <div className="w-full h-screen flex items-center justify-center">
-        <div className="bg-gray-100 dark:bg-dark-secondary dark:text-dark-text text-black w-screen h-screen md:w-96 md:h-auto md:pt-8 md:rounded-lg pb-8 px-8 flex flex-col justify-center items-center">
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex flex-col items-center justify-center w-screen h-screen px-8 pb-8 text-black bg-gray-100 dark:bg-dark-secondary dark:text-dark-text md:w-96 md:h-auto md:pt-8 md:rounded-lg">
           <div className="mb-8">
             <Logo width={128} height={128} />
           </div>
           {!IS_PROD && (
             <>
-              <span className="text-gray-700 dark:text-light-text mb-4">
+              <span className="mb-4 text-gray-700 dark:text-light-text">
                 Log in with email (development only)
               </span>
               <input
                 type="text"
-                className="w-full h-12 rounded-lg px-4 text-lg focus:ring-blue-600 mb-4 dark:bg-[#222222]"
+                className="w-full h-12 px-4 mb-4 text-lg rounded-lg focus:ring-blue-600 dark:bg-[#222222]"
                 autoComplete="email"
                 placeholder="Your email"
                 onChange={(e) => {
@@ -58,7 +58,7 @@ const LogIn = ({
                 value={inputEmail}
               />
               <button
-                className="w-full h-12 rounded-lg bg-light-bg text-white font-bold hover:bg-blue-600 transition mb-4"
+                className="w-full h-12 mb-4 font-bold text-white rounded-lg bg-light-bg hover:bg-blue-600 transition"
                 onClick={() => {
                   if (isEmail(inputEmail)) {
                     signIn('credentials', { email: inputEmail });
@@ -69,7 +69,7 @@ const LogIn = ({
               >
                 Login
               </button>
-              <span className="text-gray-800 dark:text-light-text mb-4">
+              <span className="mb-4 text-gray-800 dark:text-light-text">
                 or
               </span>
             </>
