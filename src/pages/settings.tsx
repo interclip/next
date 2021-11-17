@@ -23,14 +23,14 @@ const Settings = (props: { user: User }): JSX.Element => {
             <Avatar user={props.user} size={120} />
           </div>
           <div className="mt-2">
-            <a className="font-semibold text-lg">{props.user.name} </a>
+            <a className="text-lg font-semibold">{props.user.name} </a>
             <br />@{props.user.username}
           </div>
         </div>
-        <section className="flex flex-wrap md:flex-nowrap gap-8 mt-[-4rem] pt-24 border-t border-gray-300">
+        <section className="flex flex-wrap pt-24 border-t border-gray-300 md:flex-nowrap gap-8 mt-[-4rem]">
           <LeftColumn settings={settings} setSettings={setSettings} />
 
-          <div className="flex flex-col w-full md:w-[65%] p-8">
+          <div className="flex flex-col w-full p-8 md:w-[65%]">
             {settings === 'General' ? (
               <GeneralSettings
                 email={props.user.email}

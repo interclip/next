@@ -57,14 +57,14 @@ export default function HomePage() {
 
   return (
     <Layout titlePrefix="Upload a file">
-      <section className="my-auto w-full">
+      <section className="w-full my-auto">
         <Toaster />
-        <div className="bg-[#005AC7] dark:bg-dark-bg h-full w-screen sm:px-8 md:px-16 sm:py-8">
-          <main className="container mx-auto max-w-screen-lg h-full">
+        <div className="w-screen h-full bg-[#005AC7] dark:bg-dark-bg sm:px-8 md:px-16 sm:py-8">
+          <main className="container h-full mx-auto max-w-screen-lg">
             {!uploaded ? (
               <article
                 aria-label="File Upload Modal"
-                className="relative h-full flex flex-col bg-white dark:bg-dark-secondary dark:text-white shadow-xl rounded-md"
+                className="relative flex flex-col h-full bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md"
                 onDrop={dropHandler}
                 onDragOver={dragOverHandler}
                 onDragLeave={dragLeaveHandler}
@@ -73,11 +73,11 @@ export default function HomePage() {
                 {showOverlay && (
                   <div
                     id="overlay"
-                    className="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md"
+                    className="absolute top-0 left-0 z-50 flex flex-col items-center justify-center w-full h-full pointer-events-none rounded-md"
                   >
                     <i>
                       <svg
-                        className="fill-current w-12 h-12 mb-3 text-blue-700"
+                        className="w-12 h-12 mb-3 text-blue-700 fill-current"
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -92,18 +92,18 @@ export default function HomePage() {
                   </div>
                 )}
 
-                <section className="overflow-auto p-8 w-full h-64 flex flex-col">
-                  <header className="border-dashed border-2 h-full border-[#157EFB] py-12 flex flex-col justify-center items-center">
+                <section className="flex flex-col w-full h-64 p-8 overflow-auto">
+                  <header className="flex flex-col items-center justify-center h-full py-12 border-2 border-dashed border-[#157EFB]">
                     {!showOverlay && (
                       <>
                         {loading ? (
-                          <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 flex flex-col justify-center gap-8">
+                          <p className="flex flex-col justify-center mb-3 font-semibold text-gray-900 dark:text-gray-200 gap-8">
                             <span>Uploading your file...</span>
                             <Loading />
                           </p>
                         ) : (
                           <>
-                            <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 flex flex-wrap justify-center">
+                            <p className="flex flex-wrap justify-center mb-3 font-semibold text-gray-900 dark:text-gray-200">
                               <span>Drag and drop your</span>&nbsp;
                               <span>file anywhere or</span>
                             </p>
@@ -118,7 +118,7 @@ export default function HomePage() {
                             />
                             <button
                               id="button"
-                              className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
+                              className="px-3 py-1 mt-2 rounded-xl bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
                               onClick={() => {
                                 window &&
                                   document
@@ -136,13 +136,13 @@ export default function HomePage() {
                 </section>
               </article>
             ) : (
-              <article className="relative h-full flex flex-col bg-white dark:bg-dark-secondary  dark:text-white shadow-xl rounded-md">
-                <section className="h-full overflow-auto p-8 w-full flex flex-col">
-                  <header className="border-solid border-2 h-full border-gray-400 py-12 flex flex-col justify-center items-center">
-                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-2xl flex flex-wrap justify-center">
+              <article className="relative flex flex-col h-full bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md">
+                <section className="flex flex-col w-full h-full p-8 overflow-auto">
+                  <header className="flex flex-col items-center justify-center h-full py-12 border-2 border-gray-400 border-solid">
+                    <p className="flex flex-wrap justify-center mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>Your file has been uploaded to</span>
                     </p>
-                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-3xl flex flex-wrap justify-center text-center hover:underline">
+                    <p className="flex flex-wrap justify-center mb-3 text-3xl font-semibold text-center text-gray-900 dark:text-gray-200 hover:underline">
                       <span>
                         <a
                           href={fileURL}
@@ -153,10 +153,10 @@ export default function HomePage() {
                         </a>
                       </span>
                     </p>
-                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-2xl flex flex-wrap justify-center">
+                    <p className="flex flex-wrap justify-center mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>as the code</span>
                     </p>
-                    <p className="mb-3 font-semibold text-gray-900 dark:text-gray-200 text-3xl flex flex-wrap justify-center">
+                    <p className="flex flex-wrap justify-center mb-3 text-3xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>
                         <a
                           href={`https://interclip.app/${code}`}
@@ -168,7 +168,7 @@ export default function HomePage() {
                       </span>
                     </p>
                     <button
-                      className="mt-2 rounded-xl px-3 py-1 bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
+                      className="px-3 py-1 mt-2 rounded-xl bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
                       onClick={() => {
                         setUploaded(false);
                         setShowOverlay(false);
