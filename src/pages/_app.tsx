@@ -1,5 +1,6 @@
 import 'tailwindcss/tailwind.css';
 
+import { Kbar } from '@components/Kbar';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
@@ -9,7 +10,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <ThemeProvider attribute="class">
-        <Component {...pageProps} />
+        <Kbar>
+          <Component {...pageProps} />
+        </Kbar>
       </ThemeProvider>
     </SessionProvider>
   );

@@ -38,7 +38,7 @@ const Home: NextPage = () => {
               value={clipURL}
               onChange={(e) => setURL(e.target.value)}
               className="w-full px-3 py-2 mt-12 text-3xl text-black dark:text-dark-text rounded-2xl"
-              placeholder="https://www.histories.cc/krystofex"
+              placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             />
           </form>
         </div>
