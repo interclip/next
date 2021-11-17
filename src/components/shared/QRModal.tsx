@@ -24,12 +24,12 @@ const QRModal = (props: {
           exit={{ opacity: 0, scale: 0 }}
           transition={{ duration: 0.15 }}
           key="modal"
-          className="absolute top-0 left-0 w-screen h-screen z-200 backdrop-filter backdrop-blur-sm flex items-center overflow-hidden"
+          className="absolute top-0 left-0 flex items-center w-screen h-screen overflow-hidden z-200 backdrop-filter backdrop-blur-sm"
           onClick={() => {
             setQrCodeZoom(false);
           }}
         >
-          <div className="m-auto bg-white p-4 rounded-2xl shadow-custom">
+          <div className="p-4 m-auto bg-white rounded-2xl shadow-custom">
             <QRCode value={url} size={size} level="M" />
           </div>
         </motion.div>

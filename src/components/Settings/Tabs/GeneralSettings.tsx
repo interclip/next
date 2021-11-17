@@ -51,10 +51,10 @@ const GeneralSettings = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-dark-secondary dark:text-dark-text shadow-xl rounded-2xl">
+              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle bg-white shadow-xl transition-all transform dark:bg-dark-secondary dark:text-dark-text rounded-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 dark:text-dark-text"
+                  className="text-lg font-medium text-gray-900 leading-6 dark:text-dark-text"
                 >
                   Are you sure?
                 </Dialog.Title>

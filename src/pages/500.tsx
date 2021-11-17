@@ -6,7 +6,7 @@ import React from 'react';
 const Error404: React.FC = () => {
   return (
     <Layout>
-      <section className="flex h-[30em] max-w-6xl w-full items-center mt-[20%] ">
+      <section className="flex items-center w-full max-w-6xl h-[30em] mt-[20%]">
         <motion.div
           initial={{ rotate: 60, scale: 0.5, opacity: 0 }}
           animate={{ rotate: 0, scale: 1, opacity: 1 }}
@@ -31,14 +31,14 @@ const Error404: React.FC = () => {
             ease: 'easeOut',
             duration: 0.6,
           }}
-          className="h-full w-full flex flex-col relative text-white"
+          className="relative flex flex-col w-full h-full text-white"
           style={{
             textShadow:
               '0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)',
           }}
         >
-          <div className="text-9xl font-bold absolute bottom-[50%]">500</div>
-          <div className="font-semibold h-[40%] mt-0 pt-0 text-6xl absolute top-[50%]">
+          <div className="absolute font-bold text-9xl bottom-[50%]">500</div>
+          <div className="absolute pt-0 mt-0 text-6xl font-semibold h-[40%] top-[50%]">
             Unexpected error
           </div>
         </motion.div>

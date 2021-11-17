@@ -39,13 +39,13 @@ const CodeView = ({
 
   return (
     <Layout>
-      <section className="max-w-2xl w-full h-full flex flex-col items-center justify-center pt-[100px]">
-        <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
+      <section className="flex flex-col items-center justify-center w-full h-full max-w-2xl pt-[100px]">
+        <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
-            <h2 className="text-4xl mb-2 text-center mx-auto">
+            <h2 className="mx-auto mb-2 text-4xl text-center">
               Created clip with code:{' '}
               <div
-                className="flex justify-center items-center cursor-pointer"
+                className="flex items-center justify-center cursor-pointer"
                 title="Copy code to the clipboard"
                 onClick={() => {
                   navigator.clipboard.writeText(code);
@@ -84,9 +84,9 @@ const CodeView = ({
             </h2>
           </div>
         </div>
-        <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom w-full justify-between">
+        <div className="flex justify-between w-full p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
-            <h2 className="text-4xl mb-2 max-w-[30rem]">
+            <h2 className="mb-2 text-4xl max-w-[30rem]">
               {oembed.title || code}
             </h2>
             <h3 className="text-2xl text-gray-400">

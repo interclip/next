@@ -73,8 +73,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white dark:bg-dark-secondary h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
-        <div className="w-full max-w-6xl md:mx-auto mx-4 flex justify-around">
+      <nav className="sticky top-0 z-50 flex justify-center w-full h-16 bg-white shadow-lg dark:bg-dark-secondary align-center">
+        <div className="flex justify-around w-full max-w-6xl mx-4 md:mx-auto">
           <NavbarSection>
             <Logo height={50} width={50} />
           </NavbarSection>
@@ -117,10 +117,10 @@ const Navbar = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-dark-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 w-56 mt-2 bg-white shadow-lg origin-top-right rounded-md dark:bg-dark-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <MenuItem title="Settings" type="link" link="/settings">
-                        <CogIcon className="mr-2 h-5 w-5" />
+                        <CogIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                       <MenuItem
                         title="Report an issue"
@@ -128,21 +128,21 @@ const Navbar = () => {
                         link="https://github.com/interclip/interclip-next/issues/new"
                         openInNewTab={true}
                       >
-                        <ExclamationCircleIcon className="mr-2 h-5 w-5" />
+                        <ExclamationCircleIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                       <MenuItem
                         title="About Interclip"
                         type="link"
                         link="/about"
                       >
-                        <InformationCircleIcon className="mr-2 h-5 w-5" />
+                        <InformationCircleIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                       <MenuItem
                         title="Sign out"
                         type="button"
                         onClick={() => signOut()}
                       >
-                        <LogoutIcon className="mr-2 h-5 w-5" />
+                        <LogoutIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                     </div>
                   </Menu.Items>
