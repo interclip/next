@@ -21,8 +21,5 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: Lint with ES Lint
-        run: yarn lint
-
       - name: Build
         run: yarn build
