@@ -33,7 +33,8 @@ const fetchUsers = async (
   setMoreUsersToLoad: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<User[]> => {
   const response = await fetch(
-    `/api/admin/getUsers?from=${from}&limit=${from === 0 ? initialItemsToLoad : 5
+    `/api/admin/getUsers?from=${from}&limit=${
+      from === 0 ? initialItemsToLoad : 5
     }`,
   );
   if (!response.ok) {
@@ -52,7 +53,8 @@ const fetchClips = async (
   setMoreClipsToLoad: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<User[]> => {
   const response = await fetch(
-    `/api/admin/getClips?from=${from}&limit=${from === 0 ? initialItemsToLoad : 5
+    `/api/admin/getClips?from=${from}&limit=${
+      from === 0 ? initialItemsToLoad : 5
     }`,
   );
   if (!response.ok) {
