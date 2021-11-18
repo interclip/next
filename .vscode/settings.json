@@ -1,15 +1,11 @@
 {
   "workbench.iconTheme": "material-icon-theme",
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "terminal.integrated.gpuAcceleration": "canvas",
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

@@ -1,4 +1,5 @@
 import Logo from '@components/Logo';
+import Avatar from '@components/shared/Avatar';
 import Link from '@components/Text/link';
 import { Menu, Transition } from '@headlessui/react';
 import {
@@ -7,18 +8,14 @@ import {
   InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
-import Image from 'next/image';
+import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import React, { ComponentProps, forwardRef } from 'react';
-import { Fragment } from 'react';
+import React, { ComponentProps, forwardRef, Fragment } from 'react';
 
 import { Button } from '../Button';
 import NavbarItem from './NavbarItem';
 import NavbarSection from './NavbarSection';
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+import { User } from '.prisma/client';
 
 const MenuItem = ({
   title,
@@ -50,7 +47,7 @@ const MenuItem = ({
     <Menu.Item>
       {({ active }) => (
         <Wrapper
-          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${classNames(
+          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${clsx(
             active
               ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
               : 'dark:bg-dark-secondary text-gray-700',
@@ -95,16 +92,7 @@ const Navbar = () => {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button>
-                    <Image
-                      src={
-                        session?.user?.image ||
-                        'https://avatar.tobi.sh/name.svg?'
-                      }
-                      height={50}
-                      width={50}
-                      alt="Your avatar"
-                      className="rounded-full cursor-pointer"
-                    />
+                    <Avatar user={session.user as User} size={50} />
                   </Menu.Button>
                 </div>
 

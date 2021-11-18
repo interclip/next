@@ -60,7 +60,7 @@ async function main() {
   }
 
   const amountsToGenerate = {
-    wikipedia: 20,
+    wikipedia: 60,
     youtube: 20,
   };
 

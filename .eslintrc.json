@@ -14,22 +14,11 @@
   ],
   "rules": {
     "react/display-name": "off",
-    "comma-dangle": [
-      "off",
-      "always"
-    ],
-    "prettier/prettier": [
-      "error"
-    ],
+    "comma-dangle": ["off", "always"],
+    "prettier/prettier": ["error"],
     "react/prop-types": "off",
-    "semi": [
-      2,
-      "always"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
+    "semi": [2, "always"],
+    "quotes": ["error", "single"],
     "react/no-unescaped-entities": "off",
     "no-unused-vars": "warn",
     "unused-imports/no-unused-imports": "error",
