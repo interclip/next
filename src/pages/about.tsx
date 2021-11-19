@@ -76,7 +76,7 @@ const About = (props: {
             </li>
           </ul>
           <H2>Mobile app</H2>
-          <div className="w-full">
+          <div className="w-full items-start">
             {' '}
             <div className="h-16 relative m-2">
               <Link href="https://apps.apple.com/cz/app/interclip/id1546777494">
@@ -84,6 +84,7 @@ const About = (props: {
                   src="/images/appstore.png"
                   layout="fill"
                   objectFit="scale-down"
+                  objectPosition="left"
                   alt="Apple app store"
                 />
               </Link>{' '}
@@ -94,6 +95,7 @@ const About = (props: {
                   src="/images/googleplay.webp"
                   layout="fill"
                   objectFit="scale-down"
+                  objectPosition="left"
                   alt="Google play"
                 />
               </Link>
