@@ -3,6 +3,7 @@
     "next",
     "next/core-web-vitals",
     "plugin:react/recommended",
+    "plugin:tailwind/recommended",
     "prettier"
   ],
   "plugins": [

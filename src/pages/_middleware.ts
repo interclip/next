@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(req: NextRequest) {
   const response = NextResponse.next();
-  const isAPIRoute = new URL(req.url).pathname.includes('/api/');
+  console.log(req.url);
+  const isAPIRoute = req.url.includes('/api/');
   if (isAPIRoute) {
     response.headers.set('Access-Control-Allow-Origin', '*');
   } else {

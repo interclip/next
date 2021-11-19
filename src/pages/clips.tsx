@@ -37,11 +37,11 @@ const MyClips = (): React.ReactNode => {
 
   return (
     <Layout titlePrefix="My clips">
-      <section className="w-full grid justify-center">
+      <section className="justify-center w-full grid">
         <div className="w-[50em] max-w-[93vw]">
           <H1>Clips you made</H1>
           <div
-            className="grid gap-8 grid-cols-1 sm:grid-cols-2 mx-auto"
+            className="mx-auto grid gap-8 grid-cols-1 sm:grid-cols-2"
             style={{
               gridAutoRows: '1fr',
             }}

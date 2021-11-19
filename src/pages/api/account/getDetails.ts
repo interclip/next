@@ -12,7 +12,8 @@ export const getUserDetails = async (fields: string[], req: NextApiRequest) => {
 
   if (!session?.user?.email) {
     // eslint-disable-next-line prettier/prettier
-    throw new Error('Couldn\'t get email from session');
+    // eslint-disable-next-line quotes
+    throw new Error("Couldn't get email from session");
   }
 
   const selectedDetails = await db.user.findFirst({
