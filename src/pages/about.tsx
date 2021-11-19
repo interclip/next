@@ -60,7 +60,7 @@ const About = (props: {
             we use to make it easier upon ourselves.
           </p>
           <H2>Facts about Interclip</H2>
-          <p className="border-y border-gray-300 dark:border-gray-700 w-full py-2 flex justify-around mb-2">
+          <p className="flex justify-around w-full py-2 mb-2 border-gray-300 border-y dark:border-gray-700">
             <Fact title="Total clips made" value={props.clipCount} />
             <Fact title="Users" value={props.userCount} />
             <Fact title="Contributors" value={contributorsCount} />
@@ -76,9 +76,9 @@ const About = (props: {
             </li>
           </ul>
           <H2>Mobile app</H2>
-          <div className="w-full items-start">
+          <div className="items-start w-full">
             {' '}
-            <div className="h-16 relative m-2">
+            <div className="relative h-16 m-2">
               <Link href="https://apps.apple.com/cz/app/interclip/id1546777494">
                 <Image
                   src="/images/appstore.png"
@@ -89,7 +89,7 @@ const About = (props: {
                 />
               </Link>{' '}
             </div>
-            <div className="h-16 relative m-2">
+            <div className="relative h-16 m-2">
               <Link href="https://play.google.com/store/apps/details?id=com.filiptronicek.iclip">
                 <Image
                   src="/images/googleplay.webp"
@@ -115,8 +115,8 @@ const Fact = ({
   value: number;
 }): JSX.Element => {
   return (
-    <div className="text-center w-full cursor-pointer">
-      <h3 className="font-semibold text-3xl font-sans">
+    <div className="w-full text-center cursor-pointer">
+      <h3 className="font-sans text-3xl font-semibold">
         <CountUp isCounting end={value} duration={1.4} />
       </h3>
       {title}
