@@ -7,6 +7,7 @@ import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
+import isMagnetURI from 'validator/lib/isMagnetURI';
 import isURL from 'validator/lib/isURL';
 
 export default async function handler(
@@ -44,17 +45,16 @@ export default async function handler(
   }
   const parsedURL = encodeURI(clipURL);
 
-  console.log(parsedURL);
-
   if (
     !isURL(parsedURL, {
       require_valid_protocol: true,
       protocols: ['http', 'https', 'ipfs', 'ipns'],
-    })
+    }) &&
+    !isMagnetURI(parsedURL)
   ) {
     res.status(400).json({
       status: 'error',
-      result: 'An invalid URL provided.',
+      result: 'An invalid URL/magnet link provided.',
     });
   }
 

@@ -17,6 +17,8 @@ function download(fileUrl: string, fileName?: string) {
 
 const DownloadP2PFile = ({ code }: { code: string }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
+  const [progressingTorrent, setProgressingTorrent] =
+    useState<null | WebTorrent.Torrent>(null);
   useEffect(() => {
     (async () => {
       if (WebTorrent.WEBRTC_SUPPORT) {
@@ -45,6 +47,7 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
                 console.log(
                   `Progress: ${(torrent.progress * 100).toFixed(1)}%`,
                 );
+                setProgressingTorrent(torrent);
               }, 200);
 
               torrent.on('done', () => {
@@ -66,18 +69,23 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
           }
         }
       } else {
-        // Use a fallback
         toast.error('WebRTC is not supported');
       }
     })();
-  }, [code]);
+  }, []);
   return (
     <Layout>
       <section className="h-full my-auto">
         <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
           <div className="mr-6">
-            <h2 className="mb-2 text-4xl max-w-[30rem]">{code}</h2>
-            <h3 className="text-2xl text-gray-400">{code}</h3>
+            <h2 className="mb-2 text-4xl max-w-[30rem]">
+              {progressingTorrent?.name || code}
+            </h2>
+            <h3 className="text-2xl text-gray-400">
+              {progressingTorrent &&
+                (progressingTorrent.progress * 100).toFixed(1)}
+              %
+            </h3>
           </div>
           <div className="flex flex-col items-center">
             <QRIcon
