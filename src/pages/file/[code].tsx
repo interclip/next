@@ -94,7 +94,12 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
               }}
             />
           </div>
-          {qrCodeZoom && <QRModal url={code} setQrCodeZoom={setQrCodeZoom} />}
+          {qrCodeZoom && (
+            <QRModal
+              url={progressingTorrent?.magnetURI || ''}
+              setQrCodeZoom={setQrCodeZoom}
+            />
+          )}
         </div>
       </section>
     </Layout>
