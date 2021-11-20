@@ -1,7 +1,7 @@
 import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
-import { getClip } from '@utils/requestClip';
+import { APIError, getClip } from '@utils/requestClip';
 import { NextApiRequest } from 'next';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -59,7 +59,11 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
             });
           });
         } catch (e) {
-          toast.error(e.toString());
+          if (e instanceof APIError) {
+            toast.error(`API request failed: ${e.message}`);
+          } else {
+            toast.error(e as string);
+          }
         }
       } else {
         // Use a fallback
