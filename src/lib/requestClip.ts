@@ -4,6 +4,10 @@ interface ClipResponse extends APIResponse {
   result: Clip;
 }
 
+/**
+ * Calls the set API to create a new clip from a link
+ * @param url the URL to create the clip from
+ */
 export const requestClip = async (
   url: string,
 ): Promise<ClipResponse | void> => {
@@ -14,6 +18,10 @@ export const requestClip = async (
   return clip;
 };
 
+/**
+ * Calls the get API to get a clip by its corresponding code
+ * @param code the code of the clip
+ */
 export const getClip = async (
   code: string,
 ): Promise<ClipResponse | void | null> => {
