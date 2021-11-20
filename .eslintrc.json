@@ -14,19 +14,37 @@
   ],
   "rules": {
     "react/display-name": "off",
-    "comma-dangle": ["off", "always"],
-    "prettier/prettier": ["error"],
+    "comma-dangle": [
+      "off",
+      "always"
+    ],
+    "prettier/prettier": [
+      "error"
+    ],
     "react/prop-types": "off",
-    "semi": [2, "always"],
-    "quotes": ["error", "single"],
+    "semi": [
+      2,
+      "always"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
     "react/no-unescaped-entities": "off",
     "no-unused-vars": "warn",
     "unused-imports/no-unused-imports": "error",
-    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@next/next/no-img-element": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "jsx-a11y/role-supports-aria-props": "off"
+    "jsx-a11y/role-supports-aria-props": "off",
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": false
+      }
+    ]
   }
 }
