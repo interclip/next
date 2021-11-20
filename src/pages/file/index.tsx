@@ -4,8 +4,9 @@ import { Layout } from '@components/Layout';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/requestClip';
 import uploadFile from '@utils/uploadFile';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import WebTorrent from 'webtorrent';
 
 export default function HomePage() {
   const filesEndpoint = 'https://files.interclip.app';
