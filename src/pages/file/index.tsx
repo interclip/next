@@ -1,12 +1,82 @@
 import 'tailwindcss/tailwind.css';
 
 import { Layout } from '@components/Layout';
+import { Listbox, Transition } from '@headlessui/react';
+import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/requestClip';
 import uploadFile from '@utils/uploadFile';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import WebTorrent from 'webtorrent';
+const remoteOptions = [
+  { name: 'Peer to Peer' },
+  { name: 'IPFS' },
+  { name: 'Interclip file server' },
+];
+
+const RemoteOptionsSelect = () => {
+  const [selected, setSelected] = useState(remoteOptions[0]);
+
+  return (
+    <div className="w-72">
+      <Listbox value={selected} onChange={setSelected}>
+        <div className="relative mt-1">
+          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+            <span className="block truncate">{selected.name}</span>
+            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <SelectorIcon
+                className="w-5 h-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white shadow-lg rounded-md max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {remoteOptions.map((option, optionIdx) => (
+                <Listbox.Option
+                  key={optionIdx}
+                  className={({ active }) =>
+                    `${active ? 'text-amber-900 bg-amber-100' : 'text-gray-900'}
+                    cursor-default select-none relative py-2 pl-10 pr-4`
+                  }
+                  value={option}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`${
+                          selected ? 'font-medium' : 'font-normal'
+                        } block truncate`}
+                      >
+                        {option.name}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={`${
+                            active ? 'text-amber-600' : 'text-amber-600'
+                          }
+                          absolute inset-y-0 left-0 flex items-center pl-3`}
+                        >
+                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    </div>
+  );
+};
 
 export default function HomePage() {
   const filesEndpoint = 'https://files.interclip.app';
@@ -14,8 +84,24 @@ export default function HomePage() {
   const [showOverlay, setShowOverlay] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [fileURL, setFileURL] = useState(filesEndpoint);
+  const [fileURL, setFileURL] = useState<null | string>(null);
   const [code, setCode] = useState<null | string>(null);
+  const client = new WebTorrent();
+
+  const seedHandler = async (e: any) => {
+    setShowOverlay(false);
+    setLoading(true);
+    if (WebTorrent.WEBRTC_SUPPORT) {
+      client.seed(
+        e?.dataTransfer?.files || e.target?.file,
+        (torrent: WebTorrent.Torrent) => {
+          setFileURL(torrent.magnetURI);
+          setLoading(false);
+          setCode('g');
+        },
+      );
+    }
+  };
 
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
@@ -25,7 +111,6 @@ export default function HomePage() {
       const clipResponse = await requestClip(fileURL);
       if (clipResponse) {
         setCode(clipResponse.result.code);
-        setUploaded(true);
       }
     } catch (e) {
       toast.error(e as string);
@@ -38,7 +123,7 @@ export default function HomePage() {
   // reset counter and append file to gallery when file is dropped
   const dropHandler = async (e: any) => {
     e.preventDefault();
-    await uploadHandler(e);
+    await seedHandler(e);
   };
 
   // only react to actual files being dragged
@@ -62,7 +147,8 @@ export default function HomePage() {
         <Toaster />
         <div className="w-screen h-full bg-[#005AC7] dark:bg-dark-bg sm:px-8 md:px-16 sm:py-8">
           <main className="container h-full mx-auto max-w-screen-lg">
-            {!uploaded ? (
+            <RemoteOptionsSelect />
+            {!fileURL ? (
               <article
                 aria-label="File Upload Modal"
                 className="relative flex flex-col h-full bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md"
@@ -171,7 +257,6 @@ export default function HomePage() {
                     <button
                       className="px-3 py-1 mt-2 rounded-xl bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
                       onClick={() => {
-                        setUploaded(false);
                         setShowOverlay(false);
                       }}
                     >
