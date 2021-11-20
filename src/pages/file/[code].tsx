@@ -24,7 +24,6 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
       if (WebTorrent.WEBRTC_SUPPORT) {
         try {
           const clipMagnet = await getClip(code);
-          const client = new WebTorrent();
 
           if (!clipMagnet) {
             toast.error('This clip does not exist');
@@ -38,6 +37,7 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
             return;
           }
 
+          const client = new WebTorrent();
           client.add(clipMagnet.result.url, (torrent: WebTorrent.Torrent) => {
             // Got torrent metadata!
             console.log('Client is downloading:', torrent.infoHash);
@@ -72,7 +72,7 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
         toast.error('WebRTC is not supported');
       }
     })();
-  }, []);
+  }, [code]);
   return (
     <Layout>
       <section className="h-full my-auto">
