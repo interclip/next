@@ -82,7 +82,6 @@ export default function HomePage() {
   const filesEndpoint = 'https://files.interclip.app';
 
   const [showOverlay, setShowOverlay] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fileURL, setFileURL] = useState<null | string>(null);
   const [code, setCode] = useState<null | string>(null);
