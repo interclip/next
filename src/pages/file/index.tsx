@@ -4,7 +4,7 @@ import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
-import { requestClip } from '@utils/requestClip';
+import { getClip } from '@utils/requestClip';
 import uploadFile from '@utils/uploadFile';
 import React, { Fragment, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -107,7 +107,7 @@ export default function HomePage() {
     setLoading(true);
     try {
       const fileURL = await uploadFile(filesEndpoint, e);
-      const clipResponse = await requestClip(fileURL);
+      const clipResponse = await getClip(fileURL);
       if (clipResponse) {
         setCode(clipResponse.result.code);
       }

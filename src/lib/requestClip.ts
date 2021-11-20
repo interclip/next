@@ -13,3 +13,13 @@ export const requestClip = async (
 
   return clip;
 };
+
+export const getClip = async (
+  code: string,
+): Promise<ClipResponse | void | null> => {
+  const clipResponse = await fetch(`/api/clip/get?code=${code}`);
+  if (clipResponse.status === 404) return null;
+  if (!clipResponse.ok) throw new Error(await clipResponse.text());
+  const clip: ClipResponse = await clipResponse.json();
+  return clip;
+};
