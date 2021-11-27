@@ -12,7 +12,7 @@ const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
         <div className="flex items-center mb-4">
           <div className="leading-5 sm">
             <h4 className="text-xl font-semibold text-gray-800 dark:text-dark-text">
-              {clip.oembed?.title || `Code: ${clip.code}`}
+              {clip.oembed?.title || `Code: ${clip.code.slice(0, clip.hashLength)}`}
             </h4>
             <h5 className="font-semibold text-blue-600">
               Created {dayjs().to(dayjs(clip.createdAt))}
