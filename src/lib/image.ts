@@ -1,0 +1,3 @@
+export const proxied = (url: string, width: number, height: number) => {
+  return `https://images.weserv.nl/?url=${url}&w=${width}&h=${height}`;
+};
