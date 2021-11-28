@@ -45,27 +45,28 @@ const Redirect = ({
             <h2 className="mt-2 mb-2 text-2xl max-w-[40rem]">
               {oembed.title || code}
             </h2>
-            <h3 className="text-xl text-gray-400">
+            <h3 className="flex flex-row items-center justify-center text-xl text-gray-400 justify-items-center gap-2">
+              {oembed.favicons.length > 0 && (
+                <Image
+                  src={`${proxied(
+                    getBestFavicon(oembed.favicons)!,
+                    300,
+                    300,
+                  )}}`}
+                  alt="The site's favicon"
+                  width={32}
+                  height={32}
+                />
+              )}
               <Link className="no-underline" href={url}>
                 {simplifiedURL}
               </Link>
-            </h3>
-          </div>
-          <div className="flex flex-col items-center">
-            {oembed.favicons.length > 0 && (
-              <Image
-                src={`${proxied(getBestFavicon(oembed.favicons)!, 300, 300)}}`}
-                alt="The site's favicon"
-                className="rounded"
-                width={72}
-                height={72}
+              <QRIcon
+                onClick={() => {
+                  setQrCodeZoom(true);
+                }}
               />
-            )}
-            <QRIcon
-              onClick={() => {
-                setQrCodeZoom(true);
-              }}
-            />
+            </h3>
           </div>
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
