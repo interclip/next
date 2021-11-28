@@ -3,6 +3,7 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import Link from '@components/Text/link';
 import getBestFavicon from '@utils/highestResolutionFavicon';
+import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
 import { getLinkPreview } from 'link-preview-js';
@@ -94,9 +95,7 @@ const CodeView = ({
           <div className="flex flex-col items-center">
             {oembed.favicons.length > 0 && (
               <Image
-                src={`https://images.weserv.nl/?url=${getBestFavicon(
-                  oembed.favicons,
-                )}&w=300&h=300`}
+                src={proxied(getBestFavicon(oembed.favicons)!, 300, 300)}
                 alt="The site's favicon"
                 className="rounded"
                 width={72}
