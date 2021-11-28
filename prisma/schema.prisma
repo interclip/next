@@ -13,11 +13,12 @@ generator client {
 }
 
 model Clip {
-  id        Int       @id @default(autoincrement())
-  code      String    @unique
-  url       String    @unique
-  createdAt DateTime  @default(now())
-  expiresAt DateTime?
+  id         Int       @id @default(autoincrement())
+  code       String    @unique
+  url        String    @unique
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+  hashLength Int       @default(5)
 
   ownerID String?
   owner   User?   @relation(fields: [ownerID], references: [id])

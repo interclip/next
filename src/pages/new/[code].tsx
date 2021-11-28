@@ -10,27 +10,18 @@ import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-
-interface OEmbed {
-  url: string;
-  title: string;
-  siteName: string | null;
-  description: string | null;
-  mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
-  favicons: string[];
-}
+import { OEmbed } from 'src/typings/interclip';
 
 const CodeView = ({
   code,
   url,
   oembed,
+  codeLength,
 }: {
   code: string;
   url: string;
   oembed: OEmbed;
+  codeLength: number;
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(url);
@@ -56,7 +47,7 @@ const CodeView = ({
                   }, 6900);
                 }}
               >
-                <span>{code}</span>
+                <span>{code.slice(0, codeLength)}</span>
                 <svg
                   className="w-10 h-10 ml-2"
                   fill="none"
@@ -138,6 +129,7 @@ export async function getServerSideProps({
   try {
     const selectedClip = await db.clip.findUnique({
       where: { code: userCode },
+      select: { code: true, hashLength: true, url: true },
     });
 
     if (!selectedClip) {
@@ -150,6 +142,7 @@ export async function getServerSideProps({
     return {
       props: {
         code: selectedClip.code,
+        codeLength: selectedClip.hashLength,
         url: selectedClip.url,
         oembed: {
           title: additionalDetails.title || additionalDetails.siteName || null,

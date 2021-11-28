@@ -21,6 +21,7 @@
     "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.57",
     "@prisma/client": "^3.5.0",
+    "cuid": "^2.1.8",
     "@types/react-infinite-scroller": "^1.2.2",
     "clsx": "^1.1.1",
     "aws-sdk": "^2.1037.0",

@@ -1,5 +1,6 @@
 import { needsAdmin } from '@utils/api/ensureAuth';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { APIResponse } from 'src/typings/interclip';
 
 import { db } from '../../../lib/prisma';
 import limiter from '../../../lib/rateLimit';

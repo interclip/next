@@ -1,6 +1,20 @@
-interface ClipWithPreview {
+import { Clip } from '.prisma/client';
+
+interface OEmbed {
+  url: string;
+  title: string;
+  siteName: string | null;
+  description: string | null;
+  mediaType: string;
+  contentType: string | null;
+  images: string[];
+  videos: {}[];
+  favicons: string[];
+}
+
+interface ClipWithPreview extends Clip {
   /**
-   * A random 5 character long alpha-numeric code identifying the code
+   * A 5+ character long alpha-numeric code identifying the code. It is immutable and will not change, ever.
    */
   code: string;
   /**
@@ -19,18 +33,6 @@ interface ClipWithPreview {
    * An object which stores all info for the OEmbed preview to work
    */
   oembed?: OEmbed;
-}
-
-interface OEmbed {
-  url: string;
-  title: string;
-  siteName: string | null;
-  description: string | null;
-  mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
-  favicons: string[];
 }
 
 interface APIResponse {

@@ -11,6 +11,7 @@ import { db } from '@utils/prisma';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { OEmbed } from 'src/typings/interclip';
 
 const Redirect = ({
   code,

@@ -8,33 +8,9 @@ import youtubeVideo from 'random-youtube-music-video';
 
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
 import { dateAddDays } from '../src/lib/dates';
-import { getRandomID } from '../src/lib/generateID';
+import { getClipHash } from '../src/lib/generateID';
 
 const db = new PrismaClient();
-
-interface WikipediaArticle {
-  pageid: number;
-  ns: number;
-  title: string;
-  images: {
-    ns: number;
-    description: string;
-  }[];
-}
-
-interface WikipediaResponse {
-  batchcomplete: string;
-  continue: {
-    grncontinue: string;
-    continue: string;
-  };
-  warnings: any;
-  query: {
-    pages: {
-      [key: string]: WikipediaArticle;
-    };
-  };
-}
 
 const randomWikipediaArticle = async (amount: number) => {
   const responce = await fetch(
@@ -110,8 +86,8 @@ async function main() {
   for (const url of urls) {
     try {
       const ownerID = userIDs[Math.floor(Math.random() * userIDs.length)];
-      const code = getRandomID(5);
-      console.log(`Seeding fake clip - ${url} (${code} 🔑) 🌐`);
+      const code = getClipHash(url);
+      console.log(`Seeding fake clip - ${url} (${code.slice(0, 5)} 🔑) 🌐`);
       await db.clip.create({
         data: {
           url,

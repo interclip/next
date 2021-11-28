@@ -22,8 +22,9 @@ export default function HomePage() {
     try {
       const fileURL = await uploadFile(filesEndpoint, e);
       const clipResponse = await requestClip(fileURL);
-      if (clipResponse) {
-        setCode(clipResponse.result.code);
+      if (clipResponse && clipResponse.status === 'success') {
+        const { result: clip } = clipResponse;
+        setCode(clip.code.slice(0, clip.hashLength));
         setUploaded(true);
       }
     } catch (e) {
