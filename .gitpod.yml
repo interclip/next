@@ -12,9 +12,13 @@ tasks:
       echo "AUTH_SECRET=\"$(head -1 <(fold -w 20  <(tr -dc 'a-zA-Z0-9' < /dev/urandom)))\"" >> .env;
       gp await-port 3306;
       yarn prisma:migrate;
-      yarn prisma:seed;
       gp sync-done setup;
     command: echo "Welcome!"
+  - name: Seed the database
+    init: >
+      gp sync-await setup;
+      yarn prisma:seed;
+    command: exit
   - name: Prisma Studio
     init: gp sync-await setup
     command: BROWSER=none yarn prisma studio

@@ -2,11 +2,12 @@ import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { dateAddDays } from '@utils/dates';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
-import { getRandomID } from '@utils/generateID';
+import { getClipHash } from '@utils/generateID';
 import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
+import { APIResponse } from 'src/typings/interclip';
 import isURL from 'validator/lib/isURL';
 
 export default async function handler(
@@ -44,8 +45,6 @@ export default async function handler(
   }
   const parsedURL = encodeURI(clipURL);
 
-  console.log(parsedURL);
-
   if (
     !isURL(parsedURL, {
       require_valid_protocol: true,
@@ -58,19 +57,56 @@ export default async function handler(
     });
   }
 
-  const duplicateClip = await db.clip.findFirst({
+  // If a clip with the same 5-character hash already exists, adjust the hash to be a character longer
+  const clipHash = getClipHash(clipURL);
+  const existingClip = await db.clip.findFirst({
     where: {
-      url: parsedURL,
+      code: {
+        startsWith: clipHash.slice(0, 5),
+      },
+    },
+    select: {
+      hashLength: true,
+      code: true,
     },
   });
 
-  if (duplicateClip) {
-    res.status(200).json({ status: 'success', result: duplicateClip });
+  if (existingClip && existingClip.code === clipHash) {
+    // Duplicate clip
+    res.status(200).json({
+      status: 'success',
+      result: existingClip,
+    });
+  } else if (existingClip) {
+    // Clip with equal starting hash
+    let equal = 0;
+    // Get number of equal characters between `clipHash` and `existingClip.code`
+    for (; equal < clipHash.length - 1; equal++) {
+      if (clipHash[equal] !== existingClip.code[equal]) {
+        break;
+      }
+    }
+
+    const newHash = getClipHash(clipURL);
+    await db.clip.update({
+      where: {
+        code: existingClip.code,
+      },
+      data: {
+        hashLength: equal + 1,
+        code: newHash,
+      },
+    });
+
+    res.status(200).json({
+      status: 'success',
+      result: { ...existingClip, hashLength: equal + 1 },
+    });
   } else {
     try {
       const newClip = await db.clip.create({
         data: {
-          code: getRandomID(5),
+          code: getClipHash(parsedURL),
           url: parsedURL,
           expiresAt: dateAddDays(new Date(), 30),
           createdAt: new Date(),

@@ -7,10 +7,12 @@ import {
   storeLinkPreviewInCache,
 } from '@utils/clipPreview';
 import getBestFavicon from '@utils/highestResolutionFavicon';
+import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { OEmbed } from 'src/typings/interclip';
 
 const Redirect = ({
   code,
@@ -27,34 +29,44 @@ const Redirect = ({
   return (
     <Layout>
       <section className="h-full my-auto">
-        <div className="p-4 rounded-2xl mb-8 flex text-black dark:text-white bg-white dark:bg-[#262A2B] shadow-custom">
-          <div className="mr-6">
-            <h2 className="text-4xl mb-2 max-w-[30rem]">
+        <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+          <div className="">
+            <Image
+              alt="Social preview image"
+              src={proxied(
+                'https://opengraph.githubassets.com/00c3274228fa5ac12295ba4d6a3ca5881adf682ab038d8988f1713099c7ecc28/interclip/interclip-next',
+                1200,
+                600,
+              )}
+              width={600}
+              className="rounded-xl"
+              height={300}
+            />
+            <h2 className="mt-2 mb-2 text-2xl max-w-[40rem]">
               {oembed.title || code}
             </h2>
-            <h3 className="text-2xl text-gray-400">
+            <h3 className="flex flex-row items-center justify-center text-xl text-gray-400 justify-items-center gap-2">
+              {oembed.favicons.length > 0 && (
+                <Image
+                  src={`${proxied(
+                    getBestFavicon(oembed.favicons)!,
+                    300,
+                    300,
+                  )}}`}
+                  alt="The site's favicon"
+                  width={32}
+                  height={32}
+                />
+              )}
               <Link className="no-underline" href={url}>
                 {simplifiedURL}
               </Link>
-            </h3>
-          </div>
-          <div className="flex flex-col items-center">
-            {oembed.favicons.length > 0 && (
-              <Image
-                src={`https://images.weserv.nl/?url=${getBestFavicon(
-                  oembed.favicons,
-                )}&w=300&h=300`}
-                alt="The site's favicon"
-                className="rounded"
-                width={72}
-                height={72}
+              <QRIcon
+                onClick={() => {
+                  setQrCodeZoom(true);
+                }}
               />
-            )}
-            <QRIcon
-              onClick={() => {
-                setQrCodeZoom(true);
-              }}
-            />
+            </h3>
           </div>
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
@@ -76,8 +88,12 @@ export async function getServerSideProps({
 
   if (isPreviewPage) {
     try {
-      const selectedClip = await db.clip.findUnique({
-        where: { code: userCode.slice(0, -1) },
+      const selectedClip = await db.clip.findFirst({
+        where: {
+          code: {
+            startsWith: userCode.slice(0, -1),
+          },
+        },
       });
 
       if (!selectedClip) {

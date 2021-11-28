@@ -1,3 +1,4 @@
+import { needsAuth } from '@utils/api/ensureAuth';
 import {
   getLinkPreviewFromCache,
   storeLinkPreviewInCache,
@@ -8,6 +9,7 @@ import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
+import { APIResponse } from 'src/typings/interclip';
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,12 +26,8 @@ export default async function handler(
 
   const session = await getSession({ req });
 
-  if (!session) {
-    res.status(401).json({
-      status: 'error',
-      result: 'Unauthenticated.',
-    });
-  }
+  needsAuth(req, res);
+
   try {
     const clips = await db.clip.findMany({
       where: {

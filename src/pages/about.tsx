@@ -8,7 +8,7 @@ import { Layout } from '../components/Layout';
 const About = (props: { clipCount: number; version: string }): JSX.Element => {
   return (
     <Layout titlePrefix="About">
-      <section className="w-full flex flex-col items-center">
+      <section className="flex flex-col items-center w-full">
         <div className="w-[30em] max-w-[93vw]">
           <H1>About Interclip</H1>
           <H2>What is Interclip?</H2>

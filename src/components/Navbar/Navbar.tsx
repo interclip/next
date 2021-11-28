@@ -1,4 +1,5 @@
 import Logo from '@components/Logo';
+import Avatar from '@components/shared/Avatar';
 import Link from '@components/Text/link';
 import { Menu, Transition } from '@headlessui/react';
 import {
@@ -7,18 +8,14 @@ import {
   InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
-import Image from 'next/image';
+import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import React, { ComponentProps, forwardRef } from 'react';
-import { Fragment } from 'react';
+import React, { ComponentProps, forwardRef, Fragment } from 'react';
 
 import { Button } from '../Button';
 import NavbarItem from './NavbarItem';
 import NavbarSection from './NavbarSection';
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+import { User } from '.prisma/client';
 
 const MenuItem = ({
   title,
@@ -50,7 +47,7 @@ const MenuItem = ({
     <Menu.Item>
       {({ active }) => (
         <Wrapper
-          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${classNames(
+          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${clsx(
             active
               ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
               : 'dark:bg-dark-secondary text-gray-700',
@@ -73,8 +70,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white dark:bg-dark-secondary h-16 w-full shadow-lg sticky top-0 z-50 flex justify-center align-center">
-        <div className="w-full max-w-6xl md:mx-auto mx-4 flex justify-around">
+      <nav className="sticky top-0 z-50 flex justify-center w-full h-16 bg-white shadow-lg dark:bg-dark-secondary align-center">
+        <div className="flex justify-around w-full max-w-6xl mx-4 md:mx-auto">
           <NavbarSection>
             <Logo height={50} width={50} />
           </NavbarSection>
@@ -95,16 +92,7 @@ const Navbar = () => {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button>
-                    <Image
-                      src={
-                        session?.user?.image ||
-                        'https://avatar.tobi.sh/name.svg?'
-                      }
-                      height={50}
-                      width={50}
-                      alt="Your avatar"
-                      className="rounded-full cursor-pointer"
-                    />
+                    <Avatar user={session.user as User} size={50} />
                   </Menu.Button>
                 </div>
 
@@ -117,10 +105,10 @@ const Navbar = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-dark-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 w-56 mt-2 bg-white shadow-lg origin-top-right rounded-md dark:bg-dark-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <MenuItem title="Settings" type="link" link="/settings">
-                        <CogIcon className="mr-2 h-5 w-5" />
+                        <CogIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                       <MenuItem
                         title="Report an issue"
@@ -128,21 +116,21 @@ const Navbar = () => {
                         link="https://github.com/interclip/interclip-next/issues/new"
                         openInNewTab={true}
                       >
-                        <ExclamationCircleIcon className="mr-2 h-5 w-5" />
+                        <ExclamationCircleIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                       <MenuItem
                         title="About Interclip"
                         type="link"
                         link="/about"
                       >
-                        <InformationCircleIcon className="mr-2 h-5 w-5" />
+                        <InformationCircleIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                       <MenuItem
                         title="Sign out"
                         type="button"
                         onClick={() => signOut()}
                       >
-                        <LogoutIcon className="mr-2 h-5 w-5" />
+                        <LogoutIcon className="w-5 h-5 mr-2" />
                       </MenuItem>
                     </div>
                   </Menu.Items>
