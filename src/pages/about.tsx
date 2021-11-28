@@ -77,7 +77,6 @@ const About = (props: {
           </ul>
           <H2>Mobile app</H2>
           <div className="items-start w-full">
-            {' '}
             <div className="relative h-16 m-2">
               <Link href="https://apps.apple.com/cz/app/interclip/id1546777494">
                 <Image
@@ -107,19 +106,18 @@ const About = (props: {
   );
 };
 
-const Fact = ({
-  title,
-  value,
-}: {
+type FactProps = {
   title: string;
   value: number;
-}): JSX.Element => {
+};
+
+const Fact: React.FC<FactProps> = ({ title, value }) => {
   return (
-    <div className="w-full text-center cursor-pointer">
-      <h3 className="font-sans text-3xl font-semibold">
+    <div className="text-center">
+      <div className="font-sans text-3xl font-semibold">
         <CountUp isCounting end={value} duration={1.4} />
-      </h3>
-      {title}
+      </div>
+      <span>{title}</span>
     </div>
   );
 };
