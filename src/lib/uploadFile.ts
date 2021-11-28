@@ -3,14 +3,14 @@ import { ChangeEvent } from 'react';
 import { convertXML } from 'simple-xml-to-json';
 
 import { IS_PROD } from './constants';
-import { getRandomID } from './generateID';
+import { getClipHash } from './generateID';
 
 const uploadFile = async (
   filesEndpoint: string,
   e: any | ChangeEvent<HTMLInputElement>,
 ): Promise<string> => {
   if (!IS_PROD) {
-    return `https://files.interclip.app/${getRandomID(5)}`;
+    return `${filesEndpoint}/${getClipHash(filesEndpoint).slice(0, 5)}`;
   }
 
   const file = e?.dataTransfer?.files[0] || e.target?.files[0];

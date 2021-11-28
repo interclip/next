@@ -1,5 +1,5 @@
-import { getRandomID } from '@utils/generateID';
 import aws from 'aws-sdk';
+import cuid from 'cuid';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -34,7 +34,7 @@ export default async function handler(
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
     Fields: {
-      key: `${getRandomID(7)}.${fileExt}`,
+      key: `${cuid()}.${fileExt}`,
       'Content-Type': fileType,
       // Todo(ft): preserve filenames
       //'Content-Disposition': `attachment; filename="${file}"`,
