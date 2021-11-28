@@ -49,6 +49,13 @@ export default async function handler(
         startsWith: clipCode,
       },
     },
+    select: {
+      code: true,
+      url: true,
+      ownerID: true,
+      createdAt: true,
+      expiresAt: true,
+    },
   });
 
   try {
