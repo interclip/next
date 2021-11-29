@@ -113,6 +113,7 @@ export default function HomePage() {
       const files = e?.dataTransfer?.files || e.target?.files;
       const rootCID = await client.put(files!, {
         maxRetries: 3,
+        wrapWithDirectory: false,
       });
       const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${
         files![0]?.name
