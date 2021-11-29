@@ -4,8 +4,6 @@ import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
-import { getClip } from '@utils/requestClip';
-import uploadFile from '@utils/uploadFile';
 import React, { Fragment, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import WebTorrent from 'webtorrent';
@@ -14,6 +12,10 @@ const remoteOptions = [
   { name: 'IPFS' },
   { name: 'Interclip file server' },
 ];
+import { web3StorageToken } from '@utils/constants';
+import { requestClip } from '@utils/requestClip';
+import uploadFile from '@utils/uploadFile';
+import { Web3Storage } from 'web3.storage';
 
 const RemoteOptionsSelect = () => {
   const [selected, setSelected] = useState(remoteOptions[0]);
@@ -88,8 +90,6 @@ export default function HomePage() {
   const client = new WebTorrent();
 
   const seedHandler = async (e: any) => {
-    setShowOverlay(false);
-    setLoading(true);
     if (WebTorrent.WEBRTC_SUPPORT) {
       client.seed(
         e?.dataTransfer?.files || e.target?.file,
@@ -102,27 +102,64 @@ export default function HomePage() {
     }
   };
 
+  interface DropEvent {
+    dataTransfer?: { files: File[] };
+    target?: { files: File[] };
+  }
+
+  const ipfsHandler = async (e: DropEvent) => {
+    if (web3StorageToken) {
+      const client = new Web3Storage({ token: web3StorageToken });
+      const files = e?.dataTransfer?.files || e.target?.files;
+      const rootCID = await client.put(files!, {
+        maxRetries: 3,
+      });
+      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${
+        files![0]?.name
+      }`;
+      setFileURL(url);
+      const clipResponse = await requestClip(url);
+
+      if (clipResponse) {
+        setCode(clipResponse.result.code);
+      }
+    }
+  };
+
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
     setLoading(true);
+
+    const storage: string = 'ipfs';
+
     try {
-      const fileURL = await uploadFile(filesEndpoint, e);
-      const clipResponse = await getClip(fileURL);
-      if (clipResponse) {
-        setCode(clipResponse.result.code);
+      switch (storage) {
+        case 'ipfs':
+          await ipfsHandler(e);
+          break;
+        case 'iss':
+          const fileURL = await uploadFile(filesEndpoint, e);
+          const clipResponse = await requestClip(fileURL);
+          if (clipResponse) {
+            setCode(clipResponse.result.code);
+          }
+          setFileURL(fileURL);
+          break;
+        case 'torrent':
+          await seedHandler(e);
+          break;
       }
     } catch (e) {
       toast.error(e as string);
     }
 
-    setFileURL(fileURL);
     setLoading(false);
   };
 
   // reset counter and append file to gallery when file is dropped
   const dropHandler = async (e: any) => {
     e.preventDefault();
-    await seedHandler(e);
+    await uploadHandler(e);
   };
 
   // only react to actual files being dragged
@@ -150,7 +187,7 @@ export default function HomePage() {
             {!fileURL ? (
               <article
                 aria-label="File Upload Modal"
-                className="relative flex flex-col h-full bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md"
+                className="relative flex flex-col h-full mt-32 bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md"
                 onDrop={dropHandler}
                 onDragOver={dragOverHandler}
                 onDragLeave={dragLeaveHandler}
