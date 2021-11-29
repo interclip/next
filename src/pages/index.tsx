@@ -1,4 +1,4 @@
-import { getClip } from '@utils/requestClip';
+import { requestClip } from '@utils/requestClip';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              getClip(clipURL).then((clip) => {
+              requestClip(clipURL).then((clip) => {
                 if (clip && clip.status !== 'error') {
                   router.push(`/new/${clip?.result.code}`);
                 } else {

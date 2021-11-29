@@ -18,6 +18,7 @@ import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { SyncLoader } from 'react-spinners';
+import { APIResponse, ClipWithPreview } from 'src/typings/interclip';
 
 import { Layout } from '../components/Layout';
 import { getUserDetails } from './api/account/getDetails';

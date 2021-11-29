@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { APIResponse } from 'src/typings/interclip';
 
 import {
   getGitRemote,

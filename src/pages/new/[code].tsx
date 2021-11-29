@@ -3,6 +3,7 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import Link from '@components/Text/link';
 import getBestFavicon from '@utils/highestResolutionFavicon';
+import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
 import { getLinkPreview } from 'link-preview-js';
@@ -10,27 +11,18 @@ import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-
-interface OEmbed {
-  url: string;
-  title: string;
-  siteName: string | null;
-  description: string | null;
-  mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
-  favicons: string[];
-}
+import { OEmbed } from 'src/typings/interclip';
 
 const CodeView = ({
   code,
   url,
   oembed,
+  codeLength,
 }: {
   code: string;
   url: string;
   oembed: OEmbed;
+  codeLength: number;
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(url);
@@ -56,7 +48,7 @@ const CodeView = ({
                   }, 6900);
                 }}
               >
-                <span>{code}</span>
+                <span>{code.slice(0, codeLength)}</span>
                 <svg
                   className="w-10 h-10 ml-2"
                   fill="none"
@@ -96,16 +88,14 @@ const CodeView = ({
             </h3>
             <p>
               {console.log(oembed.description?.length)}
-              {oembed.description?.substr(0, 250)}
+              {oembed.description?.slice(0, 250)}
               {(oembed.description?.length ?? 0) > 250 && '...'}
             </p>
           </div>
           <div className="flex flex-col items-center">
             {oembed.favicons.length > 0 && (
               <Image
-                src={`https://images.weserv.nl/?url=${getBestFavicon(
-                  oembed.favicons,
-                )}&w=300&h=300`}
+                src={proxied(getBestFavicon(oembed.favicons)!, 300, 300)}
                 alt="The site's favicon"
                 className="rounded"
                 width={72}
@@ -138,6 +128,7 @@ export async function getServerSideProps({
   try {
     const selectedClip = await db.clip.findUnique({
       where: { code: userCode },
+      select: { code: true, hashLength: true, url: true },
     });
 
     if (!selectedClip) {
@@ -150,6 +141,7 @@ export async function getServerSideProps({
     return {
       props: {
         code: selectedClip.code,
+        codeLength: selectedClip.hashLength,
         url: selectedClip.url,
         oembed: {
           title: additionalDetails.title || additionalDetails.siteName || null,
