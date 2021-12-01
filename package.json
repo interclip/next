@@ -24,7 +24,7 @@
     "cuid": "^2.1.8",
     "@types/react-infinite-scroller": "^1.2.2",
     "clsx": "^1.1.1",
-    "aws-sdk": "^2.1037.0",
+    "aws-sdk": "^2.1039.0",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
     "framer-motion": "^5.3.3",
