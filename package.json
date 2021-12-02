@@ -21,8 +21,8 @@
     "@next-auth/prisma-adapter": "^0.5.4",
     "@nextui-org/react": "^1.0.1-alpha.57",
     "@prisma/client": "^3.6.0",
-    "cuid": "^2.1.8",
     "@types/react-infinite-scroller": "^1.2.2",
+    "cuid": "^2.1.8",
     "clsx": "^1.1.1",
     "aws-sdk": "^2.1040.0",
     "dayjs": "^1.10.7",
@@ -50,7 +50,9 @@
     "sharp": "^0.29.3",
     "simple-xml-to-json": "^1.0.8",
     "ts-node": "^10.4.0",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "web3.storage": "^3.4.0",
+    "webtorrent": "^1.5.8"
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",
@@ -62,6 +64,7 @@
     "@types/node-fetch": "^3.0.3",
     "@types/react": "17.0.37",
     "@types/validator": "^13.7.0",
+    "@types/webtorrent": "^0.109.2",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "autoprefixer": "^10.4.0",
     "cli-progress": "^3.9.1",
