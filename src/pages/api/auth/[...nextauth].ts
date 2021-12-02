@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
-    jwt: true,
+    strategy: 'database',
   },
   pages: {
     signIn: '/auth/login',
@@ -23,7 +23,6 @@ export default NextAuth({
   secret: process.env.AUTH_SECRET,
   jwt: {
     secret: process.env.JWT_SECRET,
-    signingKey: '{"kty":"oct","kid":"<the-kid>","alg":"HS512","k":"<the-key>"}',
   },
   providers: [
     !IS_PROD &&
@@ -36,8 +35,8 @@ export default NextAuth({
             placeholder: 'admin@example.org',
           },
         },
-        async authorize(credentials: { email: string }) {
-          if (credentials.email && isEmail(credentials.email)) {
+        async authorize(credentials) {
+          if (credentials?.email && isEmail(credentials.email)) {
             const existingUser = await db.user.findUnique({
               where: {
                 email: credentials.email,
