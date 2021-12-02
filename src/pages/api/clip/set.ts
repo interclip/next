@@ -50,7 +50,8 @@ export default async function handler(
     !isURL(parsedURL, {
       require_valid_protocol: true,
       protocols: ['http', 'https', 'ipfs', 'ipns'],
-    }) && !isMagnetURI(clipURL)
+    }) &&
+    !isMagnetURI(clipURL)
   ) {
     res.status(400).json({
       status: 'error',
