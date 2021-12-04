@@ -55,7 +55,6 @@ export default NextAuth({
               });
             }
           }
-          console.log('Could not create');
 
           // Return null if user data could not be retrieved
           return null;
