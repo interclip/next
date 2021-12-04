@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: 'database',
+    strategy: 'jwt',
   },
   pages: {
     signIn: '/auth/login',
@@ -43,6 +43,7 @@ export default NextAuth({
               },
             });
             if (existingUser) {
+              console.log(existingUser);
               return existingUser;
             } else {
               return await db.user.create({
