@@ -60,8 +60,9 @@ const LogIn = ({
               <button
                 className="w-full h-12 mb-4 font-bold text-white rounded-lg bg-light-bg hover:bg-blue-600 transition"
                 onClick={() => {
-                  if (isEmail(inputEmail)) {
-                    signIn('credentials', { email: inputEmail });
+                  const parsedEmail = inputEmail.trim();
+                  if (isEmail(parsedEmail)) {
+                    signIn('credentials', { email: parsedEmail });
                   } else {
                     toast.error('Invalid email provided');
                   }

@@ -45,7 +45,7 @@ export default NextAuth({
             if (existingUser) {
               return existingUser;
             } else {
-              const newUser = await db.user.create({
+              return await db.user.create({
                 data: {
                   email: credentials.email,
                   name: name.firstName(),
@@ -53,9 +53,9 @@ export default NextAuth({
                   image: internet.avatar(),
                 },
               });
-              return newUser;
             }
           }
+          console.log('Could not create');
 
           // Return null if user data could not be retrieved
           return null;
