@@ -85,6 +85,7 @@ const LogIn = ({
                     className={
                       'w-full h-12 rounded-lg text-white font-bold transition mb-4 filter'
                     }
+                    key={provider.id}
                     style={{
                       backgroundColor: changeColorBrightness(
                         // @ts-ignore
