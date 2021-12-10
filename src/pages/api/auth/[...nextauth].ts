@@ -1,8 +1,9 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
+import { createUser } from '@utils/api/createUser';
 import { IS_PROD } from '@utils/constants';
 import { db } from '@utils/prisma';
-import { internet, name } from 'faker';
+import { name } from 'faker';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
@@ -14,7 +15,7 @@ const prisma = new PrismaClient();
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
-    jwt: true,
+    strategy: 'jwt',
   },
   pages: {
     signIn: '/auth/login',
@@ -23,7 +24,6 @@ export default NextAuth({
   secret: process.env.AUTH_SECRET,
   jwt: {
     secret: process.env.JWT_SECRET,
-    signingKey: '{"kty":"oct","kid":"<the-kid>","alg":"HS512","k":"<the-key>"}',
   },
   providers: [
     !IS_PROD &&
@@ -36,8 +36,8 @@ export default NextAuth({
             placeholder: 'admin@example.org',
           },
         },
-        async authorize(credentials: { email: string }) {
-          if (credentials.email && isEmail(credentials.email)) {
+        async authorize(credentials) {
+          if (credentials?.email && isEmail(credentials.email)) {
             const existingUser = await db.user.findUnique({
               where: {
                 email: credentials.email,
@@ -46,15 +46,11 @@ export default NextAuth({
             if (existingUser) {
               return existingUser;
             } else {
-              const newUser = await db.user.create({
-                data: {
-                  email: credentials.email,
-                  name: name.firstName(),
-                  isStaff: true,
-                  image: internet.avatar(),
-                },
+              return await createUser({
+                email: credentials.email,
+                name: name.firstName(),
+                isStaff: true,
               });
-              return newUser;
             }
           }
 

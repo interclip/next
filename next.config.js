@@ -21,4 +21,7 @@ module.exports = withPWA({
       'cdn.fakercloud.com',
     ],
   },
+  env: {
+    WEB3_TOKEN: process.env.WEB3_TOKEN,
+  },
 });
