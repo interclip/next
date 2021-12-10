@@ -297,6 +297,7 @@ export default function HomePage() {
                       className="px-3 py-1 mt-2 rounded-xl bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
                       onClick={() => {
                         setShowOverlay(false);
+                        setFileURL(null);
                       }}
                     >
                       Upload a new file
