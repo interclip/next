@@ -124,6 +124,8 @@ export default function HomePage() {
       if (clipResponse) {
         setCode(clipResponse.result.code);
       }
+    } else {
+      toast.error('Web3.storage token not provided');
     }
   };
 
