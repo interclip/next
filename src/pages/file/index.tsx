@@ -122,7 +122,9 @@ export default function HomePage() {
       const clipResponse = await requestClip(url);
 
       if (clipResponse) {
-        setCode(clipResponse.result.code);
+        setCode(
+          clipResponse.result.code.slice(0, clipResponse.result.hashLength),
+        );
       }
     } else {
       toast.error('Web3.storage token not provided');
