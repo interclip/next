@@ -131,11 +131,10 @@ export default function HomePage() {
     }
   };
 
+  const storage: string = 'ipfs';
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
     setLoading(true);
-
-    const storage: string = 'ipfs';
 
     try {
       switch (storage) {
@@ -270,14 +269,18 @@ export default function HomePage() {
                     <p className="flex flex-wrap justify-center mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>Your file has been uploaded to</span>
                     </p>
-                    <p className="flex flex-wrap justify-center mb-3 text-3xl font-semibold text-center text-gray-900 dark:text-gray-200 hover:underline">
+                    <p className="flex flex-wrap justify-center mb-3 overflow-hidden text-3xl font-semibold text-center text-gray-900 truncate dark:text-gray-200 hover:underline max-w-[69%]">
                       <span>
                         <a
                           href={fileURL}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {fileURL.replace('https://', '')}
+                          {storage === 'iss'
+                            ? fileURL.replace('https://', '')
+                            : storage === 'ipfs'
+                            ? new URL(fileURL).pathname.split('/').at(-1)
+                            : fileURL}
                         </a>
                       </span>
                     </p>
