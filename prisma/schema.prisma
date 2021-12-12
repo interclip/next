@@ -19,6 +19,7 @@ model Clip {
   createdAt  DateTime  @default(now())
   expiresAt  DateTime?
   hashLength Int       @default(5)
+  ipfsHash   String?
 
   ownerID String?
   owner   User?   @relation(fields: [ownerID], references: [id])

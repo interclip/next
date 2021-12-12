@@ -11,6 +11,8 @@ import { APIResponse } from 'src/typings/interclip';
 import isMagnetURI from 'validator/lib/isMagnetURI';
 import isURL from 'validator/lib/isURL';
 
+import { uploadToIPFS } from './backupIPFS';
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>,
@@ -70,6 +72,8 @@ export default async function handler(
     select: {
       hashLength: true,
       code: true,
+      createdAt: true,
+      ipfsHash: true,
     },
   });
 
@@ -116,6 +120,7 @@ export default async function handler(
         },
       });
       await storeLinkPreviewInCache(parsedURL);
+      await uploadToIPFS(newClip.id);
       res.status(200).json({ status: 'success', result: newClip });
     } catch (e) {
       console.error(e);
