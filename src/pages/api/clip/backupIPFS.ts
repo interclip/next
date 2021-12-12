@@ -16,7 +16,6 @@ export const uploadToIPFS = async (id: number) => {
     const clip = await db.clip.findUnique({
       where: { id },
       select: {
-        id: true,
         createdAt: true,
         url: true,
         code: true,
@@ -30,7 +29,7 @@ export const uploadToIPFS = async (id: number) => {
     );
 
     await db.clip.update({
-      where: { id: clip?.id },
+      where: { id },
       data: { ipfsHash: path },
     });
     resolve(path);
