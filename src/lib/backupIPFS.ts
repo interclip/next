@@ -1,11 +1,15 @@
 import { db } from '@utils/prisma';
 import { create } from 'ipfs-http-client';
-
 const client = create({
   host: 'ipfs.infura.io',
   port: 5001,
   protocol: 'https',
 });
+
+export const createBackupDirectory = async () => {
+  await client.files.mkdir('/clips');
+  return await client.files.stat('/clips');
+};
 
 /**
  * Upload a post to ipfs

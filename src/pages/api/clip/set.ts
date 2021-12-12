@@ -1,3 +1,4 @@
+import { uploadToIPFS } from '@utils/backupIPFS';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { dateAddDays } from '@utils/dates';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
@@ -10,8 +11,6 @@ import { getSession } from 'next-auth/react';
 import { APIResponse } from 'src/typings/interclip';
 import isMagnetURI from 'validator/lib/isMagnetURI';
 import isURL from 'validator/lib/isURL';
-
-import { uploadToIPFS } from './backupIPFS';
 
 export default async function handler(
   req: NextApiRequest,
