@@ -1439,10 +1439,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/ioredis@^4.28.4":
-  version "4.28.4"
-  resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.28.4.tgz#a69a4045aadd89b5098c065626360b72ea43a4ee"
-  integrity sha512-pIIR1f1HmtbSMiQkMBoJwi7ZFj00OmxLwlZ3cuvgqc9m61+q7cVN3uAsYIZu07pmXw8A8V+apLvkd+ckgGdxwg==
+"@types/ioredis@^4.28.5":
+  version "4.28.5"
+  resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.28.5.tgz#933aa76dd0b66147be48f94967e2571ff848408e"
+  integrity sha512-bp5mdpzscWZMEE/jLvvzze5TZFYGhynB1am69l/a0XPqZRXWpbswY6lb5buEht57jOnw5pPG5zL9pFUWw1nggw==
   dependencies:
     "@types/node" "*"
 
@@ -6653,10 +6653,10 @@ postcss-nested@5.0.6:
   dependencies:
     postcss-selector-parser "^6.0.6"
 
-postcss-selector-parser@^6.0.6:
-  version "6.0.6"
-  resolved "https://registry.npmjs.org/postcss-selector-parser/-/postcss-selector-parser-6.0.6.tgz"
-  integrity sha512-9LXrvaaX3+mcv5xkg5kFwqSzSH1JIObIx51PrndZwlmznwXRfxMddDvo9gve3gVR8ZTKgoFDdWkbRFmEhT4PMg==
+postcss-selector-parser@^6.0.6, postcss-selector-parser@^6.0.7:
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/postcss-selector-parser/-/postcss-selector-parser-6.0.7.tgz#48404830a635113a71fd79397de8209ed05a66fc"
+  integrity sha512-U+b/Deoi4I/UmE6KOVPpnhS7I7AYdKbhGcat+qTQ27gycvaACvNEw11ba6RrkwVmDVRW7sigWgLj4/KbbJjeDA==
   dependencies:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
@@ -8043,10 +8043,10 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwindcss@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.0.5.tgz#468e20347b8c4b59bb0585361682126edb1dd9e3"
-  integrity sha512-59pNgzx2o+wkAk7IZGIH7H9eNS53gzZGrO3+NPyOEWHDbquHgiLL/c993T5t1vPSAeBxox4X5OgZwNuRvXVf+g==
+tailwindcss@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.0.6.tgz#1981a0bb55919c0af566c98870ab2ec672599efb"
+  integrity sha512-+CA2f09rbHFDsdQ1iDvsOGbF1tZFmyPoRhUeaF9/5FRT5GYObtp+UjTSCdmeDcu6T90bx4WAaOkddYFPBkjbAA==
   dependencies:
     arg "^5.0.1"
     chalk "^4.1.2"
@@ -8064,7 +8064,7 @@ tailwindcss@^3.0.5:
     postcss-js "^3.0.3"
     postcss-load-config "^3.1.0"
     postcss-nested "5.0.6"
-    postcss-selector-parser "^6.0.6"
+    postcss-selector-parser "^6.0.7"
     postcss-value-parser "^4.2.0"
     quick-lru "^5.1.1"
     resolve "^1.20.0"
