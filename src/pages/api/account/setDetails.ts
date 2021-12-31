@@ -2,13 +2,11 @@ import { db } from '@utils/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
-export const setUserDetails = async (fields: string[], req: NextApiRequest) => {
+export const setUserDetails = async (
+  setProperties: { [key: string]: any } = {},
+  req: NextApiRequest,
+) => {
   const session = await getSession({ req });
-
-  const setProperties: { [key: string]: boolean } = {};
-  fields.forEach((key) => {
-    setProperties[key] = true;
-  });
 
   if (!session?.user?.email) {
     // eslint-disable-next-line prettier/prettier
@@ -31,6 +29,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (!req.query.params) {
+    res.status(400).json({
+      status: 'error',
+      result: 'No fields to change',
+    });
+    return;
+  }
+
   if (typeof req.query.params === 'object') {
     res.status(400).json({
       status: 'error',
@@ -48,11 +54,12 @@ export default async function handler(
   });
 
   try {
-    res.json(await setUserDetails(selectedFields, req));
+    res.json(await setUserDetails(keyValuePairs, req));
   } catch (e) {
     res.status(500).json({
       status: 'error',
       result: 'An error with the database has occured.',
     });
+    console.error(e);
   }
 }
