@@ -12,8 +12,8 @@ const remoteOptions = [
   { name: 'IPFS' },
   { name: 'Interclip file server' },
 ];
+import { requestClip } from '@utils/api/requestClip';
 import { web3StorageToken } from '@utils/constants';
-import { requestClip } from '@utils/requestClip';
 import uploadFile from '@utils/uploadFile';
 import { Web3Storage } from 'web3.storage';
 

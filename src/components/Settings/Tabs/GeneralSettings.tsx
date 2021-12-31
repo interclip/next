@@ -1,5 +1,6 @@
 import { Input } from '@components/Input';
 import { Dialog, Transition } from '@headlessui/react';
+import { setSettings } from '@utils/api/setSetting';
 import React, { Fragment, useState } from 'react';
 
 import SettingsCard from '../SettingsCard';
@@ -14,6 +15,9 @@ const GeneralSettings = ({
   email?: string;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [newUsername, setNewUsersname] = useState<string>(username || '');
+  const [newName, setNewName] = useState<string>(name || '');
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -82,9 +86,16 @@ const GeneralSettings = ({
       <SettingsCard
         title="Your Username"
         footerDescription="Please use 48 characters at maximum."
+        onSave={() => {
+          setSettings({ username: newUsername });
+        }}
       >
         <div className="max-w-[50%]">
-          <Input defaultValue={username} maxLength={48} />
+          <Input
+            value={newUsername}
+            onChange={(e) => setNewUsersname(e.target.value)}
+            maxLength={48}
+          />
         </div>
       </SettingsCard>
       <SettingsCard
@@ -92,9 +103,16 @@ const GeneralSettings = ({
         description="Please enter your full name, or a display name you are comfortable
               with."
         footerDescription="Please use 32 characters at maximum."
+        onSave={() => {
+          setSettings({ name: newName });
+        }}
       >
         <div className="max-w-[50%]">
-          <Input defaultValue={name} maxLength={32} />
+          <Input
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            maxLength={32}
+          />
         </div>
       </SettingsCard>{' '}
       <SettingsCard

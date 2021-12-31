@@ -2,8 +2,13 @@ import { db } from '@utils/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
+/**
+ * Changes user settings
+ * @param setProperties an array of key value pairs of user fields to be updated. Their values need to be strings for now, but maybe in the futrure we can transfer them via JSON
+ * @param req the HTTP request
+ */
 export const setUserDetails = async (
-  setProperties: { [key: string]: any } = {},
+  setProperties: { [key: string]: string },
   req: NextApiRequest,
 ) => {
   const session = await getSession({ req });

@@ -25,9 +25,11 @@ const SettingsCard = ({
       <div className="p-4">{children}</div>
       <div className="flex w-full p-2 border-t border-gray-300 space-between bg-[#FAFBFB] dark:bg-[#2f2f2f] h-14 rounded-b-xl dark:border-gray-700">
         <p className="w-full px-4 my-auto">{footerDescription}</p>
-        <Button color={warning ? 'error' : 'primary'} auto onClick={onSave}>
-          {buttonText ?? 'Save'}
-        </Button>
+        {onSave && (
+          <Button color={warning ? 'error' : 'primary'} auto onClick={onSave}>
+            {buttonText ?? 'Save'}
+          </Button>
+        )}
       </div>
     </div>
   );
