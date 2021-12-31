@@ -8,8 +8,8 @@ interface UserResponse extends APIResponse {
 }
 
 /**
- * Calls the get API to get a clip by its corresponding code
- * @param params the code of the clip
+ * Calls the get API to change the user settings
+ * @param params the fields to alter and their respective values as key-value pairs
  */
 export const setSettings = async (params: {
   [key: string]: string;
