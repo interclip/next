@@ -13,7 +13,7 @@ export const changeColorBrightness = (color: string, luminosity: number) => {
   color = color.replace(/[^0-9a-f]/gi, '');
 
   for (let i = 0; i < 3; i++) {
-    newColorValue = parseInt(color.slice(i * 2, 2), 16);
+    newColorValue = parseInt(color.slice(i * 2, i * 2 + 2), 16);
     newColorValue = Math.round(
       Math.min(Math.max(black, newColorValue + luminosity * white), white),
     ).toString(16);

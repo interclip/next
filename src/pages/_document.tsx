@@ -10,7 +10,7 @@ import React from 'react';
 
 type Props = Record<string, unknown> & DocumentProps;
 
-class DevpartyDocument extends Document<Props> {
+class InterclipDocument extends Document<Props> {
   static async getInitialProps(context: DocumentContext) {
     const initialProps = await Document.getInitialProps(context);
     return { ...initialProps };
@@ -36,4 +36,4 @@ class DevpartyDocument extends Document<Props> {
   }
 }
 
-export default DevpartyDocument;
+export default InterclipDocument;

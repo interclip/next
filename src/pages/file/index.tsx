@@ -1,37 +1,166 @@
 import 'tailwindcss/tailwind.css';
 
 import { Layout } from '@components/Layout';
+import { Listbox, Transition } from '@headlessui/react';
+import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
+import React, { Fragment, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import WebTorrent from 'webtorrent';
+const remoteOptions = [
+  { name: 'Peer to Peer' },
+  { name: 'IPFS' },
+  { name: 'Interclip file server' },
+];
+import { web3StorageToken } from '@utils/constants';
 import { requestClip } from '@utils/requestClip';
 import uploadFile from '@utils/uploadFile';
-import React, { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import { Web3Storage } from 'web3.storage';
+
+const RemoteOptionsSelect = () => {
+  const [selected, setSelected] = useState(remoteOptions[0]);
+
+  return (
+    <div className="w-72">
+      <Listbox value={selected} onChange={setSelected}>
+        <div className="relative mt-1">
+          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 dark:bg-dark-secondary text-dark-text focus-visible:border-indigo-500 sm:text-sm">
+            <span className="block truncate">{selected.name}</span>
+            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <SelectorIcon
+                className="w-5 h-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white shadow-lg rounded-md max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-dark-secondary text-dark-text sm:text-sm">
+              {remoteOptions.map((option, optionIdx) => (
+                <Listbox.Option
+                  key={optionIdx}
+                  className={({ active }) =>
+                    `${
+                      active
+                        ? 'text-amber-900 dark:text-light-bg bg-amber-100 dark:bg-dark-bg'
+                        : 'dark:bg-dark-secondary'
+                    }
+                    cursor-default select-none relative py-2 pl-10 pr-4 text-dark-text`
+                  }
+                  value={option}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`${
+                          selected ? 'font-medium' : 'font-normal'
+                        } block truncate`}
+                      >
+                        {option.name}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={`${
+                            active ? 'text-amber-600' : 'text-amber-600'
+                          }
+                          absolute inset-y-0 left-0 flex items-center pl-3`}
+                        >
+                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    </div>
+  );
+};
 
 export default function HomePage() {
   const filesEndpoint = 'https://files.interclip.app';
 
   const [showOverlay, setShowOverlay] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [fileURL, setFileURL] = useState(filesEndpoint);
+  const [fileURL, setFileURL] = useState<null | string>(null);
   const [code, setCode] = useState<null | string>(null);
+  const client = new WebTorrent();
 
+  const seedHandler = async (e: any) => {
+    if (WebTorrent.WEBRTC_SUPPORT) {
+      client.seed(
+        e?.dataTransfer?.files || e.target?.file,
+        (torrent: WebTorrent.Torrent) => {
+          setFileURL(torrent.magnetURI);
+          setLoading(false);
+          setCode('g');
+        },
+      );
+    }
+  };
+
+  interface DropEvent {
+    dataTransfer?: { files: File[] };
+    target?: { files: File[] };
+  }
+
+  const ipfsHandler = async (e: DropEvent) => {
+    if (web3StorageToken) {
+      const client = new Web3Storage({ token: web3StorageToken });
+      const files = e?.dataTransfer?.files || e.target?.files;
+      const rootCID = await client.put(files!, {
+        maxRetries: 3,
+        wrapWithDirectory: false,
+      });
+      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${
+        files![0]?.name
+      }`;
+      setFileURL(url);
+      const clipResponse = await requestClip(url);
+
+      if (clipResponse) {
+        setCode(
+          clipResponse.result.code.slice(0, clipResponse.result.hashLength),
+        );
+      }
+    } else {
+      toast.error('Web3.storage token not provided');
+    }
+  };
+
+  const storage: string = 'ipfs';
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
     setLoading(true);
+
     try {
-      const fileURL = await uploadFile(filesEndpoint, e);
-      const clipResponse = await requestClip(fileURL);
-      if (clipResponse && clipResponse.status === 'success') {
-        const { result: clip } = clipResponse;
-        setCode(clip.code.slice(0, clip.hashLength));
-        setUploaded(true);
+      switch (storage) {
+        case 'ipfs':
+          await ipfsHandler(e);
+          break;
+        case 'iss':
+          const fileURL = await uploadFile(filesEndpoint, e);
+          const clipResponse = await requestClip(fileURL);
+          if (clipResponse) {
+            setCode(clipResponse.result.code);
+          }
+          setFileURL(fileURL);
+          break;
+        case 'torrent':
+          await seedHandler(e);
+          break;
       }
     } catch (e) {
       toast.error(e as string);
     }
 
-    setFileURL(fileURL);
     setLoading(false);
   };
 
@@ -62,10 +191,11 @@ export default function HomePage() {
         <Toaster />
         <div className="w-screen h-full bg-[#005AC7] dark:bg-dark-bg sm:px-8 md:px-16 sm:py-8">
           <main className="container h-full mx-auto max-w-screen-lg">
-            {!uploaded ? (
+            <RemoteOptionsSelect />
+            {!fileURL ? (
               <article
                 aria-label="File Upload Modal"
-                className="relative flex flex-col h-full bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md"
+                className="relative flex flex-col h-full mt-32 bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md"
                 onDrop={dropHandler}
                 onDragOver={dragOverHandler}
                 onDragLeave={dragLeaveHandler}
@@ -143,14 +273,18 @@ export default function HomePage() {
                     <p className="flex flex-wrap justify-center mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>Your file has been uploaded to</span>
                     </p>
-                    <p className="flex flex-wrap justify-center mb-3 text-3xl font-semibold text-center text-gray-900 dark:text-gray-200 hover:underline">
+                    <p className="flex flex-wrap justify-center mb-3 overflow-hidden text-3xl font-semibold text-center text-gray-900 truncate dark:text-gray-200 hover:underline max-w-[69%]">
                       <span>
                         <a
                           href={fileURL}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {fileURL.replace('https://', '')}
+                          {storage === 'iss'
+                            ? fileURL.replace('https://', '')
+                            : storage === 'ipfs'
+                            ? new URL(fileURL).pathname.split('/').at(-1)
+                            : fileURL}
                         </a>
                       </span>
                     </p>
@@ -171,8 +305,8 @@ export default function HomePage() {
                     <button
                       className="px-3 py-1 mt-2 rounded-xl bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
                       onClick={() => {
-                        setUploaded(false);
                         setShowOverlay(false);
+                        setFileURL(null);
                       }}
                     >
                       Upload a new file
