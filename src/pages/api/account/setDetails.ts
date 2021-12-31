@@ -18,12 +18,20 @@ export const setUserDetails = async (
     throw new Error('Couldn\'t get email from session');
   }
 
+  const selectObject: any = {};
+  for (const key of Object.keys(setProperties)) {
+    selectObject[key] = true;
+  }
+
   const selectedDetails = await db.user.update({
     where: {
       email: session.user.email,
     },
     data: {
       ...setProperties,
+    },
+    select: {
+      ...selectObject,
     },
   });
 
