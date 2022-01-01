@@ -86,8 +86,8 @@ const GeneralSettings = ({
       <SettingsCard
         title="Your Username"
         footerDescription="Please use 48 characters at maximum."
-        onSave={() => {
-          setSettings({ username: newUsername });
+        onSave={async () => {
+          await setSettings({ username: newUsername });
         }}
       >
         <div className="max-w-[50%]">
@@ -103,8 +103,8 @@ const GeneralSettings = ({
         description="Please enter your full name, or a display name you are comfortable
               with."
         footerDescription="Please use 32 characters at maximum."
-        onSave={() => {
-          setSettings({ name: newName });
+        onSave={async () => {
+          await setSettings({ name: newName });
         }}
       >
         <div className="max-w-[50%]">
@@ -125,9 +125,9 @@ const GeneralSettings = ({
       </SettingsCard>{' '}
       <SettingsCard
         title="Delete Personal Account"
-        warning
+        dangerous
         buttonText="Delete Personal Account"
-        onSave={() => {
+        onSave={async () => {
           setIsOpen(true);
         }}
       >
