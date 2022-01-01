@@ -4,7 +4,7 @@ import { getSession } from 'next-auth/react';
 
 /**
  * Changes user settings
- * @param setProperties an array of key value pairs of user fields to be updated. Their values need to be strings for now, but maybe in the futrure we can transfer them via JSON
+ * @param setProperties an array of key-value pairs of user fields to be updated. Their values need to be strings for now, but maybe in the future we can transfer them via JSON
  * @param req the HTTP request
  */
 export const setUserDetails = async (
