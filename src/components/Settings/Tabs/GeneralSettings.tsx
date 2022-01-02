@@ -1,7 +1,9 @@
 import { Input } from '@components/Input';
 import { Dialog, Transition } from '@headlessui/react';
+import { APIError } from '@utils/api/requestClip';
 import { setSettings } from '@utils/api/setSetting';
 import React, { Fragment, useState } from 'react';
+import toast from 'react-hot-toast';
 
 import SettingsCard from '../SettingsCard';
 
@@ -87,7 +89,16 @@ const GeneralSettings = ({
         title="Your Username"
         footerDescription="Please use 48 characters at maximum."
         onSave={async () => {
-          await setSettings({ username: newUsername });
+          try {
+            await setSettings({ username: newUsername });
+          } catch (e) {
+            if (e instanceof APIError) {
+              toast.error(e.message);
+            } else {
+              // @ts-ignore
+              toast.error(e);
+            }
+          }
         }}
       >
         <div className="max-w-[50%]">

@@ -1,11 +1,18 @@
 import { User } from '@prisma/client';
-import { APIResponse } from 'src/typings/interclip';
 
 import { APIError } from './requestClip';
 
-interface UserResponse extends APIResponse {
-  result: User;
+interface ErrorResponse {
+  status: 'error';
+  result: string;
 }
+
+interface SuccessResponse<T> {
+  status: 'success';
+  result: T;
+}
+
+type UserResponse = SuccessResponse<User> | ErrorResponse;
 
 /**
  * Calls the get API to change the user settings
@@ -23,8 +30,10 @@ export const setSettings = async (params: {
   const settingsResponse = await fetch(
     `/api/account/setDetails?params=${stringifiedParams}`,
   );
-  if (settingsResponse.status === 404) return null;
-  if (!settingsResponse.ok) throw new APIError(await settingsResponse.text());
-  const clip: UserResponse = await settingsResponse.json();
-  return clip;
+  if (!settingsResponse.ok && settingsResponse.status !== 400)
+    throw new APIError(await settingsResponse.text());
+  const settingsChanged: UserResponse = await settingsResponse.json();
+  if (settingsChanged.status === 'error')
+    throw new APIError(settingsChanged.result);
+  return settingsChanged;
 };
