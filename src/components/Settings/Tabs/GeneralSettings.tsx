@@ -1,5 +1,9 @@
 import { Input } from '@components/Input';
 import { Dialog, Transition } from '@headlessui/react';
+import {
+  maxNameAllowedLength,
+  maxUsernameAllowedLength,
+} from '@utils/constants';
 import React, { Fragment, useState } from 'react';
 import { handleSettingsErrors } from 'src/pages/settings';
 
@@ -86,7 +90,7 @@ const GeneralSettings = ({
       <SettingsCard
         isDisabled={username === newUsername}
         title="Your Username"
-        footerDescription="Please use 48 characters at maximum."
+        footerDescription={`Please use ${maxUsernameAllowedLength} characters at maximum.`}
         onSave={async () => {
           await handleSettingsErrors({ username: newUsername });
         }}
@@ -95,7 +99,7 @@ const GeneralSettings = ({
           <Input
             value={newUsername}
             onChange={(e) => setNewUsersname(e.target.value)}
-            maxLength={48}
+            maxLength={maxUsernameAllowedLength}
           />
         </div>
       </SettingsCard>
@@ -104,7 +108,7 @@ const GeneralSettings = ({
         title="Your Name"
         description="Please enter your full name, or a display name you are comfortable
               with."
-        footerDescription="Please use 32 characters at maximum."
+        footerDescription={`Please use ${maxNameAllowedLength} characters at maximum.`}
         onSave={async () => {
           await handleSettingsErrors({ name: newName });
         }}
@@ -113,7 +117,7 @@ const GeneralSettings = ({
           <Input
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
-            maxLength={32}
+            maxLength={maxNameAllowedLength}
           />
         </div>
       </SettingsCard>{' '}
