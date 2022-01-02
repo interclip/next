@@ -4,13 +4,13 @@ import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import WebTorrent from 'webtorrent';
 const remoteOptions = [
   { name: 'Peer to Peer' },
   { name: 'IPFS' },
-  { name: 'Interclip file server' },
+  { name: 'S3' },
 ];
 import { requestClip } from '@utils/api/requestClip';
 import { web3StorageToken } from '@utils/constants';
@@ -19,6 +19,18 @@ import { Web3Storage } from 'web3.storage';
 
 const RemoteOptionsSelect = () => {
   const [selected, setSelected] = useState(remoteOptions[0]);
+
+  useEffect(() => {
+    fetch('/api/account/getDetails?params=storageProvider').then(
+      async (res) => {
+        if (res.ok) {
+          const response = await res.json();
+          console.log(response.storageProvider);
+          setSelected({ name: response.storageProvider });
+        }
+      },
+    );
+  }, []);
 
   return (
     <div className="w-72">
