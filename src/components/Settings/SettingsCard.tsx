@@ -9,6 +9,7 @@ const SettingsCard = ({
   footerDescription,
   buttonText,
   dangerous,
+  isDisabled: isDisabled,
 }: {
   children: JSX.Element | string;
   title: string;
@@ -18,6 +19,7 @@ const SettingsCard = ({
   warning?: boolean;
   buttonText?: string;
   dangerous?: boolean;
+  isDisabled?: boolean;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +32,7 @@ const SettingsCard = ({
         <p className="w-full px-4 my-auto">{footerDescription}</p>
         {onSave && (
           <Button
-            disabled={isLoading}
+            disabled={isDisabled || isLoading}
             color={dangerous ? 'error' : 'primary'}
             auto
             onClick={async () => {

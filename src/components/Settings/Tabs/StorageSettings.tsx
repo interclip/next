@@ -17,8 +17,8 @@ const StorageSettings = () => {
       <SettingsCard
         title="File Upload"
         description="Select if files should be uploaded to Interclip S3 or IPFS"
-        onSave={() => {
-          setSettings({ storageProvider });
+        onSave={async () => {
+          await setSettings({ storageProvider });
         }}
       >
         <div className="max-w-[50%]">

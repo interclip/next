@@ -86,6 +86,7 @@ const GeneralSettings = ({
         </Dialog>
       </Transition>{' '}
       <SettingsCard
+        isDisabled={username === newUsername}
         title="Your Username"
         footerDescription="Please use 48 characters at maximum."
         onSave={async () => {
@@ -110,6 +111,7 @@ const GeneralSettings = ({
         </div>
       </SettingsCard>
       <SettingsCard
+        isDisabled={name === newName}
         title="Your Name"
         description="Please enter your full name, or a display name you are comfortable
               with."
