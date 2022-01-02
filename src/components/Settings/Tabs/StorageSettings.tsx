@@ -1,6 +1,6 @@
 import { Input, Select } from '@components/Input';
-import { setSettings } from '@utils/api/setSetting';
 import React, { useState } from 'react';
+import { handleSettingsErrors } from 'src/pages/settings';
 
 import SettingsCard from '../SettingsCard';
 
@@ -18,7 +18,7 @@ const StorageSettings = () => {
         title="File Upload"
         description="Select if files should be uploaded to Interclip S3 or IPFS"
         onSave={async () => {
-          await setSettings({ storageProvider });
+          await handleSettingsErrors({ storageProvider });
         }}
       >
         <div className="max-w-[50%]">
