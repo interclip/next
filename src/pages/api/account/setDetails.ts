@@ -20,8 +20,7 @@ export const setUserDetails = async (
   const session = await getSession({ req });
 
   if (!session?.user?.email) {
-    // eslint-disable-next-line prettier/prettier
-    throw new Error('Couldn\'t get email from session');
+    throw new Error("Couldn't get email from session");
   }
 
   const selectObject: any = {};

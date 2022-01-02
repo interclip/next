@@ -28,7 +28,10 @@
     ],
     "quotes": [
       "error",
-      "single"
+      "single",
+      {
+        "avoidEscape": true
+      }
     ],
     "react/no-unescaped-entities": "off",
     "no-unused-vars": "warn",
