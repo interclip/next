@@ -18,6 +18,7 @@ import { getUserDetails } from './api/account/getDetails';
 export const handleSettingsErrors = async (data: { [key: string]: string }) => {
   try {
     await setSettings(data);
+    toast.success('Setting updated!');
   } catch (e) {
     if (e instanceof APIError) {
       toast.error(e.message);
