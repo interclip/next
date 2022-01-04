@@ -1,3 +1,4 @@
+import { uploadToIPFS } from '@utils/backupIPFS';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { dateAddDays } from '@utils/dates';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
@@ -70,6 +71,8 @@ export default async function handler(
     select: {
       hashLength: true,
       code: true,
+      createdAt: true,
+      ipfsHash: true,
     },
   });
 
@@ -108,7 +111,7 @@ export default async function handler(
     try {
       const newClip = await db.clip.create({
         data: {
-          code: getClipHash(parsedURL),
+          code: clipHash,
           url: parsedURL,
           expiresAt: dateAddDays(new Date(), 30),
           createdAt: new Date(),
@@ -116,8 +119,10 @@ export default async function handler(
         },
       });
       await storeLinkPreviewInCache(parsedURL);
+      await uploadToIPFS(newClip.id);
       res.status(200).json({ status: 'success', result: newClip });
     } catch (e) {
+      console.error(e);
       res.status(500).json({
         status: 'error',
         result: 'An error with the database has occured.',

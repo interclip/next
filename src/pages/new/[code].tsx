@@ -87,7 +87,6 @@ const CodeView = ({
               </Link>
             </h3>
             <p>
-              {console.log(oembed.description?.length)}
               {oembed.description?.slice(0, 250)}
               {(oembed.description?.length ?? 0) > 250 && '...'}
             </p>
