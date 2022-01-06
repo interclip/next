@@ -1,4 +1,4 @@
-import { requestClip } from '@utils/requestClip';
+import { requestClip } from '@utils/api/requestClip';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';

@@ -1,9 +1,16 @@
 import { Clip } from '@prisma/client';
-import { APIResponse } from 'src/typings/interclip';
 
-interface ClipResponse extends APIResponse {
-  result: Clip;
+interface ErrorResponse {
+  status: 'error';
+  result: string;
 }
+
+interface SuccessResponse<T> {
+  status: 'success';
+  result: T;
+}
+
+type ClipResponse = SuccessResponse<Clip> | ErrorResponse;
 
 export class APIError extends Error {
   constructor(message: string) {
@@ -37,5 +44,6 @@ export const getClip = async (
   if (clipResponse.status === 404) return null;
   if (!clipResponse.ok) throw new APIError(await clipResponse.text());
   const clip: ClipResponse = await clipResponse.json();
+  if (clip.status === 'error') throw new APIError(clip.result);
   return clip;
 };
