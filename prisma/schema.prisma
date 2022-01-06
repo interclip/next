@@ -27,11 +27,6 @@ model Clip {
   @@map("clips")
 }
 
-enum StorageProvider {
-  S3
-  IPFS
-}
-
 model User {
   id         String @id @default(uuid())
   username   String @unique @default(uuid())
@@ -43,7 +38,7 @@ model User {
   name          String?
   emailVerified DateTime?
   image         String?
-  storageProvider StorageProvider @default(S3)
+  storageProvider String @default("S3")
   clipExpirationPreference Int @default(90)
 
   accounts      Account[]

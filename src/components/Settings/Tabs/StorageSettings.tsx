@@ -6,8 +6,8 @@ import SettingsCard from '../SettingsCard';
 
 const StorageSettings = () => {
   const uploadOptions = [
-    { value: 's3', label: 'Interclip S3' },
-    { value: 'ipfs', label: 'IPFS' },
+    { value: 'S3', label: 'Interclip S3' },
+    { value: 'IPFS', label: 'IPFS' },
   ];
 
   const [storageProvider, setStorageProvider] = useState('s3');
