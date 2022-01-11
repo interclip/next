@@ -30,6 +30,11 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
             return;
           }
 
+          if (clipMagnet.status === 'error') {
+            toast.error(`Error getting the clip ${clipMagnet.result}`);
+            return;
+          }
+
           if (clipMagnet && !isMagnetURI(clipMagnet.result.url)) {
             toast.error(
               `It looks like this clip isn't a torrent! ${clipMagnet.result.url}`,

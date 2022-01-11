@@ -137,11 +137,14 @@ export default function HomePage() {
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
-      if (clipResponse) {
-        setCode(
-          clipResponse.result.code.slice(0, clipResponse.result.hashLength),
-        );
+      if (clipResponse.status === 'error') {
+        toast.error(`An error has occured: ${clipResponse.result}`);
+        return;
       }
+
+      setCode(
+        clipResponse.result.code.slice(0, clipResponse.result.hashLength),
+      );
     } else {
       toast.error('Web3.storage token not provided');
     }
@@ -160,7 +163,7 @@ export default function HomePage() {
         case 'iss':
           const fileURL = await uploadFile(filesEndpoint, e);
           const clipResponse = await requestClip(fileURL);
-          if (clipResponse) {
+          if (clipResponse.status === 'success') {
             setCode(clipResponse.result.code);
           }
           setFileURL(fileURL);

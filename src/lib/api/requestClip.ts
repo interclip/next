@@ -23,13 +23,12 @@ export class APIError extends Error {
  * Calls the set API to create a new clip from a link
  * @param url the URL to create the clip from
  */
-export const requestClip = async (
-  url: string,
-): Promise<ClipResponse | void> => {
+export const requestClip = async (url: string): Promise<ClipResponse> => {
   const clipResponse = await fetch(`/api/clip/set?url=${url}`);
-  if (!clipResponse.ok) throw new APIError(await clipResponse.text());
+  if (clipResponse.status === 500) {
+    return { status: 'error', result: await clipResponse.text() };
+  }
   const clip: ClipResponse = await clipResponse.json();
-
   return clip;
 };
 
@@ -44,6 +43,5 @@ export const getClip = async (
   if (clipResponse.status === 404) return null;
   if (!clipResponse.ok) throw new APIError(await clipResponse.text());
   const clip: ClipResponse = await clipResponse.json();
-  if (clip.status === 'error') throw new APIError(clip.result);
   return clip;
 };
