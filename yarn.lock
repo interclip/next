@@ -8138,7 +8138,7 @@ toidentifier@1.0.0:
   resolved "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.0.tgz"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-torrent-discovery@^9.4.6:
+torrent-discovery@^9.4.7:
   version "9.4.7"
   resolved "https://registry.yarnpkg.com/torrent-discovery/-/torrent-discovery-9.4.7.tgz#d45ee78cb6a7004a8f3cd203ee7df915088bea70"
   integrity sha512-7Zw474LJE5r3Momi4ykBYkjgcFhENbUxcAFs5cBllUkv9ErJPzPEGmpEuqX7V8TkLS+Clmt/l5CjV5IFHg/A/A==
@@ -8563,10 +8563,10 @@ webpack-sources@^1.4.3:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webtorrent@^1.5.8:
-  version "1.5.8"
-  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.5.8.tgz#1dcb26347a8c0ea15a20b77f1c85dea9ce4f170b"
-  integrity sha512-ltYdloqDamay36XN8FZ+O2fqRQNDt+JGhRbOt1gCBeC+fFhke3WxEVs3/A2UtKjhwN8OEp3Go7tWU9R0S+29Lw==
+webtorrent@^1.5.9:
+  version "1.5.9"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.5.9.tgz#0718d19132b9e0f00da6495f2bdde368d601b1bd"
+  integrity sha512-ymIibHBJunx8ZpglrlN9tGDrBUnU8gKkEp+a52kKoc7VBrIiqgjiLQYdI21HKLado4xSCk4zm1ATcTrxTo88ew==
   dependencies:
     addr-to-ip-port "^1.5.4"
     bitfield "^4.0.0"
@@ -8607,7 +8607,7 @@ webtorrent@^1.5.8:
     stream-to-blob "^2.0.1"
     stream-to-blob-url "^3.0.2"
     stream-with-known-length-to-buffer "^1.0.4"
-    torrent-discovery "^9.4.6"
+    torrent-discovery "^9.4.7"
     torrent-piece "^2.0.1"
     unordered-array-remove "^1.0.2"
     ut_metadata "^3.5.2"
