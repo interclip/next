@@ -34,7 +34,7 @@
     "js-cookie": "^3.0.1",
     "link-preview-js": "^2.1.8",
     "lru-cache": "^6.0.0",
-    "next": "12.0.7",
+    "next": "12.0.8",
     "next-auth": "^4.1.0",
     "next-pwa": "^5.4.4",
     "next-seo": "^4.28.1",
