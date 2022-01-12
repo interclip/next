@@ -27,7 +27,7 @@
     "cuid": "^2.1.8",
     "dayjs": "^1.10.7",
     "faker": "^5.5.3",
-    "framer-motion": "^5.5.7",
+    "framer-motion": "^5.6.0",
     "get-random-values": "^1.2.2",
     "ioredis": "^4.28.3",
     "ipfs-http-client": "^55.0.0",
