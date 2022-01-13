@@ -63,22 +63,58 @@ export default NextAuth({
     CredentialsProvider({
       name: 'Web3',
       id: 'web3',
-      authorize: async (credentials: any, f) => {
-        const nonce = `0x${credentials.csrfToken}`;
-        const address = utils.verifyMessage(nonce, credentials.signature);
-        if (address.toLowerCase() !== credentials.address?.toLowerCase())
+      authorize: async (credentials) => {
+        if (
+          !(credentials?.address && credentials.nonce && credentials.signature)
+        ) {
+          console.log('Missing fields');
           return null;
-        //  create newUser or return existent user
-        const user = {
-          id: 1,
-          name: 'J Smith',
-          email: 'jsmith@example.com',
-          ...credentials,
-        };
-        return user;
+        }
+        console.log('here');
+        const address = utils.verifyMessage(
+          credentials.nonce,
+          credentials.signature,
+        );
+
+        console.log(`Nonce frontend: ${credentials.nonce}.\n`);
+
+        if (address.toLowerCase() !== credentials.address.toLowerCase()) {
+          console.log(
+            `Adresses don't match: ${address} vs ${credentials.address}`,
+          );
+          return null;
+        }
+        const existingUser = await db.user.findUnique({
+          where: {
+            email: credentials.address,
+          },
+        });
+        if (existingUser) {
+          console.log(existingUser);
+          return existingUser;
+        } else {
+          const newUser = await createUser({
+            email: credentials.address,
+            name: name.firstName(),
+            isStaff: true,
+          });
+          console.log(newUser);
+          return newUser;
+        }
       },
       type: 'credentials',
-      credentials: {},
+      credentials: {
+        address: {
+          label: 'Web3 address',
+          type: 'text',
+        },
+        nonce: {
+          type: 'text',
+        },
+        signature: {
+          type: 'text',
+        },
+      },
     }),
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,

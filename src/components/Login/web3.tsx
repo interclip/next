@@ -35,23 +35,23 @@ const LoginButton = (props: MetamaskButtonProps) => {
       // Returns an array of web3 addresses.
       .then(async (accounts: string[]) => {
         try {
+          const nonce = `sign_in_${Math.random().toString(16).slice(2, 18)}`;
           // @ts-ignore
-          const signedCsrf = await window.ethereum?.request({
+          const signedToken: string = await window.ethereum?.request({
             method: 'personal_sign',
-            params: [`0x${props.csrfToken}`, accounts[0]],
+            params: [nonce, accounts[0]],
           });
 
           signIn('web3', {
-            email: 'fi@tro.com',
-            csrfToken: props.csrfToken,
+            nonce,
             address: accounts[0],
-            signature: signedCsrf,
+            signature: signedToken,
           });
         } catch (e) {
           console.error(e);
         }
       });
-  }, [props.csrfToken]);
+  }, []);
 
   useEffect(() => {
     //@ts-ignore
