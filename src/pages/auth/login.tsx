@@ -1,5 +1,5 @@
 import { Layout } from '@components/Layout';
-import LoginButton from '@components/Login/web3';
+import MetaMaskLoginButton from '@components/Login/web3';
 import Logo from '@components/Logo';
 import { changeColorBrightness } from '@utils/colors';
 import useHover from '@utils/hooks/useHover';
@@ -30,13 +30,11 @@ const brandColors = {
 
 const LogIn = ({
   providers,
-  csrfToken,
 }: {
   providers: Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   >;
-  csrfToken: string;
 }): React.ReactNode => {
   const [inputEmail, setEmail] = useState<string>('');
   return (
@@ -108,7 +106,7 @@ const LogIn = ({
                 )
               );
             })}
-          <LoginButton csrfToken={csrfToken} />
+          <MetaMaskLoginButton />
         </div>
       </div>
     </Layout>
@@ -118,10 +116,9 @@ const LogIn = ({
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const providers = await getProviders();
   const session = await getSession({ req });
-  const csrfToken = await getCsrfToken({ req });
   if (!session) {
     return {
-      props: { providers, csrfToken },
+      props: { providers },
     };
   } else {
     return {

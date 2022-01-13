@@ -9,11 +9,7 @@ interface State {
   connected: boolean;
 }
 
-interface MetamaskButtonProps {
-  csrfToken: string;
-}
-
-const LoginButton = (props: MetamaskButtonProps) => {
+const MetaMaskLoginButton = () => {
   const [state, setState] = useState<State>({
     started: false,
     connected: false,
@@ -62,15 +58,13 @@ const LoginButton = (props: MetamaskButtonProps) => {
   if (!state.started || typeof window === 'undefined') return null;
 
   return (
-    <div className="flex flex-col w-full h-full p-4">
-      <button
-        className="max-w-sm p-2 border-2 border-black rounded-sm"
-        onClick={signInWithWallet}
-      >
-        Authenticate with Metamask
-      </button>
-    </div>
+    <button
+      className="w-full h-12 mb-4 font-bold text-white rounded-lg bg-[#f6851b] hover:bg-[#cd6116] transition"
+      onClick={signInWithWallet}
+    >
+      Authenticate with Metamask
+    </button>
   );
 };
 
-export default LoginButton;
+export default MetaMaskLoginButton;
