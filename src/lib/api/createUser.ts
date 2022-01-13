@@ -31,7 +31,7 @@ const getFromAvatar = async (email: string): Promise<string | undefined> => {
 
 export const createUser = async (data: CreateArgs): Promise<User | never> => {
   if (!data.image) {
-    data['image'] = (await getFromAvatar(data.email)) || internet.avatar();
+    data['image'] = await getFromAvatar(data.email);
   }
 
   try {
