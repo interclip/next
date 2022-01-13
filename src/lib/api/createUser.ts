@@ -2,7 +2,6 @@ import { User } from '@prisma/client';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import crypto from 'crypto';
-import { internet } from 'faker';
 
 interface CreateArgs {
   email: string;
