@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { createUser } from '@utils/api/createUser';
 import { IS_PROD } from '@utils/constants';
 import { db } from '@utils/prisma';
+import { utils } from 'ethers';
 import { name } from 'faker';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -28,6 +29,7 @@ export default NextAuth({
   providers: [
     !IS_PROD &&
       CredentialsProvider({
+        id: 'devlogin',
         name: 'a demo account',
         credentials: {
           email: {
@@ -58,6 +60,26 @@ export default NextAuth({
           return null;
         },
       }),
+    CredentialsProvider({
+      name: 'Web3',
+      id: 'web3',
+      authorize: async (credentials: any, f) => {
+        const nonce = `0x${credentials.csrfToken}`;
+        const address = utils.verifyMessage(nonce, credentials.signature);
+        if (address.toLowerCase() !== credentials.address?.toLowerCase())
+          return null;
+        //  create newUser or return existent user
+        const user = {
+          id: 1,
+          name: 'J Smith',
+          email: 'jsmith@example.com',
+          ...credentials,
+        };
+        return user;
+      },
+      type: 'credentials',
+      credentials: {},
+    }),
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,

@@ -26,6 +26,7 @@
     "clsx": "^1.1.1",
     "cuid": "^2.1.8",
     "dayjs": "^1.10.7",
+    "ethers": "^5.5.3",
     "faker": "^5.5.3",
     "framer-motion": "^5.6.0",
     "get-random-values": "^1.2.2",
@@ -52,6 +53,7 @@
     "simple-xml-to-json": "^1.0.8",
     "ts-node": "^10.4.0",
     "validator": "^13.7.0",
+    "web3": "^1.6.1",
     "web3.storage": "^3.5.3",
     "webtorrent": "^1.5.9"
   },
