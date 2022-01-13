@@ -21,7 +21,7 @@ const LoginButton = (props: MetamaskButtonProps) => {
 
   const checkConnectedWallet = useCallback(() => {
     web3?.eth?.getAccounts((err, accounts) => {
-      if (err != null) return setState((s) => ({ ...s, started: true }));
+      if (err !== null) return setState((s) => ({ ...s, started: true }));
       else if (!accounts.length)
         return setState((s) => ({ ...s, started: true }));
       return setState({ started: true, connected: true });
