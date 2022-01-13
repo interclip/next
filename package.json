@@ -2,6 +2,9 @@
   "name": "interclip",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=15.0.0"
+  },
   "scripts": {
     "dev": "yarn generate && next dev",
     "build": "yarn generate && next build",
