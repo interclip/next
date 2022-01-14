@@ -7,7 +7,6 @@ import { NextApiRequest } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
 import {
   ClientSafeProvider,
-  getCsrfToken,
   getProviders,
   getSession,
   LiteralUnion,
