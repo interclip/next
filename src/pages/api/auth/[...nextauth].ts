@@ -85,16 +85,15 @@ export default NextAuth({
             email: credentials.address,
           },
         });
-        if (existingUser) {
-          return existingUser;
-        } else {
-          const newUser = await createUser({
+
+        return (
+          existingUser ||
+          (await createUser({
             email: credentials.address,
             name: name.firstName(),
             isStaff: true,
-          });
-          return newUser;
-        }
+          }))
+        );
       },
       type: 'credentials',
       credentials: {
