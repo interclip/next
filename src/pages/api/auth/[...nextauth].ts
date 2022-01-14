@@ -67,19 +67,15 @@ export default NextAuth({
         if (
           !(credentials?.address && credentials.nonce && credentials.signature)
         ) {
-          console.log('Missing fields');
           return null;
         }
-        console.log('here');
         const address = utils.verifyMessage(
           credentials.nonce,
           credentials.signature,
         );
 
-        console.log(`Nonce frontend: ${credentials.nonce}.\n`);
-
         if (address.toLowerCase() !== credentials.address.toLowerCase()) {
-          console.log(
+          console.error(
             `Adresses don't match: ${address} vs ${credentials.address}`,
           );
           return null;
@@ -90,7 +86,6 @@ export default NextAuth({
           },
         });
         if (existingUser) {
-          console.log(existingUser);
           return existingUser;
         } else {
           const newUser = await createUser({
@@ -98,7 +93,6 @@ export default NextAuth({
             name: name.firstName(),
             isStaff: true,
           });
-          console.log(newUser);
           return newUser;
         }
       },
