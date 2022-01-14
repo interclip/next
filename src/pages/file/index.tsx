@@ -1,5 +1,3 @@
-import 'tailwindcss/tailwind.css';
-
 import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
