@@ -52,7 +52,7 @@
     "simple-xml-to-json": "^1.0.8",
     "ts-node": "^10.4.0",
     "validator": "^13.7.0",
-    "web3.storage": "3.5.2",
+    "web3.storage": "3.5.3",
     "webtorrent": "^1.5.9"
   },
   "devDependencies": {
