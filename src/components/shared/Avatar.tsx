@@ -7,7 +7,7 @@ import isEthereumAddress from 'validator/lib/isEthereumAddress';
 const Avatar = ({ user, size }: { user: User; size: number }) => {
   return isEthereumAddress(user.email) ? (
     <Davatar
-      size={size - size / 10}
+      size={size - size / 15}
       address={user.email}
       generatedAvatarType="blockies"
     />
