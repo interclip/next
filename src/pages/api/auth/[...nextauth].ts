@@ -90,6 +90,7 @@ export default NextAuth({
           existingUser ||
           (await createUser({
             email: credentials.address,
+            username: credentials.address.slice(2, 18),
             name: name.firstName(),
             isStaff: true,
           }))
