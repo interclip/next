@@ -47,9 +47,13 @@ const Home: NextPage = () => {
           {isURL(clipURL) && (
             <>
               <ReactTooltip effect="solid" place="bottom" />
-              <span data-tip="This will be your clip code after you create the clip, until then, it won't work">
+              <span
+                className="ml-2"
+                data-tip="This will be your clip code after you create the clip, until then, it won't work"
+              >
                 Code:{' '}
                 <span
+                  className="cursor-pointer"
                   onClick={() => {
                     navigator.clipboard.writeText(estimatedCode);
                     toast(
