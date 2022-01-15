@@ -12,7 +12,7 @@ import {
   LiteralUnion,
   signIn,
 } from 'next-auth/react';
-import { useState } from 'react';
+import { KeyboardEventHandler, useState } from 'react';
 import React from 'react';
 import toast from 'react-hot-toast';
 import isEmail from 'validator/lib/isEmail';
@@ -36,6 +36,22 @@ const LogIn = ({
   >;
 }): React.ReactNode => {
   const [inputEmail, setEmail] = useState<string>('');
+
+  const handleDevSignIn = () => {
+    const parsedEmail = inputEmail.trim();
+    if (isEmail(parsedEmail)) {
+      signIn('devlogin', { email: parsedEmail });
+    } else {
+      toast.error('Invalid email provided');
+    }
+  };
+
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === 'Enter') {
+      return handleDevSignIn();
+    }
+  };
+
   return (
     <Layout titlePrefix="Log in">
       <div className="flex items-center justify-center w-full h-screen">
@@ -56,17 +72,13 @@ const LogIn = ({
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                onKeyDown={handleKeyDown}
                 value={inputEmail}
               />
               <button
                 className="w-full h-12 mb-4 font-bold text-white rounded-lg bg-light-bg hover:bg-blue-600 transition"
                 onClick={() => {
-                  const parsedEmail = inputEmail.trim();
-                  if (isEmail(parsedEmail)) {
-                    signIn('devlogin', { email: parsedEmail });
-                  } else {
-                    toast.error('Invalid email provided');
-                  }
+                  handleDevSignIn();
                 }}
               >
                 Login
