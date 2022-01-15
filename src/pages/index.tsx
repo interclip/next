@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             onSubmit={(e) => {
               e.preventDefault();
               requestClip(clipURL).then((clip) => {
-                if (clip && clip.status !== 'error') {
+                if (clip.status !== 'error') {
                   router.push(`/new/${clip?.result.code}`);
                 } else {
                   if (!clip) {
