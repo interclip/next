@@ -11,6 +11,8 @@ import DiscordProvider from 'next-auth/providers/discord';
 import GitlabProvider from 'next-auth/providers/gitlab';
 import isEmail from 'validator/lib/isEmail';
 
+import { StorageProvider } from '../../../typings/interclip';
+
 const prisma = new PrismaClient();
 
 export default NextAuth({
@@ -45,15 +47,15 @@ export default NextAuth({
                 email: credentials.email,
               },
             });
-            if (existingUser) {
-              return existingUser;
-            } else {
-              return await createUser({
+            return (
+              existingUser ||
+              (await createUser({
                 email: credentials.email,
                 name: name.firstName(),
                 isStaff: true,
-              });
-            }
+                storageProvider: StorageProvider.S3,
+              }))
+            );
           }
 
           // Return null if user data could not be retrieved
@@ -91,8 +93,8 @@ export default NextAuth({
           (await createUser({
             email: credentials.address,
             username: credentials.address.slice(2, 18),
-            name: name.firstName(),
             isStaff: true,
+            storageProvider: StorageProvider.IPFS,
           }))
         );
       },

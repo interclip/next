@@ -24,7 +24,6 @@ const RemoteOptionsSelect = () => {
       async (res) => {
         if (res.ok) {
           const response = await res.json();
-          console.log(response.storageProvider);
           setSelected({ name: response.storageProvider });
         }
       },

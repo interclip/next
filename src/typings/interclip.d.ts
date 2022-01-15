@@ -44,3 +44,17 @@ interface DropEvent {
   dataTransfer?: { files: File[] };
   target?: { files: File[] };
 }
+
+export enum StorageProvider {
+  S3 = 'S3',
+  IPFS = 'IPFS',
+}
+
+export interface CreatUsereArgs {
+  email: string;
+  name?: string;
+  isStaff?: boolean;
+  image?: string;
+  username?: string;
+  storageProvider?: StorageProvider;
+}
