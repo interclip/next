@@ -18,6 +18,9 @@ jobs:
           node-version: '16.x'
           cache: 'yarn'
 
+      - name: Count Lines of Code (cloc)
+        uses: djdefi/cloc-action@main
+
       - name: Install Dependencies
         run: yarn
 
