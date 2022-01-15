@@ -1,13 +1,18 @@
 import { requestClip } from '@utils/api/requestClip';
+import { minimumCodeLength } from '@utils/constants';
+import { getClipHash } from '@utils/generateID';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import ReactTooltip from 'react-tooltip';
+import isURL from 'validator/lib/isURL';
 
 import { Layout } from '../components/Layout';
 
 const Home: NextPage = () => {
   const [clipURL, setURL] = useState<string>('');
+  const estimatedCode = getClipHash(clipURL).slice(0, minimumCodeLength);
   const router = useRouter();
   return (
     <Layout>
@@ -23,11 +28,9 @@ const Home: NextPage = () => {
                 if (clip && clip.status !== 'error') {
                   router.push(`/new/${clip?.result.code}`);
                 } else {
-                  console.log(clip);
                   if (!clip) {
                     return;
                   }
-                  //@ts-ignore
                   toast.error(clip.result);
                 }
               });
@@ -41,6 +44,25 @@ const Home: NextPage = () => {
               placeholder="https://www.histories.cc/krystofex"
             />
           </form>
+          {isURL(clipURL) && (
+            <>
+              <ReactTooltip effect="solid" place="bottom" />
+              <span data-tip="This will be your clip code after you create the clip, until then, it won't work">
+                Code:{' '}
+                <span
+                  onClick={() => {
+                    navigator.clipboard.writeText(estimatedCode);
+                    toast(
+                      'Successfully copied to clipboard, but it will only work after you create the clip',
+                      { icon: '⚠️' },
+                    );
+                  }}
+                >
+                  {estimatedCode}
+                </span>
+              </span>
+            </>
+          )}
         </div>
       </section>
     </Layout>
