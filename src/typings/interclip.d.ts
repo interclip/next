@@ -39,3 +39,8 @@ interface APIResponse {
   status: 'error' | 'success';
   result: any;
 }
+
+interface DropEvent {
+  dataTransfer?: { files: File[] };
+  target?: { files: File[] };
+}

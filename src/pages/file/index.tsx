@@ -13,6 +13,7 @@ const remoteOptions = [
 import { requestClip } from '@utils/api/requestClip';
 import { web3StorageToken } from '@utils/constants';
 import uploadFile from '@utils/uploadFile';
+import { DropEvent } from 'src/typings/interclip';
 import { Web3Storage } from 'web3.storage';
 
 const RemoteOptionsSelect = () => {
@@ -115,11 +116,6 @@ export default function HomePage() {
       );
     }
   };
-
-  interface DropEvent {
-    dataTransfer?: { files: File[] };
-    target?: { files: File[] };
-  }
 
   const ipfsHandler = async (e: DropEvent) => {
     if (web3StorageToken) {

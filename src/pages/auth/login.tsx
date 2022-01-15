@@ -1,4 +1,5 @@
 import { Layout } from '@components/Layout';
+import MetaMaskLoginButton from '@components/Login/web3';
 import Logo from '@components/Logo';
 import { changeColorBrightness } from '@utils/colors';
 import useHover from '@utils/hooks/useHover';
@@ -39,7 +40,7 @@ const LogIn = ({
   const handleDevSignIn = () => {
     const parsedEmail = inputEmail.trim();
     if (isEmail(parsedEmail)) {
-      signIn('credentials', { email: parsedEmail });
+      signIn('devlogin', { email: parsedEmail });
     } else {
       toast.error('Invalid email provided');
     }
@@ -92,7 +93,8 @@ const LogIn = ({
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const [hoverRef, isHovered] = useHover();
               return (
-                provider.id !== 'credentials' &&
+                provider.id !== 'devlogin' &&
+                provider.id !== 'web3' &&
                 provider.id && (
                   <button
                     className={
@@ -115,6 +117,7 @@ const LogIn = ({
                 )
               );
             })}
+          <MetaMaskLoginButton />
         </div>
       </div>
     </Layout>

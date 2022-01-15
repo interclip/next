@@ -8,6 +8,7 @@ interface CreateArgs {
   name: string;
   isStaff?: boolean;
   image?: string;
+  username?: string;
 }
 
 class DBError extends Error {

@@ -6,6 +6,7 @@ import {
 } from '@utils/constants';
 import React, { Fragment, useState } from 'react';
 import { handleSettingsErrors } from 'src/pages/settings';
+import isEthereumAddress from 'validator/lib/isEthereumAddress';
 
 import SettingsCard from '../SettingsCard';
 
@@ -16,7 +17,7 @@ const GeneralSettings = ({
 }: {
   username?: string;
   name?: string;
-  email?: string;
+  email: string;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [newUsername, setNewUsersname] = useState<string>(username || '');
@@ -122,8 +123,12 @@ const GeneralSettings = ({
         </div>
       </SettingsCard>{' '}
       <SettingsCard
-        title="Your Email"
-        description="Your email address cannot be changed."
+        title={isEthereumAddress(email) ? 'Your wallet address' : 'Your Email'}
+        description={
+          isEthereumAddress(email)
+            ? 'Your attached wallet address cannot be changed'
+            : 'Your email address cannot be changed.'
+        }
       >
         <div className="max-w-[50%]">
           <Input disabled value={email} />

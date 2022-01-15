@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { createUser } from '@utils/api/createUser';
 import { IS_PROD } from '@utils/constants';
 import { db } from '@utils/prisma';
+import { utils } from 'ethers';
 import { name } from 'faker';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -28,6 +29,7 @@ export default NextAuth({
   providers: [
     !IS_PROD &&
       CredentialsProvider({
+        id: 'devlogin',
         name: 'a demo account',
         credentials: {
           email: {
@@ -58,6 +60,56 @@ export default NextAuth({
           return null;
         },
       }),
+    CredentialsProvider({
+      name: 'Web3',
+      id: 'web3',
+      authorize: async (credentials) => {
+        if (
+          !(credentials?.address && credentials.nonce && credentials.signature)
+        ) {
+          return null;
+        }
+        const address = utils.verifyMessage(
+          credentials.nonce,
+          credentials.signature,
+        );
+
+        if (address.toLowerCase() !== credentials.address.toLowerCase()) {
+          console.error(
+            `Adresses don't match: ${address} vs ${credentials.address}`,
+          );
+          return null;
+        }
+        const existingUser = await db.user.findUnique({
+          where: {
+            email: credentials.address,
+          },
+        });
+
+        return (
+          existingUser ||
+          (await createUser({
+            email: credentials.address,
+            username: credentials.address.slice(2, 18),
+            name: name.firstName(),
+            isStaff: true,
+          }))
+        );
+      },
+      type: 'credentials',
+      credentials: {
+        address: {
+          label: 'Web3 address',
+          type: 'text',
+        },
+        nonce: {
+          type: 'text',
+        },
+        signature: {
+          type: 'text',
+        },
+      },
+    }),
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
