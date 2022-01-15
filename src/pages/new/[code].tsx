@@ -2,6 +2,7 @@ import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import Link from '@components/Text/link';
+import { minimumCodeLength } from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
@@ -17,12 +18,10 @@ const CodeView = ({
   code,
   url,
   oembed,
-  codeLength,
 }: {
   code: string;
   url: string;
   oembed: OEmbed;
-  codeLength: number;
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(url);
@@ -40,7 +39,7 @@ const CodeView = ({
                 className="flex items-center justify-center cursor-pointer"
                 title="Copy code to the clipboard"
                 onClick={() => {
-                  navigator.clipboard.writeText(code.slice(0, codeLength));
+                  navigator.clipboard.writeText(code);
                   toast.success('Successfully copied to clipboard');
                   setIsCopied(true);
                   setTimeout(() => {
@@ -48,7 +47,7 @@ const CodeView = ({
                   }, 6900);
                 }}
               >
-                <span>{code.slice(0, codeLength)}</span>
+                <span>{code}</span>
                 <svg
                   className="w-10 h-10 ml-2"
                   fill="none"
@@ -120,13 +119,20 @@ export async function getServerSideProps({
   query: NextApiRequest['query'];
 }) {
   const userCode = query.code;
-  if (userCode && typeof userCode === 'object') {
+  if (
+    (userCode && typeof userCode === 'object') ||
+    userCode.length < minimumCodeLength
+  ) {
     return { notFound: true };
   }
 
   try {
-    const selectedClip = await db.clip.findUnique({
-      where: { code: userCode },
+    const selectedClip = await db.clip.findFirst({
+      where: {
+        code: {
+          startsWith: userCode,
+        },
+      },
       select: { code: true, hashLength: true, url: true },
     });
 
@@ -139,8 +145,7 @@ export async function getServerSideProps({
 
     return {
       props: {
-        code: selectedClip.code,
-        codeLength: selectedClip.hashLength,
+        code: selectedClip.code.slice(0, selectedClip.hashLength),
         url: selectedClip.url,
         oembed: {
           title: additionalDetails.title || additionalDetails.siteName || null,
