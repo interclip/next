@@ -3,11 +3,11 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/requestClip';
-import { web3StorageToken } from '@utils/constants';
+import { StorageProvider, web3StorageToken } from '@utils/constants';
 import uploadFile from '@utils/uploadFile';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { DropEvent, StorageProvider } from 'src/typings/interclip';
+import { DropEvent } from 'src/typings/interclip';
 import { Web3Storage } from 'web3.storage';
 import WebTorrent from 'webtorrent';
 

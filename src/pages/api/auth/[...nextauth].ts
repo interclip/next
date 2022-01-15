@@ -1,7 +1,7 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
 import { createUser } from '@utils/api/createUser';
-import { IS_PROD } from '@utils/constants';
+import { IS_PROD, StorageProvider } from '@utils/constants';
 import { db } from '@utils/prisma';
 import { utils } from 'ethers';
 import { name } from 'faker';
@@ -10,8 +10,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
 import GitlabProvider from 'next-auth/providers/gitlab';
 import isEmail from 'validator/lib/isEmail';
-
-import { StorageProvider } from '../../../typings/interclip';
 
 const prisma = new PrismaClient();
 

@@ -5,3 +5,8 @@ export const maxNameAllowedLength = 64;
 export const maxUsernameAllowedLength = 48;
 
 export const minimumCodeLength = 5;
+
+export enum StorageProvider {
+  S3 = 'S3',
+  IPFS = 'IPFS',
+}

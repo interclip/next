@@ -1,3 +1,4 @@
+import { StorageProvider } from '../lib/constants';
 import { Clip } from '.prisma/client';
 
 interface OEmbed {
@@ -43,11 +44,6 @@ interface APIResponse {
 interface DropEvent {
   dataTransfer?: { files: File[] };
   target?: { files: File[] };
-}
-
-export enum StorageProvider {
-  S3 = 'S3',
-  IPFS = 'IPFS',
 }
 
 export interface CreatUsereArgs {
