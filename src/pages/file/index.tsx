@@ -2,19 +2,20 @@ import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
-import React, { Fragment, useEffect, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import WebTorrent from 'webtorrent';
-const remoteOptions = [
-  { name: 'Peer to Peer' },
-  { name: 'IPFS' },
-  { name: 'S3' },
-];
 import { requestClip } from '@utils/api/requestClip';
 import { web3StorageToken } from '@utils/constants';
 import uploadFile from '@utils/uploadFile';
-import { DropEvent } from 'src/typings/interclip';
+import React, { Fragment, useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { DropEvent, StorageProvider } from 'src/typings/interclip';
 import { Web3Storage } from 'web3.storage';
+import WebTorrent from 'webtorrent';
+
+const remoteOptions = [
+  { name: 'Peer to Peer' },
+  { name: StorageProvider.IPFS },
+  { name: StorageProvider.S3 },
+];
 
 const RemoteOptionsSelect = () => {
   const [selected, setSelected] = useState(remoteOptions[0]);
