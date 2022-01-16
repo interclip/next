@@ -76,29 +76,27 @@ const About = (props: {
             </li>
           </ul>
           <H2>Mobile app</H2>
-          <div className="items-start w-full">
-            <div className="relative h-16 m-2">
-              <Link href="https://apps.apple.com/cz/app/interclip/id1546777494">
-                <Image
-                  src="/images/appstore.png"
-                  layout="fill"
-                  objectFit="scale-down"
-                  objectPosition="left"
-                  alt="Apple app store"
-                />
-              </Link>{' '}
-            </div>
-            <div className="relative h-16 m-2">
-              <Link href="https://play.google.com/store/apps/details?id=com.filiptronicek.iclip">
-                <Image
-                  src="/images/googleplay.webp"
-                  layout="fill"
-                  objectFit="scale-down"
-                  objectPosition="left"
-                  alt="Google play"
-                />
-              </Link>
-            </div>
+          <div>
+            <Link href="https://apps.apple.com/cz/app/interclip/id1546777494">
+              <Image
+                alt="Apple app store"
+                src="/images/appstore.png"
+                width={184}
+                height={64}
+                objectPosition="left"
+              />
+            </Link>
+          </div>
+          <div>
+            <Link href="https://play.google.com/store/apps/details?id=com.filiptronicek.iclip">
+              <Image
+                alt="Google play"
+                src="/images/googleplay.webp"
+                width={217}
+                height={64}
+                objectPosition="left"
+              />
+            </Link>
           </div>
         </div>
       </section>
