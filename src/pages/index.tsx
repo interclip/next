@@ -1,4 +1,4 @@
-import { requestClip } from '@utils/api/requestClip';
+import { requestClip } from '@utils/api/client/requestClip';
 import { minimumCodeLength } from '@utils/constants';
 import { getClipHash } from '@utils/generateID';
 import type { NextPage } from 'next';

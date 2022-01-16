@@ -1,7 +1,7 @@
 import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
-import { APIError, getClip } from '@utils/api/requestClip';
+import { APIError, getClip } from '@utils/api/client/requestClip';
 import { NextApiRequest } from 'next';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';

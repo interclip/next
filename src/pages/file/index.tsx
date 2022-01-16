@@ -2,7 +2,7 @@ import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
-import { requestClip } from '@utils/api/requestClip';
+import { requestClip } from '@utils/api/client/requestClip';
 import { StorageProvider, web3StorageToken } from '@utils/constants';
 import uploadFile from '@utils/uploadFile';
 import React, { Fragment, useEffect, useState } from 'react';

@@ -7,7 +7,7 @@ import {
 } from '@components/Settings/Tabs';
 import Avatar from '@components/shared/Avatar';
 import { User } from '@prisma/client';
-import { APIError } from '@utils/api/requestClip';
+import { APIError } from '@utils/api/client/requestClip';
 import { setSettings } from '@utils/api/setSetting';
 import { NextApiRequest } from 'next';
 import React, { useState } from 'react';

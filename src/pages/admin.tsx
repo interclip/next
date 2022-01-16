@@ -6,6 +6,11 @@ import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { Tab } from '@headlessui/react';
 import { User } from '@prisma/client';
+import {
+  fetchClips,
+  fetchUsers,
+  initialItemsToLoad,
+} from '@utils/api/client/admin';
 import { db } from '@utils/prisma';
 import {
   GIT_COMMIT_AUTHOR,
@@ -18,56 +23,10 @@ import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { SyncLoader } from 'react-spinners';
-import { APIResponse, ClipWithPreview } from 'src/typings/interclip';
+import { ClipWithPreview } from 'src/typings/interclip';
 
 import { Layout } from '../components/Layout';
 import { getUserDetails } from './api/account/getDetails';
-
-interface UserResponse extends APIResponse {
-  result: User[];
-}
-
-const initialItemsToLoad = 15;
-
-const fetchUsers = async (
-  from: number,
-  setMoreUsersToLoad: React.Dispatch<React.SetStateAction<boolean>>,
-): Promise<User[]> => {
-  const response = await fetch(
-    `/api/admin/getUsers?from=${from}&limit=${
-      from === 0 ? initialItemsToLoad : 5
-    }`,
-  );
-  if (!response.ok) {
-    throw new Error('Not ok');
-  } else if (response.status === 204) {
-    setMoreUsersToLoad(false);
-    return [];
-  }
-
-  const data: UserResponse = await response.json();
-  return data.result;
-};
-
-const fetchClips = async (
-  from: number,
-  setMoreClipsToLoad: React.Dispatch<React.SetStateAction<boolean>>,
-): Promise<User[]> => {
-  const response = await fetch(
-    `/api/admin/getClips?from=${from}&limit=${
-      from === 0 ? initialItemsToLoad : 5
-    }`,
-  );
-  if (!response.ok) {
-    throw new Error('Not ok');
-  } else if (response.status === 204) {
-    setMoreClipsToLoad(false);
-    return [];
-  }
-
-  const data: UserResponse = await response.json();
-  return data.result;
-};
 
 interface AboutPageProps {
   clipCount: number;
@@ -77,11 +36,7 @@ interface AboutPageProps {
   commitRef: string;
   commitMessage: string;
   commitAuthor: string;
-  user: {
-    name: string;
-    username: string;
-    isStaff: boolean;
-  };
+  user: User;
 }
 
 const About = ({

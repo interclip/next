@@ -36,9 +36,14 @@ interface ClipWithPreview extends Clip {
   oembed?: OEmbed;
 }
 
-interface APIResponse {
-  status: 'error' | 'success';
-  result: any;
+interface ErrorResponse {
+  status: 'error';
+  result: string;
+}
+
+interface SuccessResponse<T> {
+  status: 'success';
+  result: T;
 }
 
 interface DropEvent {

@@ -1,7 +1,16 @@
 import { User } from '@prisma/client';
-import { ErrorResponse, SuccessResponse } from 'src/typings/interclip';
 
-import { APIError } from './client/requestClip';
+import { APIError } from './requestClip';
+
+interface ErrorResponse {
+  status: 'error';
+  result: string;
+}
+
+interface SuccessResponse<T> {
+  status: 'success';
+  result: T;
+}
 
 type UserResponse = SuccessResponse<User> | ErrorResponse;
 
