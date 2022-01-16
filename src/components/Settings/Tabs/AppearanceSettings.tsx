@@ -15,10 +15,12 @@ const AppearanceSettings = () => {
 
   return (
     <>
-      <SettingsCard title="Color Scheme" onSave={() => {}}>
+      <SettingsCard title="Color Scheme">
         <div className="max-w-[50%]">
           <Select
-            onChange={(e) => setTheme(e?.target.value || 'system')}
+            onChange={(e) => {
+              setTheme(e?.target.value || 'system');
+            }}
             defaultValue={theme}
             options={themeOptions}
           />

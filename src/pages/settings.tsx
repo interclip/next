@@ -7,10 +7,27 @@ import {
 } from '@components/Settings/Tabs';
 import Avatar from '@components/shared/Avatar';
 import { User } from '@prisma/client';
+import { APIError } from '@utils/api/client/requestClip';
+import { setSettings } from '@utils/api/setSetting';
 import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { getUserDetails } from './api/account/getDetails';
+
+export const handleSettingsErrors = async (data: { [key: string]: string }) => {
+  try {
+    await setSettings(data);
+    toast.success('Setting updated!');
+  } catch (e) {
+    if (e instanceof APIError) {
+      toast.error(e.message);
+    } else {
+      // @ts-ignore
+      toast.error(e);
+    }
+  }
+};
 
 const Settings = (props: { user: User }): JSX.Element => {
   const [settings, setSettings] = useState('General');

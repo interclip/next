@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,8 +15,11 @@ jobs:
       - name: Setup
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: '14.x'
           cache: 'yarn'
+
+      - name: Count Lines of Code (cloc)
+        uses: djdefi/cloc-action@main
 
       - name: Install Dependencies
         run: yarn

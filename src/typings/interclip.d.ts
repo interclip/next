@@ -1,3 +1,4 @@
+import { StorageProvider } from '../lib/constants';
 import { Clip } from '.prisma/client';
 
 interface OEmbed {
@@ -35,7 +36,34 @@ interface ClipWithPreview extends Clip {
   oembed?: OEmbed;
 }
 
+interface ErrorResponse {
+  status: 'error';
+  /**
+   * The error message to be displayed
+   */
+  result: string;
+}
+
+interface SuccessResponse<T> {
+  status: 'success';
+  result: T;
+}
+
 interface APIResponse {
-  status: 'error' | 'success';
+  status: 'success' | 'error';
   result: any;
+}
+
+interface DropEvent {
+  dataTransfer?: { files: File[] };
+  target?: { files: File[] };
+}
+
+export interface CreatUsereArgs {
+  email: string;
+  name?: string;
+  isStaff?: boolean;
+  image?: string;
+  username?: string;
+  storageProvider?: StorageProvider;
 }

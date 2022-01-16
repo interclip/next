@@ -1,7 +1,7 @@
 import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
-import { APIError, getClip } from '@utils/requestClip';
+import { APIError, getClip } from '@utils/api/client/requestClip';
 import { NextApiRequest } from 'next';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -27,6 +27,11 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
 
           if (!clipMagnet) {
             toast.error('This clip does not exist');
+            return;
+          }
+
+          if (clipMagnet.status === 'error') {
+            toast.error(`Error getting the clip ${clipMagnet.result}`);
             return;
           }
 

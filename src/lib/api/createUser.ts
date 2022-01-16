@@ -2,14 +2,7 @@ import { User } from '@prisma/client';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import crypto from 'crypto';
-import { internet } from 'faker';
-
-interface CreateArgs {
-  email: string;
-  name: string;
-  isStaff?: boolean;
-  image?: string;
-}
+import { CreatUsereArgs } from 'src/typings/interclip';
 
 class DBError extends Error {
   constructor(message: string) {
@@ -29,9 +22,11 @@ const getFromAvatar = async (email: string): Promise<string | undefined> => {
   return gravatarResponse.ok ? proxied(url, 80, 80) : undefined;
 };
 
-export const createUser = async (data: CreateArgs): Promise<User | never> => {
+export const createUser = async (
+  data: CreatUsereArgs,
+): Promise<User | never> => {
   if (!data.image) {
-    data['image'] = (await getFromAvatar(data.email)) || internet.avatar();
+    data['image'] = await getFromAvatar(data.email);
   }
 
   try {

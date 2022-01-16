@@ -38,6 +38,9 @@ model User {
   name          String?
   emailVerified DateTime?
   image         String?
+  storageProvider String @default("S3")
+  clipExpirationPreference Int @default(90)
+
   accounts      Account[]
   sessions      Session[]
 

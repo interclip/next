@@ -7,7 +7,7 @@ import React from 'react';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={session} refetchInterval={5 * 60}>
       <ThemeProvider attribute="class">
         <Component {...pageProps} />
       </ThemeProvider>

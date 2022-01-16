@@ -1,6 +1,12 @@
 import { Input } from '@components/Input';
 import { Dialog, Transition } from '@headlessui/react';
+import {
+  maxNameAllowedLength,
+  maxUsernameAllowedLength,
+} from '@utils/constants';
 import React, { Fragment, useState } from 'react';
+import { handleSettingsErrors } from 'src/pages/settings';
+import isEthereumAddress from 'validator/lib/isEthereumAddress';
 
 import SettingsCard from '../SettingsCard';
 
@@ -11,9 +17,12 @@ const GeneralSettings = ({
 }: {
   username?: string;
   name?: string;
-  email?: string;
+  email: string;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [newUsername, setNewUsersname] = useState<string>(username || '');
+  const [newName, setNewName] = useState<string>(name || '');
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -80,26 +89,46 @@ const GeneralSettings = ({
         </Dialog>
       </Transition>{' '}
       <SettingsCard
+        isDisabled={username === newUsername}
         title="Your Username"
-        footerDescription="Please use 48 characters at maximum."
+        footerDescription={`Please use ${maxUsernameAllowedLength} characters at maximum.`}
+        onSave={async () => {
+          await handleSettingsErrors({ username: newUsername });
+        }}
       >
         <div className="max-w-[50%]">
-          <Input defaultValue={username} maxLength={48} />
+          <Input
+            value={newUsername}
+            onChange={(e) => setNewUsersname(e.target.value)}
+            maxLength={maxUsernameAllowedLength}
+          />
         </div>
       </SettingsCard>
       <SettingsCard
+        isDisabled={name === newName}
         title="Your Name"
         description="Please enter your full name, or a display name you are comfortable
               with."
-        footerDescription="Please use 32 characters at maximum."
+        footerDescription={`Please use ${maxNameAllowedLength} characters at maximum.`}
+        onSave={async () => {
+          await handleSettingsErrors({ name: newName });
+        }}
       >
         <div className="max-w-[50%]">
-          <Input defaultValue={name} maxLength={32} />
+          <Input
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            maxLength={maxNameAllowedLength}
+          />
         </div>
       </SettingsCard>{' '}
       <SettingsCard
-        title="Your Email"
-        description="Your email address cannot be changed."
+        title={isEthereumAddress(email) ? 'Your wallet address' : 'Your Email'}
+        description={
+          isEthereumAddress(email)
+            ? 'Your attached wallet address cannot be changed'
+            : 'Your email address cannot be changed.'
+        }
       >
         <div className="max-w-[50%]">
           <Input disabled value={email} />
@@ -107,9 +136,9 @@ const GeneralSettings = ({
       </SettingsCard>{' '}
       <SettingsCard
         title="Delete Personal Account"
-        warning
+        dangerous
         buttonText="Delete Personal Account"
-        onSave={() => {
+        onSave={async () => {
           setIsOpen(true);
         }}
       >

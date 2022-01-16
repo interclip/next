@@ -1,24 +1,35 @@
-import 'tailwindcss/tailwind.css';
-
 import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
-import React, { Fragment, useState } from 'react';
+import { requestClip } from '@utils/api/client/requestClip';
+import { StorageProvider, web3StorageToken } from '@utils/constants';
+import uploadFile from '@utils/uploadFile';
+import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { DropEvent } from 'src/typings/interclip';
+import { Web3Storage } from 'web3.storage';
 import WebTorrent from 'webtorrent';
+
 const remoteOptions = [
   { name: 'Peer to Peer' },
-  { name: 'IPFS' },
-  { name: 'Interclip file server' },
+  { name: StorageProvider.IPFS },
+  { name: StorageProvider.S3 },
 ];
-import { web3StorageToken } from '@utils/constants';
-import { requestClip } from '@utils/requestClip';
-import uploadFile from '@utils/uploadFile';
-import { Web3Storage } from 'web3.storage';
 
 const RemoteOptionsSelect = () => {
   const [selected, setSelected] = useState(remoteOptions[0]);
+
+  useEffect(() => {
+    fetch('/api/account/getDetails?params=storageProvider').then(
+      async (res) => {
+        if (res.ok) {
+          const response = await res.json();
+          setSelected({ name: response.storageProvider });
+        }
+      },
+    );
+  }, []);
 
   return (
     <div className="w-72">
@@ -106,11 +117,6 @@ export default function HomePage() {
     }
   };
 
-  interface DropEvent {
-    dataTransfer?: { files: File[] };
-    target?: { files: File[] };
-  }
-
   const ipfsHandler = async (e: DropEvent) => {
     if (web3StorageToken) {
       const client = new Web3Storage({ token: web3StorageToken });
@@ -125,11 +131,14 @@ export default function HomePage() {
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
-      if (clipResponse) {
-        setCode(
-          clipResponse.result.code.slice(0, clipResponse.result.hashLength),
-        );
+      if (clipResponse.status === 'error') {
+        toast.error(`An error has occured: ${clipResponse.result}`);
+        return;
       }
+
+      setCode(
+        clipResponse.result.code.slice(0, clipResponse.result.hashLength),
+      );
     } else {
       toast.error('Web3.storage token not provided');
     }
@@ -148,7 +157,7 @@ export default function HomePage() {
         case 'iss':
           const fileURL = await uploadFile(filesEndpoint, e);
           const clipResponse = await requestClip(fileURL);
-          if (clipResponse) {
+          if (clipResponse.status === 'success') {
             setCode(clipResponse.result.code);
           }
           setFileURL(fileURL);
