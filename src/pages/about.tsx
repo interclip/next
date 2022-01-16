@@ -11,7 +11,7 @@ const About = (props: {
   clipCount: number;
   userCount: number;
   version: string;
-}): JSX.Element => {
+}): React.ReactNode => {
   const [contributorsCount, setContributorsCount] = useState(0);
 
   useEffect(() => {
