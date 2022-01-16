@@ -38,6 +38,9 @@ interface ClipWithPreview extends Clip {
 
 interface ErrorResponse {
   status: 'error';
+  /**
+   * The error message to be displayed
+   */
   result: string;
 }
 
