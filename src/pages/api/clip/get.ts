@@ -2,11 +2,21 @@ import getCacheToken from '@utils/determineCacheToken';
 import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { APIResponse } from 'src/typings/interclip';
+interface ErrorResponse {
+  status: 'error';
+  result: string;
+}
+
+interface SuccessResponse<T> {
+  status: 'success';
+  result: T;
+}
+
+type ClipResponse = SuccessResponse<any> | ErrorResponse;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<APIResponse>,
+  res: NextApiResponse<ClipResponse>,
 ) {
   try {
     await limiter.check(res, 169, getCacheToken(req));

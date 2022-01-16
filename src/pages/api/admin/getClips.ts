@@ -1,13 +1,24 @@
+import { Clip } from '@prisma/client';
 import { needsAdmin } from '@utils/api/ensureAuth';
+import { db } from '@utils/prisma';
+import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { APIResponse } from 'src/typings/interclip';
 
-import { db } from '../../../lib/prisma';
-import limiter from '../../../lib/rateLimit';
+interface ErrorResponse {
+  status: 'error';
+  result: string;
+}
+
+interface SuccessResponse<T> {
+  status: 'success';
+  result: T;
+}
+
+type ClipsResponse = SuccessResponse<Clip[]> | ErrorResponse;
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<APIResponse>,
+  res: NextApiResponse<ClipsResponse>,
 ) {
   try {
     await limiter.check(res, 169, 'CACHE_TOKEN');
@@ -72,7 +83,7 @@ export default async function handler(
       });
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).json({
       status: 'error',
       result: 'An error with the database has occured.',
