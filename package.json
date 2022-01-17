@@ -41,7 +41,7 @@
     "next-pwa": "^5.4.4",
     "next-seo": "^4.28.1",
     "next-themes": "^0.0.15",
-    "node-fetch": "2.6.6",
+    "node-fetch": "2.6.7",
     "random-youtube-music-video": "^1.0.6",
     "react": "17.0.2",
     "react-dom": "17.0.2",
