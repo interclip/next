@@ -91,7 +91,7 @@ export default NextAuth({
           (await createUser({
             email: credentials.address,
             username: credentials.address.slice(2, 18),
-            isStaff: true,
+            isStaff: !IS_PROD,
             storageProvider: StorageProvider.IPFS,
           }))
         );
