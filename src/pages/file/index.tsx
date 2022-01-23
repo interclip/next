@@ -33,7 +33,7 @@ const RemoteOptionsSelect = () => {
         },
       );
     }
-  }, []);
+  }, [status]);
 
   return (
     <div className="w-72">
