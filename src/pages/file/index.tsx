@@ -59,9 +59,10 @@ const RemoteOptionsSelect = () => {
                 <Listbox.Option
                   key={optionIdx}
                   className={({ active }) =>
-                    `${active
-                      ? 'text-amber-900 dark:text-light-bg bg-amber-100 dark:bg-dark-bg'
-                      : 'dark:bg-dark-secondary'
+                    `${
+                      active
+                        ? 'text-amber-900 dark:text-light-bg bg-amber-100 dark:bg-dark-bg'
+                        : 'dark:bg-dark-secondary'
                     }
                     cursor-default select-none relative py-2 pl-10 pr-4 text-dark-text`
                   }
@@ -70,15 +71,17 @@ const RemoteOptionsSelect = () => {
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={`${selected ? 'font-medium' : 'font-normal'
-                          } block truncate`}
+                        className={`${
+                          selected ? 'font-medium' : 'font-normal'
+                        } block truncate`}
                       >
                         {option.name}
                       </span>
                       {selected ? (
                         <span
-                          className={`${active ? 'text-amber-600' : 'text-amber-600'
-                            }
+                          className={`${
+                            active ? 'text-amber-600' : 'text-amber-600'
+                          }
                           absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <CheckIcon className="w-5 h-5" aria-hidden="true" />
@@ -126,8 +129,9 @@ export default function FilePage() {
         maxRetries: 3,
         wrapWithDirectory: false,
       });
-      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${files![0]?.name
-        }`;
+      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${
+        files![0]?.name
+      }`;
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
@@ -292,8 +296,8 @@ export default function FilePage() {
                           {storage === 'iss'
                             ? fileURL.replace('https://', '')
                             : storage === 'ipfs'
-                              ? new URL(fileURL).pathname.split('/').at(-1)
-                              : fileURL}
+                            ? new URL(fileURL).pathname.split('/').at(-1)
+                            : fileURL}
                         </a>
                       </span>
                     </p>
