@@ -1,5 +1,6 @@
 import { signIn } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Web3 from 'web3';
 
 export let web3: Web3 | undefined;
@@ -25,33 +26,38 @@ const MetaMaskLoginButton = () => {
   }, [setState]);
 
   const signInWithWallet = useCallback(async () => {
-    // @ts-ignore
-    window.ethereum
-      ?.request({ method: 'eth_requestAccounts' })
-      // Returns an array of web3 addresses.
-      .then(async (accounts: string[]) => {
-        try {
-          const nonce = `sign_in_${Math.random().toString(16).slice(2, 18)}`;
-          // @ts-ignore
-          const signedToken: string = await window.ethereum?.request({
-            method: 'personal_sign',
-            params: [nonce, accounts[0]],
-          });
+    if (!(window as any).etherum) {
+      toast.error(
+        'You need to install the Metamask browser extension for this to work',
+      );
+    } else {
+      (window as any).ethereum
+        ?.request({ method: 'eth_requestAccounts' })
+        // Returns an array of web3 addresses.
+        .then(async (accounts: string[]) => {
+          try {
+            const nonce = `sign_in_${Math.random().toString(16).slice(2, 18)}`;
+            const signedToken: string = await (window as any).ethereum?.request(
+              {
+                method: 'personal_sign',
+                params: [nonce, accounts[0]],
+              },
+            );
 
-          signIn('web3', {
-            nonce,
-            address: accounts[0],
-            signature: signedToken,
-          });
-        } catch (e) {
-          console.error(e);
-        }
-      });
+            signIn('web3', {
+              nonce,
+              address: accounts[0],
+              signature: signedToken,
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        });
+    }
   }, []);
 
   useEffect(() => {
-    //@ts-ignore
-    web3 = new Web3(window.ethereum as any);
+    web3 = new Web3((window as any).etherum as any);
     checkConnectedWallet();
   }, [checkConnectedWallet]);
 
@@ -61,6 +67,7 @@ const MetaMaskLoginButton = () => {
     <button
       className="w-full h-12 mb-4 font-bold text-white rounded-lg bg-[#f6851b] hover:bg-[#cd6116] transition"
       onClick={signInWithWallet}
+      disabled={!!(window as any).etherum}
     >
       Authenticate with Metamask
     </button>
