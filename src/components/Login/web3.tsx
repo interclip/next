@@ -45,10 +45,10 @@ const MetaMaskLoginButton = () => {
             );
 
             toast.promise(
-              new Promise(function (_resolve, reject) {
+              new Promise((_resolve, reject) => {
                 setTimeout(() => {
                   reject('timeout');
-                }, 20_000);
+                }, 20000);
               }),
               {
                 loading: 'Signing you in...',
