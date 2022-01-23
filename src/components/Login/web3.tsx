@@ -26,7 +26,7 @@ const MetaMaskLoginButton = () => {
   }, [setState]);
 
   const signInWithWallet = useCallback(async () => {
-    if (!(window as any).etherum) {
+    if (!(window as any).ethereum) {
       toast.error(
         'You need to install the Metamask browser extension for this to work',
       );
