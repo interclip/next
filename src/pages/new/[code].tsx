@@ -1,8 +1,9 @@
 import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
+import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import { minimumCodeLength } from '@utils/constants';
+import { ipfsGateway, minimumCodeLength } from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
@@ -18,9 +19,11 @@ const CodeView = ({
   code,
   url,
   oembed,
+  ipfsHash,
 }: {
   code: string;
   url: string;
+  ipfsHash?: string;
   oembed: OEmbed;
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
@@ -108,6 +111,46 @@ const CodeView = ({
           </div>
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
+        {ipfsHash && (
+          <div className="flex flex-col justify-between w-full p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+            <H3>Special</H3>
+            <div
+              className="flex flex-col cursor-pointer"
+              title="Copy code to the clipboard"
+            >
+              <a
+                href={`${ipfsGateway}/ipfs/${ipfsHash}`}
+                target={'_blank'}
+                rel={'noopener noreferrer'}
+                title="Backed up to IPFS"
+                className="flex flex-row items-center mt-4 underline gap-1"
+              >
+                <Image
+                  alt="IPFS logo"
+                  src={'/images/ipfs-logo.svg'}
+                  width={20}
+                  height={20}
+                />
+                <span>Backed up to IPFS</span>
+                <svg
+                  className="w-6 h-6"
+                  data-darkreader-inline-stroke=""
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        )}
       </section>
     </Layout>
   );
@@ -133,7 +176,7 @@ export async function getServerSideProps({
           startsWith: userCode,
         },
       },
-      select: { code: true, hashLength: true, url: true },
+      select: { code: true, hashLength: true, url: true, ipfsHash: true },
     });
 
     if (!selectedClip) {
@@ -147,6 +190,7 @@ export async function getServerSideProps({
       props: {
         code: selectedClip.code.slice(0, selectedClip.hashLength),
         url: selectedClip.url,
+        ipfsHash: selectedClip.ipfsHash,
         oembed: {
           title: additionalDetails.title || additionalDetails.siteName || null,
           description: additionalDetails.description || null,

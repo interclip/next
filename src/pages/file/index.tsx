@@ -3,7 +3,11 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/client/requestClip';
-import { StorageProvider, web3StorageToken } from '@utils/constants';
+import {
+  ipfsGateway,
+  StorageProvider,
+  web3StorageToken,
+} from '@utils/constants';
 import uploadFile from '@utils/uploadFile';
 import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
@@ -129,9 +133,7 @@ export default function FilePage() {
         maxRetries: 3,
         wrapWithDirectory: false,
       });
-      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${
-        files![0]?.name
-      }`;
+      const url = `${ipfsGateway}/ipfs/${rootCID}?filename=${files![0]?.name}`;
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
