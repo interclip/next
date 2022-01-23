@@ -9,6 +9,7 @@ import Avatar from '@components/shared/Avatar';
 import { User } from '@prisma/client';
 import { APIError } from '@utils/api/client/requestClip';
 import { setSettings } from '@utils/api/setSetting';
+import { useENS } from '@utils/hooks/useENS';
 import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -31,6 +32,7 @@ export const handleSettingsErrors = async (data: { [key: string]: string }) => {
 
 const Settings = (props: { user: User }): JSX.Element => {
   const [settings, setSettings] = useState('General');
+  const resolvedEthName = useENS(props.user.email);
 
   return (
     <Layout>
@@ -40,7 +42,9 @@ const Settings = (props: { user: User }): JSX.Element => {
             <Avatar user={props.user} size={120} />
           </div>
           <div className="mt-2">
-            <a className="text-lg font-semibold">{props.user.name} </a>
+            <a className="text-lg font-semibold">
+              {props.user.name || resolvedEthName.ensName}
+            </a>
             <br />@{props.user.username}
           </div>
         </div>

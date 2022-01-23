@@ -44,6 +44,18 @@ const MetaMaskLoginButton = () => {
               },
             );
 
+            toast.promise(
+              new Promise(function (_resolve, reject) {
+                setTimeout(() => {
+                  reject('timeout');
+                }, 20_000);
+              }),
+              {
+                loading: 'Signing you in...',
+                success: <b>Signed you in!</b>,
+                error: <b>Could not sign you in, please try again.</b>,
+              },
+            );
             signIn('web3', {
               nonce,
               address: accounts[0],

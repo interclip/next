@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { createUser } from '@utils/api/createUser';
 import { IS_PROD, StorageProvider } from '@utils/constants';
 import { db } from '@utils/prisma';
-import { utils } from 'ethers';
+import { getDefaultProvider, utils } from 'ethers';
 import { name } from 'faker';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -69,6 +69,7 @@ export default NextAuth({
         ) {
           return null;
         }
+
         const address = utils.verifyMessage(
           credentials.nonce,
           credentials.signature,
@@ -80,21 +81,37 @@ export default NextAuth({
           );
           return null;
         }
+
         const existingUser = await db.user.findUnique({
           where: {
             email: credentials.address,
           },
         });
 
-        return (
-          existingUser ||
-          (await createUser({
-            email: credentials.address,
-            username: credentials.address.slice(2, 18),
-            isStaff: !IS_PROD,
-            storageProvider: StorageProvider.IPFS,
-          }))
-        );
+        if (existingUser) {
+          return existingUser;
+        }
+
+        const provider = getDefaultProvider();
+        const ensName = await provider.lookupAddress(address);
+
+        let name, avatar;
+        if (ensName) {
+          const resolver = await provider.getResolver(ensName);
+          if (resolver) {
+            avatar = (await resolver.getAvatar())?.url || undefined;
+            name = (await resolver.getText('name')) || undefined;
+          }
+        }
+
+        return await createUser({
+          email: credentials.address,
+          username: ensName || credentials.address.slice(2, 18),
+          image: avatar,
+          isStaff: !IS_PROD,
+          name,
+          storageProvider: StorageProvider.IPFS,
+        });
       },
       type: 'credentials',
       credentials: {
