@@ -5,6 +5,7 @@ import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/client/requestClip';
 import { StorageProvider, web3StorageToken } from '@utils/constants';
 import uploadFile from '@utils/uploadFile';
+import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { DropEvent } from 'src/typings/interclip';
@@ -20,15 +21,18 @@ const remoteOptions = [
 const RemoteOptionsSelect = () => {
   const [selected, setSelected] = useState(remoteOptions[0]);
 
+  const { status } = useSession();
   useEffect(() => {
-    fetch('/api/account/getDetails?params=storageProvider').then(
-      async (res) => {
-        if (res.ok) {
-          const response = await res.json();
-          setSelected({ name: response.storageProvider });
-        }
-      },
-    );
+    if (status !== 'unauthenticated') {
+      fetch('/api/account/getDetails?params=storageProvider').then(
+        async (res) => {
+          if (res.ok) {
+            const response = await res.json();
+            setSelected({ name: response.storageProvider });
+          }
+        },
+      );
+    }
   }, []);
 
   return (
@@ -55,10 +59,9 @@ const RemoteOptionsSelect = () => {
                 <Listbox.Option
                   key={optionIdx}
                   className={({ active }) =>
-                    `${
-                      active
-                        ? 'text-amber-900 dark:text-light-bg bg-amber-100 dark:bg-dark-bg'
-                        : 'dark:bg-dark-secondary'
+                    `${active
+                      ? 'text-amber-900 dark:text-light-bg bg-amber-100 dark:bg-dark-bg'
+                      : 'dark:bg-dark-secondary'
                     }
                     cursor-default select-none relative py-2 pl-10 pr-4 text-dark-text`
                   }
@@ -67,17 +70,15 @@ const RemoteOptionsSelect = () => {
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={`${
-                          selected ? 'font-medium' : 'font-normal'
-                        } block truncate`}
+                        className={`${selected ? 'font-medium' : 'font-normal'
+                          } block truncate`}
                       >
                         {option.name}
                       </span>
                       {selected ? (
                         <span
-                          className={`${
-                            active ? 'text-amber-600' : 'text-amber-600'
-                          }
+                          className={`${active ? 'text-amber-600' : 'text-amber-600'
+                            }
                           absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <CheckIcon className="w-5 h-5" aria-hidden="true" />
@@ -95,7 +96,7 @@ const RemoteOptionsSelect = () => {
   );
 };
 
-export default function HomePage() {
+export default function FilePage() {
   const filesEndpoint = 'https://files.interclip.app';
 
   const [showOverlay, setShowOverlay] = useState(false);
@@ -125,9 +126,8 @@ export default function HomePage() {
         maxRetries: 3,
         wrapWithDirectory: false,
       });
-      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${
-        files![0]?.name
-      }`;
+      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${files![0]?.name
+        }`;
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
@@ -292,8 +292,8 @@ export default function HomePage() {
                           {storage === 'iss'
                             ? fileURL.replace('https://', '')
                             : storage === 'ipfs'
-                            ? new URL(fileURL).pathname.split('/').at(-1)
-                            : fileURL}
+                              ? new URL(fileURL).pathname.split('/').at(-1)
+                              : fileURL}
                         </a>
                       </span>
                     </p>
