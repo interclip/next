@@ -1,8 +1,9 @@
 import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
+import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import { minimumCodeLength } from '@utils/constants';
+import { ipfsGateway, minimumCodeLength } from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
@@ -18,25 +19,28 @@ const CodeView = ({
   code,
   url,
   oembed,
+  ipfsHash,
 }: {
   code: string;
   url: string;
+  ipfsHash?: string;
   oembed: OEmbed;
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(url);
   const simplifiedURL = truncate(urlObject, 40);
   const [isCopied, setIsCopied] = useState(false);
+  const [isFaviconShown, setIsFaviconShown] = useState<boolean>(true);
 
   return (
     <Layout>
-      <section className="flex flex-col items-center justify-center w-full h-full max-w-2xl pt-[100px]">
-        <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+      <section className="flex h-full w-full max-w-2xl flex-col items-center justify-center pt-[100px]">
+        <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
-            <h2 className="mx-auto mb-2 text-4xl text-center">
+            <h2 className="mx-auto mb-2 text-center text-4xl">
               Created clip with code:{' '}
               <div
-                className="flex items-center justify-center cursor-pointer"
+                className="flex cursor-pointer items-center justify-center"
                 title="Copy code to the clipboard"
                 onClick={() => {
                   navigator.clipboard.writeText(code);
@@ -49,7 +53,7 @@ const CodeView = ({
               >
                 <span>{code}</span>
                 <svg
-                  className="w-10 h-10 ml-2"
+                  className="ml-2 h-10 w-10"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -75,9 +79,9 @@ const CodeView = ({
             </h2>
           </div>
         </div>
-        <div className="flex justify-between w-full p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+        <div className="shadow-custom mb-8 flex w-full justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
-            <h2 className="mb-2 text-4xl max-w-[30rem]">
+            <h2 className="mb-2 max-w-[30rem] text-4xl">
               {oembed.title || code}
             </h2>
             <h3 className="text-2xl text-gray-400">
@@ -91,13 +95,16 @@ const CodeView = ({
             </p>
           </div>
           <div className="flex flex-col items-center">
-            {oembed.favicons.length > 0 && (
+            {oembed.favicons.length > 0 && isFaviconShown && (
               <Image
                 src={proxied(getBestFavicon(oembed.favicons)!, 300, 300)}
                 alt="The site's favicon"
                 className="rounded"
                 width={72}
                 height={72}
+                onError={() => {
+                  setIsFaviconShown(false);
+                }}
               />
             )}
             <QRIcon
@@ -108,6 +115,46 @@ const CodeView = ({
           </div>
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
+        {ipfsHash && (
+          <div className="shadow-custom mb-8 flex w-full flex-col justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
+            <H3>Special</H3>
+            <div
+              className="flex cursor-pointer flex-col"
+              title="Copy code to the clipboard"
+            >
+              <a
+                href={`${ipfsGateway}/ipfs/${ipfsHash}`}
+                target={'_blank'}
+                rel={'noopener noreferrer'}
+                title="Backed up to IPFS"
+                className="mt-4 flex flex-row items-center gap-1 underline"
+              >
+                <Image
+                  alt="IPFS logo"
+                  src={'/images/ipfs-logo.svg'}
+                  width={20}
+                  height={20}
+                />
+                <span>Backed up to IPFS</span>
+                <svg
+                  className="h-6 w-6"
+                  data-darkreader-inline-stroke=""
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        )}
       </section>
     </Layout>
   );
@@ -133,7 +180,7 @@ export async function getServerSideProps({
           startsWith: userCode,
         },
       },
-      select: { code: true, hashLength: true, url: true },
+      select: { code: true, hashLength: true, url: true, ipfsHash: true },
     });
 
     if (!selectedClip) {
@@ -147,6 +194,7 @@ export async function getServerSideProps({
       props: {
         code: selectedClip.code.slice(0, selectedClip.hashLength),
         url: selectedClip.url,
+        ipfsHash: selectedClip.ipfsHash,
         oembed: {
           title: additionalDetails.title || additionalDetails.siteName || null,
           description: additionalDetails.description || null,

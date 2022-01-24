@@ -60,10 +60,10 @@ const GeneralSettings = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle bg-white shadow-xl transition-all transform dark:bg-dark-secondary dark:text-dark-text rounded-2xl">
+              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-dark-secondary dark:text-dark-text">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium text-gray-900 leading-6 dark:text-dark-text"
+                  className="text-lg font-medium leading-6 text-gray-900 dark:text-dark-text"
                 >
                   Are you sure?
                 </Dialog.Title>
@@ -77,7 +77,7 @@ const GeneralSettings = ({
                 <div className="mt-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                     onClick={() => setIsOpen(false)}
                   >
                     Go ahead, delete my account

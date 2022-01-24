@@ -10,8 +10,8 @@ const Logout = (): React.ReactNode => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center w-full h-screen">
-        <div className="flex flex-col items-center w-screen h-screen px-8 pb-8 text-black bg-gray-100 dark:bg-dark-secondary dark:text-dark-text md:w-96 md:h-auto md:pt-8 md:rounded-lg pt-[20vh]">
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="flex h-screen w-screen flex-col items-center bg-gray-100 px-8 pb-8 pt-[20vh] text-black dark:bg-dark-secondary dark:text-dark-text md:h-auto md:w-96 md:rounded-lg md:pt-8">
           <div className="mb-4">
             <Image
               src="/images/Interclip.svg"
@@ -22,7 +22,7 @@ const Logout = (): React.ReactNode => {
           </div>
           <span className="mb-8 text-xl">Do you really want to log out?</span>
           <button
-            className="w-full h-12 mb-4 font-semibold text-gray-200 bg-blue-600 rounded-lg hover:bg-blue-700 transition"
+            className="mb-4 h-12 w-full rounded-lg bg-blue-600 font-semibold text-gray-200 transition hover:bg-blue-700"
             onClick={() => {
               signOut();
               router.push('/');
@@ -31,7 +31,7 @@ const Logout = (): React.ReactNode => {
             Log me out
           </button>
           <button
-            className="w-full h-12 mb-4 font-semibold text-gray-200 bg-red-600 rounded-lg hover:bg-red-700 transition"
+            className="mb-4 h-12 w-full rounded-lg bg-red-600 font-semibold text-gray-200 transition hover:bg-red-700"
             onClick={() => {
               router.push('/');
             }}

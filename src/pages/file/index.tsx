@@ -3,8 +3,13 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/client/requestClip';
-import { StorageProvider, web3StorageToken } from '@utils/constants';
+import {
+  ipfsGateway,
+  StorageProvider,
+  web3StorageToken,
+} from '@utils/constants';
 import uploadFile from '@utils/uploadFile';
+import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { DropEvent } from 'src/typings/interclip';
@@ -20,26 +25,29 @@ const remoteOptions = [
 const RemoteOptionsSelect = () => {
   const [selected, setSelected] = useState(remoteOptions[0]);
 
+  const { status } = useSession();
   useEffect(() => {
-    fetch('/api/account/getDetails?params=storageProvider').then(
-      async (res) => {
-        if (res.ok) {
-          const response = await res.json();
-          setSelected({ name: response.storageProvider });
-        }
-      },
-    );
-  }, []);
+    if (status !== 'unauthenticated') {
+      fetch('/api/account/getDetails?params=storageProvider').then(
+        async (res) => {
+          if (res.ok) {
+            const response = await res.json();
+            setSelected({ name: response.storageProvider });
+          }
+        },
+      );
+    }
+  }, [status]);
 
   return (
     <div className="w-72">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 dark:bg-dark-secondary text-dark-text focus-visible:border-indigo-500 sm:text-sm">
+          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left text-dark-text shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:bg-dark-secondary sm:text-sm">
             <span className="block truncate">{selected.name}</span>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <SelectorIcon
-                className="w-5 h-5 text-gray-400"
+                className="h-5 w-5 text-gray-400"
                 aria-hidden="true"
               />
             </span>
@@ -50,17 +58,17 @@ const RemoteOptionsSelect = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white shadow-lg rounded-md max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-dark-secondary text-dark-text sm:text-sm">
+            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base text-dark-text shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-dark-secondary sm:text-sm">
               {remoteOptions.map((option, optionIdx) => (
                 <Listbox.Option
                   key={optionIdx}
                   className={({ active }) =>
                     `${
                       active
-                        ? 'text-amber-900 dark:text-light-bg bg-amber-100 dark:bg-dark-bg'
+                        ? 'bg-amber-100 text-amber-900 dark:bg-dark-bg dark:text-light-bg'
                         : 'dark:bg-dark-secondary'
                     }
-                    cursor-default select-none relative py-2 pl-10 pr-4 text-dark-text`
+                    relative cursor-default select-none py-2 pl-10 pr-4 text-dark-text`
                   }
                   value={option}
                 >
@@ -80,7 +88,7 @@ const RemoteOptionsSelect = () => {
                           }
                           absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
-                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                          <CheckIcon className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}
                     </>
@@ -95,7 +103,7 @@ const RemoteOptionsSelect = () => {
   );
 };
 
-export default function HomePage() {
+export default function FilePage() {
   const filesEndpoint = 'https://files.interclip.app';
 
   const [showOverlay, setShowOverlay] = useState(false);
@@ -125,9 +133,7 @@ export default function HomePage() {
         maxRetries: 3,
         wrapWithDirectory: false,
       });
-      const url = `https://ipfs.interclip.app/ipfs/${rootCID}?filename=${
-        files![0]?.name
-      }`;
+      const url = `${ipfsGateway}/ipfs/${rootCID}?filename=${files![0]?.name}`;
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
@@ -196,15 +202,15 @@ export default function HomePage() {
 
   return (
     <Layout titlePrefix="Upload a file">
-      <section className="w-full my-auto">
+      <section className="my-auto w-full">
         <Toaster />
-        <div className="w-screen h-full bg-[#005AC7] dark:bg-dark-bg sm:px-8 md:px-16 sm:py-8">
-          <main className="container h-full mx-auto max-w-screen-lg">
+        <div className="h-full w-screen bg-[#005AC7] dark:bg-dark-bg sm:px-8 sm:py-8 md:px-16">
+          <main className="container mx-auto h-full max-w-screen-lg">
             <RemoteOptionsSelect />
             {!fileURL ? (
               <article
                 aria-label="File Upload Modal"
-                className="relative flex flex-col h-full mt-32 bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md"
+                className="relative mt-32 flex h-full flex-col rounded-md bg-white shadow-xl dark:bg-dark-secondary dark:text-white"
                 onDrop={dropHandler}
                 onDragOver={dragOverHandler}
                 onDragLeave={dragLeaveHandler}
@@ -213,11 +219,11 @@ export default function HomePage() {
                 {showOverlay && (
                   <div
                     id="overlay"
-                    className="absolute top-0 left-0 z-50 flex flex-col items-center justify-center w-full h-full pointer-events-none rounded-md"
+                    className="pointer-events-none absolute top-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center rounded-md"
                   >
                     <i>
                       <svg
-                        className="w-12 h-12 mb-3 text-blue-700 fill-current"
+                        className="mb-3 h-12 w-12 fill-current text-blue-700"
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
                         height="24"
@@ -232,18 +238,18 @@ export default function HomePage() {
                   </div>
                 )}
 
-                <section className="flex flex-col w-full h-64 p-8 overflow-auto">
-                  <header className="flex flex-col items-center justify-center h-full py-12 border-2 border-dashed border-[#157EFB]">
+                <section className="flex h-64 w-full flex-col overflow-auto p-8">
+                  <header className="flex h-full flex-col items-center justify-center border-2 border-dashed border-[#157EFB] py-12">
                     {!showOverlay && (
                       <>
                         {loading ? (
-                          <p className="flex flex-col justify-center mb-3 font-semibold text-gray-900 dark:text-gray-200 gap-8">
+                          <p className="mb-3 flex flex-col justify-center gap-8 font-semibold text-gray-900 dark:text-gray-200">
                             <span>Uploading your file...</span>
                             <Loading />
                           </p>
                         ) : (
                           <>
-                            <p className="flex flex-wrap justify-center mb-3 font-semibold text-gray-900 dark:text-gray-200">
+                            <p className="mb-3 flex flex-wrap justify-center font-semibold text-gray-900 dark:text-gray-200">
                               <span>Drag and drop your</span>&nbsp;
                               <span>file anywhere or</span>
                             </p>
@@ -258,7 +264,7 @@ export default function HomePage() {
                             />
                             <button
                               id="button"
-                              className="px-3 py-1 mt-2 rounded-xl bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
+                              className="focus:shadow-outline mt-2 rounded-xl bg-[#157EFB] px-3 py-1 hover:bg-[#5DA5FB] focus:outline-none"
                               onClick={() => {
                                 window &&
                                   document
@@ -276,13 +282,13 @@ export default function HomePage() {
                 </section>
               </article>
             ) : (
-              <article className="relative flex flex-col h-full bg-white shadow-xl dark:bg-dark-secondary dark:text-white rounded-md">
-                <section className="flex flex-col w-full h-full p-8 overflow-auto">
-                  <header className="flex flex-col items-center justify-center h-full py-12 border-2 border-gray-400 border-solid">
-                    <p className="flex flex-wrap justify-center mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-200">
+              <article className="relative flex h-full flex-col rounded-md bg-white shadow-xl dark:bg-dark-secondary dark:text-white">
+                <section className="flex h-full w-full flex-col overflow-auto p-8">
+                  <header className="flex h-full flex-col items-center justify-center border-2 border-solid border-gray-400 py-12">
+                    <p className="mb-3 flex flex-wrap justify-center text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>Your file has been uploaded to</span>
                     </p>
-                    <p className="flex flex-wrap justify-center mb-3 overflow-hidden text-3xl font-semibold text-center text-gray-900 truncate dark:text-gray-200 hover:underline max-w-[69%]">
+                    <p className="mb-3 flex max-w-[69%] flex-wrap justify-center overflow-hidden truncate text-center text-3xl font-semibold text-gray-900 hover:underline dark:text-gray-200">
                       <span>
                         <a
                           href={fileURL}
@@ -297,10 +303,10 @@ export default function HomePage() {
                         </a>
                       </span>
                     </p>
-                    <p className="flex flex-wrap justify-center mb-3 text-2xl font-semibold text-gray-900 dark:text-gray-200">
+                    <p className="mb-3 flex flex-wrap justify-center text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>as the code</span>
                     </p>
-                    <p className="flex flex-wrap justify-center mb-3 text-3xl font-semibold text-gray-900 dark:text-gray-200">
+                    <p className="mb-3 flex flex-wrap justify-center text-3xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>
                         <a
                           href={`https://interclip.app/${code}`}
@@ -312,7 +318,7 @@ export default function HomePage() {
                       </span>
                     </p>
                     <button
-                      className="px-3 py-1 mt-2 rounded-xl bg-[#157EFB] hover:bg-[#5DA5FB] focus:shadow-outline focus:outline-none"
+                      className="focus:shadow-outline mt-2 rounded-xl bg-[#157EFB] px-3 py-1 hover:bg-[#5DA5FB] focus:outline-none"
                       onClick={() => {
                         setShowOverlay(false);
                         setFileURL(null);

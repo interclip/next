@@ -9,6 +9,7 @@ import Avatar from '@components/shared/Avatar';
 import { User } from '@prisma/client';
 import { APIError } from '@utils/api/client/requestClip';
 import { setSettings } from '@utils/api/setSetting';
+import { useENS } from '@utils/hooks/useENS';
 import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -31,23 +32,26 @@ export const handleSettingsErrors = async (data: { [key: string]: string }) => {
 
 const Settings = (props: { user: User }): JSX.Element => {
   const [settings, setSettings] = useState('General');
+  const resolvedEthName = useENS(props.user.email);
 
   return (
     <Layout>
-      <div className="w-full h-full max-w-6xl mx-auto text-black bg-white dark:bg-dark-bg dark:text-dark-text">
-        <div className="flex mt-10 ml-8 gap-4">
-          <div className="relative w-32 h-32 border-8 border-white rounded-full">
+      <div className="mx-auto h-full w-full max-w-6xl bg-white text-black dark:bg-dark-bg dark:text-dark-text">
+        <div className="mt-10 ml-8 flex gap-4">
+          <div className="relative h-32 w-32 rounded-full border-8 border-white">
             <Avatar user={props.user} size={120} />
           </div>
           <div className="mt-2">
-            <a className="text-lg font-semibold">{props.user.name} </a>
+            <a className="text-lg font-semibold">
+              {props.user.name || resolvedEthName.ensName}
+            </a>
             <br />@{props.user.username}
           </div>
         </div>
-        <section className="flex flex-wrap pt-24 border-t border-gray-300 md:flex-nowrap gap-8 mt-[-4rem]">
+        <section className="mt-[-4rem] flex flex-wrap gap-8 border-t border-gray-300 pt-24 md:flex-nowrap">
           <LeftColumn settings={settings} setSettings={setSettings} />
 
-          <div className="flex flex-col w-full p-8 md:w-[65%]">
+          <div className="flex w-full flex-col p-8 md:w-[65%]">
             {settings === 'General' ? (
               <GeneralSettings
                 email={props.user.email}

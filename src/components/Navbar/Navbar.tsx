@@ -8,6 +8,7 @@ import {
   InformationCircleIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
+import { githubRepo } from '@utils/constants';
 import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import React, { ComponentProps, forwardRef, Fragment } from 'react';
@@ -47,10 +48,10 @@ const MenuItem = ({
     <Menu.Item>
       {({ active }) => (
         <Wrapper
-          className={`dark:text-light-text py-4 lg:py-2 w-full text-left ${clsx(
+          className={`w-full py-4 text-left dark:text-light-text lg:py-2 ${clsx(
             active
-              ? 'bg-gray-100 dark:bg-[#4c4c4c] text-gray-900'
-              : 'dark:bg-dark-secondary text-gray-700',
+              ? 'bg-gray-100 text-gray-900 dark:bg-[#4c4c4c]'
+              : 'text-gray-700 dark:bg-dark-secondary',
             'block px-4',
           )}`}
           {...additionalProps}
@@ -70,8 +71,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 flex justify-center w-full h-16 bg-white shadow-lg dark:bg-dark-secondary align-center">
-        <div className="flex justify-around w-full max-w-6xl mx-4 md:mx-auto">
+      <nav className="align-center sticky top-0 z-50 flex h-16 w-full justify-center bg-white shadow-lg dark:bg-dark-secondary">
+        <div className="mx-4 flex w-full max-w-6xl justify-around md:mx-auto">
           <NavbarSection>
             <Logo height={50} width={50} />
           </NavbarSection>
@@ -105,32 +106,32 @@ const Navbar = () => {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 w-56 mt-2 bg-white shadow-lg origin-top-right rounded-md dark:bg-dark-secondary ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-dark-secondary">
                     <div className="py-1">
                       <MenuItem title="Settings" type="link" link="/settings">
-                        <CogIcon className="w-5 h-5 mr-2" />
+                        <CogIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
                         title="Report an issue"
                         type="link"
-                        link="https://github.com/interclip/interclip-next/issues/new"
+                        link={`${githubRepo}/issues/new`}
                         openInNewTab={true}
                       >
-                        <ExclamationCircleIcon className="w-5 h-5 mr-2" />
+                        <ExclamationCircleIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
                         title="About Interclip"
                         type="link"
                         link="/about"
                       >
-                        <InformationCircleIcon className="w-5 h-5 mr-2" />
+                        <InformationCircleIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
                         title="Sign out"
                         type="button"
                         onClick={() => signOut()}
                       >
-                        <LogoutIcon className="w-5 h-5 mr-2" />
+                        <LogoutIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                     </div>
                   </Menu.Items>

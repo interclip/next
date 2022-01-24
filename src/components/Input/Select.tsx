@@ -12,7 +12,7 @@ export const Select = forwardRef<HTMLInputElement, Props>(function Input({
 }) {
   return (
     <select
-      className="w-full bg-white border-2 border-[#EAEAEA] rounded-xl px-2.5 py-1.5 text-[#333333] dark:text-dark-text dark:bg-dark-secondary"
+      className="w-full rounded-xl border-2 border-[#EAEAEA] bg-white px-2.5 py-1.5 text-[#333333] dark:bg-dark-secondary dark:text-dark-text"
       {...props}
     >
       {props.options &&

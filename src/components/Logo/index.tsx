@@ -28,7 +28,7 @@ const Logo = forwardRef<HTMLInputElement, ComponentProps<'img'>>(function Logo({
       <Image
         src={`/icons/${logoName}`}
         alt="Interclip logo"
-        className="cursor-pointer md:hide show"
+        className="md:hide show cursor-pointer"
         width={props.width}
         height={props.height}
       />

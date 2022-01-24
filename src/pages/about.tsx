@@ -1,5 +1,6 @@
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
+import { githubRepo } from '@utils/constants';
 import { db } from '@utils/prisma';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -32,7 +33,7 @@ const About = (props: {
 
   return (
     <Layout titlePrefix="About">
-      <section className="flex flex-col items-center w-full">
+      <section className="flex w-full flex-col items-center">
         <div className="w-[30em] max-w-[93vw]">
           <H1>About Interclip</H1>
           <H2>What is Interclip?</H2>
@@ -49,11 +50,8 @@ const About = (props: {
           <H2>Interclip's code</H2>
           <p>
             Interclip's code is in its entirety published on{' '}
-            <Link href="https://github.com/interclip/interclip-next">
-              GitHub
-            </Link>
-            . The project is mostly written in pure PHP and JS, but there are
-            some{' '}
+            <Link href={githubRepo}>GitHub</Link>. The project is mostly written
+            in pure PHP and JS, but there are some{' '}
             <Link href="https://docs.interclip.app/legal">
               libraries and designs
             </Link>{' '}
@@ -68,9 +66,7 @@ const About = (props: {
           <ul className="facts">
             <li>
               Release: {props.version}{' '}
-              <Link
-                href={`https://github.com/interclip/interclip/releases/tag/v${props.version}`}
-              >
+              <Link href={`${githubRepo}/releases/tag/v${props.version}`}>
                 (changelog)
               </Link>
             </li>

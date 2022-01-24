@@ -12,16 +12,16 @@ const InfoCard = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <div className="flex flex-row flex-wrap w-full -mx-2 min-w-8">
-      <div className="w-full px-2 mb-4">
-        <div className="relative w-full bg-white border rounded dark:bg-dark-secondary">
+    <div className="min-w-8 -mx-2 flex w-full flex-row flex-wrap">
+      <div className="mb-4 w-full px-2">
+        <div className="relative w-full rounded border bg-white dark:bg-dark-secondary">
           <div className="p-4">
             <h3 className="text-lg font-bold">
               <a className="stretched-link" href="#" title={name}>
                 {name}
               </a>
             </h3>
-            <p className="block mb-2 text-sm text-gray-600 dark:text-gray-300">
+            <p className="mb-2 block text-sm text-gray-600 dark:text-gray-300">
               {description}
             </p>
             <span>{value}</span>

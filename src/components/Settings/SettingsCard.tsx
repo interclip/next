@@ -24,12 +24,12 @@ const SettingsCard = ({
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="w-full mb-8 border border-gray-300 rounded-xl dark:border-gray-700">
+    <div className="mb-8 w-full rounded-xl border border-gray-300 dark:border-gray-700">
       <h2 className="p-4 text-2xl font-semibold">{title}</h2>
       <p className="px-4">{description}</p>
       <div className="p-4">{children}</div>
-      <div className="flex w-full p-2 border-t border-gray-300 space-between bg-[#FAFBFB] dark:bg-[#2f2f2f] h-14 rounded-b-xl dark:border-gray-700">
-        <p className="w-full px-4 my-auto">{footerDescription}</p>
+      <div className="space-between flex h-14 w-full rounded-b-xl border-t border-gray-300 bg-[#FAFBFB] p-2 dark:border-gray-700 dark:bg-[#2f2f2f]">
+        <p className="my-auto w-full px-4">{footerDescription}</p>
         {onSave && (
           <Button
             disabled={isDisabled || isLoading}

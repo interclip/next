@@ -80,10 +80,10 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
   }, [code]);
   return (
     <Layout>
-      <section className="h-full my-auto">
-        <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+      <section className="my-auto h-full">
+        <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
-            <h2 className="mb-2 text-4xl max-w-[30rem]">
+            <h2 className="mb-2 max-w-[30rem] text-4xl">
               {progressingTorrent?.name || code}
             </h2>
             <h3 className="text-2xl text-gray-400">

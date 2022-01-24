@@ -36,6 +36,7 @@ export default async function handler(
       select: {
         code: true,
         hashLength: true,
+        ipfsHash: true,
         url: true,
         createdAt: true,
         expiresAt: true,

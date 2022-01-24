@@ -3,7 +3,6 @@
     "next",
     "next/core-web-vitals",
     "plugin:react/recommended",
-    "plugin:tailwind/recommended",
     "prettier"
   ],
   "plugins": [
@@ -14,18 +13,10 @@
   ],
   "rules": {
     "react/display-name": "off",
-    "comma-dangle": [
-      "off",
-      "always"
-    ],
-    "prettier/prettier": [
-      "error"
-    ],
+    "comma-dangle": ["off", "always"],
+    "prettier/prettier": ["error"],
     "react/prop-types": "off",
-    "semi": [
-      2,
-      "always"
-    ],
+    "semi": [2, "always"],
     "quotes": [
       "error",
       "single",
