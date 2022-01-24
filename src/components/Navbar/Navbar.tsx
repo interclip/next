@@ -16,6 +16,7 @@ import { Button } from '../Button';
 import NavbarItem from './NavbarItem';
 import NavbarSection from './NavbarSection';
 import { User } from '.prisma/client';
+import { githubRepo } from '@utils/constants';
 
 const MenuItem = ({
   title,
@@ -113,7 +114,7 @@ const Navbar = () => {
                       <MenuItem
                         title="Report an issue"
                         type="link"
-                        link="https://github.com/interclip/interclip-next/issues/new"
+                        link={`${githubRepo}/issues/new`}
                         openInNewTab={true}
                       >
                         <ExclamationCircleIcon className="w-5 h-5 mr-2" />

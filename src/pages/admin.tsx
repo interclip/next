@@ -11,6 +11,7 @@ import {
   fetchUsers,
   initialItemsToLoad,
 } from '@utils/api/client/admin';
+import { githubRepo } from '@utils/constants';
 import { db } from '@utils/prisma';
 import {
   GIT_COMMIT_AUTHOR,
@@ -101,9 +102,7 @@ const About = ({
                     >
                       {commitSHA && commitAuthor && commitMessage ? (
                         <>
-                          <Link
-                            href={`https://github.com/interclip/interclip-next/commit/${commitSHA}`}
-                          >
+                          <Link href={`${githubRepo}/commit/${commitSHA}`}>
                             {commitMessage}
                           </Link>{' '}
                           by {commitAuthor}

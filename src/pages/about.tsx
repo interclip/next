@@ -1,5 +1,6 @@
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
+import { githubRepo } from '@utils/constants';
 import { db } from '@utils/prisma';
 import React from 'react';
 
@@ -25,11 +26,8 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
           <H2>Interclip's code</H2>
           <p>
             Interclip's code is in its entirety published on{' '}
-            <Link href="https://github.com/interclip/interclip-next">
-              GitHub
-            </Link>
-            . The project is mostly written in pure PHP and JS, but there are
-            some{' '}
+            <Link href={githubRepo}>GitHub</Link>. The project is mostly written
+            in pure PHP and JS, but there are some{' '}
             <Link href="https://docs.interclip.app/legal">
               libraries and designs
             </Link>{' '}
@@ -39,9 +37,7 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
           <ul className="facts">
             <li>
               Release: {props.version}{' '}
-              <Link
-                href={`https://github.com/interclip/interclip/releases/tag/v${props.version}`}
-              >
+              <Link href={`${githubRepo}/releases/tag/v${props.version}`}>
                 (changelog)
               </Link>
             </li>
