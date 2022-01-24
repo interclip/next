@@ -22,7 +22,7 @@ const Avatar = ({ user, size }: { user: User; size: number }) => {
       width={size}
       height={size}
       alt={`${user.name || '@' + user.username}'s avatar'`}
-      className="w-16 h-16 rounded-full"
+      className="h-16 w-16 rounded-full"
     />
   );
 };

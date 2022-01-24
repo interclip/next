@@ -34,13 +34,13 @@ const CodeView = ({
 
   return (
     <Layout>
-      <section className="flex flex-col items-center justify-center w-full h-full max-w-2xl pt-[100px]">
-        <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+      <section className="flex h-full w-full max-w-2xl flex-col items-center justify-center pt-[100px]">
+        <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
-            <h2 className="mx-auto mb-2 text-4xl text-center">
+            <h2 className="mx-auto mb-2 text-center text-4xl">
               Created clip with code:{' '}
               <div
-                className="flex items-center justify-center cursor-pointer"
+                className="flex cursor-pointer items-center justify-center"
                 title="Copy code to the clipboard"
                 onClick={() => {
                   navigator.clipboard.writeText(code);
@@ -53,7 +53,7 @@ const CodeView = ({
               >
                 <span>{code}</span>
                 <svg
-                  className="w-10 h-10 ml-2"
+                  className="ml-2 h-10 w-10"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -79,9 +79,9 @@ const CodeView = ({
             </h2>
           </div>
         </div>
-        <div className="flex justify-between w-full p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+        <div className="shadow-custom mb-8 flex w-full justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
-            <h2 className="mb-2 text-4xl max-w-[30rem]">
+            <h2 className="mb-2 max-w-[30rem] text-4xl">
               {oembed.title || code}
             </h2>
             <h3 className="text-2xl text-gray-400">
@@ -116,10 +116,10 @@ const CodeView = ({
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
         {ipfsHash && (
-          <div className="flex flex-col justify-between w-full p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+          <div className="shadow-custom mb-8 flex w-full flex-col justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
             <H3>Special</H3>
             <div
-              className="flex flex-col cursor-pointer"
+              className="flex cursor-pointer flex-col"
               title="Copy code to the clipboard"
             >
               <a
@@ -127,7 +127,7 @@ const CodeView = ({
                 target={'_blank'}
                 rel={'noopener noreferrer'}
                 title="Backed up to IPFS"
-                className="flex flex-row items-center mt-4 underline gap-1"
+                className="mt-4 flex flex-row items-center gap-1 underline"
               >
                 <Image
                   alt="IPFS logo"
@@ -137,7 +137,7 @@ const CodeView = ({
                 />
                 <span>Backed up to IPFS</span>
                 <svg
-                  className="w-6 h-6"
+                  className="h-6 w-6"
                   data-darkreader-inline-stroke=""
                   fill="none"
                   stroke="currentColor"

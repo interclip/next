@@ -77,7 +77,7 @@ const MetaMaskLoginButton = () => {
 
   return (
     <button
-      className="w-full h-12 mb-4 font-bold text-white rounded-lg bg-[#f6851b] hover:bg-[#cd6116] transition"
+      className="mb-4 h-12 w-full rounded-lg bg-[#f6851b] font-bold text-white transition hover:bg-[#cd6116]"
       onClick={signInWithWallet}
       disabled={!!(window as any).etherum}
     >

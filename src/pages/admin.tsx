@@ -63,7 +63,7 @@ const About = ({
 
   return (
     <Layout titlePrefix="Admin">
-      <section className="flex flex-col items-center w-full">
+      <section className="flex w-full flex-col items-center">
         <div className="w-[60em] max-w-[93vw]">
           <H1>Interclip Admin</H1>
           <H2>Hi {user.name || user.username} </H2>
@@ -77,7 +77,7 @@ const About = ({
                 }
               }}
             >
-              <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl">
+              <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
                 <TabHeader title="Statistics"></TabHeader>
                 <TabHeader title="Controls"></TabHeader>
                 <TabHeader title="Users"></TabHeader>
@@ -85,7 +85,7 @@ const About = ({
               </Tab.List>
               <Tab.Panels className="mt-2">
                 <Tab.Panel className={panelClassNames}>
-                  <div className="items-center justify-around mx-auto grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 space-y-2">
+                  <div className="mx-auto grid grid-cols-1 items-center justify-around gap-8 space-y-2 md:grid-cols-2 lg:grid-cols-3">
                     <InfoCard
                       name="Clips"
                       value={clipCount.toString()}
@@ -148,10 +148,10 @@ const About = ({
                   </InfiniteScroll>
                 </Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
-                  <section className="justify-center w-full grid">
+                  <section className="grid w-full justify-center">
                     <div className="m-16 w-[50em] max-w-[93vw]">
                       <div
-                        className="mx-auto grid gap-8 grid-cols-1 sm:grid-cols-2"
+                        className="mx-auto grid grid-cols-1 gap-8 sm:grid-cols-2"
                         style={{
                           gridAutoRows: '1fr',
                         }}

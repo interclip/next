@@ -54,8 +54,8 @@ const LogIn = ({
 
   return (
     <Layout titlePrefix="Log in">
-      <div className="flex items-center justify-center w-full h-screen">
-        <div className="flex flex-col items-center justify-center w-screen h-screen px-8 pb-8 text-black bg-gray-100 dark:bg-dark-secondary dark:text-dark-text md:w-96 md:h-auto md:pt-8 md:rounded-lg">
+      <div className="flex h-screen w-full items-center justify-center">
+        <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100 px-8 pb-8 text-black dark:bg-dark-secondary dark:text-dark-text md:h-auto md:w-96 md:rounded-lg md:pt-8">
           <div className="mb-8">
             <Logo width={128} height={128} />
           </div>
@@ -66,7 +66,7 @@ const LogIn = ({
               </span>
               <input
                 type="text"
-                className="w-full h-12 px-4 mb-4 text-lg rounded-lg focus:ring-blue-600 dark:bg-[#222222]"
+                className="mb-4 h-12 w-full rounded-lg px-4 text-lg focus:ring-blue-600 dark:bg-[#222222]"
                 autoComplete="email"
                 placeholder="Your email"
                 onChange={(e) => {
@@ -76,7 +76,7 @@ const LogIn = ({
                 value={inputEmail}
               />
               <button
-                className="w-full h-12 mb-4 font-bold text-white rounded-lg bg-light-bg hover:bg-blue-600 transition"
+                className="mb-4 h-12 w-full rounded-lg bg-light-bg font-bold text-white transition hover:bg-blue-600"
                 onClick={() => {
                   handleDevSignIn();
                 }}
@@ -98,7 +98,7 @@ const LogIn = ({
                 provider.id && (
                   <button
                     className={
-                      'w-full h-12 rounded-lg text-white font-bold transition mb-4 filter'
+                      'mb-4 h-12 w-full rounded-lg font-bold text-white filter transition'
                     }
                     key={provider.id}
                     style={{

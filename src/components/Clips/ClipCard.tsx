@@ -11,12 +11,12 @@ const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
   return (
     <Link href={`/new/${shortCode}`} passHref>
       <div
-        className="h-full p-6 tracking-wide bg-white shadow-lg cursor-pointer max-w-none sm:max-w-sm dark:bg-dark-secondary dark:text-dark-text rounded-2xl hover:scale-[0.99]"
+        className="h-full max-w-none cursor-pointer rounded-2xl bg-white p-6 tracking-wide shadow-lg hover:scale-[0.99] dark:bg-dark-secondary dark:text-dark-text sm:max-w-sm"
         tabIndex={0}
       >
-        <div className="flex items-center mb-4">
-          <div className="leading-5 sm">
-            <h4 className="flex flex-row items-center text-xl font-semibold text-gray-800 gap-2 dark:text-dark-text">
+        <div className="mb-4 flex items-center">
+          <div className="sm leading-5">
+            <h4 className="flex flex-row items-center gap-2 text-xl font-semibold text-gray-800 dark:text-dark-text">
               {clip.oembed?.title || `Code: ${shortCode}`}{' '}
               {clip.ipfsHash && (
                 <Image
@@ -33,7 +33,7 @@ const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
             </h5>
           </div>
         </div>
-        <span className="italic text-gray-600 break-words dark:text-dark-text">
+        <span className="break-words italic text-gray-600 dark:text-dark-text">
           {clip.url}
         </span>
       </div>

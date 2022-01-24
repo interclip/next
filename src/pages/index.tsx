@@ -16,11 +16,11 @@ const Home: NextPage = () => {
   const router = useRouter();
   return (
     <Layout>
-      <section className="w-full my-auto">
-        <h1 className="font-sans text-6xl font-semibold text-center">
+      <section className="my-auto w-full">
+        <h1 className="text-center font-sans text-6xl font-semibold">
           Paste your link here!
         </h1>
-        <div className="max-w-5xl mx-5 lg:w-full lg:mx-auto">
+        <div className="mx-5 max-w-5xl lg:mx-auto lg:w-full">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
               type="url"
               value={clipURL}
               onChange={(e) => setURL(e.target.value)}
-              className="w-full px-3 py-2 mt-12 text-3xl text-black dark:text-dark-text rounded-2xl"
+              className="mt-12 w-full rounded-2xl px-3 py-2 text-3xl text-black dark:text-dark-text"
               placeholder="https://www.histories.cc/krystofex"
             />
           </form>

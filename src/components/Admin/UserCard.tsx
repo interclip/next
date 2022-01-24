@@ -4,7 +4,7 @@ import React from 'react';
 
 const UserCard = ({ user }: { user: User }) => {
   return (
-    <div className="flex items-center w-full p-2 my-4 bg-white border shadow dark:bg-dark-secondary dark:text-dark-text rounded-xl dark:border-none">
+    <div className="my-4 flex w-full items-center rounded-xl border bg-white p-2 shadow dark:border-none dark:bg-dark-secondary dark:text-dark-text">
       <div className="flex items-center space-x-4">
         <Avatar user={user} size={60} />
       </div>

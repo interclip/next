@@ -16,7 +16,7 @@ const LeftColumn = ({
           key={option}
           className={`${
             option === settings ? 'font-semibold' : ''
-          } text-xl cursor-pointer pb-2`}
+          } cursor-pointer pb-2 text-xl`}
           onClick={() => setSettings(option)}
         >
           {option}

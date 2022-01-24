@@ -28,8 +28,8 @@ const Redirect = ({
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
   return (
     <Layout>
-      <section className="h-full my-auto">
-        <div className="flex p-4 mb-8 text-black bg-white rounded-2xl dark:text-white dark:bg-[#262A2B] shadow-custom">
+      <section className="my-auto h-full">
+        <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="">
             <Image
               alt="Social preview image"
@@ -42,10 +42,10 @@ const Redirect = ({
               className="rounded-xl"
               height={300}
             />
-            <h2 className="mt-2 mb-2 text-2xl max-w-[40rem]">
+            <h2 className="mt-2 mb-2 max-w-[40rem] text-2xl">
               {oembed.title || code}
             </h2>
-            <h3 className="flex flex-row items-center justify-center text-xl text-gray-400 justify-items-center gap-2">
+            <h3 className="flex flex-row items-center justify-center justify-items-center gap-2 text-xl text-gray-400">
               {oembed.favicons.length > 0 && (
                 <Image
                   src={`${proxied(
