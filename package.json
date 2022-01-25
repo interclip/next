@@ -30,7 +30,7 @@
     "ethers": "^5.5.3",
     "faker": "^5.5.3",
     "fetch-blob": "^3.1.4",
-    "framer-motion": "^6.2.1",
+    "framer-motion": "^6.2.3",
     "get-random-values": "^1.2.2",
     "ioredis": "^4.28.3",
     "ipfs-http-client": "^55.0.0",
