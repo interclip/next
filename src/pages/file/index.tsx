@@ -133,7 +133,16 @@ export default function FilePage() {
         maxRetries: 3,
         wrapWithDirectory: false,
       });
-      const url = `${ipfsGateway}/ipfs/${rootCID}?filename=${files![0]?.name}`;
+
+      if (!files || files.length === 0) {
+        toast.error('Please select a file');
+        return;
+      }
+
+      const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
+      const url = `${
+        isVideo ? 'https://ipfs.io' : ipfsGateway
+      }/ipfs/${rootCID}?filename=${files![0]?.name}`;
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
