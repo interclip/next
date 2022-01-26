@@ -5,6 +5,7 @@ import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/client/requestClip';
 import {
   ipfsGateway,
+  maxIPFSUploadSize,
   StorageProvider,
   web3StorageToken,
 } from '@utils/constants';
@@ -129,15 +130,28 @@ export default function FilePage() {
     if (web3StorageToken) {
       const client = new Web3Storage({ token: web3StorageToken });
       const files = e?.dataTransfer?.files || e.target?.files;
-      const rootCID = await client.put(files!, {
-        maxRetries: 3,
-        wrapWithDirectory: false,
-      });
 
       if (!files || files.length === 0) {
         toast.error('Please select a file');
         return;
       }
+      console.log(files);
+
+      const filesOverLimit = [...files].filter(
+        (file) => file.size > maxIPFSUploadSize,
+      );
+
+      if (filesOverLimit.length > 0) {
+        for (const file of filesOverLimit) {
+          toast.error(`${file.name} is too large, aborting upload`);
+        }
+        return;
+      }
+
+      const rootCID = await client.put(files!, {
+        maxRetries: 3,
+        wrapWithDirectory: false,
+      });
 
       const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
       const url = `${
