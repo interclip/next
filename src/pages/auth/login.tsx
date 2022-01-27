@@ -93,6 +93,7 @@ const LogIn = ({
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const [hoverRef, isHovered] = useHover();
               return (
+                Object.keys(brandColors).includes(provider.id) &&
                 !['devlogin', 'web3'].includes(provider.id) &&
                 provider.id && (
                   <button
