@@ -58,7 +58,7 @@
     "validator": "^13.7.0",
     "web3": "^1.7.0",
     "web3.storage": "3.5.2",
-    "webtorrent": "^1.7.1"
+    "webtorrent": "^1.7.2"
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",
