@@ -33,7 +33,7 @@
     "framer-motion": "^6.2.3",
     "get-random-values": "^1.2.2",
     "ioredis": "^4.28.3",
-    "ipfs-http-client": "^55.0.0",
+    "ipfs-http-client": "^56.0.0",
     "js-cookie": "^3.0.1",
     "link-preview-js": "^2.1.10",
     "lru-cache": "^6.0.0",
