@@ -53,8 +53,6 @@ export default async function handler(
       console.log(clip.url);
 
       const urlObject = new URL(clip.url);
-
-      console.log(['http', 'https'].includes(urlObject.protocol));
       const additionalDetails =
         (await getLinkPreviewFromCache(clip.url)) ||
         (['http', 'https'].includes(urlObject.protocol) &&
