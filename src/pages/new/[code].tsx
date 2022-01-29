@@ -8,22 +8,28 @@ import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
+import { recoverPersonalSignature } from 'eth-sig-util';
 import { getLinkPreview } from 'link-preview-js';
 import { NextApiRequest } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import ReactTooltip from 'react-tooltip';
 import { OEmbed } from 'src/typings/interclip';
 
 const CodeView = ({
   code,
+  fullCode,
   url,
   oembed,
   ipfsHash,
+  signature,
 }: {
   code: string;
+  fullCode: string;
   url: string;
   ipfsHash?: string;
+  signature?: string;
   oembed: OEmbed;
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
@@ -31,6 +37,8 @@ const CodeView = ({
   const simplifiedURL = truncate(urlObject, 40);
   const [isCopied, setIsCopied] = useState(false);
   const [isFaviconShown, setIsFaviconShown] = useState<boolean>(true);
+  const address =
+    signature && recoverPersonalSignature({ data: fullCode, sig: signature });
 
   return (
     <Layout>
@@ -115,44 +123,68 @@ const CodeView = ({
           </div>
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
-        {ipfsHash && (
+        {(ipfsHash || signature) && (
           <div className="shadow-custom mb-8 flex w-full flex-col justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
             <H3>Special</H3>
-            <div
-              className="flex cursor-pointer flex-col"
-              title="Copy code to the clipboard"
-            >
-              <a
-                href={`${ipfsGateway}/ipfs/${ipfsHash}`}
-                target={'_blank'}
-                rel={'noopener noreferrer'}
-                title="Backed up to IPFS"
-                className="mt-4 flex flex-row items-center gap-1 underline"
+            {ipfsHash && (
+              <div
+                className="flex cursor-pointer flex-col"
+                title="Copy code to the clipboard"
               >
+                <a
+                  href={`${ipfsGateway}/ipfs/${ipfsHash}`}
+                  target={'_blank'}
+                  rel={'noopener noreferrer'}
+                  title="Backed up to IPFS"
+                  className="mt-4 flex flex-row items-center gap-1 underline"
+                >
+                  <Image
+                    alt="IPFS logo"
+                    src={'/images/ipfs-logo.svg'}
+                    width={20}
+                    height={20}
+                  />
+                  <span>Backed up to IPFS</span>
+                  <svg
+                    className="h-6 w-6"
+                    data-darkreader-inline-stroke=""
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </a>
+              </div>
+            )}
+            {signature && (
+              <div className="mt-4 flex flex-row items-center gap-1">
                 <Image
-                  alt="IPFS logo"
-                  src={'/images/ipfs-logo.svg'}
+                  alt="Ethereum logo"
+                  src={'/images/ethereum-logo.svg'}
                   width={20}
                   height={20}
                 />
-                <span>Backed up to IPFS</span>
-                <svg
-                  className="h-6 w-6"
-                  data-darkreader-inline-stroke=""
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                <span>Signed by </span>
+                <ReactTooltip effect="solid" place="bottom" />
+                <a
+                  href={`https://debank.com/profile/${address}`}
+                  target={'_blank'}
+                  rel={'noopener noreferrer'}
+                  title="Show wallet details"
+                  className="underline"
+                  data-tip={address}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                  />
-                </svg>
-              </a>
-            </div>
+                  {address?.slice(0, 6)}...{address?.slice(-4)}
+                </a>
+              </div>
+            )}
           </div>
         )}
       </section>
@@ -180,7 +212,13 @@ export async function getServerSideProps({
           startsWith: userCode,
         },
       },
-      select: { code: true, hashLength: true, url: true, ipfsHash: true },
+      select: {
+        code: true,
+        hashLength: true,
+        url: true,
+        ipfsHash: true,
+        signature: true,
+      },
     });
 
     if (!selectedClip) {
@@ -193,8 +231,10 @@ export async function getServerSideProps({
     return {
       props: {
         code: selectedClip.code.slice(0, selectedClip.hashLength),
+        fullCode: selectedClip.code,
         url: selectedClip.url,
         ipfsHash: selectedClip.ipfsHash,
+        signature: selectedClip.signature,
         oembed: {
           title: additionalDetails.title || additionalDetails.siteName || null,
           description: additionalDetails.description || null,

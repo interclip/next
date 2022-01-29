@@ -33,7 +33,6 @@ export const handleSettingsErrors = async (data: { [key: string]: string }) => {
 const Settings = (props: { user: User }): JSX.Element => {
   const [settings, setSettings] = useState('General');
   const resolvedEthName = useENS(props.user.email);
-
   return (
     <Layout>
       <div className="mx-auto h-full w-full max-w-6xl bg-white text-black dark:bg-dark-bg dark:text-dark-text">
@@ -57,6 +56,7 @@ const Settings = (props: { user: User }): JSX.Element => {
                 email={props.user.email}
                 name={props.user.name || undefined}
                 username={props.user.username}
+                signingSaved={props.user.clipSign === 'true'}
               />
             ) : settings === 'Appearance' ? (
               <AppearanceSettings />
@@ -73,7 +73,7 @@ const Settings = (props: { user: User }): JSX.Element => {
 export async function getServerSideProps(context: { req: NextApiRequest }) {
   try {
     const userData = await getUserDetails(
-      ['username', 'name', 'image', 'email'],
+      ['username', 'name', 'image', 'email', 'clipSign'],
       context.req,
     );
     return { props: { user: userData } };

@@ -20,6 +20,7 @@ model Clip {
   expiresAt  DateTime?
   hashLength Int       @default(5)
   ipfsHash   String?
+  signature  String?
 
   ownerID String?
   owner   User?   @relation(fields: [ownerID], references: [id])
@@ -35,14 +36,15 @@ model User {
 
   isStaff Boolean @default(false)
 
-  name          String?
-  emailVerified DateTime?
-  image         String?
-  storageProvider String @default("S3")
-  clipExpirationPreference Int @default(90)
+  name                     String?
+  emailVerified            DateTime?
+  image                    String?
+  storageProvider          String    @default("S3")
+  clipExpirationPreference Int       @default(90)
+  clipSign                 String    @default("false")
 
-  accounts      Account[]
-  sessions      Session[]
+  accounts Account[]
+  sessions Session[]
 
   // Timestamps
   createdAt DateTime @default(now())

@@ -23,8 +23,18 @@ export class APIError extends Error {
  * Calls the set API to create a new clip from a link
  * @param url the URL to create the clip from
  */
-export const requestClip = async (url: string): Promise<ClipResponse> => {
-  const clipResponse = await fetch(`/api/clip/set?url=${url}`);
+export const requestClip = async (
+  url: string,
+  sig?: {
+    signature: string;
+    address?: string;
+  },
+): Promise<ClipResponse> => {
+  const clipResponse = await fetch(
+    `/api/clip/set?url=${url}${
+      sig && `&sig=${sig.signature}&addr=${sig.address}`
+    }`,
+  );
   if (clipResponse.status === 500) {
     return { status: 'error', result: await clipResponse.text() };
   }

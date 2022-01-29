@@ -1,10 +1,13 @@
 import { Input } from '@components/Input';
 import { Dialog, Transition } from '@headlessui/react';
+import { Switch } from '@headlessui/react';
 import {
   maxNameAllowedLength,
   maxUsernameAllowedLength,
 } from '@utils/constants';
+import { recoverPersonalSignature } from 'eth-sig-util';
 import React, { Fragment, useState } from 'react';
+import toast from 'react-hot-toast';
 import { handleSettingsErrors } from 'src/pages/settings';
 import isEthereumAddress from 'validator/lib/isEthereumAddress';
 
@@ -14,14 +17,17 @@ const GeneralSettings = ({
   username,
   name,
   email,
+  signingSaved,
 }: {
   username?: string;
   name?: string;
   email: string;
+  signingSaved: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [newUsername, setNewUsersname] = useState<string>(username || '');
   const [newName, setNewName] = useState<string>(name || '');
+  const [signingEnabled, setClipSigningEnabled] = useState(signingSaved);
 
   return (
     <>
@@ -134,6 +140,63 @@ const GeneralSettings = ({
           <Input disabled value={email} />
         </div>
       </SettingsCard>{' '}
+      {isEthereumAddress(email) && (
+        <SettingsCard
+          title={'Sign your clips'}
+          description="If you enable this, every clip you create will be cryptographically signed"
+          onSave={async () => {
+            if (signingEnabled) {
+              /**
+               * Personal Sign
+               */
+              const messageToSign = 'Setup clip signing';
+              try {
+                const accounts = await (window as any).ethereum.request({
+                  method: 'eth_requestAccounts',
+                });
+                const from = accounts[0];
+                const msg = `0x${Buffer.from(messageToSign, 'utf8').toString(
+                  'hex',
+                )}`;
+                const sign = await (window as any).ethereum.request({
+                  method: 'personal_sign',
+                  params: [msg, from],
+                });
+                const recoveredAddress = recoverPersonalSignature({
+                  data: msg,
+                  sig: sign,
+                });
+                if (recoveredAddress === from) {
+                  toast.success('Signing setup complete, saving');
+                }
+              } catch (err) {
+                toast.error(err as string);
+              }
+            }
+
+            await handleSettingsErrors({
+              clipSign: signingEnabled ? 'true' : 'false',
+            });
+          }}
+        >
+          <div className="max-w-[50%]">
+            <Switch
+              checked={signingEnabled}
+              onChange={setClipSigningEnabled}
+              className={`${
+                signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
+              } relative inline-flex h-6 w-11 items-center rounded-full`}
+            >
+              <span className="sr-only">Enable notifications</span>
+              <span
+                className={`${
+                  signingEnabled ? 'translate-x-6' : 'translate-x-1'
+                } inline-block h-4 w-4 transform rounded-full bg-white`}
+              />
+            </Switch>
+          </div>
+        </SettingsCard>
+      )}
       <SettingsCard
         title="Delete Personal Account"
         dangerous

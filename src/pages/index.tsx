@@ -3,9 +3,11 @@ import { minimumCodeLength } from '@utils/constants';
 import { getClipHash } from '@utils/generateID';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import ReactTooltip from 'react-tooltip';
+import isEthereumAddress from 'validator/lib/isEthereumAddress';
 import isURL from 'validator/lib/isURL';
 
 import { Layout } from '../components/Layout';
@@ -13,6 +15,24 @@ import { Layout } from '../components/Layout';
 const Home: NextPage = () => {
   const [clipURL, setURL] = useState<string>('');
   const estimatedCode = getClipHash(clipURL).slice(0, minimumCodeLength);
+  const [shouldSignClip, setShouldSignClip] = useState<boolean>(false);
+
+  const { status, data: session } = useSession();
+  useEffect(() => {
+    if (
+      status === 'authenticated' &&
+      session?.user?.email &&
+      isEthereumAddress(session?.user?.email)
+    ) {
+      fetch('/api/account/getDetails?params=clipSign').then(async (res) => {
+        if (res.ok) {
+          const response = await res.json();
+          setShouldSignClip(response.clipSign);
+        }
+      });
+    }
+  }, [session?.user?.email, status]);
+
   const router = useRouter();
   return (
     <Layout>
@@ -22,9 +42,26 @@ const Home: NextPage = () => {
         </h1>
         <div className="mx-5 max-w-5xl lg:mx-auto lg:w-full">
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              requestClip(clipURL).then((clip) => {
+              let signature;
+              let address;
+              /* Signs the clip code */
+              if (shouldSignClip && status === 'authenticated') {
+                address = session?.user?.email || undefined;
+                const msg = `0x${Buffer.from(
+                  getClipHash(clipURL),
+                  'utf8',
+                ).toString('hex')}`;
+                signature = await (window as any).ethereum.request({
+                  method: 'personal_sign',
+                  params: [msg, address],
+                });
+              }
+              requestClip(clipURL, {
+                signature,
+                address,
+              }).then(async (clip) => {
                 if (clip.status !== 'error') {
                   router.push(`/new/${clip?.result.code}`);
                 } else {
