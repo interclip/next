@@ -32,7 +32,7 @@ export const requestClip = async (
 ): Promise<ClipResponse> => {
   const clipResponse = await fetch(
     `/api/clip/set?url=${url}${
-      sig && `&sig=${sig.signature}&addr=${sig.address}`
+      sig ? `&sig=${sig.signature}&addr=${sig.address}` : ''
     }`,
   );
   if (clipResponse.status === 500) {
