@@ -82,6 +82,7 @@ const Home: NextPage = () => {
               onChange={(e) => setURL(e.target.value)}
               className="mt-12 w-full rounded-2xl px-3 py-2 text-3xl text-black dark:text-dark-text"
               placeholder="https://www.histories.cc/krystofex"
+              autoFocus
             />
           </form>
           {isURL(clipURL) && (
