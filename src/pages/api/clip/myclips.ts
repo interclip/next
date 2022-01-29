@@ -50,9 +50,15 @@ export default async function handler(
     const newClips = [];
 
     for (const clip of clips) {
+      console.log(clip.url);
+
+      const urlObject = new URL(clip.url);
+
+      console.log(['http', 'https'].includes(urlObject.protocol));
       const additionalDetails =
         (await getLinkPreviewFromCache(clip.url)) ||
-        (await storeLinkPreviewInCache(clip.url));
+        (['http', 'https'].includes(urlObject.protocol) &&
+          (await storeLinkPreviewInCache(clip.url)));
 
       if (additionalDetails) {
         newClips.push({
@@ -68,6 +74,7 @@ export default async function handler(
 
     res.status(200).json({ status: 'success', result: newClips });
   } catch (e) {
+    console.error(e);
     res.status(500).json({
       status: 'error',
       result: 'An error with the database has occured.',
