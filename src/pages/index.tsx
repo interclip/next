@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       fetch('/api/account/getDetails?params=clipSign').then(async (res) => {
         if (res.ok) {
           const response = await res.json();
-          setShouldSignClip(response.clipSign);
+          setShouldSignClip(response.clipSign === 'true');
         }
       });
     }
@@ -58,10 +58,13 @@ const Home: NextPage = () => {
                   params: [msg, address],
                 });
               }
-              requestClip(clipURL, {
-                signature,
-                address,
-              }).then(async (clip) => {
+              requestClip(
+                clipURL,
+                signature && {
+                  signature,
+                  address,
+                },
+              ).then(async (clip) => {
                 if (clip.status !== 'error') {
                   router.push(`/new/${clip?.result.code}`);
                 } else {
