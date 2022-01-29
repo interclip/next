@@ -12,7 +12,7 @@ const Layout: React.FC<{ titlePrefix?: string }> = ({
   return (
     <>
       <NextSeo
-        title={`${titlePrefix && `${titlePrefix} |`} Interclip`}
+        title={`${titlePrefix ? `${titlePrefix} | ` : ' '}Interclip`}
         description="The next generation of sharing files and links with anyone."
       />
       <PageHead titlePrefix={titlePrefix} />
