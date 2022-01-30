@@ -46,24 +46,52 @@ const Home: NextPage = () => {
               e.preventDefault();
               let signature;
               let address;
+              let providerAvailable = true;
+              if (!(window as any).ethereum) {
+                toast.error('Missing web3 provider, not signing');
+                providerAvailable = false;
+              }
               /* Signs the clip code */
-              if (shouldSignClip && status === 'authenticated') {
+              if (
+                shouldSignClip &&
+                status === 'authenticated' &&
+                providerAvailable
+              ) {
+                const Web3 = (await import('web3')).default;
+                const web3 = new Web3((window as any).ethereum as any);
+
                 address = session?.user?.email || undefined;
+
                 const msg = `0x${Buffer.from(
                   getClipHash(clipURL),
                   'utf8',
                 ).toString('hex')}`;
-                signature = await (window as any).ethereum.request({
-                  method: 'personal_sign',
-                  params: [msg, address],
-                });
+                if (!address) {
+                  toast.error("Can't get wallet address from session");
+                  return;
+                }
+
+                signature = await web3.eth.personal
+                  .sign(msg, address, '')
+                  .catch((err) => {
+                    if (err.code === 4001) {
+                      toast.error(
+                        'Signature request rejected, proceeding without signing',
+                      );
+                      return;
+                    }
+                    toast.error(err.message);
+                  });
               }
+
               requestClip(
                 clipURL,
-                signature && {
-                  signature,
-                  address,
-                },
+                signature
+                  ? {
+                      signature,
+                      address,
+                    }
+                  : undefined,
               ).then(async (clip) => {
                 if (clip.status !== 'error') {
                   router.push(`/new/${clip?.result.code}`);
