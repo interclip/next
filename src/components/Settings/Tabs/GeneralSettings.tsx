@@ -155,24 +155,28 @@ const GeneralSettings = ({
               const messageToSign = 'Setup clip signing';
 
               try {
-                const from = email;
                 const msg = `0x${Buffer.from(messageToSign, 'utf8').toString(
                   'hex',
                 )}`;
 
-                const sign = await web3.eth.personal.sign(msg, from, '');
+                const sign = await web3.eth.personal.sign(msg, email, '');
                 if (sign) {
                   const recoveredAddress = recoverPersonalSignature({
                     data: msg,
                     sig: sign,
                   });
-                  if (recoveredAddress === from) {
+                  if (recoveredAddress === email) {
                     toast.success('Signing setup complete, saving');
                   }
                 }
               } catch (err: any) {
                 if (err.code === 4001) {
                   toast.error('Signature request rejected');
+                  return;
+                } else if (err.code === -32602) {
+                  toast.error(
+                    'It looks like your wallet is locked, please unlock it before proceeding',
+                  );
                   return;
                 }
                 toast.error(err as string);
@@ -188,12 +192,14 @@ const GeneralSettings = ({
             <Switch
               checked={signingEnabled}
               onChange={setClipSigningEnabled}
-              className={`${signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
-                } relative inline-flex h-6 w-11 items-center rounded-full`}
+              className={`${
+                signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
+              } relative inline-flex h-6 w-11 items-center rounded-full`}
             >
               <span
-                className={`${signingEnabled ? 'translate-x-6' : 'translate-x-1'
-                  } inline-block h-4 w-4 transform rounded-full bg-white`}
+                className={`${
+                  signingEnabled ? 'translate-x-6' : 'translate-x-1'
+                } inline-block h-4 w-4 transform rounded-full bg-white`}
               />
             </Switch>
           </div>
