@@ -10,6 +10,7 @@ import React, { Fragment, useState } from 'react';
 import toast from 'react-hot-toast';
 import { handleSettingsErrors } from 'src/pages/settings';
 import isEthereumAddress from 'validator/lib/isEthereumAddress';
+import Web3 from 'web3';
 
 import SettingsCard from '../SettingsCard';
 
@@ -146,30 +147,34 @@ const GeneralSettings = ({
           description="If you enable this, every clip you create will be cryptographically signed"
           onSave={async () => {
             if (signingEnabled) {
-              /**
-               * Personal Sign
-               */
+              if (!(window as any).ethereum) {
+                toast.error('Please install Metamask to enable signing');
+                return;
+              }
+              const web3 = new Web3((window as any).ethereum as any);
               const messageToSign = 'Setup clip signing';
+
               try {
-                const accounts = await (window as any).ethereum.request({
-                  method: 'eth_requestAccounts',
-                });
-                const from = accounts[0];
+                const from = email;
                 const msg = `0x${Buffer.from(messageToSign, 'utf8').toString(
                   'hex',
                 )}`;
-                const sign = await (window as any).ethereum.request({
-                  method: 'personal_sign',
-                  params: [msg, from],
-                });
-                const recoveredAddress = recoverPersonalSignature({
-                  data: msg,
-                  sig: sign,
-                });
-                if (recoveredAddress === from) {
-                  toast.success('Signing setup complete, saving');
+
+                const sign = await web3.eth.personal.sign(msg, from, '');
+                if (sign) {
+                  const recoveredAddress = recoverPersonalSignature({
+                    data: msg,
+                    sig: sign,
+                  });
+                  if (recoveredAddress === from) {
+                    toast.success('Signing setup complete, saving');
+                  }
                 }
-              } catch (err) {
+              } catch (err: any) {
+                if (err.code === 4001) {
+                  toast.error('Signature request rejected');
+                  return;
+                }
                 toast.error(err as string);
               }
             }
@@ -183,14 +188,12 @@ const GeneralSettings = ({
             <Switch
               checked={signingEnabled}
               onChange={setClipSigningEnabled}
-              className={`${
-                signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
-              } relative inline-flex h-6 w-11 items-center rounded-full`}
+              className={`${signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
+                } relative inline-flex h-6 w-11 items-center rounded-full`}
             >
               <span
-                className={`${
-                  signingEnabled ? 'translate-x-6' : 'translate-x-1'
-                } inline-block h-4 w-4 transform rounded-full bg-white`}
+                className={`${signingEnabled ? 'translate-x-6' : 'translate-x-1'
+                  } inline-block h-4 w-4 transform rounded-full bg-white`}
               />
             </Switch>
           </div>
