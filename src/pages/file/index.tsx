@@ -9,7 +9,7 @@ import {
   StorageProvider,
   web3StorageToken,
 } from '@utils/constants';
-import uploadFile from '@utils/uploadFile';
+import uploadFile, { ipfsCheckCID } from '@utils/uploadFile';
 import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -23,9 +23,17 @@ const remoteOptions = [
   { name: StorageProvider.S3 },
 ];
 
-const RemoteOptionsSelect = () => {
-  const [selected, setSelected] = useState(remoteOptions[0]);
-
+const RemoteOptionsSelect = ({
+  setSelected,
+  selected,
+}: {
+  setSelected: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+    }>
+  >;
+  selected: { name: string };
+}) => {
   const { status } = useSession();
   useEffect(() => {
     if (status !== 'unauthenticated') {
@@ -38,7 +46,7 @@ const RemoteOptionsSelect = () => {
         },
       );
     }
-  }, [status]);
+  }, [setSelected, status]);
 
   return (
     <div className="w-72">
@@ -111,6 +119,9 @@ export default function FilePage() {
   const [loading, setLoading] = useState(false);
   const [fileURL, setFileURL] = useState<null | string>(null);
   const [code, setCode] = useState<null | string>(null);
+  const [selected, setSelected] = useState(remoteOptions[0]);
+  const [progress, setProgress] = useState<number>(0);
+
   const client = new WebTorrent();
 
   const seedHandler = async (e: any) => {
@@ -126,6 +137,15 @@ export default function FilePage() {
     }
   };
 
+  /*
+  class DuplicateError extends Error {
+    constructor(message: string) {
+      super(message);
+      this.name = 'DuplicateError';
+    }
+  }
+  */
+
   const ipfsHandler = async (e: DropEvent) => {
     if (web3StorageToken) {
       const client = new Web3Storage({ token: web3StorageToken });
@@ -135,7 +155,26 @@ export default function FilePage() {
         toast.error('Please select a file');
         return;
       }
-      console.log(files);
+
+      // show the root cid as soon as it's ready
+      const onRootCidReady = async (cid: string) => {
+        if (await ipfsCheckCID(cid)) {
+          // Todo(ft): handle files already on IPFS, maybe by pinning them
+          //throw new DuplicateError('Already on IPFS');
+        }
+      };
+
+      // when each chunk is stored, update the percentage complete and display
+      const totalSize = [...files]
+        .map((f) => f.size)
+        .reduce((a, b) => a + b, 0);
+      let uploaded = 0;
+
+      const onStoredChunk = (size: number) => {
+        uploaded += size;
+        const pct = uploaded / totalSize;
+        setProgress(pct * 100);
+      };
 
       const filesOverLimit = [...files].filter(
         (file) => file.size > maxIPFSUploadSize,
@@ -151,7 +190,11 @@ export default function FilePage() {
       const rootCID = await client.put(files!, {
         maxRetries: 3,
         wrapWithDirectory: false,
+        onRootCidReady,
+        onStoredChunk,
       });
+
+      setProgress(0);
 
       const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
       const url = `${
@@ -173,21 +216,22 @@ export default function FilePage() {
     }
   };
 
-  const storage: string = 'ipfs';
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
     setLoading(true);
 
     try {
-      switch (storage) {
-        case 'ipfs':
+      switch (selected.name) {
+        case 'IPFS':
           await ipfsHandler(e);
           break;
-        case 'iss':
+        case 'S3':
           const fileURL = await uploadFile(filesEndpoint, e);
           const clipResponse = await requestClip(fileURL);
           if (clipResponse.status === 'success') {
-            setCode(clipResponse.result.code);
+            setCode(
+              clipResponse.result.code.slice(0, clipResponse.result.hashLength),
+            );
           }
           setFileURL(fileURL);
           break;
@@ -199,6 +243,7 @@ export default function FilePage() {
       toast.error(e as string);
     }
 
+    setProgress(0);
     setLoading(false);
   };
 
@@ -229,7 +274,10 @@ export default function FilePage() {
         <Toaster />
         <div className="h-full w-screen bg-[#005AC7] dark:bg-dark-bg sm:px-8 sm:py-8 md:px-16">
           <main className="container mx-auto h-full max-w-screen-lg">
-            <RemoteOptionsSelect />
+            <RemoteOptionsSelect
+              setSelected={setSelected}
+              selected={selected}
+            />
             {!fileURL ? (
               <article
                 aria-label="File Upload Modal"
@@ -266,10 +314,21 @@ export default function FilePage() {
                     {!showOverlay && (
                       <>
                         {loading ? (
-                          <p className="mb-3 flex flex-col justify-center gap-8 font-semibold text-gray-900 dark:text-gray-200">
+                          <div className="mb-3 flex flex-col justify-center gap-8 font-semibold text-gray-900 dark:text-gray-200">
                             <span>Uploading your file...</span>
+                            <div className="gap flex flex-row items-center gap-2">
+                              <div className="h-4 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+                                <div
+                                  className="h-4 rounded-full bg-gray-600 dark:bg-gray-300"
+                                  style={{
+                                    width: `${Math.min(progress, 100)}%`,
+                                  }}
+                                ></div>
+                              </div>
+                              {Math.min(progress, 100).toFixed(2)}%
+                            </div>
                             <Loading />
-                          </p>
+                          </div>
                         ) : (
                           <>
                             <p className="mb-3 flex flex-wrap justify-center font-semibold text-gray-900 dark:text-gray-200">
@@ -311,25 +370,25 @@ export default function FilePage() {
                     <p className="mb-3 flex flex-wrap justify-center text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>Your file has been uploaded to</span>
                     </p>
-                    <p className="mb-3 flex max-w-[69%] flex-wrap justify-center overflow-hidden truncate text-center text-3xl font-semibold text-gray-900 hover:underline dark:text-gray-200">
+                    <div className="mb-3 flex max-w-[69%] flex-wrap justify-center overflow-hidden truncate text-center text-3xl font-semibold text-gray-900 hover:underline dark:text-gray-200">
                       <span>
                         <a
                           href={fileURL}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          {storage === 'iss'
+                          {selected.name === 'S3'
                             ? fileURL.replace('https://', '')
-                            : storage === 'ipfs'
+                            : selected.name === 'IPFS'
                             ? new URL(fileURL).pathname.split('/').at(-1)
                             : fileURL}
                         </a>
                       </span>
-                    </p>
+                    </div>
                     <p className="mb-3 flex flex-wrap justify-center text-2xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>as the code</span>
                     </p>
-                    <p className="mb-3 flex flex-wrap justify-center text-3xl font-semibold text-gray-900 dark:text-gray-200">
+                    <div className="mb-3 flex flex-wrap justify-center text-3xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>
                         <a
                           href={`https://interclip.app/${code}`}
@@ -339,7 +398,7 @@ export default function FilePage() {
                           {code}
                         </a>
                       </span>
-                    </p>
+                    </div>
                     <button
                       className="focus:shadow-outline mt-2 rounded-xl bg-[#157EFB] px-3 py-1 hover:bg-[#5DA5FB] focus:outline-none"
                       onClick={() => {

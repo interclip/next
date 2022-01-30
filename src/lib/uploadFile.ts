@@ -1,9 +1,27 @@
 import formatBytes from '@utils/formatBytes';
 import { ChangeEvent } from 'react';
 import { convertXML } from 'simple-xml-to-json';
+import { Web3Storage } from 'web3.storage';
 
-import { IS_PROD } from './constants';
+import { IS_PROD, web3StorageToken } from './constants';
 import { getClipHash } from './generateID';
+
+function makeStorageClient() {
+  if (!web3StorageToken) {
+    throw new Error('Missing Web3.storage token');
+  }
+  return new Web3Storage({ token: web3StorageToken });
+}
+
+/**
+ * Checks whether a specified CID already exists on IPFS
+ */
+export const ipfsCheckCID = async (cid: string): Promise<boolean> => {
+  const client = makeStorageClient();
+  const res = await client.get(cid);
+  if (!res || !res.ok) return false;
+  else return true;
+};
 
 const uploadFile = async (
   filesEndpoint: string,
