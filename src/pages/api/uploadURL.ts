@@ -43,6 +43,5 @@ export default async function handler(
     Conditions: [['content-length-range', 0, fileSizeLimit]],
   });
 
-  console.log(session ? 'Authed' : 'Unauthed');
   res.status(200).json(post);
 }

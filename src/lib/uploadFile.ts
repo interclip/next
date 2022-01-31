@@ -71,7 +71,6 @@ const uploadFile = async (
         const fileSize = jsonResponse.Error.children[2].ProposedSize.content;
         throw new Error(`File too large (${formatBytes(fileSize)})`);
       default:
-        console.log(erorrMsg);
         throw new Error('Upload failed.');
     }
   }

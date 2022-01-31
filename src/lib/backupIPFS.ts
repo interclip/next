@@ -40,7 +40,6 @@ export const uploadToIPFS = async (id: number) => {
         wrapWithDirectory: false,
       },
     );
-    console.log(rootCID);
 
     await db.clip.update({
       where: { id },
