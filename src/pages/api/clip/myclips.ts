@@ -1,8 +1,5 @@
 import { needsAuth } from '@utils/api/ensureAuth';
-import {
-  getLinkPreviewFromCache,
-  storeLinkPreviewInCache,
-} from '@utils/clipPreview';
+import { defaultRedisClient, storeLinkPreviewInCache } from '@utils/clipPreview';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
 import { db } from '@utils/prisma';
@@ -49,14 +46,12 @@ export default async function handler(
 
     const newClips = [];
 
+    const redisClient = defaultRedisClient();
     for (const clip of clips) {
-      console.log(clip.url);
-
       const urlObject = new URL(clip.url);
       const additionalDetails =
-        (await getLinkPreviewFromCache(clip.url)) ||
-        (['http', 'https'].includes(urlObject.protocol) &&
-          (await storeLinkPreviewInCache(clip.url)));
+        ['http', 'https'].includes(urlObject.protocol) &&
+        (await storeLinkPreviewInCache(clip.url, redisClient));
 
       if (additionalDetails) {
         newClips.push({
@@ -69,6 +64,7 @@ export default async function handler(
         newClips.push(clip);
       }
     }
+    redisClient.disconnect();
 
     res.status(200).json({ status: 'success', result: newClips });
   } catch (e) {
