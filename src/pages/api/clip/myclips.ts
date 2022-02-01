@@ -1,5 +1,8 @@
 import { needsAuth } from '@utils/api/ensureAuth';
-import { defaultRedisClient, storeLinkPreviewInCache } from '@utils/clipPreview';
+import {
+  defaultRedisClient,
+  storeLinkPreviewInCache,
+} from '@utils/clipPreview';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
 import { db } from '@utils/prisma';
