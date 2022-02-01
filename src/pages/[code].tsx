@@ -2,7 +2,7 @@ import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import Link from '@components/Text/link';
-import { defaultRedisClient, storeLinkPreviewInCache } from '@utils/clipPreview';
+import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
