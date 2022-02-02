@@ -14,8 +14,7 @@ import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { DropEvent } from 'src/typings/interclip';
-import { Web3Storage } from 'web3.storage';
-import WebTorrent from 'webtorrent';
+import type { Torrent } from 'webtorrent';
 
 const remoteOptions = [
   { name: 'Peer to Peer' },
@@ -124,13 +123,14 @@ export default function FilePage() {
   const [selected, setSelected] = useState(remoteOptions[0]);
   const [progress, setProgress] = useState<number>(0);
 
-  const client = new WebTorrent();
-
   const seedHandler = async (e: any) => {
+    const WebTorrent = (await import('webtorrent')).default;
+    const client = new WebTorrent();
+
     if (WebTorrent.WEBRTC_SUPPORT) {
       client.seed(
         e?.dataTransfer?.files || e.target?.file,
-        (torrent: WebTorrent.Torrent) => {
+        (torrent: Torrent) => {
           setFileURL(torrent.magnetURI);
           setLoading(false);
           setCode('g');
@@ -150,6 +150,7 @@ export default function FilePage() {
 
   const ipfsHandler = async (e: DropEvent) => {
     if (web3StorageToken) {
+      const Web3Storage = (await import('web3.storage')).Web3Storage;
       const client = new Web3Storage({ token: web3StorageToken });
       const files = e?.dataTransfer?.files || e.target?.files;
 
