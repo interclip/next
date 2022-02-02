@@ -44,8 +44,8 @@ const Home: NextPage = () => {
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              let signature;
-              let address;
+              let signature: string | undefined;
+              let address: string | undefined;
               let providerAvailable = true;
               if (!(window as any).ethereum) {
                 toast.error('Missing web3 provider, not signing');
@@ -71,37 +71,48 @@ const Home: NextPage = () => {
                   return;
                 }
 
-                signature = await web3.eth.personal
-                  .sign(msg, address, '')
-                  .catch((err) => {
-                    if (err.code === 4001) {
-                      toast.error(
-                        'Signature request rejected, proceeding without signing',
-                      );
-                      return;
-                    }
-                    toast.error(err.message);
-                  });
+                signature =
+                  (await web3.eth.personal
+                    .sign(msg, address, '')
+                    .catch((err) => {
+                      if (err.code === 4001) {
+                        toast.error(
+                          'Signature request rejected, proceeding without signing',
+                        );
+                        return;
+                      }
+                      toast.error(err.message);
+                    })) || undefined;
               }
 
-              requestClip(
-                clipURL,
-                signature
-                  ? {
-                      signature,
-                      address,
+              await toast.promise(
+                new Promise((resolve, reject) => {
+                  requestClip(
+                    clipURL,
+                    signature
+                      ? {
+                          signature,
+                          address,
+                        }
+                      : undefined,
+                  ).then(async (clip) => {
+                    if (clip.status === 'success') {
+                      router.push(`/new/${clip?.result.code}`);
+                      resolve('Success');
+                    } else {
+                      if (!clip) {
+                        reject(new Error('No clip returned'));
+                      }
+                      toast.error(clip.result);
                     }
-                  : undefined,
-              ).then(async (clip) => {
-                if (clip.status !== 'error') {
-                  router.push(`/new/${clip?.result.code}`);
-                } else {
-                  if (!clip) {
-                    return;
-                  }
-                  toast.error(clip.result);
-                }
-              });
+                  });
+                }),
+                {
+                  loading: 'Creating clip',
+                  success: 'Clip created',
+                  error: 'Error creating clip',
+                },
+              );
             }}
           >
             <input
