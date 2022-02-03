@@ -6664,10 +6664,10 @@ netmask@^2.0.1:
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-2.0.2.tgz#8b01a07644065d536383835823bc52004ebac5e7"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
-next-auth@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.1.2.tgz#9ae50e2b6ccbbbac02b7f627a6568fd29b56ac66"
-  integrity sha512-r5Km0eIDgGad+yhegk6OpulAnf7pyxsIpLec3xYB3PIb7F3bUTsvgWm/n/wAvlT0aAF1xKQWOgqhwPjrjte89g==
+next-auth@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/next-auth/-/next-auth-4.2.0.tgz#457573eef46aaf3094b3ed31b0e6ff89afe2fac4"
+  integrity sha512-eLuvxgqvH3g7QW2it766lGOx/ddFxUl/V7bGlbrxG0vrEzbLctE4x4pLeJUvDmuO6Dkp4hnP9IurqjNmJYAbcg==
   dependencies:
     "@babel/runtime" "^7.16.3"
     "@panva/hkdf" "^1.0.1"
