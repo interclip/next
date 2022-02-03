@@ -9663,10 +9663,10 @@ websocket@^1.0.32:
     utf-8-validate "^5.0.2"
     yaeti "^0.0.6"
 
-webtorrent@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.7.2.tgz#24672163e8cc12b19b107ceb56e925ef8076b3fc"
-  integrity sha512-i2ceefclrbWcXrp/WyLSZYmwg5AhNrxiO+hUizb2wMqNEMNHOGfRc/0jT2j/2Jy0ar12zF8XcV4sEAjlaBPDcQ==
+webtorrent@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.8.1.tgz#ca8f975cfe6f286a54535ab0ff62302c9a9844ab"
+  integrity sha512-FutW3PA5x7K8ZfBxNgZunSXlwDARyoWFjlGkWLXpni5IARJsyYmucxoPPNL4QRtMB+BKsSwe3g4HOpHseKPxWQ==
   dependencies:
     "@webtorrent/http-node" "^1.3.0"
     addr-to-ip-port "^1.5.4"
