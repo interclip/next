@@ -49,7 +49,14 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: {
+  res: { setHeader: (arg0: string, arg1: string) => void };
+}) {
+  context.res.setHeader(
+    'Cache-Control',
+    's-maxage=600, stale-while-revalidate=30',
+  );
+
   try {
     const clipCount = await db.clip.count();
     const packageJSON = require('../../package.json');

@@ -10,7 +10,7 @@ import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
 import { recoverPersonalSignature } from 'eth-sig-util';
 import { getLinkPreview } from 'link-preview-js';
-import { NextApiRequest } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -194,8 +194,10 @@ const CodeView = ({
 
 export async function getServerSideProps({
   query,
+  res,
 }: {
   query: NextApiRequest['query'];
+  res: NextApiResponse;
 }) {
   const userCode = query.code;
   if (
@@ -224,6 +226,7 @@ export async function getServerSideProps({
     if (!selectedClip) {
       return { notFound: true };
     }
+    res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=30'); // set caching header
     const additionalDetails = (await getLinkPreview(
       selectedClip.url,
     )) as OEmbed;

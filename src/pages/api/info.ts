@@ -12,6 +12,7 @@ export default async function handler(
   _req: NextApiRequest,
   res: NextApiResponse<APIResponse>,
 ) {
+  res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=30');
   res.json({
     status: 'success',
     result: {

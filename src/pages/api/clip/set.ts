@@ -138,6 +138,10 @@ export default async function handler(
       },
     });
 
+    res.setHeader(
+      'Cache-Control',
+      's-maxage=86400, stale-while-revalidate=3600',
+    );
     res.status(200).json({
       status: 'success',
       result: { ...existingClip, hashLength: equal + 1 },

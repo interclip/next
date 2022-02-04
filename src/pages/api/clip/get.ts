@@ -64,6 +64,10 @@ export default async function handler(
   try {
     const clipResult = await queriedClip;
     if (clipResult) {
+      res.setHeader(
+        'Cache-Control',
+        's-maxage=86400, stale-while-revalidate=3600',
+      );
       res.status(200).json({ status: 'success', result: clipResult });
     } else {
       res.status(404).json({
