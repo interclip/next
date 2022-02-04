@@ -17,6 +17,15 @@ import toast from 'react-hot-toast';
 import ReactTooltip from 'react-tooltip';
 import { OEmbed } from 'src/typings/interclip';
 
+interface CodeViewPageProps {
+  code: string;
+  fullCode: string;
+  url: string;
+  ipfsHash?: string | null;
+  signature?: string | null;
+  oembed: OEmbed;
+}
+
 const CodeView = ({
   code,
   fullCode,
@@ -24,14 +33,7 @@ const CodeView = ({
   oembed,
   ipfsHash,
   signature,
-}: {
-  code: string;
-  fullCode: string;
-  url: string;
-  ipfsHash?: string;
-  signature?: string;
-  oembed: OEmbed;
-}) => {
+}: CodeViewPageProps) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const urlObject = new URL(url);
   const simplifiedURL = truncate(urlObject, 40);
@@ -90,7 +92,7 @@ const CodeView = ({
         <div className="shadow-custom mb-8 flex w-full justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
             <h2 className="mb-2 max-w-[30rem] text-4xl">
-              {oembed.title || code}
+              {oembed.title || oembed.siteName || code}
             </h2>
             <h3 className="text-2xl text-gray-400">
               <Link className="no-underline" href={url} title={url}>
@@ -198,7 +200,7 @@ export async function getServerSideProps({
 }: {
   query: NextApiRequest['query'];
   res: NextApiResponse;
-}) {
+}): Promise<{ notFound?: boolean; props?: CodeViewPageProps }> {
   const userCode = query.code;
   if (
     (userCode && typeof userCode === 'object') ||
@@ -239,9 +241,15 @@ export async function getServerSideProps({
         ipfsHash: selectedClip.ipfsHash,
         signature: selectedClip.signature,
         oembed: {
-          title: additionalDetails.title || additionalDetails.siteName || null,
-          description: additionalDetails.description || null,
+          title: additionalDetails.title,
+          description: additionalDetails.description,
           favicons: additionalDetails.favicons,
+          url: additionalDetails.url,
+          siteName: additionalDetails.siteName,
+          mediaType: additionalDetails.mediaType,
+          videos: additionalDetails.videos,
+          images: additionalDetails.images,
+          contentType: additionalDetails.contentType,
         },
       },
     };

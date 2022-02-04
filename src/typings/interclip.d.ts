@@ -3,7 +3,7 @@ import { Clip } from '.prisma/client';
 
 interface OEmbed {
   url: string;
-  title: string;
+  title: string | null;
   siteName: string | null;
   description: string | null;
   mediaType: string;
