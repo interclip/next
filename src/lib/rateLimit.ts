@@ -11,6 +11,12 @@ const rateLimit = (options: {
   });
 
   return {
+    /**
+     *
+     * @param res the response object to act upon
+     * @param limit the limit of requests within a certain time frame
+     * @param token the token for checking the client's remaining requests
+     */
     check: (res: NextApiResponse, limit: number, token: string) =>
       new Promise<void>((resolve, reject) => {
         const tokenCount: any = tokenCache.get(token) || [0];
@@ -27,11 +33,22 @@ const rateLimit = (options: {
           isRateLimited ? 0 : limit - currentUsage,
         );
 
-        return isRateLimited ? reject() : resolve();
+        if (isRateLimited) {
+          res.status(429).json({
+            status: 'error',
+            result: 'Rate limit exceeded',
+          });
+          return reject();
+        }
+
+        return resolve();
       }),
   };
 };
 
+/**
+ * Creates a rate limiter, which resets every 60 seconds for every token (client) with a max cache size of 500
+ */
 const limiter = rateLimit({
   interval: 60 * 1000, // 60 seconds
   uniqueTokenPerInterval: 500, // Max 500 reqs per second

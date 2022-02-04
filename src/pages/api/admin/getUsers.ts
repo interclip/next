@@ -1,5 +1,6 @@
 import { User } from '@prisma/client';
 import { needsAdmin } from '@utils/api/ensureAuth';
+import getCacheToken from '@utils/determineCacheToken';
 import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -20,14 +21,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<UsersResponse>,
 ) {
-  try {
-    await limiter.check(res, 169, 'CACHE_TOKEN');
-  } catch {
-    res.status(429).json({
-      status: 'error',
-      result: 'Rate limit exceeded',
-    });
-  }
+  await limiter.check(res, 169, getCacheToken(req));
 
   // Make sure the user is logged in and is an admin
   needsAdmin(req, res);

@@ -18,14 +18,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ClipResponse>,
 ) {
-  try {
-    await limiter.check(res, 169, getCacheToken(req));
-  } catch {
-    res.status(429).json({
-      status: 'error',
-      result: 'Rate limit exceeded',
-    });
-  }
+  await limiter.check(res, 30, getCacheToken(req));
 
   const { code: clipCode } = req.query;
 
