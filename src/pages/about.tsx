@@ -2,11 +2,35 @@ import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { githubRepo } from '@utils/constants';
 import { db } from '@utils/prisma';
-import React from 'react';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { CountUp } from 'use-count-up';
 
 import { Layout } from '../components/Layout';
 
-const About = (props: { clipCount: number; version: string }): JSX.Element => {
+const About = (props: {
+  clipCount: number;
+  userCount: number;
+  version: string;
+}): React.ReactNode => {
+  const [contributorsCount, setContributorsCount] = useState(0);
+
+  useEffect(() => {
+    fetch('https://api.github.com/repos/interclip/interclip-next/contributors')
+      .then((res) => res.json())
+      .then((res) => {
+        setContributorsCount(
+          res.filter(
+            (user: { login: string; id: number }) =>
+              !user.login.includes('bot'),
+          ).length,
+        );
+      })
+      .catch(() => {
+        console.error('There was an error when fetching from github api');
+      });
+  }, []);
+
   return (
     <Layout titlePrefix="About">
       <section className="flex w-full flex-col items-center">
@@ -34,6 +58,11 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
             we use to make it easier upon ourselves.
           </p>
           <H2>Facts about Interclip</H2>
+          <p className="flex justify-around w-full py-2 mb-2 border-gray-300 border-y dark:border-gray-700">
+            <Fact title="Total clips made" value={props.clipCount} />
+            <Fact title="Users" value={props.userCount} />
+            <Fact title="Contributors" value={contributorsCount} />
+          </p>
           <ul className="facts">
             <li>
               Release: {props.version}{' '}
@@ -41,20 +70,59 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
                 (changelog)
               </Link>
             </li>
-            <li>Total clips made: {props.clipCount}</li>
           </ul>
+          <H2>Mobile app</H2>
+          <div>
+            <Link href="https://apps.apple.com/cz/app/interclip/id1546777494">
+              <Image
+                alt="Apple app store"
+                src="/images/appstore.png"
+                width={184}
+                height={64}
+                objectPosition="left"
+              />
+            </Link>
+          </div>
+          <div>
+            <Link href="https://play.google.com/store/apps/details?id=com.filiptronicek.iclip">
+              <Image
+                alt="Google play"
+                src="/images/googleplay.webp"
+                width={217}
+                height={64}
+                objectPosition="left"
+              />
+            </Link>
+          </div>
         </div>
       </section>
     </Layout>
   );
 };
 
+type FactProps = {
+  title: string;
+  value: number;
+};
+
+const Fact: React.FC<FactProps> = ({ title, value }) => {
+  return (
+    <div className="text-center">
+      <div className="font-sans text-3xl font-semibold">
+        <CountUp isCounting end={value} duration={1.4} />
+      </div>
+      <span>{title}</span>
+    </div>
+  );
+};
+
 export async function getServerSideProps() {
   try {
     const clipCount = await db.clip.count();
+    const userCount = await db.user.count();
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
-    return { props: { clipCount, version } };
+    return { props: { clipCount, userCount, version } };
   } catch (e) {
     console.error(e);
     return {
