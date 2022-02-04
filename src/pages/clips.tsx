@@ -12,6 +12,13 @@ interface ClipsResponse {
   result: ClipWithPreview[];
 }
 
+class AuthError extends Error {
+  constructor() {
+    super();
+    this.name = 'AthenticationError';
+  }
+}
+
 const MyClips = (): React.ReactNode => {
   const [loadedClips, setClips] = useState<null | ClipWithPreview[]>(null);
   const router = useRouter();
@@ -23,16 +30,19 @@ const MyClips = (): React.ReactNode => {
           return res.json();
         } else if (res.status === 401) {
           router.push('/auth/login');
-          throw new Error('Unauthenticated');
-        } else {
-          alert('Error fetching clips');
+          throw new AuthError();
         }
       })
       .then((clips: ClipsResponse) => {
         setClips(clips.result);
       })
-      .catch(() => {
+      .catch((e) => {
+        if (e instanceof AuthError) {
+          toast.error('You must log in to access this page');
+          return;
+        }
         toast.error('There was an error when fetching your clips');
+        setClips([]);
       });
   }, [router]);
 

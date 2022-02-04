@@ -8,7 +8,6 @@ import getCacheToken from '@utils/determineCacheToken';
 import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
 import { APIResponse } from 'src/typings/interclip';
 
 export default async function handler(
@@ -24,14 +23,12 @@ export default async function handler(
     });
   }
 
-  const session = await getSession({ req });
-
-  needsAuth(req, res);
+  const session = await needsAuth(req, res);
 
   try {
     const clips = await db.clip.findMany({
       where: {
-        ownerID: await getUserIDFromEmail(session?.user?.email),
+        ownerID: await getUserIDFromEmail(session!.user?.email),
       },
       select: {
         code: true,

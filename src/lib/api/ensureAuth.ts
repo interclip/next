@@ -1,14 +1,20 @@
 import { db } from '@utils/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 
-const needsAuth = async (req: NextApiRequest, res: NextApiResponse) => {
+const needsAuth = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+): Promise<void | Session> => {
   const session = await getSession({ req });
   if (!session) {
     res.status(401).json({
       status: 'error',
       result: 'Unauthenticated.',
     });
+  } else {
+    return session;
   }
 };
 
