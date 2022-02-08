@@ -3390,12 +3390,12 @@ create-torrent@^5.0.1:
     run-parallel "^1.2.0"
     simple-sha1 "^3.1.0"
 
-cross-fetch@3.1.4:
-  version "3.1.4"
-  resolved "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.4.tgz"
-  integrity sha512-1eAtFWdIubi6T4XPy6ei9iUFoKpUkIF971QLN8lIvvvwueI65+Nw5haMNKUwfJxabqlIIDODJKGrQ66gxC0PbQ==
+cross-fetch@3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
+  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
   dependencies:
-    node-fetch "2.6.1"
+    node-fetch "2.6.7"
 
 cross-spawn@^7.0.2:
   version "7.0.3"
@@ -6120,14 +6120,14 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.1.6.tgz"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-link-preview-js@^2.1.10:
-  version "2.1.10"
-  resolved "https://registry.yarnpkg.com/link-preview-js/-/link-preview-js-2.1.10.tgz#9c4b3f2fe43eec2a5ecb013a7dc3ddbc0421f9d9"
-  integrity sha512-Vjr3sKf7/mIpCrim+Y7pn4Q/P0B6IXIUY1y5gbP6rEtpGcBC94Vq/EfNACK79QuRShs7/R2E3fmLi3zY6XtwOQ==
+link-preview-js@^2.1.13:
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/link-preview-js/-/link-preview-js-2.1.13.tgz#a8f440acb320f28dd999a94854a63b65816cab71"
+  integrity sha512-HTIVl9l55LZxqRMo3nYDt4eoZplFv+ye1msklZKxdxYYxjUmVYI1Dfn9ZjCvfTEuPBZVNxvZ+Wc7d7e4swZnRQ==
   dependencies:
     abort-controller "^3.0.0"
     cheerio "1.0.0-rc.10"
-    cross-fetch "3.1.4"
+    cross-fetch "3.1.5"
     url "0.11.0"
 
 load-ip-set@^2.2.1:
@@ -6788,11 +6788,6 @@ node-fetch@*:
   dependencies:
     data-uri-to-buffer "^3.0.1"
     fetch-blob "^3.1.2"
-
-node-fetch@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.1.tgz"
-  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 node-fetch@2.6.7, node-fetch@^2.6.1, "node-fetch@https://registry.npmjs.org/@achingbrain/node-fetch/-/node-fetch-2.6.7.tgz":
   version "2.6.7"
