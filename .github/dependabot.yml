@@ -15,7 +15,12 @@ updates:
       - bigint
     open-pull-requests-limit: 69
     rebase-strategy: auto
+    labels:
+      - automerge
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: 'daily'
+    labels:
+      - automerge
+ 
