@@ -37,12 +37,16 @@ const MetaMaskLoginButton = () => {
         .then(async (accounts: string[]) => {
           try {
             const nonce = `sign_in_${Math.random().toString(16).slice(2, 18)}`;
-            const signedToken: string = await (window as any).ethereum?.request(
-              {
-                method: 'personal_sign',
-                params: [nonce, accounts[0]],
-              },
+            const signedToken = await web3?.eth.personal.sign(
+              nonce,
+              accounts[0],
+              '',
             );
+
+            if (!signedToken) {
+              toast.error('Signing failed');
+              return;
+            }
 
             toast.promise(
               new Promise((_resolve, reject) => {
