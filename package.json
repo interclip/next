@@ -23,7 +23,7 @@
     "@nextui-org/react": "^1.0.1-alpha.57",
     "@prisma/client": "^3.9.2",
     "@types/react-infinite-scroller": "^1.2.2",
-    "aws-sdk": "^2.1072.0",
+    "aws-sdk": "^2.1073.0",
     "clsx": "^1.1.1",
     "cuid": "^2.1.8",
     "dayjs": "^1.10.7",
@@ -84,7 +84,7 @@
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.7",
     "prisma": "3.9.1",
-    "tailwindcss": "^3.0.19",
+    "tailwindcss": "^3.0.20",
     "typescript": "4.5.5"
   }
 }
