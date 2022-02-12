@@ -1,11 +1,13 @@
 import { Input } from '@components/Input';
 import { Dialog, Transition } from '@headlessui/react';
 import { Switch } from '@headlessui/react';
+import { deleteAccount } from '@utils/api/client/deleteUser';
 import {
   maxNameAllowedLength,
   maxUsernameAllowedLength,
 } from '@utils/constants';
 import { recoverPersonalSignature } from 'eth-sig-util';
+import { signOut } from 'next-auth/react';
 import React, { Fragment, useState } from 'react';
 import toast from 'react-hot-toast';
 import { handleSettingsErrors } from 'src/pages/settings';
@@ -85,7 +87,14 @@ const GeneralSettings = ({
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    onClick={() => setIsOpen(false)}
+                    onClick={async () => {
+                      await toast.promise(deleteAccount(email), {
+                        loading: 'Deleting your account',
+                        success: 'Successfully deleted your account',
+                        error: "Couldn't delete your account",
+                      });
+                      signOut({ callbackUrl: '/' });
+                    }}
                   >
                     Go ahead, delete my account
                   </button>
@@ -192,14 +201,12 @@ const GeneralSettings = ({
             <Switch
               checked={signingEnabled}
               onChange={setClipSigningEnabled}
-              className={`${
-                signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
-              } relative inline-flex h-6 w-11 items-center rounded-full`}
+              className={`${signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
+                } relative inline-flex h-6 w-11 items-center rounded-full`}
             >
               <span
-                className={`${
-                  signingEnabled ? 'translate-x-6' : 'translate-x-1'
-                } inline-block h-4 w-4 transform rounded-full bg-white`}
+                className={`${signingEnabled ? 'translate-x-6' : 'translate-x-1'
+                  } inline-block h-4 w-4 transform rounded-full bg-white`}
               />
             </Switch>
           </div>
