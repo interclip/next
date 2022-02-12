@@ -12,7 +12,7 @@ import isAscii from 'validator/lib/isAscii';
 
 /**
  * Changes user settings
- * @param setProperties an array of key-value pairs of user fields to be updated. Their values need to be strings for now, but maybe in the future we can transfer them via JSON
+ * @param setProperties an object consisting of key-value pairs of user fields to be updated. Their values need to be strings for now, but maybe in the future we can transfer them via JSON
  * @param req the HTTP request
  * @param user optionally, one can provide an email identifier to make changes to another user account
  */
