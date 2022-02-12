@@ -18,14 +18,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ClipResponse>,
 ) {
-  try {
-    await limiter.check(res, 169, getCacheToken(req));
-  } catch {
-    res.status(429).json({
-      status: 'error',
-      result: 'Rate limit exceeded',
-    });
-  }
+  await limiter.check(res, 30, getCacheToken(req));
 
   const { code: clipCode } = req.query;
 
@@ -71,6 +64,10 @@ export default async function handler(
   try {
     const clipResult = await queriedClip;
     if (clipResult) {
+      res.setHeader(
+        'Cache-Control',
+        's-maxage=86400, stale-while-revalidate=3600',
+      );
       res.status(200).json({ status: 'success', result: clipResult });
     } else {
       res.status(404).json({

@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { needsAdmin, needsAuth } from '@utils/api/ensureAuth';
 import {
   maxNameAllowedLength,
   maxUsernameAllowedLength,
@@ -12,17 +13,12 @@ import isAscii from 'validator/lib/isAscii';
  * Changes user settings
  * @param setProperties an array of key-value pairs of user fields to be updated. Their values need to be strings for now, but maybe in the future we can transfer them via JSON
  * @param req the HTTP request
+ * @param user optionally, one can provide an email identifier to make changes to another user account
  */
 export const setUserDetails = async (
   setProperties: { [key: string]: string },
-  req: NextApiRequest,
+  user: string,
 ) => {
-  const session = await getSession({ req });
-
-  if (!session?.user?.email) {
-    throw new Error("Couldn't get email from session");
-  }
-
   const selectObject: any = {};
   for (const key of Object.keys(setProperties)) {
     selectObject[key] = true;
@@ -30,11 +26,9 @@ export const setUserDetails = async (
 
   const selectedDetails = await db.user.update({
     where: {
-      email: session.user.email,
+      email: user,
     },
-    data: {
-      ...setProperties,
-    },
+    data: setProperties,
     select: {
       ...selectObject,
     },
@@ -64,10 +58,28 @@ export default async function handler(
     return;
   }
 
-  const selectedFields = req.query.params.split(',');
-  const keyValuePairs: { [key: string]: string } = {};
-  selectedFields.forEach((field) => {
-    const [key, value] = field.split(':');
+  if (typeof req.query.address === 'object') {
+    res.status(400).json({
+      status: 'error',
+      result:
+        'Too many address query params provided. Please only one address per request.',
+    });
+    return;
+  }
+
+  needsAuth(req, res);
+
+  const signedInUserAddress = (await getSession({ req }))?.user?.email!;
+  const { address = signedInUserAddress } = req.query;
+
+  // The user is trying to change the settings of another user
+  if (address !== signedInUserAddress) {
+    needsAdmin(req, res);
+  }
+
+  const keyValuePairs: { [key: string]: string } = JSON.parse(req.query.params);
+  Object.keys(keyValuePairs).forEach((key) => {
+    const value = keyValuePairs[key];
     if (!key) {
       res.status(400).json({
         status: 'error',
@@ -75,42 +87,51 @@ export default async function handler(
       });
     }
 
-    if (!value) {
-      res.status(400).json({
-        status: 'error',
-        result: `${key} cannot be empty`,
-      });
-    } else {
-      // Input validation
-      switch (key) {
-        case 'username': {
-          if (!isAscii(value)) {
-            res.status(400).json({
-              status: 'error',
-              result: 'A username must only have ASCII characters in it',
-            });
-          } else if (value.includes(' ')) {
-            res.status(400).json({
-              status: 'error',
-              result: 'A username cannot include spaces',
-            });
-          } else if (value.length > maxUsernameAllowedLength) {
-            res.status(400).json({
-              status: 'error',
-              result: `Your user name cannot be longer than ${maxNameAllowedLength} characters`,
-            });
-          }
-          break;
+    // Input validation
+    switch (key) {
+      case 'username': {
+        if (!isAscii(value)) {
+          res.status(400).json({
+            status: 'error',
+            result: 'A username must only have ASCII characters in it',
+          });
+        } else if (value.includes(' ')) {
+          res.status(400).json({
+            status: 'error',
+            result: 'A username cannot include spaces',
+          });
+        } else if (value.length > maxUsernameAllowedLength) {
+          res.status(400).json({
+            status: 'error',
+            result: `Your user name cannot be longer than ${maxNameAllowedLength} characters`,
+          });
+        } else if (value.length === 0) {
+          res.status(400).json({
+            status: 'error',
+            result: 'Although it would be cool, your user name cannot be empty',
+          });
         }
-        case 'name': {
-          if (value.length > maxNameAllowedLength) {
-            res.status(400).json({
-              status: 'error',
-              result: `Your display name cannot be longer than ${maxNameAllowedLength} characters`,
-            });
-          }
-          break;
+        break;
+      }
+      case 'name': {
+        if (value.length > maxNameAllowedLength) {
+          res.status(400).json({
+            status: 'error',
+            result: `Your display name cannot be longer than ${maxNameAllowedLength} characters`,
+          });
+        } else if (value.length === 0) {
+          res.status(400).json({
+            status: 'error',
+            result:
+              'Although it would be cool, your display name cannot be empty',
+          });
         }
+
+        break;
+      }
+      case 'id':
+      case 'isStaff': {
+        needsAdmin(req, res);
       }
     }
 
@@ -118,7 +139,7 @@ export default async function handler(
   });
 
   try {
-    res.json(await setUserDetails(keyValuePairs, req));
+    res.json(await setUserDetails(keyValuePairs, address));
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner

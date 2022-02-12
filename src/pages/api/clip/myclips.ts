@@ -1,6 +1,6 @@
 import { needsAuth } from '@utils/api/ensureAuth';
 import {
-  getLinkPreviewFromCache,
+  defaultRedisClient,
   storeLinkPreviewInCache,
 } from '@utils/clipPreview';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
@@ -8,30 +8,20 @@ import getCacheToken from '@utils/determineCacheToken';
 import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
 import { APIResponse } from 'src/typings/interclip';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>,
 ) {
-  try {
-    await limiter.check(res, 30, getCacheToken(req));
-  } catch {
-    res.status(429).json({
-      status: 'error',
-      result: 'Rate limit exceeded',
-    });
-  }
+  await limiter.check(res, 30, getCacheToken(req));
 
-  const session = await getSession({ req });
-
-  needsAuth(req, res);
+  const session = await needsAuth(req, res);
 
   try {
     const clips = await db.clip.findMany({
       where: {
-        ownerID: await getUserIDFromEmail(session?.user?.email),
+        ownerID: await getUserIDFromEmail(session!.user?.email),
       },
       select: {
         code: true,
@@ -49,14 +39,12 @@ export default async function handler(
 
     const newClips = [];
 
+    const redisClient = defaultRedisClient();
     for (const clip of clips) {
-      console.log(clip.url);
-
       const urlObject = new URL(clip.url);
       const additionalDetails =
-        (await getLinkPreviewFromCache(clip.url)) ||
-        (['http', 'https'].includes(urlObject.protocol) &&
-          (await storeLinkPreviewInCache(clip.url)));
+        ['http', 'https'].includes(urlObject.protocol) &&
+        (await storeLinkPreviewInCache(clip.url, redisClient));
 
       if (additionalDetails) {
         newClips.push({
@@ -69,7 +57,8 @@ export default async function handler(
         newClips.push(clip);
       }
     }
-
+    redisClient.disconnect();
+    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=600');
     res.status(200).json({ status: 'success', result: newClips });
   } catch (e) {
     console.error(e);

@@ -2,10 +2,7 @@ import { QRIcon } from '@components/Icons';
 import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import Link from '@components/Text/link';
-import {
-  getLinkPreviewFromCache,
-  storeLinkPreviewInCache,
-} from '@utils/clipPreview';
+import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
@@ -99,9 +96,7 @@ export async function getServerSideProps({
       if (!selectedClip) {
         return { notFound: true };
       }
-      const additionalDetails =
-        (await getLinkPreviewFromCache(selectedClip.url)) ||
-        (await storeLinkPreviewInCache(selectedClip.url));
+      const additionalDetails = await storeLinkPreviewInCache(selectedClip.url);
 
       return {
         props: {

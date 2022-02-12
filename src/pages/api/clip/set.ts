@@ -18,14 +18,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>,
 ) {
-  try {
-    await limiter.check(res, 60, getCacheToken(req));
-  } catch {
-    res.status(429).json({
-      status: 'error',
-      result: 'Rate limit exceeded',
-    });
-  }
+  await limiter.check(res, 30, getCacheToken(req));
 
   const session = await getSession({ req });
 
@@ -145,6 +138,10 @@ export default async function handler(
       },
     });
 
+    res.setHeader(
+      'Cache-Control',
+      's-maxage=86400, stale-while-revalidate=3600',
+    );
     res.status(200).json({
       status: 'success',
       result: { ...existingClip, hashLength: equal + 1 },

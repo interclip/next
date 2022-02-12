@@ -22,10 +22,6 @@ export default NextAuth({
     signIn: '/auth/login',
     signOut: '/auth/logout',
   },
-  secret: process.env.AUTH_SECRET,
-  jwt: {
-    secret: process.env.JWT_SECRET,
-  },
   providers: [
     !IS_PROD &&
       CredentialsProvider({

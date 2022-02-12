@@ -31,45 +31,47 @@ const MetaMaskLoginButton = () => {
         'You need to install the Metamask browser extension for this to work',
       );
     } else {
-      (window as any).ethereum
-        ?.request({ method: 'eth_requestAccounts' })
-        // Returns an array of web3 addresses.
-        .then(async (accounts: string[]) => {
-          try {
-            const nonce = `sign_in_${Math.random().toString(16).slice(2, 18)}`;
-            const signedToken: string = await (window as any).ethereum?.request(
-              {
-                method: 'personal_sign',
-                params: [nonce, accounts[0]],
-              },
-            );
+      web3?.eth.requestAccounts().then(async (accounts) => {
+        try {
+          const nonce = `sign_in_${Math.random().toString(16).slice(2, 18)}`;
+          console.log(web3?.eth.personal.sign);
+          const signedToken = await web3?.eth.personal.sign(
+            nonce,
+            accounts[0],
+            '',
+          );
 
-            toast.promise(
-              new Promise((_resolve, reject) => {
-                setTimeout(() => {
-                  reject('timeout');
-                }, 20000);
-              }),
-              {
-                loading: 'Signing you in...',
-                success: <b>Signed you in!</b>,
-                error: <b>Could not sign you in, please try again.</b>,
-              },
-            );
-            signIn('web3', {
-              nonce,
-              address: accounts[0],
-              signature: signedToken,
-            });
-          } catch (e) {
-            console.error(e);
+          if (!signedToken) {
+            toast.error('Signing failed');
+            return;
           }
-        });
+
+          toast.promise(
+            new Promise((_resolve, reject) => {
+              setTimeout(() => {
+                reject('timeout');
+              }, 20000);
+            }),
+            {
+              loading: 'Signing you in...',
+              success: <b>Signed you in!</b>,
+              error: <b>Could not sign you in, please try again.</b>,
+            },
+          );
+          signIn('web3', {
+            nonce,
+            address: accounts[0],
+            signature: signedToken,
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      });
     }
   }, []);
 
   useEffect(() => {
-    web3 = new Web3((window as any).etherum as any);
+    web3 = new Web3(Web3.givenProvider);
     checkConnectedWallet();
   }, [checkConnectedWallet]);
 

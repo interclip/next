@@ -41,7 +41,7 @@ model User {
   image                    String?
   storageProvider          String    @default("S3")
   clipExpirationPreference Int       @default(90)
-  clipSign                 String    @default("false")
+  clipSign                 Boolean   @default(false)
 
   accounts Account[]
   sessions Session[]
