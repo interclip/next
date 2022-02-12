@@ -87,42 +87,51 @@ export default async function handler(
       });
     }
 
-    if (!value) {
-      res.status(400).json({
-        status: 'error',
-        result: `${key} cannot be empty`,
-      });
-    } else {
-      // Input validation
-      switch (key) {
-        case 'username': {
-          if (!isAscii(value)) {
-            res.status(400).json({
-              status: 'error',
-              result: 'A username must only have ASCII characters in it',
-            });
-          } else if (value.includes(' ')) {
-            res.status(400).json({
-              status: 'error',
-              result: 'A username cannot include spaces',
-            });
-          } else if (value.length > maxUsernameAllowedLength) {
-            res.status(400).json({
-              status: 'error',
-              result: `Your user name cannot be longer than ${maxNameAllowedLength} characters`,
-            });
-          }
-          break;
+    // Input validation
+    switch (key) {
+      case 'username': {
+        if (!isAscii(value)) {
+          res.status(400).json({
+            status: 'error',
+            result: 'A username must only have ASCII characters in it',
+          });
+        } else if (value.includes(' ')) {
+          res.status(400).json({
+            status: 'error',
+            result: 'A username cannot include spaces',
+          });
+        } else if (value.length > maxUsernameAllowedLength) {
+          res.status(400).json({
+            status: 'error',
+            result: `Your user name cannot be longer than ${maxNameAllowedLength} characters`,
+          });
+        } else if (value.length === 0) {
+          res.status(400).json({
+            status: 'error',
+            result: 'Although it would be cool, your user name cannot be empty',
+          });
         }
-        case 'name': {
-          if (value.length > maxNameAllowedLength) {
-            res.status(400).json({
-              status: 'error',
-              result: `Your display name cannot be longer than ${maxNameAllowedLength} characters`,
-            });
-          }
-          break;
+        break;
+      }
+      case 'name': {
+        if (value.length > maxNameAllowedLength) {
+          res.status(400).json({
+            status: 'error',
+            result: `Your display name cannot be longer than ${maxNameAllowedLength} characters`,
+          });
+        } else if (value.length === 0) {
+          res.status(400).json({
+            status: 'error',
+            result:
+              'Although it would be cool, your display name cannot be empty',
+          });
         }
+
+        break;
+      }
+      case 'id':
+      case 'isStaff': {
+        needsAdmin(req, res);
       }
     }
 

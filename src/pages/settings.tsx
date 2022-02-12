@@ -16,9 +16,12 @@ import toast from 'react-hot-toast';
 
 import { getUserDetails } from './api/account/getDetails';
 
-export const handleSettingsErrors = async (data: { [key: string]: any }) => {
+export const handleSettingsErrors = async (
+  data: { [key: string]: any },
+  user?: string,
+) => {
   try {
-    await setSettings(data);
+    await setSettings(data, user);
     toast.success('Setting updated!');
   } catch (e) {
     if (e instanceof APIError) {
