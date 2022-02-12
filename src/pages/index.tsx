@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       fetch('/api/account/getDetails?params=clipSign').then(async (res) => {
         if (res.ok) {
           const response = await res.json();
-          setShouldSignClip(response.clipSign === 'true');
+          setShouldSignClip(response.clipSign);
         }
       });
     }
