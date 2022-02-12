@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { needsAdmin, needsAuth } from '@utils/api/ensureAuth';
 import {
+  maxExpirationLength,
   maxNameAllowedLength,
   maxUsernameAllowedLength,
 } from '@utils/constants';
@@ -77,7 +78,7 @@ export default async function handler(
     needsAdmin(req, res);
   }
 
-  const keyValuePairs: { [key: string]: string } = JSON.parse(req.query.params);
+  const keyValuePairs: { [key: string]: any } = JSON.parse(req.query.params);
   Object.keys(keyValuePairs).forEach((key) => {
     const value = keyValuePairs[key];
     if (!key) {
@@ -129,9 +130,29 @@ export default async function handler(
 
         break;
       }
+      case 'clipExpirationPreference': {
+        if (value % 1 !== 0) {
+          res.status(400).json({
+            status: 'error',
+            result: 'Must be a whole number',
+          });
+        } else if (value > maxExpirationLength) {
+          res.status(400).json({
+            status: 'error',
+            result: `The maximum expiration length is ${maxExpirationLength.toLocaleString()}`,
+          });
+        } else if (value < 0) {
+          res.status(400).json({
+            status: 'error',
+            result: "Expiration can't be a negative number",
+          });
+        }
+        break;
+      }
       case 'id':
       case 'isStaff': {
         needsAdmin(req, res);
+        break;
       }
     }
 

@@ -62,7 +62,7 @@ const Settings = (props: { user: User }): JSX.Element => {
             ) : settings === 'Appearance' ? (
               <AppearanceSettings />
             ) : (
-              <StorageSettings />
+              <StorageSettings user={user} setUser={setUser} />
             )}
           </div>
         </section>
@@ -74,7 +74,15 @@ const Settings = (props: { user: User }): JSX.Element => {
 export async function getServerSideProps(context: { req: NextApiRequest }) {
   try {
     const userData = await getUserDetails(
-      ['username', 'name', 'image', 'email', 'clipSign'],
+      [
+        'username',
+        'name',
+        'image',
+        'email',
+        'clipSign',
+        'storageProvider',
+        'clipExpirationPreference',
+      ],
       context.req,
     );
     return { props: { user: userData } };

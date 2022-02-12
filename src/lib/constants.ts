@@ -7,6 +7,7 @@ export const githubRepo = 'https://github.com/interclip/next';
 export const maxNameAllowedLength = 64;
 export const maxUsernameAllowedLength = 48;
 export const maxIPFSUploadSize = 31_000_000_000;
+export const maxExpirationLength = 365 * 69;
 
 export const minimumCodeLength = 5;
 
