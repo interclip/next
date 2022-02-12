@@ -16,7 +16,7 @@ import toast from 'react-hot-toast';
 
 import { getUserDetails } from './api/account/getDetails';
 
-export const handleSettingsErrors = async (data: { [key: string]: string }) => {
+export const handleSettingsErrors = async (data: { [key: string]: any }) => {
   try {
     await setSettings(data);
     toast.success('Setting updated!');
@@ -56,7 +56,7 @@ const Settings = (props: { user: User }): JSX.Element => {
                 email={props.user.email}
                 name={props.user.name || undefined}
                 username={props.user.username}
-                signingSaved={props.user.clipSign === 'true'}
+                signingSaved={props.user.clipSign}
               />
             ) : settings === 'Appearance' ? (
               <AppearanceSettings />

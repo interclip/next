@@ -12,14 +12,10 @@ type UserResponse = SuccessResponse<User> | ErrorResponse;
 export const setSettings = async (params: {
   [key: string]: string;
 }): Promise<UserResponse | void | null> => {
-  let stringifiedParams = '';
-  for (const key of Object.keys(params)) {
-    stringifiedParams += `${encodeURIComponent(key)}:${encodeURIComponent(
-      params[key],
-    )}`;
-  }
   const settingsResponse = await fetch(
-    `/api/account/setDetails?params=${stringifiedParams}`,
+    `/api/account/setDetails?params=${encodeURIComponent(
+      JSON.stringify(params),
+    )}`,
   );
   if (!settingsResponse.ok && settingsResponse.status !== 400)
     throw new APIError(await settingsResponse.text());

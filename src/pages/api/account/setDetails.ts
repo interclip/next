@@ -77,10 +77,9 @@ export default async function handler(
     needsAdmin(req, res);
   }
 
-  const selectedFields = req.query.params.split(',');
-  const keyValuePairs: { [key: string]: string } = {};
-  selectedFields.forEach((field) => {
-    const [key, value] = field.split(':');
+  const keyValuePairs: { [key: string]: string } = JSON.parse(req.query.params);
+  Object.keys(keyValuePairs).forEach((key) => {
+    const value = keyValuePairs[key];
     if (!key) {
       res.status(400).json({
         status: 'error',

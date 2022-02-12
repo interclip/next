@@ -184,7 +184,7 @@ const GeneralSettings = ({
             }
 
             await handleSettingsErrors({
-              clipSign: signingEnabled ? 'true' : 'false',
+              clipSign: signingEnabled,
             });
           }}
         >
