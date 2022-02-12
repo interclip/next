@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { Layout } from '../components/Layout';
 
 const ReceivePage: NextPage = () => {
-  const [clipURL, setURL] = useState<string>('');
+  const [clipCode, setClipCode] = useState<string>('');
 
   const router = useRouter();
   return (
@@ -17,12 +17,11 @@ const ReceivePage: NextPage = () => {
         <h1 className="text-center font-sans text-6xl font-semibold">
           Paste your code here!
         </h1>
-        <div className="mx-5 max-w-5xl lg:mx-auto lg:w-full">
+        <div className="mx-5 max-w-xl lg:mx-auto lg:w-full">
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-
-              getClip(clipURL).then(async (clip) => {
+              getClip(clipCode).then(async (clip) => {
                 if (clip.status === 'success') {
                   router.push(`/new/${clip.result.code}`);
                 } else {
@@ -35,10 +34,12 @@ const ReceivePage: NextPage = () => {
               type="text"
               minLength={minimumCodeLength}
               maxLength={maximumCodeLength}
-              value={clipURL}
-              onChange={(e) => setURL(e.target.value)}
-              className="mt-12 w-full rounded-2xl px-3 py-2 text-3xl text-black dark:text-dark-text"
-              placeholder="https://www.histories.cc/krystofex"
+              value={clipCode}
+              autoCapitalize="off"
+              autoComplete="off"
+              onChange={(e) => setClipCode(e.target.value)}
+              className="mt-12 w-full rounded-2xl px-3 py-2 text-center text-8xl text-black dark:text-dark-text"
+              placeholder=""
               autoFocus
             />
           </form>
