@@ -13,6 +13,7 @@ const ReceivePage: NextPage = () => {
   const [clipCode, setClipCode] = useState<string>('');
 
   const router = useRouter();
+
   return (
     <Layout>
       <section className="my-auto w-full">
