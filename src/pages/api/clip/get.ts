@@ -46,7 +46,7 @@ export default async function handler(
     });
   }
 
-  const queriedClip = db.clip.findMany({
+  const queriedClip = db.clip.findFirst({
     where: {
       code: {
         startsWith: clipCode,
@@ -58,6 +58,9 @@ export default async function handler(
       ownerID: true,
       createdAt: true,
       expiresAt: true,
+    },
+    orderBy: {
+      createdAt: 'asc',
     },
   });
 

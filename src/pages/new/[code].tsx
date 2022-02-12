@@ -3,13 +3,13 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
+import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { ipfsGateway, minimumCodeLength } from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
 import { recoverPersonalSignature } from 'eth-sig-util';
-import { getLinkPreview } from 'link-preview-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -229,7 +229,7 @@ export async function getServerSideProps({
       return { notFound: true };
     }
     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=30'); // set caching header
-    const additionalDetails = (await getLinkPreview(
+    const additionalDetails = (await storeLinkPreviewInCache(
       selectedClip.url,
     )) as OEmbed;
 
@@ -241,15 +241,15 @@ export async function getServerSideProps({
         ipfsHash: selectedClip.ipfsHash,
         signature: selectedClip.signature,
         oembed: {
-          title: additionalDetails.title,
-          description: additionalDetails.description,
-          favicons: additionalDetails.favicons,
+          title: additionalDetails.title || null,
+          description: additionalDetails.description || null,
+          favicons: additionalDetails.favicons || null,
           url: additionalDetails.url,
-          siteName: additionalDetails.siteName,
+          siteName: additionalDetails.siteName || null,
           mediaType: additionalDetails.mediaType,
-          videos: additionalDetails.videos,
-          images: additionalDetails.images,
-          contentType: additionalDetails.contentType,
+          videos: additionalDetails.videos || null,
+          images: additionalDetails.images || null,
+          contentType: additionalDetails.contentType || null,
         },
       },
     };

@@ -10,6 +10,7 @@ export const maxIPFSUploadSize = 31_000_000_000;
 export const maxExpirationLength = 365 * 69;
 
 export const minimumCodeLength = 5;
+export const maximumCodeLength = 99;
 
 export enum StorageProvider {
   S3 = 'S3',

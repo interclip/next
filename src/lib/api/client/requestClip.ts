@@ -45,19 +45,19 @@ export const requestClip = async (
  * Calls the get API to get a clip by its corresponding code
  * @param code the code of the clip
  */
-export const getClip = async (
-  code: string,
-): Promise<ClipResponse | void | null> => {
+export const getClip = async (code: string): Promise<ClipResponse> => {
   const clipResponse = await fetch(`/api/clip/get?code=${code}`);
-  if (clipResponse.status === 404) return null;
+  if (!clipResponse.ok && clipResponse.status >= 500)
+    return {
+      status: 'error',
+      result: 'The server could not handle the request.',
+    };
+
   if (clipResponse.status === 429) {
     return {
       status: 'error',
       result: 'Too many requests, please try in a couple of seconds.',
     };
-  }
-  if (!clipResponse.ok) {
-    return { status: 'error', result: await clipResponse.text() };
   }
   return await clipResponse.json();
 };
