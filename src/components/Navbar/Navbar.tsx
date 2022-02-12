@@ -129,7 +129,7 @@ const Navbar = () => {
                       <MenuItem
                         title="Sign out"
                         type="button"
-                        onClick={() => signOut()}
+                        onClick={() => signOut({ callbackUrl: '/' })}
                       >
                         <LogoutIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
