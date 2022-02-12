@@ -3,7 +3,7 @@ import { ErrorResponse, SuccessResponse } from 'src/typings/interclip';
 
 import { APIError } from './client/requestClip';
 
-type UserResponse = SuccessResponse<User> | ErrorResponse;
+export type UserResponse = SuccessResponse<User> | ErrorResponse;
 
 /**
  * Calls the get API to change the user settings
