@@ -3,6 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 
+/**
+ * Ensures authenthication for an API endpoint
+ */
 const needsAuth = async (
   req: NextApiRequest,
   res: NextApiResponse,
@@ -18,7 +21,9 @@ const needsAuth = async (
   }
 };
 
-// Function for checking admin status
+/**
+ * Ensures admin privileges for an API endpoint
+ */
 const needsAdmin = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   if (!session || !session.user) {

@@ -11,7 +11,9 @@ import {
   UserIcon,
 } from '@heroicons/react/solid';
 import { User } from '@prisma/client';
+import { deleteAccount } from '@utils/api/client/deleteUser';
 import React, { Fragment } from 'react';
+import toast from 'react-hot-toast';
 import { handleSettingsErrors } from 'src/pages/settings';
 
 export default function SettingsMenu({
@@ -106,7 +108,12 @@ export default function SettingsMenu({
                     className={`${
                       active ? 'bg-light-bg text-white' : 'text-gray-900'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    onClick={() => {
+                    onClick={async () => {
+                      await toast.promise(deleteAccount(user.email), {
+                        loading: `Deleting ${user.name || user.username}`,
+                        success: `Deleted ${user.name || user.username}`,
+                        error: `Deleted ${user.name || user.username}`,
+                      });
                       setUser(null);
                     }}
                   >
