@@ -47,11 +47,13 @@ export default function SettingsMenu({
           <Menu.Items className="absolute right-0 z-50 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Menu.Item disabled>
-                {({ active }) => (
+                {({ active, disabled }) => (
                   <button
                     className={`${
                       active ? 'bg-light-bg text-white' : 'text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm ${
+                      disabled ? 'cursor-not-allowed' : ''
+                    }`}
                   >
                     {active ? (
                       <PencilIcon
