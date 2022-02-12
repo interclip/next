@@ -1,6 +1,7 @@
 import { Button } from '@components/Button';
 import { getClip } from '@utils/api/client/requestClip';
 import { maximumCodeLength, minimumCodeLength } from '@utils/constants';
+import { getClipHash } from '@utils/generateID';
 import { isValidClipCode } from '@utils/isClip';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
@@ -9,8 +10,25 @@ import toast from 'react-hot-toast';
 
 import { Layout } from '../components/Layout';
 
+const sampleURLs = [
+  'https://interclip.app',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.histories.cc/',
+  'https://devparty.io/',
+  'https://opensea.io/assets/matic/0x2953399124f0cbb46d2cbacd8a89cf0599974963/106565623496713384605063112493700845981575250044632175243042012644862217682945',
+  'https://www.npmjs.com/package/bruh-cli',
+];
+
 const ReceivePage: NextPage = () => {
   const [clipCode, setClipCode] = useState<string>('');
+
+  const generator = Math.random();
+  const partSize = 1 / 36 ** 5;
+
+  const randomURL =
+    generator <= partSize
+      ? 'interclip'
+      : sampleURLs[Math.floor(Math.random() * sampleURLs.length)];
 
   const router = useRouter();
 
@@ -43,7 +61,7 @@ const ReceivePage: NextPage = () => {
               autoComplete="off"
               onChange={(e) => setClipCode(e.target.value)}
               className="mt-12 w-full rounded-2xl px-3 py-2 text-center text-8xl text-black dark:text-dark-text"
-              placeholder=""
+              placeholder={getClipHash(randomURL).slice(0, 5)}
               pattern="^[A-Za-z0-9]{5,99}$"
               autoFocus
             />
