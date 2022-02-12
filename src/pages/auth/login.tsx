@@ -2,6 +2,7 @@ import { Layout } from '@components/Layout';
 import MetaMaskLoginButton from '@components/Login/web3';
 import Logo from '@components/Logo';
 import { changeColorBrightness } from '@utils/colors';
+import { IS_PROD } from '@utils/constants';
 import useHover from '@utils/hooks/useHover';
 import { NextApiRequest } from 'next';
 import { BuiltInProviderType } from 'next-auth/providers';
@@ -16,8 +17,6 @@ import { KeyboardEventHandler, useState } from 'react';
 import React from 'react';
 import toast from 'react-hot-toast';
 import isEmail from 'validator/lib/isEmail';
-
-import { IS_PROD } from '../../lib/constants';
 
 const brandColors = {
   gitlab: '#fc6d26',
