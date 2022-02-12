@@ -1,4 +1,5 @@
 import { Prisma } from '@prisma/client';
+import { needsAdmin, needsAuth } from '@utils/api/ensureAuth';
 import {
   maxNameAllowedLength,
   maxUsernameAllowedLength,
@@ -12,17 +13,12 @@ import isAscii from 'validator/lib/isAscii';
  * Changes user settings
  * @param setProperties an array of key-value pairs of user fields to be updated. Their values need to be strings for now, but maybe in the future we can transfer them via JSON
  * @param req the HTTP request
+ * @param user optionally, one can provide an email identifier to make changes to another user account
  */
 export const setUserDetails = async (
   setProperties: { [key: string]: string },
-  req: NextApiRequest,
+  user: string,
 ) => {
-  const session = await getSession({ req });
-
-  if (!session?.user?.email) {
-    throw new Error("Couldn't get email from session");
-  }
-
   const selectObject: any = {};
   for (const key of Object.keys(setProperties)) {
     selectObject[key] = true;
@@ -30,11 +26,9 @@ export const setUserDetails = async (
 
   const selectedDetails = await db.user.update({
     where: {
-      email: session.user.email,
+      email: user,
     },
-    data: {
-      ...setProperties,
-    },
+    data: setProperties,
     select: {
       ...selectObject,
     },
@@ -62,6 +56,25 @@ export default async function handler(
         'Too many code query params provided. Please only query one code per request.',
     });
     return;
+  }
+
+  if (typeof req.query.address === 'object') {
+    res.status(400).json({
+      status: 'error',
+      result:
+        'Too many address query params provided. Please only one address per request.',
+    });
+    return;
+  }
+
+  needsAuth(req, res);
+
+  const signedInUserAddress = (await getSession({ req }))?.user?.email!;
+  const { address = signedInUserAddress } = req.query;
+
+  // The user is trying to change the settings of another user
+  if (address !== signedInUserAddress) {
+    needsAdmin(req, res);
   }
 
   const selectedFields = req.query.params.split(',');
@@ -118,7 +131,7 @@ export default async function handler(
   });
 
   try {
-    res.json(await setUserDetails(keyValuePairs, req));
+    res.json(await setUserDetails(keyValuePairs, address));
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner
