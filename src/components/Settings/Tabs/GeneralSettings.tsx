@@ -1,6 +1,7 @@
 import { Input } from '@components/Input';
 import { Dialog, Transition } from '@headlessui/react';
 import { Switch } from '@headlessui/react';
+import { User } from '@prisma/client';
 import { deleteAccount } from '@utils/api/client/deleteUser';
 import {
   maxNameAllowedLength,
@@ -17,20 +18,16 @@ import Web3 from 'web3';
 import SettingsCard from '../SettingsCard';
 
 const GeneralSettings = ({
-  username,
-  name,
-  email,
-  signingSaved,
+  user,
+  setUser,
 }: {
-  username?: string;
-  name?: string;
-  email: string;
-  signingSaved: boolean;
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [newUsername, setNewUsersname] = useState<string>(username || '');
-  const [newName, setNewName] = useState<string>(name || '');
-  const [signingEnabled, setClipSigningEnabled] = useState(signingSaved);
+  const [newUsername, setNewUsersname] = useState<string>(user.username || '');
+  const [newName, setNewName] = useState<string>(user.name || '');
+  const [signingEnabled, setClipSigningEnabled] = useState(user.clipSign);
 
   return (
     <>
@@ -88,7 +85,7 @@ const GeneralSettings = ({
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                     onClick={async () => {
-                      await toast.promise(deleteAccount(email), {
+                      await toast.promise(deleteAccount(user.email), {
                         loading: 'Deleting your account',
                         success: 'Successfully deleted your account',
                         error: "Couldn't delete your account",
@@ -105,11 +102,19 @@ const GeneralSettings = ({
         </Dialog>
       </Transition>{' '}
       <SettingsCard
-        isDisabled={username === newUsername}
+        isDisabled={user.username === newUsername}
         title="Your Username"
         footerDescription={`Please use ${maxUsernameAllowedLength} characters at maximum.`}
         onSave={async () => {
-          await handleSettingsErrors({ username: newUsername });
+          const updatedDetails = await handleSettingsErrors({
+            username: newUsername,
+          });
+          if (updatedDetails) {
+            setUser({
+              ...user,
+              ...updatedDetails,
+            });
+          }
         }}
       >
         <div className="max-w-[50%]">
@@ -121,13 +126,19 @@ const GeneralSettings = ({
         </div>
       </SettingsCard>
       <SettingsCard
-        isDisabled={name === newName}
+        isDisabled={user.name === newName}
         title="Your Name"
         description="Please enter your full name, or a display name you are comfortable
               with."
         footerDescription={`Please use ${maxNameAllowedLength} characters at maximum.`}
         onSave={async () => {
-          await handleSettingsErrors({ name: newName });
+          const updatedDetails = await handleSettingsErrors({ name: newName });
+          if (updatedDetails) {
+            setUser({
+              ...user,
+              ...updatedDetails,
+            });
+          }
         }}
       >
         <div className="max-w-[50%]">
@@ -139,19 +150,22 @@ const GeneralSettings = ({
         </div>
       </SettingsCard>{' '}
       <SettingsCard
-        title={isEthereumAddress(email) ? 'Your wallet address' : 'Your Email'}
+        title={
+          isEthereumAddress(user.email) ? 'Your wallet address' : 'Your Email'
+        }
         description={
-          isEthereumAddress(email)
+          isEthereumAddress(user.email)
             ? 'Your attached wallet address cannot be changed'
             : 'Your email address cannot be changed.'
         }
       >
         <div className="max-w-[50%]">
-          <Input disabled value={email} />
+          <Input disabled value={user.email} />
         </div>
       </SettingsCard>{' '}
-      {isEthereumAddress(email) && (
+      {isEthereumAddress(user.email) && (
         <SettingsCard
+          isDisabled={user.clipSign === signingEnabled}
           title={'Sign your clips'}
           description="If you enable this, every clip you create will be cryptographically signed"
           onSave={async () => {
@@ -168,13 +182,13 @@ const GeneralSettings = ({
                   'hex',
                 )}`;
 
-                const sign = await web3.eth.personal.sign(msg, email, '');
+                const sign = await web3.eth.personal.sign(msg, user.email, '');
                 if (sign) {
                   const recoveredAddress = recoverPersonalSignature({
                     data: msg,
                     sig: sign,
                   });
-                  if (recoveredAddress === email) {
+                  if (recoveredAddress === user.email) {
                     toast.success('Signing setup complete, saving');
                   }
                 }
@@ -192,9 +206,15 @@ const GeneralSettings = ({
               }
             }
 
-            await handleSettingsErrors({
+            const updatedDetails = await handleSettingsErrors({
               clipSign: signingEnabled,
             });
+            if (updatedDetails) {
+              setUser({
+                ...user,
+                ...updatedDetails,
+              });
+            }
           }}
         >
           <div className="max-w-[50%]">
