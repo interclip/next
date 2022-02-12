@@ -28,6 +28,7 @@ const StorageSettings = ({
       <SettingsCard
         title="File Upload"
         description="Select if files should be uploaded to Interclip S3 or IPFS"
+        isDisabled={user.storageProvider === storageProvider}
         onSave={async () => {
           const updatedDetails = await handleSettingsErrors({
             storageProvider,

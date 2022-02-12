@@ -149,6 +149,15 @@ export default async function handler(
         }
         break;
       }
+      case 'storageProvider': {
+        if (!['IPFS', 'S3'].includes(value)) {
+          res.status(400).json({
+            status: 'error',
+            result: 'Invalid storage provider provided... that was a mouthful.',
+          });
+        }
+        break;
+      }
       case 'id':
       case 'isStaff': {
         needsAdmin(req, res);
