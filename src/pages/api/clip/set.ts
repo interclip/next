@@ -158,9 +158,10 @@ export default async function handler(
           signature,
         },
       });
+      res.status(200).json({ status: 'success', result: newClip });
       await storeLinkPreviewInCache(parsedURL);
       await uploadToIPFS(newClip.id);
-      res.status(200).json({ status: 'success', result: newClip });
+      return;
     } catch (e) {
       console.error(e);
       res.status(500).json({
