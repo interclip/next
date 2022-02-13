@@ -8,6 +8,7 @@ export const maxNameAllowedLength = 64;
 export const maxUsernameAllowedLength = 48;
 export const maxIPFSUploadSize = 31_000_000_000;
 export const maxExpirationLength = 365 * 69;
+export const defaultExpirationLength = 30;
 
 export const minimumCodeLength = 5;
 export const maximumCodeLength = 99;

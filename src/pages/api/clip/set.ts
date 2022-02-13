@@ -1,5 +1,6 @@
 import { uploadToIPFS } from '@utils/backupIPFS';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
+import { defaultExpirationLength } from '@utils/constants';
 import { dateAddDays } from '@utils/dates';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
@@ -148,11 +149,18 @@ export default async function handler(
     });
   } else {
     try {
+      const userPrefferedExpiration = session?.user?.email
+        ? (await db.user.findUnique({ where: { email: session.user.email } }))
+            ?.clipExpirationPreference
+        : null;
+      const expiration = userPrefferedExpiration ?? defaultExpirationLength;
+
       const newClip = await db.clip.create({
         data: {
           code: clipHash,
           url: parsedURL,
-          expiresAt: dateAddDays(new Date(), 30),
+          expiresAt:
+            expiration === 0 ? undefined : dateAddDays(new Date(), expiration),
           createdAt: new Date(),
           ownerID: await getUserIDFromEmail(session?.user?.email),
           signature,
