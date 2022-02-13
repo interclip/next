@@ -192,7 +192,9 @@ const CodeView = ({ clip: returnedClip, oembed }: CodeViewPageProps) => {
             {clip.expiresAt && (
               <div className="mt-4 flex flex-row items-center gap-1">
                 <ClockIcon width={20} height={20} /> This clip expires{' '}
-                <span title={dayjs(clip.expiresAt).format()}>
+                <span
+                  title={dayjs(clip.expiresAt).format('%B %d, %Y %H:%M:%S %Z')}
+                >
                   {dayjs(clip.expiresAt).fromNow()}
                 </span>
               </div>
