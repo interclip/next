@@ -3,7 +3,7 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import { ClockIcon } from '@heroicons/react/solid';
+import { ClockIcon } from '@heroicons/react/outline';
 import { Clip } from '@prisma/client';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { ipfsGateway, minimumCodeLength } from '@utils/constants';
