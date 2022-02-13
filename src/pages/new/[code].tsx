@@ -3,44 +3,44 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
+import { ClockIcon } from '@heroicons/react/solid';
+import { Clip } from '@prisma/client';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { ipfsGateway, minimumCodeLength } from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { recoverPersonalSignature } from 'eth-sig-util';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import ReactTooltip from 'react-tooltip';
-import { OEmbed } from 'src/typings/interclip';
+import type { OEmbed } from 'src/typings/interclip';
+
+dayjs.extend(relativeTime);
 
 interface CodeViewPageProps {
-  code: string;
-  fullCode: string;
-  url: string;
-  ipfsHash?: string | null;
-  signature?: string | null;
+  clip: string;
   oembed: OEmbed;
 }
 
-const CodeView = ({
-  code,
-  fullCode,
-  url,
-  oembed,
-  ipfsHash,
-  signature,
-}: CodeViewPageProps) => {
-  const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
-  const urlObject = new URL(url);
+const CodeView = ({ clip: returnedClip, oembed }: CodeViewPageProps) => {
+  const clip: Clip = JSON.parse(returnedClip);
+  const urlObject = new URL(clip.url);
   const simplifiedURL = truncate(urlObject, 40);
+
+  const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState(false);
   const [isFaviconShown, setIsFaviconShown] = useState<boolean>(true);
+
   const address =
-    signature && recoverPersonalSignature({ data: fullCode, sig: signature });
+    clip.signature &&
+    recoverPersonalSignature({ data: clip.code, sig: clip.signature });
+  const code = clip.code.slice(0, clip.hashLength);
 
   return (
     <Layout>
@@ -95,7 +95,7 @@ const CodeView = ({
               {oembed.title || oembed.siteName || code}
             </h2>
             <h3 className="text-2xl text-gray-400">
-              <Link className="no-underline" href={url} title={url}>
+              <Link className="no-underline" href={clip.url} title={clip.url}>
                 {simplifiedURL}
               </Link>
             </h3>
@@ -123,18 +123,20 @@ const CodeView = ({
               }}
             />
           </div>
-          {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
+          {qrCodeZoom && (
+            <QRModal url={clip.url} setQrCodeZoom={setQrCodeZoom} />
+          )}
         </div>
-        {(ipfsHash || signature) && (
+        {(clip.ipfsHash || clip.signature || clip.expiresAt) && (
           <div className="shadow-custom mb-8 flex w-full flex-col justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
             <H3>Special</H3>
-            {ipfsHash && (
+            {clip.ipfsHash && (
               <div
                 className="flex cursor-pointer flex-col"
                 title="Copy code to the clipboard"
               >
                 <a
-                  href={`${ipfsGateway}/ipfs/${ipfsHash}`}
+                  href={`${ipfsGateway}/ipfs/${clip.ipfsHash}`}
                   target={'_blank'}
                   rel={'noopener noreferrer'}
                   title="Backed up to IPFS"
@@ -165,7 +167,7 @@ const CodeView = ({
                 </a>
               </div>
             )}
-            {signature && (
+            {clip.signature && (
               <div className="mt-4 flex flex-row items-center gap-1">
                 <Image
                   alt="Ethereum logo"
@@ -185,6 +187,14 @@ const CodeView = ({
                 >
                   {address?.slice(0, 6)}...{address?.slice(-4)}
                 </a>
+              </div>
+            )}
+            {clip.expiresAt && (
+              <div className="mt-4 flex flex-row items-center gap-1">
+                <ClockIcon width={20} height={20} /> This clip expires{' '}
+                <span title={dayjs(clip.expiresAt).format()}>
+                  {dayjs(clip.expiresAt).fromNow()}
+                </span>
               </div>
             )}
           </div>
@@ -216,13 +226,6 @@ export async function getServerSideProps({
           startsWith: userCode,
         },
       },
-      select: {
-        code: true,
-        hashLength: true,
-        url: true,
-        ipfsHash: true,
-        signature: true,
-      },
     });
 
     if (!selectedClip) {
@@ -235,11 +238,7 @@ export async function getServerSideProps({
 
     return {
       props: {
-        code: selectedClip.code.slice(0, selectedClip.hashLength),
-        fullCode: selectedClip.code,
-        url: selectedClip.url,
-        ipfsHash: selectedClip.ipfsHash,
-        signature: selectedClip.signature,
+        clip: JSON.stringify(selectedClip),
         oembed: {
           title: additionalDetails.title || null,
           description: additionalDetails.description || null,

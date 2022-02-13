@@ -3481,7 +3481,7 @@ data-uri-to-buffer@^3.0.1:
 
 dayjs@^1.10.7:
   version "1.10.7"
-  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.10.7.tgz"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
   integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.6.9:
