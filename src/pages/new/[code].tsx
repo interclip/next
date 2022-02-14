@@ -9,7 +9,6 @@ import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
 import { recoverPersonalSignature } from 'eth-sig-util';
-import { getLinkPreview } from 'link-preview-js';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -201,6 +200,8 @@ export async function getServerSideProps({
   query: NextApiRequest['query'];
   res: NextApiResponse;
 }): Promise<{ notFound?: boolean; props?: CodeViewPageProps }> {
+  const getLinkPreview = (await import('link-preview-js')).getLinkPreview;
+
   const userCode = query.code;
   if (
     (userCode && typeof userCode === 'object') ||
