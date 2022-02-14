@@ -11,7 +11,7 @@ const needsAuth = async (
   res: NextApiResponse,
 ): Promise<void | Session> => {
   const session = await getSession({ req });
-  if (!session) {
+  if (!session?.user?.email) {
     res.status(401).json({
       status: 'error',
       result: 'Unauthenticated.',

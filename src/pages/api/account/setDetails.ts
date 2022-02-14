@@ -7,7 +7,6 @@ import {
 } from '@utils/constants';
 import { db } from '@utils/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
 import isAscii from 'validator/lib/isAscii';
 
 /**
@@ -68,9 +67,13 @@ export default async function handler(
     return;
   }
 
-  needsAuth(req, res);
+  const session = await needsAuth(req, res);
 
-  const signedInUserAddress = (await getSession({ req }))?.user?.email!;
+  if (!session) {
+    return;
+  }
+
+  const signedInUserAddress = session.user?.email!;
   const { address = signedInUserAddress } = req.query;
 
   // The user is trying to change the settings of another user
