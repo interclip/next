@@ -21,7 +21,7 @@ export const setSettings = async (
       JSON.stringify(params),
     )}${user ? `&address=${user}` : ''}`,
   );
-  if (!settingsResponse.ok && settingsResponse.status !== 400)
+  if (!settingsResponse.ok && settingsResponse.status >= 500)
     throw new APIError(await settingsResponse.text());
   const settingsChanged: UserResponse = await settingsResponse.json();
   if (settingsChanged.status === 'error')
