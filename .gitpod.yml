@@ -4,7 +4,7 @@ image:
 tasks:
   - name: Setup
     before: redis-server &
-    init: scripts/gitpod-init.sh
+    init: sudo bash ./scripts/gitpod-init.sh
     command: |
       export BASE_URL=`gp url 3000`
       export NEXTAUTH_URL=`gp url 3000`
