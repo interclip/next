@@ -2398,10 +2398,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-sdk@*, aws-sdk@^2.1074.0:
-  version "2.1074.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1074.0.tgz#be3283f781b3060cd67d5abef50d1edacefede70"
-  integrity sha512-tD478mkukglutjs+mq5FQmYFzz+l/wddl5u3tTMWTNa+j1eSL+AqaHPFM1rC3O9h98QqpKKzeKbLrPhGDvYaRg==
+aws-sdk@*, aws-sdk@^2.1075.0:
+  version "2.1075.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1075.0.tgz#609ef1e77b9b75cdbdd25b6084bcff571991a034"
+  integrity sha512-pYUwYidC2BGKNCz4a1ukA9FC+nYFrW1SxmacWMT/w5k/WBkU/kRgXH0D3poFCurhz/IUdSf34sQsSQ8d3TkNbw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -6708,10 +6708,10 @@ next-seo@^5.1.0:
   resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-5.1.0.tgz#aa9fd6249a11bf93e6da06fa2a6bc89268936edf"
   integrity sha512-ampuQfNTOi1x+xtRIb6CZGunIo6rQXtMo2Tyu861d5GjJFIwfOXsA4lzCa4+e2rLkyXDyVpavNNUZWa3US9ELw==
 
-next-sitemap@^2.1.15:
-  version "2.1.15"
-  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-2.1.15.tgz#a1ce4e28e3d502f7bfece2b9d9290b2ac1cdefba"
-  integrity sha512-otfE6+6HNElca/CojaqDkZOxNoQDL9Z2TIULh+PCxBbt2eGvyqvaQyv+By5dSeWktVPiAomGxYCnIfy+eSOxKg==
+next-sitemap@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-2.4.2.tgz#f5b9c344ee8c4757ca72467084621b6158e628a2"
+  integrity sha512-cvcK2oXNpVcxizPN4dSkOwA5/KIOUXrJVaWYuk17YQvbBqQzufhhr2JgqgB4QoG0U7sMlB1RB1VPDAZ78kK0Qw==
   dependencies:
     "@corex/deepmerge" "^2.6.148"
     minimist "^1.2.5"
@@ -8732,10 +8732,10 @@ swarm-js@^0.1.40:
     tar "^4.0.2"
     xhr-request "^1.0.1"
 
-tailwindcss@^3.0.22:
-  version "3.0.22"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.0.22.tgz#5f1aac83810261300ae5b2f98fd4a2fa2ded2c42"
-  integrity sha512-F8lt74RlNZirnkaSk310+vGQta7c0/hgx7/bqxruM4wS9lp8oqV93lzavajC3VT0Lp4UUtUVIt8ifKcmGzkr0A==
+tailwindcss@^3.0.23:
+  version "3.0.23"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.0.23.tgz#c620521d53a289650872a66adfcb4129d2200d10"
+  integrity sha512-+OZOV9ubyQ6oI2BXEhzw4HrqvgcARY38xv3zKcjnWtMIZstEsXdI9xftd1iB7+RbOnj2HOEzkA0OyB5BaSxPQA==
   dependencies:
     arg "^5.0.1"
     chalk "^4.1.2"
