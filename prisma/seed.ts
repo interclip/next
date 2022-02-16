@@ -5,8 +5,7 @@ import cliProgress from 'cli-progress';
 import faker from 'faker';
 import fetch from 'node-fetch';
 import youtubeVideo from 'random-youtube-music-video';
-import { createAvatar } from '@dicebear/avatars';
-import * as style from '@dicebear/avatars-identicon-sprites';
+
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
 import { dateAddDays } from '../src/lib/dates';
 import { getClipHash } from '../src/lib/generateID';
