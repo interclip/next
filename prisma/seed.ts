@@ -52,7 +52,7 @@ async function main() {
             username,
             isStaff: false,
             name: `${firstName} ${lastName}`,
-            image: faker.internet.avatar(),
+            image: `https://avatars.dicebear.com/api/human/${username}.svg`,
           },
         })
       ).id,
