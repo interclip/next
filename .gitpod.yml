@@ -15,7 +15,7 @@ tasks:
       yarn prisma:migrate;
       gp sync-done setup;
   - name: Seed the database
-    init: >
+    command: >
       gp sync-await setup;
       yarn prisma:seed;
     command: exit
