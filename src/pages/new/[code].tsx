@@ -213,8 +213,6 @@ export async function getServerSideProps({
   query: NextApiRequest['query'];
   res: NextApiResponse;
 }): Promise<{ notFound?: boolean; props?: CodeViewPageProps }> {
-  const getLinkPreview = (await import('link-preview-js')).getLinkPreview;
-
   const userCode = query.code;
   if (
     (userCode && typeof userCode === 'object') ||
@@ -236,9 +234,7 @@ export async function getServerSideProps({
       return { notFound: true };
     }
     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=30'); // set caching header
-    const additionalDetails = (await storeLinkPreviewInCache(
-      selectedClip.url,
-    )) as OEmbed;
+    const additionalDetails = await storeLinkPreviewInCache(selectedClip.url);
 
     return {
       props: {
