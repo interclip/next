@@ -5,6 +5,7 @@ tasks:
   - name: Setup
     init: >
       yarn --network-timeout 100000;
+    command: >
       cp .env.example .env;
       echo "BASE_URL=\"$(gp url 3000)\"" >> .env;
       echo "NEXTAUTH_URL=\"$(gp url 3000)\"" >> .env;
@@ -13,9 +14,8 @@ tasks:
       gp await-port 3306;
       yarn prisma:migrate;
       gp sync-done setup;
-    command: echo "Welcome!"
   - name: Seed the database
-    init: >
+    command: >
       gp sync-await setup;
       yarn prisma:seed;
     command: exit

@@ -213,6 +213,8 @@ export async function getServerSideProps({
   query: NextApiRequest['query'];
   res: NextApiResponse;
 }): Promise<{ notFound?: boolean; props?: CodeViewPageProps }> {
+  const getLinkPreview = (await import('link-preview-js')).getLinkPreview;
+
   const userCode = query.code;
   if (
     (userCode && typeof userCode === 'object') ||
