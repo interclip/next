@@ -5,7 +5,8 @@ import cliProgress from 'cli-progress';
 import faker from 'faker';
 import fetch from 'node-fetch';
 import youtubeVideo from 'random-youtube-music-video';
-
+import { createAvatar } from '@dicebear/avatars';
+import * as style from '@dicebear/avatars-identicon-sprites';
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
 import { dateAddDays } from '../src/lib/dates';
 import { getClipHash } from '../src/lib/generateID';
@@ -52,7 +53,7 @@ async function main() {
             username,
             isStaff: false,
             name: `${firstName} ${lastName}`,
-            image: faker.internet.avatar(),
+            image: `https://avatars.dicebear.com/api/human/${username}.svg`,
           },
         })
       ).id,
