@@ -158,6 +158,7 @@ export default async function handler(
           signature,
         },
       });
+      res.unstable_revalidate('/about');
       res.status(200).json({ status: 'success', result: newClip });
       await storeLinkPreviewInCache(parsedURL);
       await uploadToIPFS(newClip.id);
