@@ -3,12 +3,19 @@ import 'tailwindcss/tailwind.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
+import NextNprogress from 'nextjs-progressbar';
 import React from 'react';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>
       <ThemeProvider attribute="class">
+        <NextNprogress
+          color="#157EFB"
+          height={2}
+          options={{ showSpinner: false }}
+          showOnShallow
+        />
         <Component {...pageProps} />
       </ThemeProvider>
     </SessionProvider>
