@@ -81,7 +81,7 @@ export default async function handler(
         result: 'Clip not found.',
       });
       if (clipResult && expired) {
-        db.clip.delete({ where: { code: clipResult.code } });
+        await db.clip.delete({ where: { code: clipResult.code } });
       }
     }
   } catch (e) {
