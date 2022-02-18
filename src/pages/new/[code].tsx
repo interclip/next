@@ -211,9 +211,10 @@ const CodeView = ({
 };
 
 export async function getStaticPaths() {
-  const db = process.env.DATABASE_URL
-    ? (await import('@utils/prisma')).db
-    : null;
+  const db =
+    process.env.DATABASE_URL && !process.env.CI
+      ? (await import('@utils/prisma')).db
+      : null;
   // Pre-render the 100 most recent clips
   const clips = db
     ? await db.clip.findMany({
@@ -242,9 +243,10 @@ export async function getStaticProps({
   }
 
   try {
-    const db = process.env.DATABASE_URL
-      ? (await import('@utils/prisma')).db
-      : null;
+    const db =
+      process.env.DATABASE_URL && !process.env.CI
+        ? (await import('@utils/prisma')).db
+        : null;
     const selectedClip = db
       ? await db.clip.findFirst({
           where: {
