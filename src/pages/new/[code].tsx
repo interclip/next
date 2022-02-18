@@ -6,13 +6,10 @@ import Link from '@components/Text/link';
 import { ClockIcon } from '@heroicons/react/outline';
 import { Clip } from '@prisma/client';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
-import {
-  ipfsGateway,
-  maximumCodeLength,
-  minimumCodeLength,
-} from '@utils/constants';
+import { ipfsGateway } from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
+import { isValidClipCode } from '@utils/isClip';
 import truncate from '@utils/smartTruncate';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -239,8 +236,7 @@ export async function getStaticProps({
   const userCode = params.code;
   if (
     (userCode && typeof userCode === 'object') ||
-    userCode.length < minimumCodeLength ||
-    userCode.length > maximumCodeLength
+    !isValidClipCode(userCode)
   ) {
     return { notFound: true };
   }

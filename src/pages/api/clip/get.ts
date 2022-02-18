@@ -1,4 +1,5 @@
 import getCacheToken from '@utils/determineCacheToken';
+import { isValidClipCode } from '@utils/isClip';
 import { db } from '@utils/prisma';
 import limiter from '@utils/rateLimit';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -39,7 +40,7 @@ export default async function handler(
     return;
   }
 
-  if (!clipCode.match(new RegExp(/^[A-Za-z0-9]{5,99}$/))) {
+  if (!isValidClipCode) {
     res.status(400).json({
       status: 'error',
       result: 'The provided code has an invalid format.',
