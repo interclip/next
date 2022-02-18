@@ -60,7 +60,19 @@ export default async function handler(
 
   const session = await getSession({ req });
 
-  const { url: requestedClipURL, sig: signature, addr: address } = req.query;
+  if (!req.method || !['POST', 'GET'].includes(req.method)) {
+    res.status(405).json({
+      status: 'error',
+      result: 'Method not allowed. Use GET or POST',
+    });
+    return;
+  }
+
+  const {
+    url: requestedClipURL,
+    sig: signature,
+    addr: address,
+  } = req.body ?? req.query;
 
   if (!requestedClipURL) {
     res.status(400).json({
