@@ -34,7 +34,6 @@ const MetaMaskLoginButton = () => {
       web3?.eth.requestAccounts().then(async (accounts) => {
         try {
           const nonce = `sign_in_${Math.random().toString(16).slice(2, 18)}`;
-          console.log(web3?.eth.personal.sign);
           const signedToken = await web3?.eth.personal.sign(
             nonce,
             accounts[0],
