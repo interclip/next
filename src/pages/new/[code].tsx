@@ -6,7 +6,11 @@ import Link from '@components/Text/link';
 import { ClockIcon } from '@heroicons/react/outline';
 import { Clip } from '@prisma/client';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
-import { ipfsGateway, minimumCodeLength } from '@utils/constants';
+import {
+  ipfsGateway,
+  maximumCodeLength,
+  minimumCodeLength,
+} from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
@@ -14,7 +18,6 @@ import truncate from '@utils/smartTruncate';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { recoverPersonalSignature } from 'eth-sig-util';
-import { NextApiRequest, NextApiResponse } from 'next';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -210,17 +213,29 @@ const CodeView = ({
   );
 };
 
-export async function getServerSideProps({
-  query,
-  res,
+export async function getStaticPaths() {
+  // Pre-render the 100 most recent
+  const clips = await db.clip.findMany({
+    take: 100,
+    orderBy: { createdAt: 'desc' },
+  });
+  const paths = clips.map((clip) => ({
+    params: { code: clip.code.slice(0, clip.hashLength) },
+  }));
+
+  return { paths, fallback: 'blocking' };
+}
+
+export async function getStaticProps({
+  params,
 }: {
-  query: NextApiRequest['query'];
-  res: NextApiResponse;
+  params: any;
 }): Promise<{ notFound?: boolean; props?: CodeViewPageProps }> {
-  const userCode = query.code;
+  const userCode = params.code;
   if (
     (userCode && typeof userCode === 'object') ||
-    userCode.length < minimumCodeLength
+    userCode.length < minimumCodeLength ||
+    userCode.length > maximumCodeLength
   ) {
     return { notFound: true };
   }
@@ -237,7 +252,6 @@ export async function getServerSideProps({
     if (!selectedClip) {
       return { notFound: true };
     }
-    res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=30'); // set caching header
     const additionalDetails = await storeLinkPreviewInCache(selectedClip.url);
 
     return {

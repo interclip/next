@@ -147,10 +147,6 @@ export default async function handler(
       },
     });
 
-    res.setHeader(
-      'Cache-Control',
-      's-maxage=86400, stale-while-revalidate=3600',
-    );
     res.status(200).json({
       status: 'success',
       result: { ...existingClip, hashLength: equal + 1 },
@@ -175,6 +171,9 @@ export default async function handler(
         },
       });
       res.unstable_revalidate('/about');
+      res.unstable_revalidate(
+        `/new/${newClip.code.slice(0, newClip.hashLength)}`,
+      );
       res.status(200).json({ status: 'success', result: newClip });
       await storeLinkPreviewInCache(parsedURL);
       await uploadToIPFS(newClip.id);
