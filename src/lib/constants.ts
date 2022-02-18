@@ -17,3 +17,12 @@ export enum StorageProvider {
   S3 = 'S3',
   IPFS = 'IPFS',
 }
+
+export const sampleURLs = [
+  'https://interclip.app',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.histories.cc/',
+  'https://devparty.io/',
+  'https://opensea.io/assets/matic/0x2953399124f0cbb46d2cbacd8a89cf0599974963/106565623496713384605063112493700845981575250044632175243042012644862217682945',
+  'https://www.npmjs.com/package/bruh-cli',
+];

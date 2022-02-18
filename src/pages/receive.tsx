@@ -1,6 +1,10 @@
 import { Button } from '@components/Button';
 import { getClip } from '@utils/api/client/requestClip';
-import { maximumCodeLength, minimumCodeLength } from '@utils/constants';
+import {
+  maximumCodeLength,
+  minimumCodeLength,
+  sampleURLs,
+} from '@utils/constants';
 import { getClipHash } from '@utils/generateID';
 import { isValidClipCode } from '@utils/isClip';
 import type { NextPage } from 'next';
@@ -9,15 +13,6 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { Layout } from '../components/Layout';
-
-const sampleURLs = [
-  'https://interclip.app',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-  'https://www.histories.cc/',
-  'https://devparty.io/',
-  'https://opensea.io/assets/matic/0x2953399124f0cbb46d2cbacd8a89cf0599974963/106565623496713384605063112493700845981575250044632175243042012644862217682945',
-  'https://www.npmjs.com/package/bruh-cli',
-];
 
 const ReceivePage: NextPage = () => {
   const [clipCode, setClipCode] = useState<string>('');
