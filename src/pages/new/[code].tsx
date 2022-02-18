@@ -38,6 +38,7 @@ const CodeView = ({
   const oembed: OEmbed = JSON.parse(returnedOembed);
   const urlObject = new URL(clip.url);
   const simplifiedURL = truncate(urlObject, 40);
+  const bestFavicon = getBestFavicon(oembed.favicons);
 
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -111,9 +112,9 @@ const CodeView = ({
             </p>
           </div>
           <div className="flex flex-col items-center">
-            {oembed.favicons.length > 0 && isFaviconShown && (
+            {oembed.favicons.length > 0 && isFaviconShown && bestFavicon && (
               <Image
-                src={proxied(getBestFavicon(oembed.favicons)!, 300, 300)}
+                src={proxied(bestFavicon, 300, 300)}
                 alt="The site's favicon"
                 className="rounded"
                 width={72}

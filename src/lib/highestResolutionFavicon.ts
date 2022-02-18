@@ -15,6 +15,11 @@
  * @param faviconsList an array of favicon URLs
  */
 const getBestFavicon = (faviconsList: string[]): string | undefined => {
+  if (!Array.isArray(faviconsList)) {
+    // Malformed input
+    return undefined;
+  }
+
   if (faviconsList.length === 1) {
     return faviconsList.at(0);
   }
