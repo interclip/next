@@ -97,7 +97,12 @@ const Home: NextPage = () => {
                       : undefined,
                   ).then(async (clip) => {
                     if (clip.status === 'success') {
-                      router.push(`/new/${clip?.result.code}`);
+                      router.push(
+                        `/clip/${clip.result.code.slice(
+                          0,
+                          clip.result.hashLength,
+                        )}`,
+                      );
                       resolve('Success');
                     } else {
                       if (!clip) {

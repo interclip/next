@@ -137,6 +137,8 @@ export default async function handler(
     }
 
     const newHash = getClipHash(clipURL);
+
+    // Update the clip witht the same display code to be one character longer
     await db.clip.update({
       where: {
         code: existingClip.code,
@@ -172,7 +174,7 @@ export default async function handler(
       });
       res.unstable_revalidate('/about');
       res.unstable_revalidate(
-        `/new/${newClip.code.slice(0, newClip.hashLength)}`,
+        `/clip/${newClip.code.slice(0, newClip.hashLength)}`,
       );
       res.status(200).json({ status: 'success', result: newClip });
       await storeLinkPreviewInCache(parsedURL);

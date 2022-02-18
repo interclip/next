@@ -9,7 +9,7 @@ dayjs.extend(relativeTime);
 const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
   const shortCode = clip.code.slice(0, clip.hashLength);
   return (
-    <Link href={`/new/${shortCode}`} passHref>
+    <Link href={`/clip/${shortCode}`} passHref>
       <div
         className="h-full max-w-none cursor-pointer rounded-2xl bg-white p-6 tracking-wide shadow-lg hover:scale-[0.99] dark:bg-dark-secondary dark:text-dark-text sm:max-w-sm"
         tabIndex={0}

@@ -40,7 +40,7 @@ const ReceivePage: NextPage = () => {
               e.preventDefault();
               getClip(clipCode).then(async (clip) => {
                 if (clip.status === 'success') {
-                  router.push(`/new/${clip.result.code}`);
+                  router.push(`/clip/${clip.result.code}`);
                 } else {
                   toast.error(clip.result);
                 }
