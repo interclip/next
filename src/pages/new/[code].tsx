@@ -25,11 +25,15 @@ dayjs.extend(relativeTime);
 
 interface CodeViewPageProps {
   clip: string;
-  oembed: OEmbed;
+  oembed: string;
 }
 
-const CodeView = ({ clip: returnedClip, oembed }: CodeViewPageProps) => {
+const CodeView = ({
+  clip: returnedClip,
+  oembed: returnedOembed,
+}: CodeViewPageProps) => {
   const clip: Clip = JSON.parse(returnedClip);
+  const oembed: OEmbed = JSON.parse(returnedOembed);
   const urlObject = new URL(clip.url);
   const simplifiedURL = truncate(urlObject, 40);
 
@@ -239,17 +243,7 @@ export async function getServerSideProps({
     return {
       props: {
         clip: JSON.stringify(selectedClip),
-        oembed: {
-          title: additionalDetails.title || null,
-          description: additionalDetails.description || null,
-          favicons: additionalDetails.favicons || null,
-          url: additionalDetails.url,
-          siteName: additionalDetails.siteName || null,
-          mediaType: additionalDetails.mediaType,
-          videos: additionalDetails.videos || null,
-          images: additionalDetails.images || null,
-          contentType: additionalDetails.contentType || null,
-        },
+        oembed: JSON.stringify(additionalDetails),
       },
     };
   } catch (e) {
