@@ -24,7 +24,7 @@ const randomWikipediaArticle = async (amount: number) => {
     return urls;
   } catch (e) {
     console.error(e);
-    process.exit(1);
+    return ['https://www.wikipedia.org/'];
   }
 };
 
