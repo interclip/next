@@ -4,13 +4,25 @@ import { PrismaClient } from '@prisma/client';
 import cliProgress from 'cli-progress';
 import faker from 'faker';
 import fetch from 'node-fetch';
+import { Octokit } from 'octokit';
 import youtubeVideo from 'random-youtube-music-video';
 
 import { storeLinkPreviewInCache } from '../src/lib/clipPreview';
 import { dateAddDays } from '../src/lib/dates';
 import { getClipHash } from '../src/lib/generateID';
+import { randomNumber } from '../src/lib/random';
 
 const db = new PrismaClient();
+const octokit = new Octokit({});
+
+const getGitHubRepos = async (amount: number): Promise<string[]> => {
+  const octoResp = await octokit.rest.search.repos({
+    q: 'language:typescript',
+    sort: 'stars',
+    per_page: amount,
+  });
+  return octoResp.data.items.map((item) => item.html_url);
+};
 
 const randomWikipediaArticle = async (amount: number) => {
   const responce = await fetch(
@@ -36,7 +48,7 @@ async function main() {
   await db.user.deleteMany();
   console.log('All users have been deleted 🗑️');
 
-  const userIDs: any[] = [undefined];
+  const userIDs: Array<string | undefined> = [undefined];
 
   // Fake User
   for (let i = 0; i < 10; i++) {
@@ -61,11 +73,13 @@ async function main() {
 
   const amountsToGenerate = {
     wikipedia: 60,
-    youtube: 20,
+    youtube: 10,
+    github: 30,
   };
 
   const urls = new Set([
     ...(await randomWikipediaArticle(amountsToGenerate.wikipedia)),
+    ...(await getGitHubRepos(amountsToGenerate.github)),
   ]);
 
   console.log('Generating YouTube videos');
@@ -87,16 +101,14 @@ async function main() {
     try {
       const ownerID = userIDs[Math.floor(Math.random() * userIDs.length)];
       const code = getClipHash(url);
-      console.log(`Seeding fake clip - ${url} (${code.slice(0, 5)} 🔑) 🌐`);
+      const expiresAt = dateAddDays(new Date(), randomNumber(-20, 200));
+      console.log(`Seeding fake clip - ${url} (${code.slice(0, 5)} 🔑) 🌐 `);
       await db.clip.create({
         data: {
           url,
           code,
           ownerID,
-          expiresAt: dateAddDays(
-            new Date(),
-            Math.floor((Math.random() + 1) * 90),
-          ),
+          expiresAt,
         },
       });
       await storeLinkPreviewInCache(url);
