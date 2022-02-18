@@ -16,6 +16,9 @@ import { APIResponse } from 'src/typings/interclip';
 import isMagnetURI from 'validator/lib/isMagnetURI';
 import isURL from 'validator/lib/isURL';
 
+/**
+ * This function creates a clip record in the database, uploads a backup of it to IPFS and stores the oembed details in the Redis cache.
+ */
 async function createClip(
   session: Session | null,
   clipHashRequested: string,
