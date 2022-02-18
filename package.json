@@ -8,6 +8,7 @@
     "postbuild": "next-sitemap",
     "generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --preview-feature",
+    "prisma:expired": "ts-node prisma/deleteExpired.ts",
     "prisma:seed": "ts-node prisma/seed.ts",
     "start": "next start",
     "lint": "next lint",

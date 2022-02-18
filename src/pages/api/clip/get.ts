@@ -46,7 +46,7 @@ export default async function handler(
     });
   }
 
-  const queriedClip = db.clip.findMany({
+  const queriedClip = db.clip.findFirst({
     where: {
       code: {
         startsWith: clipCode,
@@ -59,11 +59,17 @@ export default async function handler(
       createdAt: true,
       expiresAt: true,
     },
+    orderBy: {
+      createdAt: 'asc',
+    },
   });
 
   try {
     const clipResult = await queriedClip;
-    if (clipResult) {
+    const expired = clipResult?.expiresAt
+      ? new Date().getTime() - clipResult.expiresAt.getTime() > 0
+      : false;
+    if (clipResult && !expired) {
       res.setHeader(
         'Cache-Control',
         's-maxage=86400, stale-while-revalidate=3600',
@@ -74,6 +80,9 @@ export default async function handler(
         status: 'error',
         result: 'Clip not found.',
       });
+      if (clipResult && expired) {
+        db.clip.delete({ where: { code: clipResult.code } });
+      }
     }
   } catch (e) {
     res.status(500).json({

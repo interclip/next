@@ -1,5 +1,6 @@
 import { uploadToIPFS } from '@utils/backupIPFS';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
+import { defaultExpirationLength } from '@utils/constants';
 import { dateAddDays } from '@utils/dates';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
@@ -108,16 +109,24 @@ export default async function handler(
       code: true,
       createdAt: true,
       ipfsHash: true,
+      expiresAt: true,
     },
   });
 
-  if (existingClip && existingClip.code === clipHash) {
-    // Duplicate clip
+  const expired = existingClip?.expiresAt
+    ? new Date().getTime() - existingClip.expiresAt.getTime() > 0
+    : false;
+
+  if (expired) {
+    db.clip.delete({ where: { code: existingClip?.code } });
+  }
+
+  if (existingClip && existingClip.code === clipHash && !expired) {
     res.status(200).json({
       status: 'success',
       result: existingClip,
     });
-  } else if (existingClip) {
+  } else if (existingClip && !expired) {
     // Clip with equal starting hash
     let equal = 0;
     // Get number of equal characters between `clipHash` and `existingClip.code`
@@ -148,11 +157,18 @@ export default async function handler(
     });
   } else {
     try {
+      const userPrefferedExpiration = session?.user?.email
+        ? (await db.user.findUnique({ where: { email: session.user.email } }))
+            ?.clipExpirationPreference
+        : null;
+      const expiration = userPrefferedExpiration ?? defaultExpirationLength;
+
       const newClip = await db.clip.create({
         data: {
           code: clipHash,
           url: parsedURL,
-          expiresAt: dateAddDays(new Date(), 30),
+          expiresAt:
+            expiration === 0 ? undefined : dateAddDays(new Date(), expiration),
           createdAt: new Date(),
           ownerID: await getUserIDFromEmail(session?.user?.email),
           signature,

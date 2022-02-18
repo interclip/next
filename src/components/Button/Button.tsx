@@ -1,37 +1,59 @@
+import { changeColorBrightness } from '@utils/colors';
 import Link from 'next/link';
-import React from 'react';
+import { useTheme } from 'next-themes';
+import React, { forwardRef } from 'react';
+import { ComponentProps } from 'react';
 
-const Button = ({
-  content,
-  background_color,
-  hover_color,
-  focus_ring_color,
-  url,
-  onClick,
-}: {
+interface Props extends ComponentProps<'button'> {
   content?: string;
   background_color?: string;
   hover_color?: string;
   focus_ring_color?: string;
-  url?: any;
+  url?: string;
   onClick?: () => any;
-}) => {
-  const buttonClasses = `bg-${background_color} hover:bg-${hover_color} border dark:border-none text-white focus:ring-${focus_ring_color} px-4 py-1.5 rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none`;
-  return url ? (
+}
+
+const Button = forwardRef<HTMLButtonElement, Props>(function Button({
+  ...props
+}) {
+  const theme = useTheme();
+  const backgroundColor =
+    props.background_color || theme.theme === 'dark' ? 'light-bg' : 'white';
+
+  const textColor =
+    props.background_color || theme.theme === 'dark' ? 'white' : 'black';
+
+  const hoverColor =
+    props.hover_color || `[${changeColorBrightness(backgroundColor, -0.15)}]`;
+
+  const buttonClasses = `bg-${
+    !props.disabled ? backgroundColor : '[#a8a29e]'
+  } hover:bg-${hoverColor} border dark:border-none text-${textColor} focus:ring-${
+    props.focus_ring_color
+  } px-4 py-1.5 rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none`;
+
+  return props.url ? (
     <>
-      <Link href={`${url}`} passHref={true}>
-        <button className={buttonClasses}>
-          <div>{content}</div>
+      <Link href={`${props.url}`} passHref={true}>
+        <button
+          className={`${buttonClasses} ${props.className}`}
+          disabled={props.disabled}
+        >
+          <div>{props.content}</div>
         </button>
       </Link>
     </>
   ) : (
     <>
-      <button className={buttonClasses} onClick={onClick}>
-        <div>{content}</div>
+      <button
+        className={`${buttonClasses} ${props.className}`}
+        onClick={props.onClick}
+        disabled={props.disabled}
+      >
+        <div>{props.content}</div>
       </button>
     </>
   );
-};
+});
 
 export default Button;
