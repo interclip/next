@@ -1,12 +1,14 @@
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { githubRepo } from '@utils/constants';
-import { db } from '@utils/prisma';
 import React from 'react';
 
 import { Layout } from '../components/Layout';
 
-const About = (props: { clipCount: number; version: string }): JSX.Element => {
+const About = (props: {
+  clipCount: number | null;
+  version: string;
+}): JSX.Element => {
   return (
     <Layout titlePrefix="About">
       <section className="flex w-full flex-col items-center">
@@ -41,7 +43,7 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
                 (changelog)
               </Link>
             </li>
-            <li>Total clips made: {props.clipCount}</li>
+            <li>Total clips made: {props.clipCount || 'n/a'}</li>
           </ul>
         </div>
       </section>
@@ -51,7 +53,10 @@ const About = (props: { clipCount: number; version: string }): JSX.Element => {
 
 export async function getStaticProps() {
   try {
-    const clipCount = await db.clip.count();
+    const db = process.env.DATABASE_URL
+      ? (await import('@utils/prisma')).db
+      : null;
+    const clipCount = db && (await db.clip.count());
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
     return { props: { clipCount, version } };

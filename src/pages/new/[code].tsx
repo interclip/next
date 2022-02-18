@@ -13,7 +13,6 @@ import {
 } from '@utils/constants';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
-import { db } from '@utils/prisma';
 import truncate from '@utils/smartTruncate';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -214,11 +213,16 @@ const CodeView = ({
 };
 
 export async function getStaticPaths() {
-  // Pre-render the 100 most recent
-  const clips = await db.clip.findMany({
-    take: 100,
-    orderBy: { createdAt: 'desc' },
-  });
+  const db = process.env.DATABASE_URL
+    ? (await import('@utils/prisma')).db
+    : null;
+  // Pre-render the 100 most recent clips
+  const clips = db
+    ? await db.clip.findMany({
+        take: 100,
+        orderBy: { createdAt: 'desc' },
+      })
+    : [];
   const paths = clips.map((clip) => ({
     params: { code: clip.code.slice(0, clip.hashLength) },
   }));
@@ -241,13 +245,18 @@ export async function getStaticProps({
   }
 
   try {
-    const selectedClip = await db.clip.findFirst({
-      where: {
-        code: {
-          startsWith: userCode,
-        },
-      },
-    });
+    const db = process.env.DATABASE_URL
+      ? (await import('@utils/prisma')).db
+      : null;
+    const selectedClip = db
+      ? await db.clip.findFirst({
+          where: {
+            code: {
+              startsWith: userCode,
+            },
+          },
+        })
+      : null;
 
     if (!selectedClip) {
       return { notFound: true };
