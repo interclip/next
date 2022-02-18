@@ -77,7 +77,7 @@ async function main() {
 
   for (let i = 0; i < amountsToGenerate.youtube; i++) {
     const youtubeURL = await youtubeVideo.getRandomMusicVideoUrl(true);
-    urls.add(youtubeURL);
+    if (youtubeURL) urls.add(youtubeURL);
     youtubeProgress.update(i);
   }
 
