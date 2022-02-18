@@ -1,6 +1,6 @@
 import { uploadToIPFS } from '@utils/backupIPFS';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
-import { defaultExpirationLength } from '@utils/constants';
+import { defaultExpirationLength, minimumCodeLength } from '@utils/constants';
 import { dateAddDays } from '@utils/dates';
 import { getUserIDFromEmail } from '@utils/dbHelpers';
 import getCacheToken from '@utils/determineCacheToken';
@@ -10,10 +10,44 @@ import limiter from '@utils/rateLimit';
 import { recoverPersonalSignature } from 'eth-sig-util';
 import { isAddress } from 'ethers/lib/utils';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 import { APIResponse } from 'src/typings/interclip';
 import isMagnetURI from 'validator/lib/isMagnetURI';
 import isURL from 'validator/lib/isURL';
+
+async function createClip(
+  session: Session | null,
+  clipHashRequested: string,
+  parsedURL: string,
+  signature: string | null,
+  res: NextApiResponse<APIResponse>,
+  hashLength?: number,
+) {
+  const userPrefferedExpiration = session?.user?.email
+    ? (await db.user.findUnique({ where: { email: session.user.email } }))
+        ?.clipExpirationPreference
+    : null;
+  const expiration = userPrefferedExpiration ?? defaultExpirationLength;
+
+  const newClip = await db.clip.create({
+    data: {
+      code: clipHashRequested,
+      url: parsedURL,
+      expiresAt:
+        expiration === 0 ? undefined : dateAddDays(new Date(), expiration),
+      createdAt: new Date(),
+      ownerID: await getUserIDFromEmail(session?.user?.email),
+      signature,
+      hashLength: hashLength || minimumCodeLength,
+    },
+  });
+  res.unstable_revalidate('/about');
+  res.unstable_revalidate(`/clip/${newClip.code.slice(0, newClip.hashLength)}`);
+  res.status(200).json({ status: 'success', result: newClip });
+  await storeLinkPreviewInCache(parsedURL);
+  await uploadToIPFS(newClip.id);
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -23,9 +57,9 @@ export default async function handler(
 
   const session = await getSession({ req });
 
-  const { url: clipURL, sig: signature, addr: address } = req.query;
+  const { url: requestedClipURL, sig: signature, addr: address } = req.query;
 
-  if (!clipURL) {
+  if (!requestedClipURL) {
     res.status(400).json({
       status: 'error',
       result: 'No URL provided.',
@@ -33,7 +67,7 @@ export default async function handler(
     return;
   }
 
-  if (typeof clipURL === 'object') {
+  if (typeof requestedClipURL === 'object') {
     res.status(400).json({
       status: 'error',
       result:
@@ -51,7 +85,7 @@ export default async function handler(
     return;
   }
 
-  const clipHash = getClipHash(clipURL);
+  const clipHashRequested = getClipHash(requestedClipURL);
 
   if (signature && address) {
     if (!isAddress(address)) {
@@ -63,7 +97,7 @@ export default async function handler(
     } else {
       try {
         const recoveredAddress = recoverPersonalSignature({
-          data: clipHash,
+          data: clipHashRequested,
           sig: signature,
         });
         if (recoveredAddress !== address) {
@@ -82,14 +116,14 @@ export default async function handler(
     }
   }
 
-  const parsedURL = encodeURI(clipURL);
+  const parsedURL = encodeURI(requestedClipURL);
 
   if (
     !isURL(parsedURL, {
       require_valid_protocol: true,
       protocols: ['http', 'https', 'ipfs', 'ipns'],
     }) &&
-    !isMagnetURI(clipURL)
+    !isMagnetURI(requestedClipURL)
   ) {
     res.status(400).json({
       status: 'error',
@@ -101,7 +135,7 @@ export default async function handler(
   const existingClip = await db.clip.findFirst({
     where: {
       code: {
-        startsWith: clipHash.slice(0, 5),
+        startsWith: clipHashRequested.slice(0, 5),
       },
     },
     select: {
@@ -121,7 +155,7 @@ export default async function handler(
     db.clip.delete({ where: { code: existingClip?.code } });
   }
 
-  if (existingClip && existingClip.code === clipHash && !expired) {
+  if (existingClip && existingClip.code === clipHashRequested && !expired) {
     res.status(200).json({
       status: 'success',
       result: existingClip,
@@ -130,55 +164,24 @@ export default async function handler(
     // Clip with equal starting hash
     let equal = 0;
     // Get number of equal characters between `clipHash` and `existingClip.code`
-    for (; equal < clipHash.length - 1; equal++) {
-      if (clipHash[equal] !== existingClip.code[equal]) {
+    for (; equal < clipHashRequested.length - 1; equal++) {
+      if (clipHashRequested[equal] !== existingClip.code[equal]) {
         break;
       }
     }
 
-    const newHash = getClipHash(clipURL);
-
-    // Update the clip witht the same display code to be one character longer
-    await db.clip.update({
-      where: {
-        code: existingClip.code,
-      },
-      data: {
-        hashLength: equal + 1,
-        code: newHash,
-      },
-    });
-
-    res.status(200).json({
-      status: 'success',
-      result: { ...existingClip, hashLength: equal + 1 },
-    });
+    await createClip(
+      session,
+      clipHashRequested,
+      parsedURL,
+      signature,
+      res,
+      equal + 1,
+    );
+    return;
   } else {
     try {
-      const userPrefferedExpiration = session?.user?.email
-        ? (await db.user.findUnique({ where: { email: session.user.email } }))
-            ?.clipExpirationPreference
-        : null;
-      const expiration = userPrefferedExpiration ?? defaultExpirationLength;
-
-      const newClip = await db.clip.create({
-        data: {
-          code: clipHash,
-          url: parsedURL,
-          expiresAt:
-            expiration === 0 ? undefined : dateAddDays(new Date(), expiration),
-          createdAt: new Date(),
-          ownerID: await getUserIDFromEmail(session?.user?.email),
-          signature,
-        },
-      });
-      res.unstable_revalidate('/about');
-      res.unstable_revalidate(
-        `/clip/${newClip.code.slice(0, newClip.hashLength)}`,
-      );
-      res.status(200).json({ status: 'success', result: newClip });
-      await storeLinkPreviewInCache(parsedURL);
-      await uploadToIPFS(newClip.id);
+      await createClip(session, clipHashRequested, parsedURL, signature, res);
       return;
     } catch (e) {
       console.error(e);
