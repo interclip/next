@@ -6,7 +6,9 @@ export const defaultRedisClient = () =>
   new Redis(
     parseInt(process.env.REDIS_PORT || '6379', 10),
     process.env.REDIS_HOST || 'localhost',
-    { password: process.env.REDIS_PASSWORD || undefined },
+    process.env.REDIS_PASSWORD
+      ? { password: process.env.REDIS_PASSWORD }
+      : undefined,
   );
 
 export const testRedis = async (): Promise<boolean> => {
