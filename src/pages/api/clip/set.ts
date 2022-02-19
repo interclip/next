@@ -72,7 +72,7 @@ export default async function handler(
     url: requestedClipURL,
     sig: signature,
     addr: address,
-  } = req.body ?? req.query;
+  } = Object.entries(req.body).length !== 0 ? req.body : req.query;
 
   if (!requestedClipURL) {
     res.status(400).json({
