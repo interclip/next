@@ -30,11 +30,14 @@ export const requestClip = async (
     address?: string;
   },
 ): Promise<ClipResponse> => {
-  const clipResponse = await fetch(
-    `/api/clip/set?url=${url}${
-      sig ? `&sig=${sig.signature}&addr=${sig.address}` : ''
-    }`,
-  );
+  const query = sig ? { url, sig: sig.signature, addr: sig.address } : { url };
+  const clipResponse = await fetch('/api/clip/set', {
+    method: 'POST',
+    body: JSON.stringify(query),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
   if (clipResponse.status === 500) {
     return { status: 'error', result: await clipResponse.text() };
   }
