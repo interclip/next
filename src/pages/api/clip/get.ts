@@ -24,13 +24,12 @@ export default async function handler(
   if (!req.method || !['POST', 'GET'].includes(req.method)) {
     res.status(405).json({
       status: 'error',
-      result: 'Method not allowed. Use GET or POST',
+      result: 'Method not allowed. Use GET',
     });
     return;
   }
 
-  const { code: clipCode } =
-    Object.entries(req.body).length !== 0 ? req.body : req.query;
+  const { code: clipCode } = req.query;
 
   if (!clipCode) {
     res.status(400).json({
