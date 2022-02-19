@@ -62,10 +62,7 @@ const Home: NextPage = () => {
 
                 address = session?.user?.email || undefined;
 
-                const msg = `0x${Buffer.from(
-                  getClipHash(clipURL),
-                  'utf8',
-                ).toString('hex')}`;
+                const msg = getClipHash(clipURL);
                 if (!address) {
                   toast.error("Can't get wallet address from session");
                   return;
@@ -109,6 +106,7 @@ const Home: NextPage = () => {
                         reject(new Error('No clip returned'));
                       }
                       toast.error(clip.result);
+                      reject();
                     }
                   });
                 }),

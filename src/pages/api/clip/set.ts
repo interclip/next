@@ -115,7 +115,7 @@ export default async function handler(
           data: clipHashRequested,
           sig: signature,
         });
-        if (recoveredAddress !== address) {
+        if (recoveredAddress.toLowerCase() !== address.toLowerCase()) {
           res.status(400).json({
             status: 'error',
             result:
