@@ -28,9 +28,9 @@ export function getGitRef() {
   }
 }
 
-export function getCommitMessageFromSha(sha: string) {
+export function getCommitMessageFromSha(sha?: string) {
   return require('child_process')
-    .execSync(`git log -1 --pretty=%B ${sha}`)
+    .execSync(`git log --oneline --format=%B -n 1 ${sha || 'HEAD'} | head -n 1`)
     .toString()
     .trim();
 }
