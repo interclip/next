@@ -14,13 +14,14 @@ import { OEmbed } from 'src/typings/interclip';
 const Redirect = ({
   code,
   url,
-  oembed,
+  returnedOembed,
 }: {
   code: string;
   url: string;
-  oembed: OEmbed;
+  returnedOembed: string;
 }) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
+  const oembed: OEmbed = returnedOembed && JSON.parse(returnedOembed);
   const urlObject = new URL(url);
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
   return (
@@ -40,10 +41,10 @@ const Redirect = ({
               height={300}
             />
             <h2 className="mt-2 mb-2 max-w-[40rem] text-2xl">
-              {oembed.title || code}
+              {(oembed && oembed.title) || code}
             </h2>
             <h3 className="flex flex-row items-center justify-center justify-items-center gap-2 text-xl text-gray-400">
-              {oembed.favicons.length > 0 && (
+              {oembed && oembed.favicons.length > 0 && (
                 <Image
                   src={`${proxied(
                     getBestFavicon(oembed.favicons)!,
@@ -102,11 +103,7 @@ export async function getServerSideProps({
         props: {
           code: selectedClip.code,
           url: selectedClip.url,
-          oembed: {
-            title: additionalDetails?.title || null,
-            description: additionalDetails?.description || null,
-            favicons: additionalDetails?.favicons,
-          },
+          oembed: JSON.stringify(additionalDetails),
         },
       };
     } catch (error) {
