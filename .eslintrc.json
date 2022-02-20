@@ -9,7 +9,8 @@
     "@typescript-eslint",
     "unused-imports",
     "simple-import-sort",
-    "prettier"
+    "prettier",
+    "unicorn"
   ],
   "rules": {
     "react/display-name": "off",
@@ -34,6 +35,9 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "jsx-a11y/role-supports-aria-props": "off",
+    "unicorn/better-regex": "error",
+    "unicorn/error-message": "error",
+    "unicorn/no-for-loop": "error",
     "prefer-const": [
       "error",
       {

@@ -24,7 +24,7 @@ const Logo = forwardRef<HTMLInputElement, ComponentProps<'img'>>(function Logo({
   ...props
 }) {
   return (
-    <NextLink href="/">
+    <NextLink href="/" passHref>
       <Image
         src={`/icons/${logoName}`}
         alt="Interclip logo"
