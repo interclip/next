@@ -50,7 +50,7 @@
     "unicorn/prefer-includes": "error",
     "unicorn/prefer-ternary": "error",
     "unicorn/prefer-switch": "error",
-    "unicorn/prefer-node-protocol": "error",
+    "unicorn/prefer-node-protocol": "off",
     "unicorn/no-unused-properties": "error",
     "unicorn/prefer-array-find": "error",
     "unicorn/no-array-for-each": "error",

@@ -1,5 +1,5 @@
+import { createHash } from 'crypto';
 import { NextApiRequest } from 'next';
-import { createHash } from 'node:crypto';
 
 /**
  * Returns a key for the rate limiter

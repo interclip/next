@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 import { proxied } from '@utils/image';
 import { db } from '@utils/prisma';
-import crypto from 'node:crypto';
+import crypto from 'crypto';
 import { CreatUsereArgs } from 'src/typings/interclip';
 
 class DBError extends Error {
