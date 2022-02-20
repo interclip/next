@@ -76,7 +76,7 @@ export default async function handler(
   try {
     const clipResult = await queriedClip;
     const expired = clipResult?.expiresAt
-      ? new Date().getTime() - clipResult.expiresAt.getTime() > 0
+      ? Date.now() - clipResult.expiresAt.getTime() > 0
       : false;
     if (clipResult && !expired) {
       res.setHeader(

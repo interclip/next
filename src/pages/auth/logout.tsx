@@ -46,16 +46,14 @@ const Logout = (): React.ReactNode => {
 
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const session = await getSession({ req });
-  if (session) {
-    return { props: {} };
-  } else {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
+  return session
+    ? { props: {} }
+    : {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
 }
 
 export default Logout;

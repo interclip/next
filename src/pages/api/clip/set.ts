@@ -163,7 +163,7 @@ export default async function handler(
   });
 
   const expired = existingClip?.expiresAt
-    ? new Date().getTime() - existingClip.expiresAt.getTime() > 0
+    ? Date.now() - existingClip.expiresAt.getTime() > 0
     : false;
 
   if (expired) {

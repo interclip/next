@@ -19,8 +19,7 @@ function makeStorageClient() {
 export const ipfsCheckCID = async (cid: string): Promise<boolean> => {
   const client = makeStorageClient();
   const res = await client.get(cid);
-  if (!res || !res.ok) return false;
-  else return true;
+  return !res || !res.ok ? false : true;
 };
 
 const uploadFile = async (

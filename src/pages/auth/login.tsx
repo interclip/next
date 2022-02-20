@@ -126,18 +126,16 @@ const LogIn = ({
 export async function getServerSideProps({ req }: { req: NextApiRequest }) {
   const providers = await getProviders();
   const session = await getSession({ req });
-  if (!session) {
-    return {
-      props: { providers },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
+  return !session
+    ? {
+        props: { providers },
+      }
+    : {
+        redirect: {
+          destination: '/',
+          permanent: false,
+        },
+      };
 }
 
 export default LogIn;
