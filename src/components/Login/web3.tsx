@@ -62,8 +62,8 @@ const MetaMaskLoginButton = () => {
             address: accounts[0],
             signature: signedToken,
           });
-        } catch (e) {
-          console.error(e);
+        } catch (error) {
+          console.error(error);
         }
       });
     }

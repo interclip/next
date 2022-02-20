@@ -242,8 +242,8 @@ export default function FilePage() {
           await seedHandler(e);
           break;
       }
-    } catch (e) {
-      toast.error(e as string);
+    } catch (error) {
+      toast.error(error as string);
     }
 
     setProgress(0);

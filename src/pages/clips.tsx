@@ -36,8 +36,8 @@ const MyClips = (): React.ReactNode => {
       .then((clips: ClipsResponse) => {
         setClips(clips.result);
       })
-      .catch((e) => {
-        if (e instanceof AuthError) {
+      .catch((error) => {
+        if (error instanceof AuthError) {
           toast.error('You must log in to access this page');
           return;
         }

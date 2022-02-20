@@ -60,8 +60,8 @@ export default async function handler(
     redisClient.disconnect();
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=600');
     res.status(200).json({ status: 'success', result: newClips });
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
       status: 'error',
       result: 'An error with the database has occured.',

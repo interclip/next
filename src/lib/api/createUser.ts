@@ -31,7 +31,7 @@ export const createUser = async (
 
   try {
     return await db.user.create({ data });
-  } catch (e) {
-    throw new DBError(`A database error has occured: ${e}`);
+  } catch (error) {
+    throw new DBError(`A database error has occured: ${error}`);
   }
 };

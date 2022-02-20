@@ -60,8 +60,8 @@ export async function getStaticProps() {
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
     return { props: { clipCount, version } };
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     return {
       notFound: true,
     };

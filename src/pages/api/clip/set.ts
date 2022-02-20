@@ -122,7 +122,7 @@ export default async function handler(
               'Signature author differs from provided address, cannot sign',
           });
         }
-      } catch (e) {
+      } catch (error) {
         res.status(400).json({
           status: 'error',
           result: 'Signature cannot be verified',
@@ -198,8 +198,8 @@ export default async function handler(
     try {
       await createClip(session, clipHashRequested, parsedURL, signature, res);
       return;
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       res.status(500).json({
         status: 'error',
         result: 'An error with the database has occured.',

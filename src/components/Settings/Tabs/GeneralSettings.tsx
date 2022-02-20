@@ -192,17 +192,17 @@ const GeneralSettings = ({
                     toast.success('Signing setup complete, saving');
                   }
                 }
-              } catch (err: any) {
-                if (err.code === 4001) {
+              } catch (error: any) {
+                if (error.code === 4001) {
                   toast.error('Signature request rejected');
                   return;
-                } else if (err.code === -32602) {
+                } else if (error.code === -32602) {
                   toast.error(
                     'It looks like your wallet is locked, please unlock it before proceeding',
                   );
                   return;
                 }
-                toast.error(err as string);
+                toast.error(error as string);
               }
             }
 

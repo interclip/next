@@ -109,8 +109,8 @@ export async function getServerSideProps({
           },
         },
       };
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       return {
         notFound: true,
       };
@@ -130,7 +130,7 @@ export async function getServerSideProps({
         permanent: true,
       },
     };
-  } catch (e) {
+  } catch (error) {
     return {
       notFound: true,
     };

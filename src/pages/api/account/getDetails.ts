@@ -40,7 +40,7 @@ export default async function handler(
 
   try {
     res.json(await getUserDetails(selectedFields, req));
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
       status: 'error',
       result: 'An error with the database has occured.',

@@ -71,14 +71,14 @@ const Home: NextPage = () => {
                 signature =
                   (await web3.eth.personal
                     .sign(msg, address, '')
-                    .catch((err) => {
-                      if (err.code === 4001) {
+                    .catch((error) => {
+                      if (error.code === 4001) {
                         toast.error(
                           'Signature request rejected, proceeding without signing',
                         );
                         return;
                       }
-                      toast.error(err.message);
+                      toast.error(error.message);
                     })) || undefined;
               }
 

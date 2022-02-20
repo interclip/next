@@ -23,7 +23,7 @@ export function getGitRef() {
       .execSync('git symbolic-ref --short HEAD')
       .toString()
       .trim();
-  } catch (e) {
+  } catch (error) {
     return null;
   }
 }

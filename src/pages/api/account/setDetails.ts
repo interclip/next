@@ -173,10 +173,10 @@ export default async function handler(
 
   try {
     res.json(await setUserDetails(keyValuePairs, address));
-  } catch (e) {
-    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner
-      switch (e.code) {
+      switch (error.code) {
         case 'P2002': {
           res.status(400).json({
             status: 'error',
@@ -187,7 +187,7 @@ export default async function handler(
         case 'P2005': {
           res.status(400).json({
             status: 'error',
-            result: e.message,
+            result: error.message,
           });
           break;
         }
@@ -197,6 +197,6 @@ export default async function handler(
       status: 'error',
       result: 'An error with the database has occured.',
     });
-    console.error(e);
+    console.error(error);
   }
 }

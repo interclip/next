@@ -268,8 +268,8 @@ export async function getStaticProps({
         oembed: JSON.stringify(additionalDetails),
       },
     };
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     return {
       notFound: true,
     };

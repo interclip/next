@@ -93,7 +93,7 @@ export default async function handler(
         await db.clip.delete({ where: { code: clipResult.code } });
       }
     }
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
       status: 'error',
       result: 'An error with the database has occured.',

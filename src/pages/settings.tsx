@@ -24,12 +24,12 @@ export const handleSettingsErrors = async (
     const response = await setSettings(data, user);
     toast.success('Setting updated!');
     return response || null;
-  } catch (e) {
-    if (e instanceof APIError) {
-      toast.error(e.message);
+  } catch (error) {
+    if (error instanceof APIError) {
+      toast.error(error.message);
     } else {
       // @ts-ignore
-      toast.error(e);
+      toast.error(error);
     }
     return null;
   }
@@ -86,7 +86,7 @@ export async function getServerSideProps(context: { req: NextApiRequest }) {
       context.req,
     );
     return { props: { user: userData } };
-  } catch (e) {
+  } catch (error) {
     return {
       notFound: true,
     };

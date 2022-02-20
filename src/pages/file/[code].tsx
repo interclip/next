@@ -66,11 +66,11 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
               });
             });
           });
-        } catch (e) {
-          if (e instanceof APIError) {
-            toast.error(`API request failed: ${e.message}`);
+        } catch (error) {
+          if (error instanceof APIError) {
+            toast.error(`API request failed: ${error.message}`);
           } else {
-            toast.error(e as string);
+            toast.error(error as string);
           }
         }
       } else {

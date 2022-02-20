@@ -231,8 +231,8 @@ export async function getServerSideProps(context: { req: NextApiRequest }) {
         commitMessage: GIT_COMMIT_MESSAGE || '',
       },
     };
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     return {
       notFound: true,
     };
