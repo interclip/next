@@ -2,21 +2,29 @@ import Redis from 'ioredis';
 import { getLinkPreview } from 'link-preview-js';
 import { OEmbed } from 'src/typings/interclip';
 
-export const defaultRedisClient = () =>
-  new Redis(
+export const defaultRedisClient = (
+  customSettings?: Redis.RedisOptions,
+): Redis.Redis => {
+  const settings = {
+    ...customSettings,
+    connectTimeout: 2,
+    maxRetriesPerRequest: 7,
+    password: process.env.REDIS_PASSWORD || undefined,
+  };
+  return new Redis(
     parseInt(process.env.REDIS_PORT || '6379', 10),
     process.env.REDIS_HOST || 'localhost',
-    process.env.REDIS_PASSWORD
-      ? { password: process.env.REDIS_PASSWORD }
-      : undefined,
+    settings,
   );
+};
 
 export const testRedis = async (): Promise<boolean> => {
-  const redis = defaultRedisClient();
+  const redis = defaultRedisClient({
+    maxRetriesPerRequest: 3,
+    connectTimeout: 1,
+  });
   try {
-    console.log(await redis.ping());
-    // List all keys
-    console.log('All keys:', await redis.keys('*'));
+    await redis.ping();
     return true;
   } catch {
     return false;

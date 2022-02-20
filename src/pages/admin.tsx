@@ -1,6 +1,7 @@
 import InfoCard from '@components/Admin/InfoCard';
 import TabHeader from '@components/Admin/TabHeader';
 import UserCard from '@components/Admin/UserCard';
+import { Button } from '@components/Button';
 import ClipCard from '@components/Clips/ClipCard';
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
@@ -11,6 +12,7 @@ import {
   fetchUsers,
   initialItemsToLoad,
 } from '@utils/api/client/admin';
+import { flushRedis, testRedis } from '@utils/api/client/redis';
 import { githubRepo } from '@utils/constants';
 import { db } from '@utils/prisma';
 import {
@@ -22,6 +24,7 @@ import {
 import clsx from 'clsx';
 import { NextApiRequest } from 'next';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import InfiniteScroll from 'react-infinite-scroller';
 import { SyncLoader } from 'react-spinners';
 import { ClipWithPreview } from 'src/typings/interclip';
@@ -113,7 +116,36 @@ const About = ({
                     </InfoCard>
                   </div>
                 </Tab.Panel>
-                <Tab.Panel className={panelClassNames}>WIP 🚧</Tab.Panel>
+                <Tab.Panel className={panelClassNames}>
+                  <H2>Controls</H2>
+
+                  <Button
+                    content="Test Redis"
+                    onClick={async () => {
+                      const resp = await testRedis();
+                      if (resp.status === 'error') {
+                        toast.error(resp.result);
+                      } else if (resp.status === 'success') {
+                        if (resp.result.up) {
+                          toast.success('Redis is up!');
+                        } else {
+                          toast.error('Redis is down');
+                        }
+                      }
+                    }}
+                  />
+                  <Button
+                    content="Flush cache"
+                    onClick={async () => {
+                      const resp = await flushRedis();
+                      if (resp.status === 'error') {
+                        toast.error(resp.result);
+                      } else if (resp.status === 'success') {
+                        toast.success('Flushed Redis cache');
+                      }
+                    }}
+                  />
+                </Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
                   <InfiniteScroll
                     pageStart={0}
