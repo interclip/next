@@ -49,7 +49,7 @@ const MetaMaskLoginButton = () => {
             new Promise((_resolve, reject) => {
               setTimeout(() => {
                 reject('timeout');
-              }, 20000);
+              }, 20_000);
             }),
             {
               loading: 'Signing you in...',

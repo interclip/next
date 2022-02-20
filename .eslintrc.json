@@ -14,10 +14,18 @@
   ],
   "rules": {
     "react/display-name": "off",
-    "comma-dangle": ["off", "always"],
-    "prettier/prettier": ["error"],
+    "comma-dangle": [
+      "off",
+      "always"
+    ],
+    "prettier/prettier": [
+      "error"
+    ],
     "react/prop-types": "off",
-    "semi": [2, "always"],
+    "semi": [
+      2,
+      "always"
+    ],
     "quotes": [
       "error",
       "single",
@@ -45,8 +53,14 @@
     "unicorn/prefer-node-protocol": "error",
     "unicorn/no-unused-properties": "error",
     "unicorn/prefer-array-find": "error",
+    "unicorn/no-array-for-each": "error",
+    "unicorn/no-useless-length-check": "error",
     "unicorn/catch-error-name": "error",
     "unicorn/consistent-destructuring": "error",
+    "unicorn/new-for-builtins": "error",
+    "unicorn/no-useless-spread": "error",
+    "unicorn/no-useless-undefined": "error",
+    "unicorn/numeric-separators-style": "error",
     "prefer-const": [
       "error",
       {

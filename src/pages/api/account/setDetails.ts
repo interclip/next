@@ -82,7 +82,7 @@ export default async function handler(
   }
 
   const keyValuePairs: { [key: string]: any } = JSON.parse(params);
-  Object.keys(keyValuePairs).forEach((key) => {
+  for (const key of Object.keys(keyValuePairs)) {
     const value = keyValuePairs[key];
     if (!key) {
       res.status(400).json({
@@ -169,7 +169,7 @@ export default async function handler(
     }
 
     keyValuePairs[key] = value;
-  });
+  }
 
   try {
     res.json(await setUserDetails(keyValuePairs, address));

@@ -6,9 +6,9 @@ export const getUserDetails = async (fields: string[], req: NextApiRequest) => {
   const session = await getSession({ req });
 
   const selectObject: any = {};
-  fields.forEach((key) => {
+  for (const key of fields) {
     selectObject[key] = true;
-  });
+  }
 
   if (!session?.user?.email) {
     throw new Error("Couldn't get email from session");

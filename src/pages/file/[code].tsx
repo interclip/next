@@ -46,7 +46,7 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
           client.add(clipMagnet.result.url, (torrent: WebTorrent.Torrent) => {
             // Got torrent metadata!
             console.log('Client is downloading:', torrent.infoHash);
-            torrent.files.forEach((file) => {
+            for (const file of torrent.files) {
               console.log(file.name);
               const interval = setInterval(() => {
                 console.log(
@@ -64,7 +64,7 @@ const DownloadP2PFile = ({ code }: { code: string }) => {
                 if (!url) return;
                 download(url, file.name);
               });
-            });
+            }
           });
         } catch (error) {
           if (error instanceof APIError) {

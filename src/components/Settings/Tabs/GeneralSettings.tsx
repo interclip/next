@@ -196,7 +196,7 @@ const GeneralSettings = ({
                 if (error.code === 4001) {
                   toast.error('Signature request rejected');
                   return;
-                } else if (error.code === -32602) {
+                } else if (error.code === -32_602) {
                   toast.error(
                     'It looks like your wallet is locked, please unlock it before proceeding',
                   );

@@ -48,6 +48,7 @@ const uploadFile = async (
   }
   const { url, fields } = await res.json();
   const formData = new FormData();
+  // eslint-disable-next-line unicorn/no-array-for-each
   Object.entries({ ...fields, file }).forEach(
     ([key, value]: [key: string, value: any]) => {
       formData.append(key, value);
