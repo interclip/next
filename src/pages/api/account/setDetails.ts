@@ -74,14 +74,14 @@ export default async function handler(
   }
 
   const signedInUserAddress = session.user?.email!;
-  const { address = signedInUserAddress } = req.query;
+  const { address = signedInUserAddress, params } = req.query;
 
   // The user is trying to change the settings of another user
   if (address !== signedInUserAddress) {
     needsAdmin(req, res);
   }
 
-  const keyValuePairs: { [key: string]: any } = JSON.parse(req.query.params);
+  const keyValuePairs: { [key: string]: any } = JSON.parse(params);
   Object.keys(keyValuePairs).forEach((key) => {
     const value = keyValuePairs[key];
     if (!key) {
