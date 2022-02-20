@@ -1,17 +1,23 @@
 import { StorageProvider } from '../lib/constants';
 import { Clip } from '.prisma/client';
 
-interface OEmbed {
+type OEmbed = {
   url: string;
-  title: string | null;
-  siteName: string | null;
-  description: string | null;
+  title?: string;
+  siteName?: string;
+  description?: string;
   mediaType: string;
-  contentType: string | null;
-  images: string[];
-  videos: {}[];
+  contentType?: string;
+  images?: string[];
+  videos?: {
+    url: string | undefined;
+    secureUrl: string | null | undefined;
+    type: string | null | undefined;
+    width: string | undefined;
+    height: string | undefined;
+  }[];
   favicons: string[];
-}
+} | null;
 
 interface ClipWithPreview extends Clip {
   /**

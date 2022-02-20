@@ -12,7 +12,11 @@ import {
   fetchUsers,
   initialItemsToLoad,
 } from '@utils/api/client/admin';
-import { flushRedis, testRedis } from '@utils/api/client/redis';
+import {
+  flushRedis,
+  generatePreviews,
+  testRedis,
+} from '@utils/api/client/redis';
 import { githubRepo } from '@utils/constants';
 import { db } from '@utils/prisma';
 import {
@@ -64,6 +68,7 @@ const About = ({
   const [loadedClipsCount, setLoadedClipsCount] = useState<number>(0);
   const [moreClipsToLoad, setMoreClipsToLoad] = useState<boolean>(true);
 
+  let fixed = 0;
   return (
     <Layout titlePrefix="Admin">
       <section className="flex w-full flex-col items-center">
@@ -118,7 +123,6 @@ const About = ({
                 </Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
                   <H2>Controls</H2>
-
                   <Button
                     content="Test Redis"
                     onClick={async () => {
@@ -143,6 +147,25 @@ const About = ({
                       } else if (resp.status === 'success') {
                         toast.success('Flushed Redis cache');
                       }
+                    }}
+                  />
+                  <Button
+                    content="Fix missing oembeds"
+                    onClick={async () => {
+                      fetchClips(loadedClipsCount, clipCount).then(
+                        async (newClips) => {
+                          for (const clip of newClips) {
+                            const resp = await generatePreviews(clip.code);
+                            if (resp.status === 'error') {
+                              toast.error(resp.result);
+                            } else if (resp.status === 'success') {
+                              toast.success(
+                                `Generated preview ${++fixed}/${clipCount}`,
+                              );
+                            }
+                          }
+                        },
+                      );
                     }}
                   />
                 </Tab.Panel>
@@ -196,6 +219,7 @@ const About = ({
                           loadMore={() => {
                             fetchClips(
                               loadedClipsCount,
+                              loadedClipsCount === 0 ? initialItemsToLoad : 5,
                               setMoreClipsToLoad,
                             ).then((newClips) => {
                               setClips(

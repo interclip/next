@@ -32,10 +32,10 @@ const CodeView = ({
   oembed: returnedOembed,
 }: CodeViewPageProps) => {
   const clip: Clip = JSON.parse(returnedClip);
-  const oembed: OEmbed = JSON.parse(returnedOembed);
+  const oembed: OEmbed | null = JSON.parse(returnedOembed);
   const urlObject = new URL(clip.url);
   const simplifiedURL = truncate(urlObject, 40);
-  const bestFavicon = getBestFavicon(oembed.favicons);
+  const bestFavicon = oembed && getBestFavicon(oembed.favicons);
 
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -96,7 +96,7 @@ const CodeView = ({
         <div className="shadow-custom mb-8 flex w-full justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
             <h2 className="mb-2 max-w-[30rem] text-4xl">
-              {oembed.title || oembed.siteName || code}
+              {oembed ? oembed.title || oembed?.siteName || code : code}
             </h2>
             <h3 className="text-2xl text-gray-400">
               <Link className="no-underline" href={clip.url} title={clip.url}>
@@ -104,23 +104,26 @@ const CodeView = ({
               </Link>
             </h3>
             <p>
-              {oembed.description?.slice(0, 250)}
-              {(oembed.description?.length ?? 0) > 250 && '...'}
+              {oembed?.description?.slice(0, 250)}
+              {(oembed?.description?.length ?? 0) > 250 && '...'}
             </p>
           </div>
           <div className="flex flex-col items-center">
-            {oembed.favicons.length > 0 && isFaviconShown && bestFavicon && (
-              <Image
-                src={proxied(bestFavicon, 300, 300)}
-                alt="The site's favicon"
-                className="rounded"
-                width={72}
-                height={72}
-                onError={() => {
-                  setIsFaviconShown(false);
-                }}
-              />
-            )}
+            {oembed &&
+              oembed.favicons.length > 0 &&
+              isFaviconShown &&
+              bestFavicon && (
+                <Image
+                  src={proxied(bestFavicon, 300, 300)}
+                  alt="The site's favicon"
+                  className="rounded"
+                  width={72}
+                  height={72}
+                  onError={() => {
+                    setIsFaviconShown(false);
+                  }}
+                />
+              )}
             <QRIcon
               onClick={() => {
                 setQrCodeZoom(true);

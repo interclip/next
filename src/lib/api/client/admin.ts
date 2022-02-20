@@ -44,17 +44,18 @@ export const fetchUsers = async (
  */
 export const fetchClips = async (
   from: number,
-  setMoreClipsToLoad: React.Dispatch<React.SetStateAction<boolean>>,
+  take: number,
+  setMoreClipsToLoad?: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<Clip[]> => {
   const response = await fetch(
-    `/api/admin/getClips?from=${from}&limit=${
-      from === 0 ? initialItemsToLoad : 5
-    }`,
+    `/api/admin/getClips?from=${from}&limit=${take}`,
   );
   if (!response.ok) {
     throw new APIError('Not ok');
   } else if (response.status === 204) {
-    setMoreClipsToLoad(false);
+    if (setMoreClipsToLoad) {
+      setMoreClipsToLoad(false);
+    }
     return [];
   }
 
