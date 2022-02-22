@@ -24,7 +24,7 @@
     "@nextui-org/react": "^1.0.2-beta.4",
     "@prisma/client": "^3.9.2",
     "@types/react-infinite-scroller": "^1.2.2",
-    "aws-sdk": "^2.1078.0",
+    "aws-sdk": "^2.1079.0",
     "clsx": "^1.1.1",
     "cuid": "^2.1.8",
     "dayjs": "^1.10.7",
