@@ -1,15 +1,10 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
-import { createUser } from '@utils/api/createUser';
-import { IS_PROD, StorageProvider } from '@utils/constants';
-import { db } from '@utils/prisma';
-import { getDefaultProvider, utils } from 'ethers';
-import { name } from 'faker';
+import { DemoProvider, Web3Provider } from '@utils/api/auth/providers';
+import { IS_PROD } from '@utils/constants';
 import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
 import GitlabProvider from 'next-auth/providers/gitlab';
-import isEmail from 'validator/lib/isEmail';
 
 const prisma = new PrismaClient();
 
@@ -23,106 +18,8 @@ export default NextAuth({
     signOut: '/auth/logout',
   },
   providers: [
-    !IS_PROD &&
-      CredentialsProvider({
-        id: 'devlogin',
-        name: 'a demo account',
-        credentials: {
-          email: {
-            label: 'Email address',
-            type: 'text',
-            placeholder: 'admin@example.org',
-          },
-        },
-        async authorize(credentials) {
-          if (credentials?.email && isEmail(credentials.email)) {
-            const existingUser = await db.user.findUnique({
-              where: {
-                email: credentials.email,
-              },
-            });
-            return (
-              existingUser ||
-              (await createUser({
-                email: credentials.email,
-                name: name.firstName(),
-                isStaff: true,
-                storageProvider: StorageProvider.S3,
-              }))
-            );
-          }
-
-          // Return null if user data could not be retrieved
-          return null;
-        },
-      }),
-    CredentialsProvider({
-      name: 'Web3',
-      id: 'web3',
-      authorize: async (credentials) => {
-        if (
-          !(credentials?.address && credentials.nonce && credentials.signature)
-        ) {
-          return null;
-        }
-
-        const address = utils.verifyMessage(
-          credentials.nonce,
-          credentials.signature,
-        );
-
-        if (address.toLowerCase() !== credentials.address.toLowerCase()) {
-          console.error(
-            `Adresses don't match: ${address} vs ${credentials.address}`,
-          );
-          return null;
-        }
-
-        const existingUser = await db.user.findUnique({
-          where: {
-            email: credentials.address,
-          },
-        });
-
-        if (existingUser) {
-          return existingUser;
-        }
-
-        const provider = getDefaultProvider();
-        const ensName = await provider.lookupAddress(address);
-
-        let name, avatar;
-        if (ensName) {
-          const resolver = await provider.getResolver(ensName);
-          if (resolver) {
-            avatar = (await resolver.getAvatar())?.url || undefined;
-            name = (await resolver.getText('name')) || undefined;
-          }
-        }
-
-        return await createUser({
-          email: credentials.address,
-          username: ensName || credentials.address.slice(2, 18),
-          image: avatar,
-          isStaff: !IS_PROD,
-          name,
-          storageProvider: StorageProvider.IPFS,
-        });
-      },
-      type: 'credentials',
-      credentials: {
-        address: {
-          label: 'Web3 address',
-          type: 'text',
-        },
-        nonce: {
-          type: 'text',
-        },
-        signature: {
-          type: 'text',
-        },
-      },
-    }),
+    !IS_PROD && DemoProvider,
+    Web3Provider,
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
