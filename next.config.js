@@ -16,9 +16,8 @@ module.exports = withPWA({
     domains: [
       'avatar.tobi.sh',
       'avatars.githubusercontent.com',
-      'thispersondoesnotexist.com',
       'images.weserv.nl',
-      'cdn.fakercloud.com',
+      'cdn.discordapp.com',
     ],
   },
   env: {
