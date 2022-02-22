@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: 'database',
+    strategy: 'jwt',
   },
   pages: {
     signIn: '/auth/login',
