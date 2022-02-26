@@ -14,7 +14,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse>,
 ) {
-  await limiter.check(res, 30, getCacheToken(req));
+  await limiter.check(res, 15, getCacheToken(req));
 
   const session = await needsAuth(req, res);
 
@@ -58,10 +58,6 @@ export default async function handler(
       }
     }
     redisClient.disconnect();
-    res.setHeader(
-      'Cache-Control',
-      's-maxage=60, stale-while-revalidate=600, private',
-    );
     res.status(200).json({ status: 'success', result: newClips });
   } catch (error) {
     console.error(error);
