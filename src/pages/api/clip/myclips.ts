@@ -58,7 +58,10 @@ export default async function handler(
       }
     }
     redisClient.disconnect();
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=600');
+    res.setHeader(
+      'Cache-Control',
+      's-maxage=60, stale-while-revalidate=600, private',
+    );
     res.status(200).json({ status: 'success', result: newClips });
   } catch (error) {
     console.error(error);
