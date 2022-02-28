@@ -42,7 +42,7 @@
     "next-pwa": "^5.4.4",
     "next-seo": "^5.1.0",
     "next-themes": "^0.1.1",
-    "nextjs-progressbar": "^0.0.13",
+    "nextjs-progressbar": "^0.0.14",
     "node-fetch": "2.6.7",
     "octokit": "^1.7.1",
     "random-youtube-music-video": "^1.0.6",
