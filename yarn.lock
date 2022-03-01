@@ -2772,10 +2772,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-sdk@*, aws-sdk@^2.1083.0:
-  version "2.1083.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1083.0.tgz#afdc3d99d035b84b1dc75437f7670af0078ed2ab"
-  integrity sha512-o9pOC3LrkJRKLwSumdFrNWzGAVRNPGt4EFS48/917BaFafvnOAzOG/DM8cl5yguz3wT7eylj92I4pP2TE3qZIQ==
+aws-sdk@*, aws-sdk@^2.1084.0:
+  version "2.1084.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1084.0.tgz#cfc0c87ed87989a75a6ef25db814cc529fde09ac"
+  integrity sha512-fhMjPRrrln8LhMZw17IyrzkVXCG6okFMrZzgIZN1h63WWGot65qcIvYfUn7YyHpYWMLBeND8MRfW6x6PIqJBdA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -9426,10 +9426,10 @@ trim-newlines@^3.0.0:
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
   integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
-ts-node@^10.5.0:
-  version "10.5.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.5.0.tgz#618bef5854c1fbbedf5e31465cbb224a1d524ef9"
-  integrity sha512-6kEJKwVxAJ35W4akuiysfKwKmjkbYxwQMTBaAxo9KKAx/Yd26mPUyhGz3ji+EsJoAgrLqVsYHNuuYwQe22lbtw==
+ts-node@^10.6.0:
+  version "10.6.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.6.0.tgz#c3f4195d5173ce3affdc8f2fd2e9a7ac8de5376a"
+  integrity sha512-CJen6+dfOXolxudBQXnVjRVvYTmTWbyz7cn+xq2XTsvnaXbHqr4gXSCNbS2Jj8yTZMuGwUoBESLaOkLascVVvg==
   dependencies:
     "@cspotcode/source-map-support" "0.7.0"
     "@tsconfig/node10" "^1.0.7"
