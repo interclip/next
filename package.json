@@ -39,7 +39,7 @@
     "lru-cache": "^7.4.0",
     "next": "^12.1.0",
     "next-auth": "^4.2.1",
-    "next-pwa": "^5.4.4",
+    "next-pwa": "^5.4.5",
     "next-seo": "^5.1.0",
     "next-themes": "^0.1.1",
     "nextjs-progressbar": "^0.0.14",
