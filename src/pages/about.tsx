@@ -44,6 +44,14 @@ const About = (props: {
               </Link>
             </li>
             <li>Total clips made: {props.clipCount || 'n/a'}</li>
+
+            <Link href="https://vercel.com/?utm_source=interclip&utm_campaign=oss">
+              <img
+                style={{ height: 50, marginTop: 50 }}
+                src="/icons/powered-by-vercel.svg"
+                alt={"Vercel's Logo"}
+              />
+            </Link>
           </ul>
         </div>
       </section>
