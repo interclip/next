@@ -2747,10 +2747,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-sdk@*, aws-sdk@^2.1087.0:
-  version "2.1087.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1087.0.tgz#bb00dbac5c6bf415040ad00e7c95462b34c26ddf"
-  integrity sha512-m5EERT29Fwh2cv3SaSdygeAjJBXnjSaXRRERy70bf6PQ7KgmASJouBxY11g5G7LTEPK/yfB0TGshujKh3hEtPA==
+aws-sdk@*, aws-sdk@^2.1088.0:
+  version "2.1088.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1088.0.tgz#e8ea761eff2b5c42aca6136c5a01fa9b8066f0a2"
+  integrity sha512-KtGJTvMPJL6QynasbSMNvz7Onc5ejebY6NzuUvgrw6sNohNJDR/3J/0e016ocQwvEq79MNK4v4EsxNi9eMELtg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -6715,10 +6715,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lru-cache@^7.4.0:
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.4.0.tgz#2830a779b483e9723e20f26fa5278463c50599d8"
-  integrity sha512-YOfuyWa/Ee+PXbDm40j9WXyJrzQUynVbgn4Km643UYcWNcrSfRkKL0WaiUcxcIbkXcVTgNpDqSnPXntWXT75cw==
+lru-cache@^7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.4.1.tgz#afe07e885ef0cd5bf99f62f4fa7545d48746d779"
+  integrity sha512-NCD7/WRlFmADccuHjsRUYqdluYBr//n/O0fesCb/n52FoGcgKh8o4Dpm7YIbZwVcDs8rPBQbCZLmWWsp6m+xGQ==
 
 lru@^3.1.0:
   version "3.1.0"
