@@ -7190,10 +7190,10 @@ next-seo@^5.1.0:
   resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-5.1.0.tgz#aa9fd6249a11bf93e6da06fa2a6bc89268936edf"
   integrity sha512-ampuQfNTOi1x+xtRIb6CZGunIo6rQXtMo2Tyu861d5GjJFIwfOXsA4lzCa4+e2rLkyXDyVpavNNUZWa3US9ELw==
 
-next-sitemap@^2.5.4:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-2.5.4.tgz#a48498d495b603043b5322878501cf4069b827ef"
-  integrity sha512-ftFqQQk74V+9+WkyAQLi98vaoLHisarP9VpsFTlAje3HOPzSQ33GrURDY8dRiguhFps4S4lQApXH5AgKByubvg==
+next-sitemap@^2.5.7:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-2.5.7.tgz#8376ecc8e91b94438f901dff732d5bef39e9d98c"
+  integrity sha512-snyIWKwzy4QfLrZmXk2fT7ue5RYc1GNqrMfvC/VQJWyPX5QRZnYJLVScd9jmfdVlN5l6M5sFY3VSuFmCQUZ5Vg==
   dependencies:
     "@corex/deepmerge" "^2.6.148"
     minimist "^1.2.5"
@@ -9431,10 +9431,10 @@ trim-newlines@^3.0.0:
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-3.0.1.tgz#260a5d962d8b752425b32f3a7db0dcacd176c144"
   integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
-ts-node@^10.6.0:
-  version "10.6.0"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.6.0.tgz#c3f4195d5173ce3affdc8f2fd2e9a7ac8de5376a"
-  integrity sha512-CJen6+dfOXolxudBQXnVjRVvYTmTWbyz7cn+xq2XTsvnaXbHqr4gXSCNbS2Jj8yTZMuGwUoBESLaOkLascVVvg==
+ts-node@^10.7.0:
+  version "10.7.0"
+  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-10.7.0.tgz#35d503d0fab3e2baa672a0e94f4b40653c2463f5"
+  integrity sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==
   dependencies:
     "@cspotcode/source-map-support" "0.7.0"
     "@tsconfig/node10" "^1.0.7"
