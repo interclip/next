@@ -7,7 +7,7 @@ const rateLimit = (options: {
 }) => {
   const tokenCache = new LRU({
     max: options.uniqueTokenPerInterval || 500,
-    maxAge: options.interval || 60_000,
+    ttl: options.interval || 60_000,
   });
 
   return {
