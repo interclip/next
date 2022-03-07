@@ -14,8 +14,8 @@ import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { DropEvent } from 'src/typings/interclip';
-import type { Torrent } from 'webtorrent';
 
+//import type { Torrent } from 'webtorrent';
 import { getCache, storeCache } from '../clips';
 
 const remoteOptions: { name: StorageProvider }[] = [
@@ -140,6 +140,7 @@ export default function FilePage() {
   );
   const [progress, setProgress] = useState<number>(0);
 
+  /*
   const seedHandler = async (e: any) => {
     const WebTorrent = (await import('webtorrent')).default;
     const client = new WebTorrent();
@@ -155,6 +156,7 @@ export default function FilePage() {
       );
     }
   };
+  */
 
   /*
   class DuplicateError extends Error {
