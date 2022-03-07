@@ -1,6 +1,7 @@
 import ClipCard from '@components/Clips/ClipCard';
 import { Layout } from '@components/Layout';
 import { H1 } from '@components/Text/headings';
+import { StorageProvider } from '@utils/constants';
 import { storageAvailable } from '@utils/featureDetection';
 import crypto from 'crypto';
 import { useRouter } from 'next/router';
@@ -22,26 +23,34 @@ class AuthError extends Error {
   }
 }
 
-interface CachedClips {
+interface CachedResponse<T> {
   lastUpdated: number;
-  clips: ClipWithPreview[];
+  value: T;
 }
 
-export const getCachedClips = (email: string): ClipWithPreview[] | null => {
+export const getCache = <
+  T extends ClipWithPreview[] | string | StorageProvider,
+>(
+  email: string,
+  name: string,
+): T | null => {
   const key = crypto.createHash('sha256').update(email).digest('hex');
-  const rawCache = localStorage.getItem(`${key}-myclips`);
-  const storedCache: CachedClips | null = rawCache
+  const rawCache = localStorage.getItem(`${key}-${name}`);
+  const storedCache: CachedResponse<T> | null = rawCache
     ? JSON.parse(rawCache)
     : null;
 
-  return storedCache?.clips ?? null;
+  return storedCache?.value ?? null;
 };
 
-export const storeCachedClips = (email: string, clips: ClipWithPreview[]) => {
+export const storeCache = (email: string, values: any, name: string) => {
   const key = crypto.createHash('sha256').update(email).digest('hex');
   if (storageAvailable('localStorage')) {
-    const value: CachedClips = { lastUpdated: Date.now(), clips };
-    localStorage.setItem(`${key}-myclips`, JSON.stringify(value));
+    const value: CachedResponse<any> = {
+      lastUpdated: Date.now(),
+      value: values,
+    };
+    localStorage.setItem(`${key}-${name}`, JSON.stringify(value));
   }
 };
 
@@ -61,7 +70,9 @@ const MyClips = (): React.ReactNode => {
 
       case 'authenticated': {
         if (session?.user?.email) {
-          setClips(getCachedClips(session?.user?.email));
+          setClips(
+            getCache<ClipWithPreview[]>(session?.user?.email, 'myclips'),
+          );
           fetch('/api/clip/myclips')
             .then((res) => {
               if (res.ok) {
@@ -73,7 +84,7 @@ const MyClips = (): React.ReactNode => {
             })
             .then((clips: ClipsResponse) => {
               setClips(clips.result);
-              storeCachedClips(session.user!.email!, clips.result);
+              storeCache(session.user!.email!, clips.result, 'myclips');
             })
             .catch((error) => {
               if (error instanceof AuthError) {

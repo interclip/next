@@ -16,8 +16,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { DropEvent } from 'src/typings/interclip';
 import type { Torrent } from 'webtorrent';
 
-const remoteOptions = [
-  { name: 'Peer to Peer' },
+import { getCache, storeCache } from '../clips';
+
+const remoteOptions: { name: StorageProvider }[] = [
   { name: StorageProvider.IPFS },
   { name: StorageProvider.S3 },
 ];
@@ -28,24 +29,38 @@ const RemoteOptionsSelect = ({
 }: {
   setSelected: React.Dispatch<
     React.SetStateAction<{
-      name: string;
+      name: StorageProvider;
     }>
   >;
   selected: { name: string };
 }) => {
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   useEffect(() => {
-    if (status !== 'unauthenticated') {
+    if (status !== 'unauthenticated' && session?.user?.email) {
+      const cachedPref = getCache<StorageProvider>(
+        session.user.email,
+        'storage',
+      );
+      if (cachedPref) {
+        setSelected({ name: cachedPref });
+      }
       fetch('/api/account/getDetails?params=storageProvider').then(
         async (res) => {
           if (res.ok) {
             const response = await res.json();
             setSelected({ name: response.storageProvider });
+            if (session.user?.email) {
+              storeCache(
+                session.user.email,
+                response.storageProvider,
+                'storage',
+              );
+            }
           }
         },
       );
     }
-  }, [setSelected, status]);
+  }, [session?.user?.email, setSelected, status]);
 
   return (
     <div className="w-72">
@@ -120,7 +135,9 @@ export default function FilePage() {
   const [loading, setLoading] = useState(false);
   const [fileURL, setFileURL] = useState<null | string>(null);
   const [code, setCode] = useState<null | string>(null);
-  const [selected, setSelected] = useState(remoteOptions[0]);
+  const [selected, setSelected] = useState<{ name: StorageProvider }>(
+    remoteOptions[0],
+  );
   const [progress, setProgress] = useState<number>(0);
 
   const seedHandler = async (e: any) => {
@@ -238,9 +255,11 @@ export default function FilePage() {
           }
           setFileURL(fileURL);
           break;
+        /*
         case 'torrent':
           await seedHandler(e);
           break;
+        */
       }
     } catch (error) {
       toast.error(error as string);
