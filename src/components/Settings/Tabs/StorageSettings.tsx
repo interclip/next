@@ -1,6 +1,6 @@
 import { Input, Select } from '@components/Input';
 import { User } from '@prisma/client';
-import { maxExpirationLength } from '@utils/constants';
+import { maxExpirationLength, StorageProvider } from '@utils/constants';
 import React, { useState } from 'react';
 import { handleSettingsErrors } from 'src/pages/settings';
 
@@ -14,8 +14,8 @@ const StorageSettings = ({
   setUser: React.Dispatch<React.SetStateAction<User>>;
 }) => {
   const uploadOptions = [
-    { value: 'S3', label: 'Interclip S3' },
-    { value: 'IPFS', label: 'IPFS' },
+    { value: StorageProvider.S3, label: 'Interclip S3' },
+    { value: StorageProvider.IPFS, label: 'IPFS' },
   ];
 
   const [storageProvider, setStorageProvider] = useState(user.storageProvider);
@@ -43,6 +43,7 @@ const StorageSettings = ({
       >
         <div className="max-w-[50%]">
           <Select
+            defaultValue={storageProvider}
             options={uploadOptions}
             onChange={(e) => {
               setStorageProvider(e.target.value);
