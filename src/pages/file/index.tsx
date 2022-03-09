@@ -211,7 +211,7 @@ export default function FilePage() {
 
       const rootCID = await client.put(files, {
         maxRetries: 3,
-        wrapWithDirectory: files.length > 0,
+        wrapWithDirectory: files.length > 1,
         onRootCidReady,
         onStoredChunk,
       });
@@ -220,7 +220,7 @@ export default function FilePage() {
 
       const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
       let url;
-      if (files.length > 0) {
+      if (files.length > 1) {
         url = `https://ipfs.io/ipfs/${rootCID}`;
       } else {
         url = isVideo
