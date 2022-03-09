@@ -209,9 +209,9 @@ export default function FilePage() {
         return;
       }
 
-      const rootCID = await client.put(files!, {
+      const rootCID = await client.put(files, {
         maxRetries: 3,
-        wrapWithDirectory: false,
+        wrapWithDirectory: files.length > 0,
         onRootCidReady,
         onStoredChunk,
       });
@@ -219,9 +219,14 @@ export default function FilePage() {
       setProgress(0);
 
       const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
-      const url = `${
-        isVideo ? 'https://ipfs.io' : ipfsGateway
-      }/ipfs/${rootCID}?filename=${files![0]?.name}`;
+      let url;
+      if (files.length > 0) {
+        url = 'https://ipfs.io';
+      } else {
+        url = isVideo
+          ? `https://ipfs.io/ipfs/${rootCID}?filename=${files![0]?.name}`
+          : `${ipfsGateway}/ipfs/${rootCID}?filename=${files![0]?.name}`;
+      }
       setFileURL(url);
       const clipResponse = await requestClip(url);
 
@@ -274,6 +279,7 @@ export default function FilePage() {
   // reset counter and append file to gallery when file is dropped
   const dropHandler = async (e: any) => {
     e.preventDefault();
+    e.stopPropagation();
     await uploadHandler(e);
   };
 
@@ -288,7 +294,10 @@ export default function FilePage() {
   };
 
   const dragOverHandler = (e: any) => {
+    e.stopPropagation();
     e.preventDefault();
+    // Style the drag-and-drop as a "copy file" operation.
+    e.dataTransfer.dropEffect = 'copy';
     setShowOverlay(true);
   };
 
