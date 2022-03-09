@@ -221,7 +221,7 @@ export default function FilePage() {
       const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
       let url;
       if (files.length > 0) {
-        url = 'https://ipfs.io';
+        url = `https://ipfs.io/ipfs/${rootCID}`;
       } else {
         url = isVideo
           ? `https://ipfs.io/ipfs/${rootCID}?filename=${files![0]?.name}`
