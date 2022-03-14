@@ -54,7 +54,7 @@
     "react-qr-code": "^2.0.3",
     "react-spinners": "^0.11.0",
     "react-tooltip": "^4.2.21",
-    "sharp": "^0.30.2",
+    "sharp": "^0.30.3",
     "simple-xml-to-json": "^1.0.8",
     "ts-node": "^10.7.0",
     "validator": "^13.7.0",
