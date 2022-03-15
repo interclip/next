@@ -84,7 +84,7 @@
     "eslint-plugin-unicorn": "^41.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "next-sitemap": "^2.5.10",
-    "postcss": "^8.4.8",
+    "postcss": "^8.4.11",
     "prettier": "^2.5.1",
     "prettier-plugin-tailwindcss": "^0.1.8",
     "prisma": "3.11.0",
