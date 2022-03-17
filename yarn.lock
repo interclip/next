@@ -2128,10 +2128,10 @@
   resolved "https://registry.npmjs.org/@types/lru-cache/-/lru-cache-5.1.1.tgz"
   integrity sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==
 
-"@types/lru-cache@^7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-7.4.0.tgz#74e50606962cb90448d928d6f0c7c872592fc84d"
-  integrity sha512-jZ/Tb2/3vXw4VYd9AImFC/n6XT3WywZNAxwY8Ox9eM87M9ta9G7KzCx4aKo2Zllvr02k40eY328cjOO3WuK5Kw==
+"@types/lru-cache@^7.5.0":
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/@types/lru-cache/-/lru-cache-7.5.0.tgz#4b7dfa2583d82c9377feddb04c386bed88e6b274"
+  integrity sha512-uZGjbDsQpBxLR0znOeyAneSfMfEDDhi6FFKBY0sDI3EQMwcWCZfUZsOg3WhMTF0arvkvFquLMdrxAhCNgqpoww==
 
 "@types/magnet-uri@*":
   version "5.1.3"
@@ -6696,10 +6696,10 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
-lru-cache@^7.5.1:
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.5.1.tgz#660a134c2c3c015aa453b03df55d2a9f0c216a0f"
-  integrity sha512-q1TS8IqKvcg3aScamKCHpepSrHF537Ww7nHahBOxhDu9D2YoBXAsj/7uFdZFj1xJr9LmyeJ62AdyofCHafUbIA==
+lru-cache@^7.6.0:
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-7.6.0.tgz#33c9a9815ce6e4c0e2d5d151f6a28400770e7ce0"
+  integrity sha512-zjOf6cyMI7rcN+5MtLsT4GnDjc6D9XHi8kYcsfXTqWC+yLdSiU3/jtEPX9wZE77+XLtnmdIWu3+291hkizfH+Q==
 
 lru@^3.1.0:
   version "3.1.0"
