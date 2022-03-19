@@ -1,8 +1,6 @@
 import formatBytes from '@utils/formatBytes';
-import { ChangeEvent } from 'react';
 import toast from 'react-hot-toast';
 import { convertXML } from 'simple-xml-to-json';
-import { DropEvent } from 'src/typings/interclip';
 import { Web3Storage } from 'web3.storage';
 
 import { requestClip } from './api/client/requestClip';
@@ -35,11 +33,10 @@ export const ipfsUpload = (
   setFileURL: React.Dispatch<React.SetStateAction<string | null>>,
   setCode: React.Dispatch<React.SetStateAction<string | null>>,
 ) => {
-  return async (e: DropEvent) => {
+  return async (files: File[]) => {
     if (web3StorageToken) {
       const Web3Storage = (await import('web3.storage')).Web3Storage;
       const client = new Web3Storage({ token: web3StorageToken });
-      const files = e?.dataTransfer?.files || e.target?.files;
 
       if (!files || files.length === 0) {
         toast.error('Please select a file');
@@ -114,16 +111,14 @@ export const ipfsUpload = (
 
 const uploadFile = async (
   filesEndpoint: string,
-  e: any | ChangeEvent<HTMLInputElement>,
+  files: File[],
 ): Promise<string> => {
   if (!IS_PROD) {
     return `${filesEndpoint}/${getClipHash(filesEndpoint).slice(0, 5)}`;
   }
 
-  const file = e?.dataTransfer?.files[0] || e.target?.files[0];
-  if (!file) {
-    throw new Error('No file provided.');
-  }
+  const file = files.at(0)!;
+
   const filename = encodeURIComponent(file.name);
   const fileType = encodeURIComponent(file.type);
 

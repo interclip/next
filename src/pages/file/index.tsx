@@ -6,9 +6,11 @@ import { requestClip } from '@utils/api/client/requestClip';
 import { StorageProvider } from '@utils/constants';
 import { dropLink } from '@utils/dropLink';
 import uploadFile, { ipfsUpload } from '@utils/uploadFile';
+import { getFilesFromDataTransferItems } from 'datatransfer-files-promise';
 import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
+import { DropEvent } from 'src/typings/interclip';
 
 //import type { Torrent } from 'webtorrent';
 import { getCache, storeCache } from '../clips';
@@ -171,13 +173,22 @@ export default function FilePage() {
     if (e.dataTransfer.items && e.dataTransfer.files.length === 0) {
       dropLink(e);
     } else {
+      const files =
+        (await getFilesFromDataTransferItems(e.dataTransfer.items)) ||
+        (e as DropEvent).target?.files;
+
+      if (files.length === 0) {
+        toast.error('No file provided.');
+        return;
+      }
+
       try {
         switch (selected.name) {
           case 'IPFS':
-            await ipfsHandler(e);
+            await ipfsHandler(files);
             break;
           case 'S3':
-            const fileURL = await uploadFile(filesEndpoint, e);
+            const fileURL = await uploadFile(filesEndpoint, files);
             const clipResponse = await requestClip(fileURL);
             if (clipResponse.status === 'success') {
               setCode(
