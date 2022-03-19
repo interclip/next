@@ -8,7 +8,7 @@ const Privacy = (): JSX.Element => {
   return (
     <Layout titlePrefix="Privacy policy">
       <section className="flex w-full flex-col items-center">
-        <div className="w-[30em] max-w-[93vw]">
+        <div className="w-[45em] max-w-[93vw]">
           <H1>Privacy policy</H1>
           <p>
             Filip Troníček built the Interclip app as an Open Source app. This

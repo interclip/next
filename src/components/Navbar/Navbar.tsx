@@ -6,6 +6,7 @@ import {
   CogIcon,
   ExclamationCircleIcon,
   InformationCircleIcon,
+  LockClosedIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
 import { githubRepo } from '@utils/constants';
@@ -85,7 +86,10 @@ const Navbar = () => {
                 <NavbarItem url="/clips" name="My Clips" />
               </>
             ) : (
-              <NavbarItem url="/about" name="About" />
+              <>
+                <NavbarItem url="/privacy" name="Privacy" />
+                <NavbarItem url="/about" name="About" />
+              </>
             )}
           </NavbarSection>
           <NavbarSection>
@@ -125,6 +129,13 @@ const Navbar = () => {
                         link="/about"
                       >
                         <InformationCircleIcon className="mr-2 h-5 w-5" />
+                      </MenuItem>
+                      <MenuItem
+                        title="Privacy policy"
+                        type="link"
+                        link="/privacy"
+                      >
+                        <LockClosedIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
                         title="Sign out"
