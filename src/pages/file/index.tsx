@@ -4,6 +4,7 @@ import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/client/requestClip';
 import { StorageProvider } from '@utils/constants';
+import { dropLink } from '@utils/dropLink';
 import uploadFile, { ipfsUpload } from '@utils/uploadFile';
 import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
@@ -167,29 +168,36 @@ export default function FilePage() {
     setShowOverlay(false);
     setLoading(true);
 
-    try {
-      switch (selected.name) {
-        case 'IPFS':
-          await ipfsHandler(e);
-          break;
-        case 'S3':
-          const fileURL = await uploadFile(filesEndpoint, e);
-          const clipResponse = await requestClip(fileURL);
-          if (clipResponse.status === 'success') {
-            setCode(
-              clipResponse.result.code.slice(0, clipResponse.result.hashLength),
-            );
-          }
-          setFileURL(fileURL);
-          break;
-        /*
+    if (e.dataTransfer.items && e.dataTransfer.files.length === 0) {
+      dropLink(e);
+    } else {
+      try {
+        switch (selected.name) {
+          case 'IPFS':
+            await ipfsHandler(e);
+            break;
+          case 'S3':
+            const fileURL = await uploadFile(filesEndpoint, e);
+            const clipResponse = await requestClip(fileURL);
+            if (clipResponse.status === 'success') {
+              setCode(
+                clipResponse.result.code.slice(
+                  0,
+                  clipResponse.result.hashLength,
+                ),
+              );
+            }
+            setFileURL(fileURL);
+            break;
+          /*
         case 'torrent':
           await seedHandler(e);
           break;
         */
+        }
+      } catch (error) {
+        toast.error(error as string);
       }
-    } catch (error) {
-      toast.error(error as string);
     }
 
     setProgress(0);

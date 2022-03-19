@@ -61,7 +61,7 @@ interface APIResponse {
 }
 
 interface DropEvent {
-  dataTransfer?: { files: File[] };
+  dataTransfer?: DataTransfer;
   target?: { files: File[] };
 }
 
