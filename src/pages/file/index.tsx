@@ -235,7 +235,7 @@ export default function FilePage() {
         clipResponse.result.code.slice(0, clipResponse.result.hashLength),
       );
     } else {
-      toast.error('Web3.storage token not provided');
+      toast.error('Uploading to IPFS is currently disabled');
     }
   };
 
