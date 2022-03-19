@@ -15,8 +15,8 @@ import { DropEvent } from 'src/typings/interclip';
 //import type { Torrent } from 'webtorrent';
 import { getCache, storeCache } from '../clips';
 
-const remoteOptions: { name: StorageProvider }[] = [
-  { name: StorageProvider.IPFS },
+const remoteOptions: { name: StorageProvider; disabled?: boolean }[] = [
+  { name: StorageProvider.IPFS, disabled: true },
   { name: StorageProvider.S3 },
 ];
 
@@ -84,6 +84,7 @@ const RemoteOptionsSelect = ({
               {remoteOptions.map((option, optionIdx) => (
                 <Listbox.Option
                   key={optionIdx}
+                  disabled={option.disabled}
                   className={({ active }) =>
                     `${
                       active
@@ -185,17 +186,14 @@ export default function FilePage() {
       try {
         switch (selected.name) {
           case 'IPFS':
-            await ipfsHandler(files);
+            await ipfsHandler(e);
             break;
           case 'S3':
-            const fileURL = await uploadFile(filesEndpoint, files);
+            const fileURL = await uploadFile(filesEndpoint, e);
             const clipResponse = await requestClip(fileURL);
             if (clipResponse.status === 'success') {
               setCode(
-                clipResponse.result.code.slice(
-                  0,
-                  clipResponse.result.hashLength,
-                ),
+                clipResponse.result.code.slice(0, clipResponse.result.hashLength),
               );
             }
             setFileURL(fileURL);
