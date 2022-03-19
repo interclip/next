@@ -18,8 +18,8 @@ import { DropEvent } from 'src/typings/interclip';
 //import type { Torrent } from 'webtorrent';
 import { getCache, storeCache } from '../clips';
 
-const remoteOptions: { name: StorageProvider }[] = [
-  { name: StorageProvider.IPFS },
+const remoteOptions: { name: StorageProvider; disabled?: boolean }[] = [
+  { name: StorageProvider.IPFS, disabled: true },
   { name: StorageProvider.S3 },
 ];
 
@@ -87,6 +87,7 @@ const RemoteOptionsSelect = ({
               {remoteOptions.map((option, optionIdx) => (
                 <Listbox.Option
                   key={optionIdx}
+                  disabled={option.disabled}
                   className={({ active }) =>
                     `${
                       active
