@@ -3,17 +3,11 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/client/requestClip';
-import {
-  ipfsGateway,
-  maxIPFSUploadSize,
-  StorageProvider,
-  web3StorageToken,
-} from '@utils/constants';
-import uploadFile, { ipfsCheckCID } from '@utils/uploadFile';
+import { StorageProvider } from '@utils/constants';
+import uploadFile, { ipfsUpload } from '@utils/uploadFile';
 import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { DropEvent } from 'src/typings/interclip';
 
 //import type { Torrent } from 'webtorrent';
 import { getCache, storeCache } from '../clips';
@@ -167,81 +161,7 @@ export default function FilePage() {
   }
   */
 
-  const ipfsHandler = async (e: DropEvent) => {
-    if (web3StorageToken) {
-      const Web3Storage = (await import('web3.storage')).Web3Storage;
-      const client = new Web3Storage({ token: web3StorageToken });
-      const files = e?.dataTransfer?.files || e.target?.files;
-
-      if (!files || files.length === 0) {
-        toast.error('Please select a file');
-        return;
-      }
-
-      // show the root cid as soon as it's ready
-      const onRootCidReady = async (cid: string) => {
-        if (await ipfsCheckCID(cid)) {
-          // Todo(ft): handle files already on IPFS, maybe by pinning them
-          //throw new DuplicateError('Already on IPFS');
-        }
-      };
-
-      // when each chunk is stored, update the percentage complete and display
-      const totalSize = [...files]
-        .map((f) => f.size)
-        .reduce((a, b) => a + b, 0);
-      let uploaded = 0;
-
-      const onStoredChunk = (size: number) => {
-        uploaded += size;
-        const pct = uploaded / totalSize;
-        setProgress(pct * 100);
-      };
-
-      const filesOverLimit = [...files].filter(
-        (file) => file.size > maxIPFSUploadSize,
-      );
-
-      if (filesOverLimit.length > 0) {
-        for (const file of filesOverLimit) {
-          toast.error(`${file.name} is too large, aborting upload`);
-        }
-        return;
-      }
-
-      const rootCID = await client.put(files, {
-        maxRetries: 3,
-        wrapWithDirectory: files.length > 1,
-        onRootCidReady,
-        onStoredChunk,
-      });
-
-      setProgress(0);
-
-      const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
-      let url;
-      if (files.length > 1) {
-        url = `https://ipfs.io/ipfs/${rootCID}`;
-      } else {
-        url = isVideo
-          ? `https://ipfs.io/ipfs/${rootCID}?filename=${files![0]?.name}`
-          : `${ipfsGateway}/ipfs/${rootCID}?filename=${files![0]?.name}`;
-      }
-      setFileURL(url);
-      const clipResponse = await requestClip(url);
-
-      if (clipResponse.status === 'error') {
-        toast.error(`An error has occured: ${clipResponse.result}`);
-        return;
-      }
-
-      setCode(
-        clipResponse.result.code.slice(0, clipResponse.result.hashLength),
-      );
-    } else {
-      toast.error('Web3.storage token not provided');
-    }
-  };
+  const ipfsHandler = ipfsUpload(setProgress, setFileURL, setCode);
 
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
