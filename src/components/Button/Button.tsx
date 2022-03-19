@@ -47,8 +47,8 @@ const Button = forwardRef<HTMLButtonElement, Props>(function Button({
     <>
       <button
         className={`${buttonClasses} ${props.className}`}
-        onClick={props.onClick}
         disabled={props.disabled}
+        onClick={props.onClick}
       >
         <div>{props.content}</div>
       </button>

@@ -11,7 +11,7 @@ const UserCard = ({ user: serverProvidedUser }: { user: User }) => {
     user && (
       <div className="my-4 flex w-full items-center rounded-xl border bg-white p-2 shadow dark:border-none dark:bg-dark-secondary dark:text-dark-text">
         <div className="flex items-center space-x-4">
-          <Avatar user={user} size={60} />
+          <Avatar size={60} user={user} />
         </div>
         <div className="flex-grow p-3">
           <div className="font-semibold text-gray-700 dark:text-dark-text">
@@ -23,7 +23,7 @@ const UserCard = ({ user: serverProvidedUser }: { user: User }) => {
         </div>
         <span className="p-2">{user.isStaff && 'Staff'}</span>
 
-        <SettingsMenu user={user} setUser={setUser} />
+        <SettingsMenu setUser={setUser} user={user} />
       </div>
     )
   );

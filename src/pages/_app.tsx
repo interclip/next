@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     })(document);
   }, []);
   return (
-    <SessionProvider session={session} refetchInterval={5 * 60}>
+    <SessionProvider refetchInterval={5 * 60} session={session}>
       <ThemeProvider attribute="class">
         <NextNprogress
           color="#157EFB"

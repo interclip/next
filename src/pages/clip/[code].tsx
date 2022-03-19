@@ -55,7 +55,6 @@ const CodeView = ({
               Created clip with code:{' '}
               <div
                 className="flex cursor-pointer items-center justify-center"
-                title="Copy code to the clipboard"
                 onClick={() => {
                   navigator.clipboard.writeText(code);
                   toast.success('Successfully copied to clipboard');
@@ -64,6 +63,7 @@ const CodeView = ({
                     setIsCopied(false);
                   }, 6900);
                 }}
+                title="Copy code to the clipboard"
               >
                 <span>{code}</span>
                 <svg
@@ -75,17 +75,17 @@ const CodeView = ({
                 >
                   {isCopied ? (
                     <path
+                      d="M5 13l4 4L19 7"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M5 13l4 4L19 7"
                     />
                   ) : (
                     <path
+                      d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
                     />
                   )}
                 </svg>
@@ -114,14 +114,14 @@ const CodeView = ({
               isFaviconShown &&
               bestFavicon && (
                 <Image
-                  src={proxied(bestFavicon, 300, 300)}
                   alt="The site's favicon"
                   className="rounded"
-                  width={72}
                   height={72}
                   onError={() => {
                     setIsFaviconShown(false);
                   }}
+                  src={proxied(bestFavicon, 300, 300)}
+                  width={72}
                 />
               )}
             <QRIcon
@@ -131,7 +131,7 @@ const CodeView = ({
             />
           </div>
           {qrCodeZoom && (
-            <QRModal url={clip.url} setQrCodeZoom={setQrCodeZoom} />
+            <QRModal setQrCodeZoom={setQrCodeZoom} url={clip.url} />
           )}
         </div>
         {(clip.ipfsHash || clip.signature || clip.expiresAt) && (
@@ -143,17 +143,17 @@ const CodeView = ({
                 title="Copy code to the clipboard"
               >
                 <a
-                  href={`${ipfsGateway}/ipfs/${clip.ipfsHash}`}
-                  target={'_blank'}
-                  rel={'noopener noreferrer'}
-                  title="Backed up to IPFS"
                   className="mt-4 flex flex-row items-center gap-1 underline"
+                  href={`${ipfsGateway}/ipfs/${clip.ipfsHash}`}
+                  rel={'noopener noreferrer'}
+                  target={'_blank'}
+                  title="Backed up to IPFS"
                 >
                   <Image
                     alt="IPFS logo"
+                    height={20}
                     src={'/images/ipfs-logo.svg'}
                     width={20}
-                    height={20}
                   />
                   <span>Backed up to IPFS</span>
                   <svg
@@ -165,10 +165,10 @@ const CodeView = ({
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
                 </a>
@@ -178,19 +178,19 @@ const CodeView = ({
               <div className="mt-4 flex flex-row items-center gap-1">
                 <Image
                   alt="Ethereum logo"
+                  height={20}
                   src={'/images/ethereum-logo.svg'}
                   width={20}
-                  height={20}
                 />
                 <span>Signed by </span>
                 <ReactTooltip effect="solid" place="bottom" />
                 <a
-                  href={`https://debank.com/profile/${address}`}
-                  target={'_blank'}
-                  rel={'noopener noreferrer'}
-                  title="Show wallet details"
                   className="underline"
                   data-tip={address}
+                  href={`https://debank.com/profile/${address}`}
+                  rel={'noopener noreferrer'}
+                  target={'_blank'}
+                  title="Show wallet details"
                 >
                   {address?.slice(0, 6)}...{address?.slice(-4)}
                 </a>
@@ -198,7 +198,7 @@ const CodeView = ({
             )}
             {clip.expiresAt && (
               <div className="mt-4 flex flex-row items-center gap-1">
-                <ClockIcon width={20} height={20} /> This clip expires{' '}
+                <ClockIcon height={20} width={20} /> This clip expires{' '}
                 <span
                   title={dayjs(clip.expiresAt).format('MMM D, YYYY hh:mm:ss Z')}
                 >

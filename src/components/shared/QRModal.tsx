@@ -13,24 +13,24 @@ const QRModal = (props: {
   const size = Math.min(520, width - width * 0.17, height - height * 0.17);
   return (
     <motion.main
+      animate={{ opacity: 1 }}
       className="text-center"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
     >
       <AnimatePresence>
         <motion.div
-          initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0 }}
-          transition={{ duration: 0.15 }}
-          key="modal"
           className="z-200 absolute top-0 left-0 flex h-screen w-screen items-center overflow-hidden backdrop-blur-sm backdrop-filter"
+          exit={{ opacity: 0, scale: 0 }}
+          initial={{ opacity: 0, scale: 0 }}
+          key="modal"
           onClick={() => {
             setQrCodeZoom(false);
           }}
+          transition={{ duration: 0.15 }}
         >
           <div className="shadow-custom m-auto rounded-2xl bg-white p-4">
-            <QRCode value={url} size={size} level="M" />
+            <QRCode level="M" size={size} value={url} />
           </div>
         </motion.div>
       </AnimatePresence>

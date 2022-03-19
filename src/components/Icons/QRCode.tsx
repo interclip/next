@@ -6,14 +6,14 @@ export const QRCode = (props: {
 }): JSX.Element => {
   return (
     <motion.svg
-      whileTap={{ scale: 0.95, x: 2, y: 2 }}
-      onClick={props.onClick}
-      xmlns="http://www.w3.org/2000/svg"
       className="h-auto w-12 cursor-pointer fill-current text-black dark:text-white"
       enableBackground="new 0 0 24 24"
       height="24px"
+      onClick={props.onClick}
       viewBox="0 0 24 24"
+      whileTap={{ scale: 0.95, x: 2, y: 2 }}
       width="24px"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <g>
         <rect fill="none" height="24" width="24" />

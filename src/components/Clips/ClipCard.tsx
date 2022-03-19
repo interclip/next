@@ -20,11 +20,11 @@ const ClipCard = ({ clip }: { clip: ClipWithPreview }) => {
               {clip.oembed?.title || `Code: ${shortCode}`}{' '}
               {clip.ipfsHash && (
                 <Image
-                  title="Backed up to IPFS"
                   alt="IPFS logo"
-                  src={'/images/ipfs-logo.svg'}
-                  width={20}
                   height={20}
+                  src={'/images/ipfs-logo.svg'}
+                  title="Backed up to IPFS"
+                  width={20}
                 />
               )}
             </h4>

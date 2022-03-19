@@ -11,33 +11,33 @@ const Error404: React.FC = () => {
         id="maincontent"
       >
         <motion.div
-          initial={{ rotate: 60, scale: 0.5, opacity: 0 }}
           animate={{ rotate: 0, scale: 1, opacity: 1 }}
+          className="relative h-full w-full"
+          initial={{ rotate: 60, scale: 0.5, opacity: 0 }}
           transition={{
             ease: 'easeOut',
             duration: 0.4,
           }}
-          className="relative h-full w-full"
         >
           <Image
-            src="/images/paperplane.png"
+            alt="A paperplane"
             layout="fill"
             objectFit="contain"
             objectPosition="right"
-            alt="A paperplane"
+            src="/images/paperplane.png"
           />
         </motion.div>
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{
-            ease: 'easeOut',
-            duration: 0.6,
-          }}
           className="relative flex h-full w-full flex-col text-white"
+          initial={{ opacity: 0 }}
           style={{
             textShadow:
               '0 4px 8px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08)',
+          }}
+          transition={{
+            ease: 'easeOut',
+            duration: 0.6,
           }}
         >
           <div className="absolute bottom-[50%] text-9xl font-bold">404</div>

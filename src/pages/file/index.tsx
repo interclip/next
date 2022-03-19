@@ -61,7 +61,7 @@ const RemoteOptionsSelect = ({
 
   return (
     <main className="w-72" id="maincontent">
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox onChange={setSelected} value={selected}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left text-dark-text shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:bg-dark-secondary sm:text-sm">
             <span className="block truncate text-black dark:text-gray-300">
@@ -69,8 +69,8 @@ const RemoteOptionsSelect = ({
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <SelectorIcon
-                className="h-5 w-5 text-gray-400"
                 aria-hidden="true"
+                className="h-5 w-5 text-gray-400"
               />
             </span>
           </Listbox.Button>
@@ -83,8 +83,6 @@ const RemoteOptionsSelect = ({
             <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base text-dark-text shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-dark-secondary sm:text-sm">
               {remoteOptions.map((option, optionIdx) => (
                 <Listbox.Option
-                  key={optionIdx}
-                  disabled={option.disabled}
                   className={({ active }) =>
                     `${
                       active
@@ -93,6 +91,8 @@ const RemoteOptionsSelect = ({
                     }
                     relative cursor-default select-none py-2 pl-10 pr-4 text-dark-text`
                   }
+                  disabled={option.disabled}
+                  key={optionIdx}
                   value={option}
                 >
                   {({ selected, active }) => (
@@ -111,7 +111,7 @@ const RemoteOptionsSelect = ({
                           }
                           absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
-                          <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                          <CheckIcon aria-hidden="true" className="h-5 w-5" />
                         </span>
                       ) : null}
                     </>
@@ -248,30 +248,30 @@ export default function FilePage() {
         <div className="h-full w-screen bg-[#005AC7] dark:bg-dark-bg sm:px-8 sm:py-8 md:px-16">
           <main className="container mx-auto h-full max-w-screen-lg">
             <RemoteOptionsSelect
-              setSelected={setSelected}
               selected={selected}
+              setSelected={setSelected}
             />
             {!fileURL ? (
               <article
                 aria-label="File Upload Modal"
                 className="relative mt-32 flex h-full flex-col rounded-md bg-white shadow-xl dark:bg-dark-secondary dark:text-white"
-                onDrop={dropHandler}
-                onDragOver={dragOverHandler}
-                onDragLeave={dragLeaveHandler}
                 onDragEnter={dragEnterHandler}
+                onDragLeave={dragLeaveHandler}
+                onDragOver={dragOverHandler}
+                onDrop={dropHandler}
               >
                 {showOverlay && (
                   <div
-                    id="overlay"
                     className="pointer-events-none absolute top-0 left-0 z-50 flex h-full w-full flex-col items-center justify-center rounded-md"
+                    id="overlay"
                   >
                     <i>
                       <svg
                         className="mb-3 h-12 w-12 fill-current text-blue-700"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
                         height="24"
                         viewBox="0 0 24 24"
+                        width="24"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path d="M19.479 10.092c-.212-3.951-3.473-7.092-7.479-7.092-4.005 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408zm-7.479-1.092l4 4h-3v4h-2v-4h-3l4-4z" />
                       </svg>
@@ -310,16 +310,16 @@ export default function FilePage() {
                             </p>
 
                             <input
+                              className="hidden"
                               id="hidden-input"
-                              type="file"
                               onChange={async (e) => {
                                 await uploadHandler(e);
                               }}
-                              className="hidden"
+                              type="file"
                             />
                             <button
-                              id="button"
                               className="focus:shadow-outline mt-2 rounded-xl bg-[#157EFB] px-3 py-1 hover:bg-[#5DA5FB] focus:outline-none"
+                              id="button"
                               onClick={() => {
                                 window &&
                                   document
@@ -347,8 +347,8 @@ export default function FilePage() {
                       <span>
                         <a
                           href={fileURL}
-                          target="_blank"
                           rel="noopener noreferrer"
+                          target="_blank"
                         >
                           {selected.name === 'S3'
                             ? fileURL.replace('https://', '')
@@ -365,8 +365,8 @@ export default function FilePage() {
                       <span>
                         <a
                           href={`https://interclip.app/${code}`}
-                          target="_blank"
                           rel="noopener noreferrer"
+                          target="_blank"
                         >
                           {code}
                         </a>

@@ -18,10 +18,10 @@ const AppearanceSettings = () => {
       <SettingsCard title="Color Scheme">
         <div className="max-w-[50%]">
           <Select
+            defaultValue={theme}
             onChange={(e) => {
               setTheme(e?.target.value || 'system');
             }}
-            defaultValue={theme}
             options={themeOptions}
           />
         </div>

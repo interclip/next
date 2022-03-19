@@ -21,11 +21,11 @@ class InterclipDocument extends Document<Props> {
       <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-          <link rel="icon" href="/icons/logo.svg" />
-          <link rel="manifest" href="/manifest.json" />
-          <meta name="description" content="The next generation of sharing" />
-          <meta property="og:type" content="website" />
+          <meta content="IE=edge" httpEquiv="X-UA-Compatible" />
+          <link href="/icons/logo.svg" rel="icon" />
+          <link href="/manifest.json" rel="manifest" />
+          <meta content="The next generation of sharing" name="description" />
+          <meta content="website" property="og:type" />
         </Head>
         <body>
           <Main />

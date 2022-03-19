@@ -56,7 +56,7 @@ const LogIn = ({
       <div className="flex h-screen w-full items-center justify-center">
         <div className="flex h-screen w-screen flex-col items-center justify-center bg-gray-100 px-8 pb-8 text-black dark:bg-dark-secondary dark:text-dark-text md:h-auto md:w-96 md:rounded-lg md:pt-8">
           <div className="mb-8">
-            <Logo width={128} height={128} />
+            <Logo height={128} width={128} />
           </div>
           {!IS_PROD && (
             <>
@@ -64,14 +64,14 @@ const LogIn = ({
                 Log in with email (development only)
               </span>
               <input
-                type="text"
-                className="mb-4 h-12 w-full rounded-lg px-4 text-lg focus:ring-blue-600 dark:bg-[#222222]"
                 autoComplete="email"
-                placeholder="Your email"
+                className="mb-4 h-12 w-full rounded-lg px-4 text-lg focus:ring-blue-600 dark:bg-[#222222]"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
                 onKeyDown={handleKeyDown}
+                placeholder="Your email"
+                type="text"
                 value={inputEmail}
               />
               <button
@@ -100,6 +100,9 @@ const LogIn = ({
                       'mb-4 h-12 w-full rounded-lg font-bold text-white filter transition'
                     }
                     key={provider.id}
+                    onClick={() => signIn(provider.id)}
+                    ref={hoverRef}
+                    // @ts-ignore
                     style={{
                       backgroundColor: changeColorBrightness(
                         // @ts-ignore
@@ -107,9 +110,6 @@ const LogIn = ({
                         !isHovered ? 0 : -0.15,
                       ),
                     }}
-                    onClick={() => signIn(provider.id)}
-                    // @ts-ignore
-                    ref={hoverRef}
                   >
                     Login with {provider.name}
                   </button>

@@ -119,12 +119,12 @@ const Home: NextPage = () => {
             }}
           >
             <input
+              autoFocus
+              className="mt-12 w-full rounded-2xl px-3 py-2 text-3xl text-black dark:text-dark-text"
+              onChange={(e) => setURL(e.target.value)}
+              placeholder="https://www.histories.cc/krystofex"
               type="url"
               value={clipURL}
-              onChange={(e) => setURL(e.target.value)}
-              className="mt-12 w-full rounded-2xl px-3 py-2 text-3xl text-black dark:text-dark-text"
-              placeholder="https://www.histories.cc/krystofex"
-              autoFocus
             />
           </form>
           {isURL(clipURL) && (

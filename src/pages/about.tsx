@@ -47,9 +47,9 @@ const About = (props: {
 
             <Link href="https://vercel.com/?utm_source=interclip&utm_campaign=oss">
               <img
-                style={{ height: 50, marginTop: 50 }}
-                src="/icons/powered-by-vercel.svg"
                 alt={"Vercel's Logo"}
+                src="/icons/powered-by-vercel.svg"
+                style={{ height: 50, marginTop: 50 }}
               />
             </Link>
           </ul>

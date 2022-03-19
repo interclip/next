@@ -78,17 +78,17 @@ const Navbar = () => {
             <Logo height={50} width={50} />
           </NavbarSection>
           <NavbarSection>
-            <NavbarItem url="/" name="Clip" />
-            <NavbarItem url="/receive" name="Receive" />
-            <NavbarItem url="/file" name="File" />
+            <NavbarItem name="Clip" url="/" />
+            <NavbarItem name="Receive" url="/receive" />
+            <NavbarItem name="File" url="/file" />
             {session ? (
               <>
-                <NavbarItem url="/clips" name="My Clips" />
+                <NavbarItem name="My Clips" url="/clips" />
               </>
             ) : (
               <>
-                <NavbarItem url="/privacy" name="Privacy" />
-                <NavbarItem url="/about" name="About" />
+                <NavbarItem name="Privacy" url="/privacy" />
+                <NavbarItem name="About" url="/about" />
               </>
             )}
           </NavbarSection>
@@ -97,7 +97,7 @@ const Navbar = () => {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button>
-                    <Avatar user={session.user as User} size={50} />
+                    <Avatar size={50} user={session.user as User} />
                   </Menu.Button>
                 </div>
 
@@ -112,35 +112,35 @@ const Navbar = () => {
                 >
                   <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-dark-secondary">
                     <div className="py-1">
-                      <MenuItem title="Settings" type="link" link="/settings">
+                      <MenuItem link="/settings" title="Settings" type="link">
                         <CogIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
-                        title="Report an issue"
-                        type="link"
                         link={`${githubRepo}/issues/new`}
                         openInNewTab={true}
+                        title="Report an issue"
+                        type="link"
                       >
                         <ExclamationCircleIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
+                        link="/about"
                         title="About Interclip"
                         type="link"
-                        link="/about"
                       >
                         <InformationCircleIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
+                        link="/privacy"
                         title="Privacy policy"
                         type="link"
-                        link="/privacy"
                       >
                         <LockClosedIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                       <MenuItem
+                        onClick={() => signOut({ callbackUrl: '/' })}
                         title="Sign out"
                         type="button"
-                        onClick={() => signOut({ callbackUrl: '/' })}
                       >
                         <LogoutIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
@@ -150,10 +150,10 @@ const Navbar = () => {
               </Menu>
             ) : (
               <Button
-                content="Login"
                 background_color="light-bg"
-                hover_color="blue-600"
+                content="Login"
                 focus_ring_color="blue-400"
+                hover_color="blue-600"
                 onClick={() => signIn()}
               />
             )}

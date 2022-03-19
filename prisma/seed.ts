@@ -34,8 +34,8 @@ const randomWikipediaArticle = async (amount: number) => {
       (dp) => `https://en.wikipedia.org/wiki/${encodeURIComponent(dp.title)}`,
     );
     return urls;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     return ['https://www.wikipedia.org/'];
   }
 };
@@ -112,8 +112,8 @@ async function main() {
         },
       });
       await storeLinkPreviewInCache(url);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error(error);
       continue;
     }
   }

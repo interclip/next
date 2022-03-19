@@ -31,7 +31,7 @@ const GeneralSettings = ({
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear as={Fragment} show={isOpen}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -52,8 +52,8 @@ const GeneralSettings = ({
 
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
-              className="inline-block h-screen align-middle"
               aria-hidden="true"
+              className="inline-block h-screen align-middle"
             >
               &#8203;
             </span>
@@ -82,7 +82,6 @@ const GeneralSettings = ({
 
                 <div className="mt-4">
                   <button
-                    type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                     onClick={async () => {
                       await toast.promise(deleteAccount(user.email), {
@@ -92,6 +91,7 @@ const GeneralSettings = ({
                       });
                       signOut({ callbackUrl: '/' });
                     }}
+                    type="button"
                   >
                     Go ahead, delete my account
                   </button>
@@ -102,9 +102,8 @@ const GeneralSettings = ({
         </Dialog>
       </Transition>{' '}
       <SettingsCard
-        isDisabled={user.username === newUsername}
-        title="Your Username"
         footerDescription={`Please use ${maxUsernameAllowedLength} characters at maximum.`}
+        isDisabled={user.username === newUsername}
         onSave={async () => {
           const updatedDetails = await handleSettingsErrors({
             username: newUsername,
@@ -116,21 +115,21 @@ const GeneralSettings = ({
             });
           }
         }}
+        title="Your Username"
       >
         <div className="max-w-[50%]">
           <Input
-            value={newUsername}
-            onChange={(e) => setNewUsersname(e.target.value)}
             maxLength={maxUsernameAllowedLength}
+            onChange={(e) => setNewUsersname(e.target.value)}
+            value={newUsername}
           />
         </div>
       </SettingsCard>
       <SettingsCard
-        isDisabled={user.name === newName}
-        title="Your Name"
         description="Please enter your full name, or a display name you are comfortable
               with."
         footerDescription={`Please use ${maxNameAllowedLength} characters at maximum.`}
+        isDisabled={user.name === newName}
         onSave={async () => {
           const updatedDetails = await handleSettingsErrors({ name: newName });
           if (updatedDetails) {
@@ -140,23 +139,24 @@ const GeneralSettings = ({
             });
           }
         }}
+        title="Your Name"
       >
         <div className="max-w-[50%]">
           <Input
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
             maxLength={maxNameAllowedLength}
+            onChange={(e) => setNewName(e.target.value)}
+            value={newName}
           />
         </div>
       </SettingsCard>{' '}
       <SettingsCard
-        title={
-          isEthereumAddress(user.email) ? 'Your wallet address' : 'Your Email'
-        }
         description={
           isEthereumAddress(user.email)
             ? 'Your attached wallet address cannot be changed'
             : 'Your email address cannot be changed.'
+        }
+        title={
+          isEthereumAddress(user.email) ? 'Your wallet address' : 'Your Email'
         }
       >
         <div className="max-w-[50%]">
@@ -165,9 +165,8 @@ const GeneralSettings = ({
       </SettingsCard>{' '}
       {isEthereumAddress(user.email) && (
         <SettingsCard
-          isDisabled={user.clipSign === signingEnabled}
-          title={'Sign your clips'}
           description="If you enable this, every clip you create will be cryptographically signed"
+          isDisabled={user.clipSign === signingEnabled}
           onSave={async () => {
             if (signingEnabled) {
               if (!(window as any).ethereum) {
@@ -216,14 +215,15 @@ const GeneralSettings = ({
               });
             }
           }}
+          title={'Sign your clips'}
         >
           <div className="max-w-[50%]">
             <Switch
               checked={signingEnabled}
-              onChange={setClipSigningEnabled}
               className={`${
                 signingEnabled ? 'bg-blue-600' : 'bg-gray-200'
               } relative inline-flex h-6 w-11 items-center rounded-full`}
+              onChange={setClipSigningEnabled}
             >
               <span
                 className={`${
@@ -235,12 +235,12 @@ const GeneralSettings = ({
         </SettingsCard>
       )}
       <SettingsCard
-        title="Delete Personal Account"
-        dangerous
         buttonText="Delete Personal Account"
+        dangerous
         onSave={async () => {
           setIsOpen(true);
         }}
+        title="Delete Personal Account"
       >
         Permanently remove your account and all of its contents from Interclip.
         This action is not reversible, so please continue with caution.

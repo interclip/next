@@ -79,8 +79,8 @@ const MetaMaskLoginButton = () => {
   return (
     <button
       className="mb-4 h-12 w-full rounded-lg bg-[#f6851b] font-bold text-white transition hover:bg-[#cd6116]"
-      onClick={signInWithWallet}
       disabled={!!(window as any).etherum}
+      onClick={signInWithWallet}
     >
       Authenticate with Metamask
     </button>

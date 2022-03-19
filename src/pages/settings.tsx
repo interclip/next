@@ -47,7 +47,7 @@ const Settings = (props: { user: User }): JSX.Element => {
       >
         <div className="mt-10 ml-8 flex gap-4">
           <div className="relative h-32 w-32 rounded-full border-8 border-white">
-            <Avatar user={user} size={120} />
+            <Avatar size={120} user={user} />
           </div>
           <div className="mt-2">
             <a className="text-lg font-semibold">
@@ -57,15 +57,15 @@ const Settings = (props: { user: User }): JSX.Element => {
           </div>
         </div>
         <section className="mt-[-4rem] flex flex-wrap gap-8 border-t border-gray-300 pt-24 md:flex-nowrap">
-          <LeftColumn settings={settings} setSettings={setSettings} />
+          <LeftColumn setSettings={setSettings} settings={settings} />
 
           <div className="flex w-full flex-col p-8 md:w-[65%]">
             {settings === 'General' ? (
-              <GeneralSettings user={user} setUser={setUser} />
+              <GeneralSettings setUser={setUser} user={user} />
             ) : settings === 'Appearance' ? (
               <AppearanceSettings />
             ) : (
-              <StorageSettings user={user} setUser={setUser} />
+              <StorageSettings setUser={setUser} user={user} />
             )}
           </div>
         </section>

@@ -95,18 +95,18 @@ const About = ({
                 <Tab.Panel className={panelClassNames}>
                   <div className="mx-auto grid grid-cols-1 items-center justify-around gap-8 space-y-2 md:grid-cols-2 lg:grid-cols-3">
                     <InfoCard
+                      description="Total clips"
                       name="Clips"
                       value={clipCount.toString()}
-                      description="Total clips"
                     />
                     <InfoCard
+                      description="Interclip's version"
                       name="Version"
                       value={version}
-                      description="Interclip's version"
                     />
                     <InfoCard
-                      name="Commit"
                       description="Commit of this preview"
+                      name="Commit"
                     >
                       {commitSHA && commitAuthor && commitMessage ? (
                         <>
@@ -171,7 +171,7 @@ const About = ({
                 </Tab.Panel>
                 <Tab.Panel className={panelClassNames}>
                   <InfiniteScroll
-                    pageStart={0}
+                    hasMore={moreUsersToLoad}
                     loadMore={() => {
                       fetchUsers(loadedUsersCount, setMoreUsersToLoad).then(
                         (newUsers) => {
@@ -190,12 +190,12 @@ const About = ({
                         },
                       );
                     }}
-                    hasMore={moreUsersToLoad}
                     loader={
                       <div className="loader" key={0}>
                         Loading ...
                       </div>
                     }
+                    pageStart={0}
                   >
                     {users.map((user) => (
                       <UserCard key={user.id} user={user} />
@@ -212,10 +212,10 @@ const About = ({
                         }}
                       >
                         {clips.map((clip) => (
-                          <ClipCard key={clip.code} clip={clip} />
+                          <ClipCard clip={clip} key={clip.code} />
                         ))}
                         <InfiniteScroll
-                          pageStart={0}
+                          hasMore={moreClipsToLoad}
                           loadMore={() => {
                             fetchClips(
                               loadedClipsCount,
@@ -236,7 +236,6 @@ const About = ({
                               );
                             });
                           }}
-                          hasMore={moreClipsToLoad}
                           loader={
                             <div className="m-auto mt-20">
                               <SyncLoader
@@ -245,6 +244,7 @@ const About = ({
                               />
                             </div>
                           }
+                          pageStart={0}
                         ></InfiniteScroll>
                       </div>
                     </div>

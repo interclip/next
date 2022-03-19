@@ -31,14 +31,14 @@ const Redirect = ({
           <div className="">
             <Image
               alt="Social preview image"
+              className="rounded-xl"
+              height={300}
               src={proxied(
                 'https://opengraph.githubassets.com/00c3274228fa5ac12295ba4d6a3ca5881adf682ab038d8988f1713099c7ecc28/interclip/interclip-next',
                 1200,
                 600,
               )}
               width={600}
-              className="rounded-xl"
-              height={300}
             />
             <h2 className="mt-2 mb-2 max-w-[40rem] text-2xl">
               {(oembed && oembed.title) || code}
@@ -46,14 +46,14 @@ const Redirect = ({
             <h3 className="flex flex-row items-center justify-center justify-items-center gap-2 text-xl text-gray-400">
               {oembed && oembed.favicons.length > 0 && (
                 <Image
+                  alt="The site's favicon"
+                  height={32}
                   src={`${proxied(
                     getBestFavicon(oembed.favicons)!,
                     300,
                     300,
                   )}}`}
-                  alt="The site's favicon"
                   width={32}
-                  height={32}
                 />
               )}
               <Link className="no-underline" href={url}>
@@ -66,7 +66,7 @@ const Redirect = ({
               />
             </h3>
           </div>
-          {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
+          {qrCodeZoom && <QRModal setQrCodeZoom={setQrCodeZoom} url={url} />}
         </div>
       </main>
     </Layout>

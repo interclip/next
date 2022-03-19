@@ -30,8 +30,8 @@ export default function SettingsMenu({
           <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black px-4 py-2 text-sm font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             Options
             <ChevronDownIcon
-              className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
               aria-hidden="true"
+              className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
             />
           </Menu.Button>
         </div>
@@ -57,13 +57,13 @@ export default function SettingsMenu({
                   >
                     {active ? (
                       <PencilIcon
-                        className="mr-2 h-5 w-5 text-light-text"
                         aria-hidden="true"
+                        className="mr-2 h-5 w-5 text-light-text"
                       />
                     ) : (
                       <PencilIconOutline
-                        className="mr-2 h-5 w-5 text-light-bg"
                         aria-hidden="true"
+                        className="mr-2 h-5 w-5 text-light-bg"
                       />
                     )}
                     Edit
@@ -89,13 +89,13 @@ export default function SettingsMenu({
                   >
                     {active ? (
                       <UserIcon
-                        className="mr-2 h-5 w-5 text-white"
                         aria-hidden="true"
+                        className="mr-2 h-5 w-5 text-white"
                       />
                     ) : (
                       <UserIconOutline
-                        className="mr-2 h-5 w-5 text-light-bg"
                         aria-hidden="true"
+                        className="mr-2 h-5 w-5 text-light-bg"
                       />
                     )}
                     {user.isStaff ? 'Remove admin' : 'Make admin'}
@@ -121,13 +121,13 @@ export default function SettingsMenu({
                   >
                     {active ? (
                       <TrashIcon
-                        className="mr-2 h-5 w-5 text-white"
                         aria-hidden="true"
+                        className="mr-2 h-5 w-5 text-white"
                       />
                     ) : (
                       <TrashIconOutline
-                        className="mr-2 h-5 w-5 text-light-bg"
                         aria-hidden="true"
+                        className="mr-2 h-5 w-5 text-light-bg"
                       />
                     )}
                     Delete

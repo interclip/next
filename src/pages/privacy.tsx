@@ -55,8 +55,8 @@ const Privacy = (): JSX.Element => {
               <li>
                 <Link
                   href="https://www.google.com/policies/privacy/"
-                  target="_blank"
                   rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Google Play Services
                 </Link>
@@ -64,8 +64,8 @@ const Privacy = (): JSX.Element => {
               <li>
                 <Link
                   href="https://expo.io/privacy"
-                  target="_blank"
                   rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Expo
                 </Link>
@@ -73,8 +73,8 @@ const Privacy = (): JSX.Element => {
               <li>
                 <Link
                   href="https://sentry.io/privacy/"
-                  target="_blank"
                   rel="noopener noreferrer"
+                  target="_blank"
                 >
                   Sentry
                 </Link>

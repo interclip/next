@@ -32,9 +32,9 @@ const SettingsCard = ({
         <p className="my-auto w-full px-4">{footerDescription}</p>
         {onSave && (
           <Button
-            disabled={isDisabled || isLoading}
-            color={dangerous ? 'error' : 'primary'}
             auto
+            color={dangerous ? 'error' : 'primary'}
+            disabled={isDisabled || isLoading}
             onClick={async () => {
               setIsLoading(true);
               if (onSave) {

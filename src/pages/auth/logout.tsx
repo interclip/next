@@ -14,10 +14,10 @@ const Logout = (): React.ReactNode => {
         <div className="flex h-screen w-screen flex-col items-center bg-gray-100 px-8 pb-8 pt-[20vh] text-black dark:bg-dark-secondary dark:text-dark-text md:h-auto md:w-96 md:rounded-lg md:pt-8">
           <div className="mb-4">
             <Image
-              src="/images/Interclip.svg"
               alt="Interclip's logo"
-              width={128}
               height={128}
+              src="/images/Interclip.svg"
+              width={128}
             />
           </div>
           <span className="mb-8 text-xl">Do you really want to log out?</span>

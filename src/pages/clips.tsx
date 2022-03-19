@@ -121,7 +121,7 @@ const MyClips = (): React.ReactNode => {
               <>You didn't make any clips yet..</>
             ) : (
               loadedClips.map((clip) => {
-                return <ClipCard key={clip.code} clip={clip} />;
+                return <ClipCard clip={clip} key={clip.code} />;
               })
             )}
           </div>

@@ -48,26 +48,26 @@ const ReceivePage: NextPage = () => {
             }}
           >
             <input
-              type="text"
-              minLength={minimumCodeLength}
-              maxLength={maximumCodeLength}
-              value={clipCode}
               autoCapitalize="off"
               autoComplete="off"
-              onChange={(e) => setClipCode(e.target.value)}
-              className="mt-12 w-full rounded-2xl px-3 py-2 text-center text-8xl text-black dark:text-dark-text"
-              placeholder={getClipHash(randomURL).slice(0, 5)}
-              pattern="^[A-Za-z0-9]{5,99}$"
               autoFocus
+              className="mt-12 w-full rounded-2xl px-3 py-2 text-center text-8xl text-black dark:text-dark-text"
+              maxLength={maximumCodeLength}
+              minLength={minimumCodeLength}
+              onChange={(e) => setClipCode(e.target.value)}
+              pattern="^[A-Za-z0-9]{5,99}$"
+              placeholder={getClipHash(randomURL).slice(0, 5)}
+              type="text"
+              value={clipCode}
             />
             {clipCode && (
               <Button
-                disabled={!isValidClipCode(clipCode)}
-                type="submit"
-                hover_color="gray-500"
-                content="Retrieve"
-                focus_ring_color="blue-400"
                 className="m-auto mt-4 h-16 w-1/2 text-xl"
+                content="Retrieve"
+                disabled={!isValidClipCode(clipCode)}
+                focus_ring_color="blue-400"
+                hover_color="gray-500"
+                type="submit"
               />
             )}
           </form>

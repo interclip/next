@@ -14,18 +14,10 @@
   ],
   "rules": {
     "react/display-name": "off",
-    "comma-dangle": [
-      "off",
-      "always"
-    ],
-    "prettier/prettier": [
-      "error"
-    ],
+    "comma-dangle": ["off", "always"],
+    "prettier/prettier": ["error"],
     "react/prop-types": "off",
-    "semi": [
-      2,
-      "always"
-    ],
+    "semi": [2, "always"],
     "quotes": [
       "error",
       "single",
@@ -67,6 +59,7 @@
         "destructuring": "any",
         "ignoreReadBeforeAssign": false
       }
-    ]
+    ],
+    "react/jsx-sort-props": "error"
   }
 }
