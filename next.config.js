@@ -7,6 +7,7 @@ module.exports = withPWA({
     disable: process.env.NODE_ENV === 'development',
     skipWaiting: true,
     buildExcludes: [/middleware-manifest\.json$/],
+    reloadOnOnline: false,
   },
   swcMinify: true,
   optimizeCss: true,
