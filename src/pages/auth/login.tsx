@@ -101,8 +101,8 @@ const LogIn = ({
                     }
                     key={provider.id}
                     onClick={() => signIn(provider.id)}
-                    ref={hoverRef}
                     // @ts-ignore
+                    ref={hoverRef}
                     style={{
                       backgroundColor: changeColorBrightness(
                         // @ts-ignore
