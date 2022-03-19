@@ -193,7 +193,10 @@ export default function FilePage() {
             const clipResponse = await requestClip(fileURL);
             if (clipResponse.status === 'success') {
               setCode(
-                clipResponse.result.code.slice(0, clipResponse.result.hashLength),
+                clipResponse.result.code.slice(
+                  0,
+                  clipResponse.result.hashLength,
+                ),
               );
             }
             setFileURL(fileURL);
