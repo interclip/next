@@ -4,6 +4,32 @@ import { DropEvent } from 'src/typings/interclip';
 
 import { requestClip } from './api/client/requestClip';
 
+export async function droppable(element: HTMLElement, callback: Function) {
+  element.addEventListener('dragenter', (event: DragEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+  });
+
+  element.addEventListener('dragleave', (event: DragEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+  });
+
+  element.addEventListener('dragover', (event: DragEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+  });
+
+  element.addEventListener('drop', (event: DragEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    if (event.dataTransfer?.files) {
+      callback(event);
+    }
+  });
+}
+
 export const dropLink = (e: DropEvent) => {
   if (e.dataTransfer) {
     const urls: Set<string> = new Set();
