@@ -7,7 +7,7 @@ import { Layout } from '../components/Layout';
 const Privacy = (): JSX.Element => {
   return (
     <Layout titlePrefix="Privacy policy">
-      <section className="flex w-full flex-col items-center">
+      <main className="flex w-full flex-col items-center" id="maincontent">
         <div className="w-[45em] max-w-[93vw]">
           <H1>Privacy policy</H1>
           <p>
@@ -184,7 +184,7 @@ const Privacy = (): JSX.Element => {
             <Link href="mailto:filip@interclip.app">filip@interclip.app</Link>.
           </p>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 };

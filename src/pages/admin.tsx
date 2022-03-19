@@ -71,7 +71,7 @@ const About = ({
   let fixed = 0;
   return (
     <Layout titlePrefix="Admin">
-      <section className="flex w-full flex-col items-center">
+      <main className="flex w-full flex-col items-center" id="maincontent">
         <div className="w-[60em] max-w-[93vw]">
           <H1>Interclip Admin</H1>
           <H2>Hi {user.name || user.username} </H2>
@@ -254,7 +254,7 @@ const About = ({
             </Tab.Group>
           </div>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 };

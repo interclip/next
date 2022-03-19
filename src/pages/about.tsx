@@ -11,7 +11,7 @@ const About = (props: {
 }): JSX.Element => {
   return (
     <Layout titlePrefix="About">
-      <section className="flex w-full flex-col items-center">
+      <main className="flex w-full flex-col items-center" id="maincontent">
         <div className="w-[30em] max-w-[93vw]">
           <H1>About Interclip</H1>
           <H2>What is Interclip?</H2>
@@ -54,7 +54,7 @@ const About = (props: {
             </Link>
           </ul>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 };

@@ -41,7 +41,10 @@ const Settings = (props: { user: User }): JSX.Element => {
   const resolvedEthName = useENS(props.user.email);
   return (
     <Layout>
-      <div className="mx-auto h-full w-full max-w-6xl bg-white text-black dark:bg-dark-bg dark:text-dark-text">
+      <main
+        className="mx-auto h-full w-full max-w-6xl bg-white text-black dark:bg-dark-bg dark:text-dark-text"
+        id="maincontent"
+      >
         <div className="mt-10 ml-8 flex gap-4">
           <div className="relative h-32 w-32 rounded-full border-8 border-white">
             <Avatar user={user} size={120} />
@@ -66,7 +69,7 @@ const Settings = (props: { user: User }): JSX.Element => {
             )}
           </div>
         </section>
-      </div>
+      </main>
     </Layout>
   );
 };

@@ -6,7 +6,10 @@ import React from 'react';
 const Error404: React.FC = () => {
   return (
     <Layout titlePrefix="Page not found">
-      <section className="mt-[20%] flex h-[30em] w-full max-w-6xl items-center">
+      <main
+        className="mt-[20%] flex h-[30em] w-full max-w-6xl items-center"
+        id="maincontent"
+      >
         <motion.div
           initial={{ rotate: 60, scale: 0.5, opacity: 0 }}
           animate={{ rotate: 0, scale: 1, opacity: 1 }}
@@ -42,7 +45,7 @@ const Error404: React.FC = () => {
             Page not found
           </div>
         </motion.div>
-      </section>
+      </main>
     </Layout>
   );
 };

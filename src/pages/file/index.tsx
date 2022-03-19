@@ -60,7 +60,7 @@ const RemoteOptionsSelect = ({
   }, [session?.user?.email, setSelected, status]);
 
   return (
-    <div className="w-72">
+    <main className="w-72" id="maincontent">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left text-dark-text shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:bg-dark-secondary sm:text-sm">
@@ -122,7 +122,7 @@ const RemoteOptionsSelect = ({
           </Transition>
         </div>
       </Listbox>
-    </div>
+    </main>
   );
 };
 

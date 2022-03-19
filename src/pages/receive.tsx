@@ -29,7 +29,7 @@ const ReceivePage: NextPage = () => {
 
   return (
     <Layout>
-      <section className="my-auto w-full">
+      <main className="my-auto w-full" id="maincontent">
         <h1 className="text-center font-sans text-6xl font-semibold">
           Paste your code here!
         </h1>
@@ -72,7 +72,7 @@ const ReceivePage: NextPage = () => {
             )}
           </form>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 };

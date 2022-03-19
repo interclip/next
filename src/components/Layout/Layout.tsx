@@ -17,6 +17,13 @@ const Layout: React.FC<{ titlePrefix?: string }> = ({
       />
       <PageHead titlePrefix={titlePrefix} />
       <Toaster />
+      <a
+        className="absolute top-[-100px] left-0 z-[100] bg-black p-[8px] text-white focus:top-0"
+        href="#maincontent"
+      >
+        Skip to main
+      </a>
+
       <div className="flex h-full min-h-screen flex-col items-center bg-light-bg pb-8 text-light-text dark:bg-dark-bg dark:text-dark-text">
         <Navbar />
         {children}

@@ -26,7 +26,7 @@ const Redirect = ({
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
   return (
     <Layout>
-      <section className="my-auto h-full">
+      <main className="my-auto h-full" id="maincontent">
         <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="">
             <Image
@@ -68,7 +68,7 @@ const Redirect = ({
           </div>
           {qrCodeZoom && <QRModal url={url} setQrCodeZoom={setQrCodeZoom} />}
         </div>
-      </section>
+      </main>
     </Layout>
   );
 };

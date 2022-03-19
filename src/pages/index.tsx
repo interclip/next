@@ -36,7 +36,7 @@ const Home: NextPage = () => {
   const router = useRouter();
   return (
     <Layout>
-      <section className="my-auto w-full">
+      <main className="my-auto w-full" id="maincontent">
         <h1 className="text-center font-sans text-6xl font-semibold">
           Paste your link here!
         </h1>
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
             </>
           )}
         </div>
-      </section>
+      </main>
     </Layout>
   );
 };

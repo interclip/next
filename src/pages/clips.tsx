@@ -104,7 +104,7 @@ const MyClips = (): React.ReactNode => {
 
   return (
     <Layout titlePrefix="My clips">
-      <section className="grid w-full justify-center">
+      <main className="grid w-full justify-center" id="maincontent">
         <div className="w-[50em] max-w-[93vw]">
           <H1>Clips you made</H1>
           <div
@@ -126,7 +126,7 @@ const MyClips = (): React.ReactNode => {
             )}
           </div>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 };
