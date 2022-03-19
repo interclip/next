@@ -113,10 +113,15 @@ const uploadFile = async (
   filesEndpoint: string,
   files: File[],
 ): Promise<string> => {
+  if (files.length > 1) {
+    toast(
+      'Uploading multiple files at once to our storage server is not yet supported. Only the first file will be uploaded.',
+    );
+  }
+
   if (!IS_PROD) {
     return `${filesEndpoint}/${getClipHash(filesEndpoint).slice(0, 5)}`;
   }
-
   const file = files.at(0)!;
 
   const filename = encodeURIComponent(file.name);
