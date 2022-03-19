@@ -3,13 +3,10 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { requestClip } from '@utils/api/client/requestClip';
-import {
-  ipfsGateway,
-  maxIPFSUploadSize,
-  StorageProvider,
-  web3StorageToken,
-} from '@utils/constants';
-import uploadFile, { ipfsCheckCID } from '@utils/uploadFile';
+import { StorageProvider } from '@utils/constants';
+import { dropLink } from '@utils/dropLink';
+import uploadFile, { ipfsUpload } from '@utils/uploadFile';
+import { getFilesFromDataTransferItems } from 'datatransfer-files-promise';
 import { useSession } from 'next-auth/react';
 import React, { Fragment, useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -168,104 +165,51 @@ export default function FilePage() {
   }
   */
 
-  const ipfsHandler = async (e: DropEvent) => {
-    if (web3StorageToken) {
-      const Web3Storage = (await import('web3.storage')).Web3Storage;
-      const client = new Web3Storage({ token: web3StorageToken });
-      const files = e?.dataTransfer?.files || e.target?.files;
-
-      if (!files || files.length === 0) {
-        toast.error('Please select a file');
-        return;
-      }
-
-      // show the root cid as soon as it's ready
-      const onRootCidReady = async (cid: string) => {
-        if (await ipfsCheckCID(cid)) {
-          // Todo(ft): handle files already on IPFS, maybe by pinning them
-          //throw new DuplicateError('Already on IPFS');
-        }
-      };
-
-      // when each chunk is stored, update the percentage complete and display
-      const totalSize = [...files]
-        .map((f) => f.size)
-        .reduce((a, b) => a + b, 0);
-      let uploaded = 0;
-
-      const onStoredChunk = (size: number) => {
-        uploaded += size;
-        const pct = uploaded / totalSize;
-        setProgress(pct * 100);
-      };
-
-      const filesOverLimit = [...files].filter(
-        (file) => file.size > maxIPFSUploadSize,
-      );
-
-      if (filesOverLimit.length > 0) {
-        for (const file of filesOverLimit) {
-          toast.error(`${file.name} is too large, aborting upload`);
-        }
-        return;
-      }
-
-      const rootCID = await client.put(files!, {
-        maxRetries: 3,
-        wrapWithDirectory: false,
-        onRootCidReady,
-        onStoredChunk,
-      });
-
-      setProgress(0);
-
-      const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
-      const url = `${
-        isVideo ? 'https://ipfs.io' : ipfsGateway
-      }/ipfs/${rootCID}?filename=${files![0]?.name}`;
-      setFileURL(url);
-      const clipResponse = await requestClip(url);
-
-      if (clipResponse.status === 'error') {
-        toast.error(`An error has occured: ${clipResponse.result}`);
-        return;
-      }
-
-      setCode(
-        clipResponse.result.code.slice(0, clipResponse.result.hashLength),
-      );
-    } else {
-      toast.error('Uploading to IPFS is currently disabled');
-    }
-  };
+  const ipfsHandler = ipfsUpload(setProgress, setFileURL, setCode);
 
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
     setLoading(true);
 
-    try {
-      switch (selected.name) {
-        case 'IPFS':
-          await ipfsHandler(e);
-          break;
-        case 'S3':
-          const fileURL = await uploadFile(filesEndpoint, e);
-          const clipResponse = await requestClip(fileURL);
-          if (clipResponse.status === 'success') {
-            setCode(
-              clipResponse.result.code.slice(0, clipResponse.result.hashLength),
-            );
-          }
-          setFileURL(fileURL);
-          break;
-        /*
+    if (e.dataTransfer.items && e.dataTransfer.files.length === 0) {
+      dropLink(e);
+    } else {
+      const files =
+        (await getFilesFromDataTransferItems(e.dataTransfer.items)) ||
+        (e as DropEvent).target?.files;
+
+      if (files.length === 0) {
+        toast.error('No file provided.');
+        return;
+      }
+
+      try {
+        switch (selected.name) {
+          case 'IPFS':
+            await ipfsHandler(e);
+            break;
+          case 'S3':
+            const fileURL = await uploadFile(filesEndpoint, e);
+            const clipResponse = await requestClip(fileURL);
+            if (clipResponse.status === 'success') {
+              setCode(
+                clipResponse.result.code.slice(
+                  0,
+                  clipResponse.result.hashLength,
+                ),
+              );
+            }
+            setFileURL(fileURL);
+            break;
+          /*
         case 'torrent':
           await seedHandler(e);
           break;
         */
+        }
+      } catch (error) {
+        toast.error(error as string);
       }
-    } catch (error) {
-      toast.error(error as string);
     }
 
     setProgress(0);
@@ -275,6 +219,7 @@ export default function FilePage() {
   // reset counter and append file to gallery when file is dropped
   const dropHandler = async (e: any) => {
     e.preventDefault();
+    e.stopPropagation();
     await uploadHandler(e);
   };
 
@@ -289,7 +234,10 @@ export default function FilePage() {
   };
 
   const dragOverHandler = (e: any) => {
+    e.stopPropagation();
     e.preventDefault();
+    // Style the drag-and-drop as a "copy file" operation.
+    e.dataTransfer.dropEffect = 'copy';
     setShowOverlay(true);
   };
 
