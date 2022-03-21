@@ -74,7 +74,7 @@
     "@types/react": "17.0.40",
     "@types/validator": "^13.7.1",
     "@types/webtorrent": "^0.109.3",
-    "@typescript-eslint/eslint-plugin": "^5.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
     "autoprefixer": "^10.4.4",
     "cli-progress": "^3.10.0",
     "eslint": "^8.11.0",
