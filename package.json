@@ -69,7 +69,7 @@
     "@types/faker": "^5.5.9",
     "@types/ioredis": "^4.28.10",
     "@types/js-cookie": "^3.0.1",
-    "@types/lru-cache": "^7.5.0",
+    "@types/lru-cache": "^7.6.1",
     "@types/node-fetch": "^3.0.3",
     "@types/react": "17.0.43",
     "@types/validator": "^13.7.2",
