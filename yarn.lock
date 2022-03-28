@@ -9252,10 +9252,10 @@ simple-websocket@^9.1.0:
     readable-stream "^3.6.0"
     ws "^7.4.2"
 
-simple-xml-to-json@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/simple-xml-to-json/-/simple-xml-to-json-1.0.8.tgz#da694f5d30e9701483bf221579c7bd5ca6074e20"
-  integrity sha512-AYL/JUAtwthLYm4Nb95nn4rzfE/aqYaut4IauUdIJ7q32PYjwvpNSVQJU8/s68hQ8GuQmUicAYtnt6MuS67IQg==
+simple-xml-to-json@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/simple-xml-to-json/-/simple-xml-to-json-1.0.9.tgz#2d8fd35fd300c7125f4be992b96a36ac3895f3b7"
+  integrity sha512-UBfaMjDLDLShSCKy8Dr9WSSCeY4usYoKHMXU5J0Iy7wx7B1UTu1LRVagwunMuP57LTbZwr9xAUWdiINQdhZ9Ww==
 
 slash@^3.0.0:
   version "3.0.0"
