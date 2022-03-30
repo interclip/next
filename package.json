@@ -34,7 +34,7 @@
     "faker": "^5.5.3",
     "fetch-blob": "^3.1.5",
     "framer-motion": "^6.2.8",
-    "ioredis": "^4.28.5",
+    "ioredis": "^5.0.2",
     "js-cookie": "^3.0.1",
     "link-preview-js": "^2.1.13",
     "lru-cache": "^7.7.3",
