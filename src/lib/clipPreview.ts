@@ -1,9 +1,8 @@
+import type { RedisOptions } from 'ioredis';
 import Redis from 'ioredis';
 import { getLinkPreview } from 'link-preview-js';
 
-export const defaultRedisClient = (
-  customSettings?: Redis.RedisOptions,
-): Redis.Redis => {
+export const defaultRedisClient = (customSettings?: RedisOptions): Redis => {
   const settings = {
     ...customSettings,
     connectTimeout: 2,
@@ -32,7 +31,7 @@ export const testRedis = async (): Promise<boolean> => {
 
 export const storeLinkPreviewInCache = async (
   url: string,
-  client?: Redis.Redis,
+  client?: Redis,
   force?: boolean,
 ) => {
   console.log('Caching', url);
