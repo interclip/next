@@ -52,7 +52,7 @@
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.1",
     "react-infinite-scroller": "^1.2.5",
-    "react-qr-code": "^2.0.3",
+    "react-qr-code": "^2.0.4",
     "react-spinners": "^0.11.0",
     "react-tooltip": "^4.2.21",
     "sharp": "^0.30.3",
