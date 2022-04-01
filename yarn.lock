@@ -8614,10 +8614,10 @@ react-native-fetch-api@^2.0.0:
   dependencies:
     p-defer "^3.0.0"
 
-react-qr-code@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.4.tgz#672c774e86c1aa8bd56ab9b06797658a7aaa030a"
-  integrity sha512-6omKa+GQR9Sq6nn2rCEzBfH/4ult/f4gQX0CLlf2QidS0+7EgwuMN86LjClnHzOZg5H7/N+1j95zTED/0koDfA==
+react-qr-code@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.5.tgz#ceb470d441230e93f676d070a15f1354b2c5c1ad"
+  integrity sha512-8R/n/5X9n5JsND+npJYYCcrf1jEcphG7o0d5aXl7cx/tpDF0kfSoYucG8BUG3EN/LCzf5Ehf2yl7zdnxdpKGBQ==
   dependencies:
     prop-types "^15.7.2"
     qr.js "0.0.0"
