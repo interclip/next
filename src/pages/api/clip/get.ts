@@ -64,7 +64,6 @@ export default async function handler(
     select: {
       code: true,
       url: true,
-      ownerID: true,
       createdAt: true,
       expiresAt: true,
     },
