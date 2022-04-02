@@ -7,7 +7,7 @@
  * @param bytes the number of bytes to format
  * @param decimals the amount of decimal points
  */
-export const formatBytes = (bytes: number, decimals = 2): string => {
+const formatBytes = (bytes: number, decimals = 2): string => {
   if (bytes === 0) return '0 Bytes';
 
   const k = 1024;
@@ -18,3 +18,5 @@ export const formatBytes = (bytes: number, decimals = 2): string => {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
+
+export default formatBytes;
