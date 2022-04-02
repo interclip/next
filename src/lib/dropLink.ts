@@ -5,22 +5,22 @@ import { DropEvent } from 'src/typings/interclip';
 import { requestClip } from './api/client/requestClip';
 
 export async function droppable(element: HTMLElement, callback: Function) {
-  element.addEventListener('dragenter', (event: DragEvent) => {
+  element.addEventListener('dragenter', (event) => {
     event.stopPropagation();
     event.preventDefault();
   });
 
-  element.addEventListener('dragleave', (event: DragEvent) => {
+  element.addEventListener('dragleave', (event) => {
     event.stopPropagation();
     event.preventDefault();
   });
 
-  element.addEventListener('dragover', (event: DragEvent) => {
+  element.addEventListener('dragover', (event) => {
     event.stopPropagation();
     event.preventDefault();
   });
 
-  element.addEventListener('drop', (event: DragEvent) => {
+  element.addEventListener('drop', (event) => {
     event.stopPropagation();
     event.preventDefault();
 
