@@ -18,7 +18,7 @@ const ReceivePage: NextPage = () => {
   const [clipCode, setClipCode] = useState<string>('');
 
   const generator = Math.random();
-  const partSize = 1 / 36 ** 5;
+  const partSize = 1 / 36 ** 5; // 0.00000165% probability
 
   const randomURL =
     generator <= partSize
