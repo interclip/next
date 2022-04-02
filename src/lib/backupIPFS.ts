@@ -17,7 +17,6 @@ export const uploadToIPFS = async (id: number): Promise<string> =>
         createdAt: true,
         url: true,
         code: true,
-        ownerID: true,
       },
     });
 
