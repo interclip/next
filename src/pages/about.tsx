@@ -1,14 +1,24 @@
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { githubRepo } from '@utils/constants';
+import { GIT_COMMIT_SHA } from '@utils/runtimeInfo';
 import React from 'react';
 
 import { Layout } from '../components/Layout';
 
-const About = (props: {
-  clipCount: number | null;
-  version: string;
-}): JSX.Element => {
+interface AboutProps {
+  props: {
+    clipCount: number | null;
+    version: string;
+    GIT_COMMIT_SHA: string;
+  };
+}
+
+const About = ({
+  clipCount,
+  version,
+  GIT_COMMIT_SHA,
+}: AboutProps['props']): JSX.Element => {
   return (
     <Layout titlePrefix="About">
       <main className="flex w-full flex-col items-center" id="maincontent">
@@ -38,12 +48,18 @@ const About = (props: {
           <H2>Facts about Interclip</H2>
           <ul className="facts">
             <li>
-              Release: {props.version}{' '}
-              <Link href={`${githubRepo}/releases/tag/v${props.version}`}>
+              Release: {version}{' '}
+              <Link href={`${githubRepo}/releases/tag/v${version}`}>
                 (changelog)
               </Link>
             </li>
-            <li>Total clips made: {props.clipCount || 'n/a'}</li>
+            <li>
+              Deployed from{' '}
+              <Link href={`${githubRepo}/commit/${GIT_COMMIT_SHA}`}>
+                <code>{GIT_COMMIT_SHA || 'n/a'}</code>
+              </Link>
+            </li>
+            <li>Total clips made: {clipCount || 'n/a'}</li>
 
             <Link href="https://vercel.com/?utm_source=interclip&utm_campaign=oss">
               <img
@@ -59,7 +75,9 @@ const About = (props: {
   );
 };
 
-export async function getStaticProps() {
+export async function getStaticProps(): Promise<
+  AboutProps | { notFound: boolean }
+> {
   try {
     const db = process.env.DATABASE_URL
       ? (await import('@utils/prisma')).db
@@ -67,7 +85,7 @@ export async function getStaticProps() {
     const clipCount = db && (await db.clip.count());
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
-    return { props: { clipCount, version } };
+    return { props: { clipCount, version, GIT_COMMIT_SHA } };
   } catch (error) {
     console.error(error);
     return {
