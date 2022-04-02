@@ -16,8 +16,8 @@ import { DropEvent } from 'src/typings/interclip';
 import { getCache, storeCache } from '../clips';
 
 const remoteOptions: { name: StorageProvider; disabled?: boolean }[] = [
-  { name: StorageProvider.IPFS, disabled: true },
   { name: StorageProvider.S3 },
+  { name: StorageProvider.IPFS, disabled: true },
 ];
 
 const RemoteOptionsSelect = ({
