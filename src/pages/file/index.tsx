@@ -174,7 +174,7 @@ export default function FilePage() {
     if (e?.dataTransfer?.items && e?.dataTransfer?.files.length === 0) {
       dropLink(e);
     } else {
-      const files = e?.dataTransfer?.item
+      const files = e?.dataTransfer?.items
         ? await getFilesFromDataTransferItems(e.dataTransfer.items)
         : (e as DropEvent).target?.files;
 
