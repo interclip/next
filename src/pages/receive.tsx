@@ -28,7 +28,7 @@ const ReceivePage: NextPage = () => {
   const router = useRouter();
 
   return (
-    <Layout>
+    <Layout titlePrefix="Receive clip">
       <main className="my-auto w-full" id="maincontent">
         <h1 className="text-center font-sans text-6xl font-semibold">
           Paste your code here!
