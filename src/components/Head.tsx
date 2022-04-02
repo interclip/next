@@ -11,7 +11,6 @@ import React from 'react';
 const PageHead = (props: { titlePrefix?: string }): JSX.Element => {
   const { titlePrefix } = props;
   const theme = useTheme();
-  console.log(theme);
   return (
     <Head>
       <title>{titlePrefix && `${titlePrefix} |`} Interclip</title>
