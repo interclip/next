@@ -25,7 +25,7 @@ const Redirect = ({
   const urlObject = new URL(url);
   const simplifiedURL = `${urlObject.hostname}${urlObject.pathname}`;
   return (
-    <Layout>
+    <Layout titlePrefix={code}>
       <main className="my-auto h-full" id="maincontent">
         <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="">
@@ -78,18 +78,20 @@ export async function getServerSideProps({
 }: {
   query: NextApiRequest['query'];
 }) {
-  const userCode = query.code;
-  const isPreviewPage = userCode.indexOf('+') === userCode.length - 1;
+  let userCode = query.code;
+
   if (userCode && typeof userCode === 'object') {
     return { notFound: true };
   }
+  const isPreviewPage = userCode.endsWith('+');
 
   if (isPreviewPage) {
+    userCode = userCode.slice(0, -1);
     try {
       const selectedClip = await db.clip.findFirst({
         where: {
           code: {
-            startsWith: userCode.slice(0, -1),
+            startsWith: userCode,
           },
         },
       });
@@ -101,7 +103,7 @@ export async function getServerSideProps({
 
       return {
         props: {
-          code: selectedClip.code,
+          code: selectedClip.code.slice(0, selectedClip.hashLength),
           url: selectedClip.url,
           oembed: JSON.stringify(additionalDetails),
         },
@@ -115,8 +117,8 @@ export async function getServerSideProps({
   }
 
   try {
-    const selectedClip = await db.clip.findUnique({
-      where: { code: userCode },
+    const selectedClip = await db.clip.findFirst({
+      where: { code: { startsWith: userCode } },
     });
     if (!selectedClip) {
       return { notFound: true };
