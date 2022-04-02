@@ -1,6 +1,7 @@
 import { H1, H2 } from '@components/Text/headings';
 import Link from '@components/Text/link';
 import { githubRepo } from '@utils/constants';
+import formatBytes from '@utils/formatBytes';
 import { GIT_COMMIT_SHA } from '@utils/runtimeInfo';
 import React from 'react';
 
@@ -11,6 +12,7 @@ interface AboutProps {
     clipCount: number | null;
     version: string;
     GIT_COMMIT_SHA: string;
+    sizeData: SizeResponse;
   };
 }
 
@@ -18,6 +20,7 @@ const About = ({
   clipCount,
   version,
   GIT_COMMIT_SHA,
+  sizeData,
 }: AboutProps['props']): JSX.Element => {
   return (
     <Layout titlePrefix="About">
@@ -60,6 +63,10 @@ const About = ({
               </Link>
             </li>
             <li>Total clips made: {clipCount || 'n/a'}</li>
+            <li>
+              Total files uploaded: {sizeData.count} (
+              {formatBytes(sizeData.bytes)})
+            </li>
 
             <Link href="https://vercel.com/?utm_source=interclip&utm_campaign=oss">
               <img
@@ -75,17 +82,33 @@ const About = ({
   );
 };
 
+interface SizeResponse {
+  count: number;
+  bytes: number;
+}
+
 export async function getStaticProps(): Promise<
   AboutProps | { notFound: boolean }
 > {
   try {
+    // Get total amount of clips
     const db = process.env.DATABASE_URL
       ? (await import('@utils/prisma')).db
       : null;
     const clipCount = db && (await db.clip.count());
+
+    // Get file statistics
+
+    const sizeEndpoint = 'https://classic.interclip.app/includes/size.json';
+    const response = await fetch(sizeEndpoint);
+    const sizeData: SizeResponse = await response.json();
+
+    // Get current version
+
     const packageJSON = require('../../package.json');
     const { version } = packageJSON;
-    return { props: { clipCount, version, GIT_COMMIT_SHA } };
+
+    return { props: { clipCount, version, GIT_COMMIT_SHA, sizeData } };
   } catch (error) {
     console.error(error);
     return {
