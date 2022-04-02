@@ -43,7 +43,7 @@ export default async function handler(
 
   const ep = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
   const s3 = new aws.S3({ endpoint: ep });
-  const fileExt = name.includes('.') && name.split('.').pop();
+  const fileExt = name.slice(((name.lastIndexOf('.') - 1) >>> 0) + 2);
 
   const fileSizeLimit = session ? 1e10 : 1e8; // up to 10 GB if authenthicated
 
