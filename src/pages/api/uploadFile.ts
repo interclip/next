@@ -8,9 +8,16 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const session = await getSession({ req });
-  const { file, fileType } = req.query;
+  const { name, type } = req.query;
 
-  if (typeof file === 'object') {
+  if (!name) {
+    return res.status(400).json({
+      status: 'error',
+      result: 'Missing query params `name`',
+    });
+  }
+
+  if (typeof name === 'object') {
     return res.status(400).json({
       status: 'error',
       result:
@@ -36,7 +43,7 @@ export default async function handler(
 
   const ep = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
   const s3 = new aws.S3({ endpoint: ep });
-  const fileExt = file.split('.').pop();
+  const fileExt = name.split('.').pop();
 
   const fileSizeLimit = session ? 1e10 : 1e8; // up to 10 GB if authenthicated
 
@@ -44,9 +51,9 @@ export default async function handler(
     Bucket: process.env.BUCKET_NAME,
     Fields: {
       key: `${cuid()}.${fileExt}`,
-      'Content-Type': fileType,
+      'Content-Type': type,
       // Todo(ft): preserve filenames
-      //'Content-Disposition': `attachment; filename="${file}"`,
+      //'Content-Disposition': `attachment; filename="${name}"`,
     },
     Expires: 60,
     Conditions: [['content-length-range', 0, fileSizeLimit]],

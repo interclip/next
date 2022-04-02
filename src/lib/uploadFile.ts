@@ -1,15 +1,11 @@
 import formatBytes from '@utils/formatBytes';
+import type { S3 } from 'aws-sdk';
 import toast from 'react-hot-toast';
 import { convertXML } from 'simple-xml-to-json';
 import { Web3Storage } from 'web3.storage';
 
 import { APIError, requestClip } from './api/client/requestClip';
-import {
-  ipfsGateway,
-  IS_PROD,
-  maxIPFSUploadSize,
-  web3StorageToken,
-} from './constants';
+import { ipfsGateway, maxIPFSUploadSize, web3StorageToken } from './constants';
 import { getClipHash } from './generateID';
 
 function makeStorageClient() {
@@ -119,7 +115,7 @@ const uploadFile = async (
     );
   }
 
-  if (!IS_PROD) {
+  if (false) {
     return `${filesEndpoint}/${getClipHash(filesEndpoint).slice(0, 5)}`;
   }
 
@@ -128,9 +124,7 @@ const uploadFile = async (
   const filename = encodeURIComponent(file.name);
   const fileType = encodeURIComponent(file.type);
 
-  const res = await fetch(
-    `/api/uploadURL?file=${filename}&fileType=${fileType}`,
-  );
+  const res = await fetch(`/api/uploadFile?name=${filename}&type=${fileType}`);
   if (!res.ok) {
     switch (res.status) {
       case 404:
@@ -143,7 +137,7 @@ const uploadFile = async (
 
     throw new APIError(await res.text());
   }
-  const { url, fields } = await res.json();
+  const { url, fields }: S3.PresignedPost = await res.json();
   const formData = new FormData();
   // eslint-disable-next-line unicorn/no-array-for-each
   Object.entries({ ...fields, file }).forEach(
@@ -166,9 +160,11 @@ const uploadFile = async (
     switch (erorrMsg) {
       case 'EntityTooLarge':
         const fileSize = jsonResponse.Error.children[2].ProposedSize.content;
-        throw new Error(`File too large (${formatBytes(fileSize)})`);
+        throw new APIError(`File too large (${formatBytes(fileSize)})`);
+      case 'AccessDenied':
+        throw new APIError('Access Denied to the bucket');
       default:
-        throw new Error('Upload failed.');
+        throw new APIError('Upload failed.');
     }
   }
 };
