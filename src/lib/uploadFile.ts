@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { convertXML } from 'simple-xml-to-json';
 import { Web3Storage } from 'web3.storage';
 
-import { requestClip } from './api/client/requestClip';
+import { APIError, requestClip } from './api/client/requestClip';
 import {
   ipfsGateway,
   IS_PROD,
@@ -122,7 +122,8 @@ const uploadFile = async (
   if (!IS_PROD) {
     return `${filesEndpoint}/${getClipHash(filesEndpoint).slice(0, 5)}`;
   }
-  const file = files.at(0)!;
+
+  const file = files[0];
 
   const filename = encodeURIComponent(file.name);
   const fileType = encodeURIComponent(file.type);
@@ -131,10 +132,16 @@ const uploadFile = async (
     `/api/uploadURL?file=${filename}&fileType=${fileType}`,
   );
   if (!res.ok) {
-    if (res.status === 404) {
-      throw new Error('API Endpoint not fond');
+    switch (res.status) {
+      case 404:
+        throw new APIError('API Endpoint not found');
+      case 500:
+        throw new APIError('Generic fail');
+      case 503:
+        throw new APIError((await res.json()).result);
     }
-    throw new Error(await res.text());
+
+    throw new APIError(await res.text());
   }
   const { url, fields } = await res.json();
   const formData = new FormData();

@@ -18,6 +18,15 @@ export default async function handler(
     });
   }
 
+  if (
+    !(process.env.ACCESS_KEY && process.env.SECRET_KEY && process.env.REGION)
+  ) {
+    return res.status(503).json({
+      status: 'error',
+      result: 'Server is misconfigured (missing S3 credentials)',
+    });
+  }
+
   aws.config.update({
     accessKeyId: process.env.ACCESS_KEY,
     secretAccessKey: process.env.SECRET_KEY,

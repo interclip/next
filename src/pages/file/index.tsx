@@ -2,7 +2,7 @@ import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
-import { requestClip } from '@utils/api/client/requestClip';
+import { APIError, requestClip } from '@utils/api/client/requestClip';
 import { StorageProvider } from '@utils/constants';
 import { dropLink } from '@utils/dropLink';
 import uploadFile, { ipfsUpload } from '@utils/uploadFile';
@@ -189,7 +189,7 @@ export default function FilePage() {
             await ipfsHandler(files);
             break;
           case 'S3':
-            const fileURL = await uploadFile(filesEndpoint, e);
+            const fileURL = await uploadFile(filesEndpoint, files);
             const clipResponse = await requestClip(fileURL);
             if (clipResponse.status === 'success') {
               setCode(
@@ -208,7 +208,11 @@ export default function FilePage() {
         */
         }
       } catch (error) {
-        toast.error(error as string);
+        if (error instanceof APIError) {
+          toast.error(error.message);
+        } else {
+          toast.error(error as any);
+        }
       }
     }
 
