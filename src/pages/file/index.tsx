@@ -368,7 +368,7 @@ export default function FilePage() {
                     <div className="mb-3 flex flex-wrap justify-center text-3xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>
                         <a
-                          href={`${baseUrl}${code}`}
+                          href={`${baseUrl}/${code}`}
                           rel="noopener noreferrer"
                           target="_blank"
                         >
