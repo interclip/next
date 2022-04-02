@@ -48,7 +48,7 @@ export default async function handler(
     return;
   }
 
-  if (!isValidClipCode) {
+  if (!isValidClipCode(clipCode)) {
     res.status(400).json({
       status: 'error',
       result: 'The provided code has an invalid format.',
