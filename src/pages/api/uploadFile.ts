@@ -17,7 +17,7 @@ export default async function handler(
     });
   }
 
-  if (typeof name === 'object') {
+  if (typeof name === 'object' || typeof type === 'object') {
     return res.status(400).json({
       status: 'error',
       result:
