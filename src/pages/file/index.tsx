@@ -171,14 +171,14 @@ export default function FilePage() {
     setShowOverlay(false);
     setLoading(true);
 
-    if (e.dataTransfer.items && e.dataTransfer.files.length === 0) {
+    if (e?.dataTransfer?.items && e?.dataTransfer?.files.length === 0) {
       dropLink(e);
     } else {
-      const files =
-        (await getFilesFromDataTransferItems(e.dataTransfer.items)) ||
-        (e as DropEvent).target?.files;
+      const files = e?.dataTransfer?.item
+        ? await getFilesFromDataTransferItems(e.dataTransfer.items)
+        : (e as DropEvent).target?.files;
 
-      if (files.length === 0) {
+      if (!files || files.length === 0) {
         toast.error('No file provided.');
         return;
       }
@@ -186,7 +186,7 @@ export default function FilePage() {
       try {
         switch (selected.name) {
           case 'IPFS':
-            await ipfsHandler(e);
+            await ipfsHandler(files);
             break;
           case 'S3':
             const fileURL = await uploadFile(filesEndpoint, e);
