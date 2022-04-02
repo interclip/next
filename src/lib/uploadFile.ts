@@ -5,7 +5,7 @@ import { convertXML } from 'simple-xml-to-json';
 import { Web3Storage } from 'web3.storage';
 
 import { APIError, requestClip } from './api/client/requestClip';
-import { ipfsGateway, maxIPFSUploadSize, web3StorageToken } from './constants';
+import { ipfsGateway, IS_PROD, maxIPFSUploadSize, web3StorageToken } from './constants';
 import { getClipHash } from './generateID';
 
 function makeStorageClient() {
@@ -115,7 +115,7 @@ const uploadFile = async (
     );
   }
 
-  if (false) {
+  if (!IS_PROD) {
     return `${filesEndpoint}/${getClipHash(filesEndpoint).slice(0, 5)}`;
   }
 
