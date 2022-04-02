@@ -20,4 +20,7 @@ module.exports = withPWA({
       'cdn.discordapp.com',
     ],
   },
+  env: {
+    BASE_URL: process.env.BASE_URL,
+  },
 });

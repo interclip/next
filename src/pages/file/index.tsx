@@ -3,7 +3,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { APIError, requestClip } from '@utils/api/client/requestClip';
-import { StorageProvider } from '@utils/constants';
+import { baseUrl, StorageProvider } from '@utils/constants';
 import { dropLink } from '@utils/dropLink';
 import uploadFile, { ipfsUpload } from '@utils/uploadFile';
 import { getFilesFromDataTransferItems } from 'datatransfer-files-promise';
@@ -368,7 +368,7 @@ export default function FilePage() {
                     <div className="mb-3 flex flex-wrap justify-center text-3xl font-semibold text-gray-900 dark:text-gray-200">
                       <span>
                         <a
-                          href={`https://interclip.app/${code}`}
+                          href={`${baseUrl}/${code}`}
                           rel="noopener noreferrer"
                           target="_blank"
                         >
