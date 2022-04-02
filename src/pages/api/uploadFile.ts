@@ -43,14 +43,14 @@ export default async function handler(
 
   const ep = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
   const s3 = new aws.S3({ endpoint: ep });
-  const fileExt = name.split('.').pop();
+  const fileExt = name.includes('.') && name.split('.').pop();
 
   const fileSizeLimit = session ? 1e10 : 1e8; // up to 10 GB if authenthicated
 
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
     Fields: {
-      key: `${cuid()}.${fileExt}`,
+      key: fileExt ? `${cuid()}.${fileExt}` : cuid(),
       'Content-Type': type,
       // Todo(ft): preserve filenames
       //'Content-Disposition': `attachment; filename="${name}"`,
