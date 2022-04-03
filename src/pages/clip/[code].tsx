@@ -24,7 +24,7 @@ dayjs.extend(relativeTime);
 
 interface CodeViewPageProps {
   clip: string;
-  oembed: string;
+  oembed: string | null;
 }
 
 const CodeView = ({
@@ -32,7 +32,7 @@ const CodeView = ({
   oembed: returnedOembed,
 }: CodeViewPageProps) => {
   const clip: Clip = JSON.parse(returnedClip);
-  const oembed: OEmbed | null = JSON.parse(returnedOembed);
+  const oembed: OEmbed | null = returnedOembed && JSON.parse(returnedOembed);
   const urlObject = new URL(clip.url);
   const simplifiedURL = truncate(urlObject, 40);
   const bestFavicon = oembed && getBestFavicon(oembed.favicons);
@@ -270,7 +270,7 @@ export async function getStaticProps({
     return {
       props: {
         clip: JSON.stringify(selectedClip),
-        oembed: JSON.stringify(additionalDetails),
+        oembed: additionalDetails ? JSON.stringify(additionalDetails) : null,
       },
     };
   } catch (error) {
