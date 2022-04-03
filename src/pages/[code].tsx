@@ -11,15 +11,13 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { OEmbed } from 'src/typings/interclip';
 
-const Redirect = ({
-  code,
-  url,
-  returnedOembed,
-}: {
+interface CodeScreenProps {
   code: string;
   url: string;
-  returnedOembed: string;
-}) => {
+  oembed: string | null;
+}
+
+const Redirect = ({ code, url, oembed: returnedOembed }: CodeScreenProps) => {
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const oembed: OEmbed = returnedOembed && JSON.parse(returnedOembed);
   const urlObject = new URL(url);
@@ -73,11 +71,16 @@ const Redirect = ({
   );
 };
 
+type CodeServerReturnedProps =
+  | { props: CodeScreenProps }
+  | { notFound: boolean }
+  | { redirect: { destination: string; permanent: boolean } };
+
 export async function getServerSideProps({
   query,
 }: {
   query: NextApiRequest['query'];
-}) {
+}): Promise<CodeServerReturnedProps> {
   let userCode = query.code;
 
   if (userCode && typeof userCode === 'object') {
@@ -108,7 +111,7 @@ export async function getServerSideProps({
         props: {
           code: selectedClip.code.slice(0, selectedClip.hashLength),
           url: selectedClip.url,
-          oembed: JSON.stringify(additionalDetails),
+          oembed: additionalDetails ? JSON.stringify(additionalDetails) : null,
         },
       };
     } catch (error) {
