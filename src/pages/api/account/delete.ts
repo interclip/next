@@ -46,5 +46,5 @@ export default async function deleteAccount(
   });
 
   await db.user.delete({ where: { email: address } });
-  return res.status(204).send(null);
+  return res.status(204);
 }
