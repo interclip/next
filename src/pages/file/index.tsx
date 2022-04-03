@@ -17,7 +17,7 @@ import { getCache, storeCache } from '../clips';
 
 const remoteOptions: { name: StorageProvider; disabled?: boolean }[] = [
   { name: StorageProvider.S3 },
-  { name: StorageProvider.IPFS, disabled: true },
+  { name: StorageProvider.IPFS },
 ];
 
 const RemoteOptionsSelect = ({
@@ -165,7 +165,7 @@ export default function FilePage() {
   }
   */
 
-  const ipfsHandler = ipfsUpload(setProgress, setFileURL, setCode);
+  const ipfsHandler = ipfsUpload(setProgress, setFileURL, setCode, 'infura');
 
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);

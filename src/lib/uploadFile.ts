@@ -2,7 +2,6 @@ import formatBytes from '@utils/formatBytes';
 import type { S3 } from 'aws-sdk';
 import toast from 'react-hot-toast';
 import { convertXML } from 'simple-xml-to-json';
-import { Web3Storage } from 'web3.storage';
 
 import { APIError, requestClip } from './api/client/requestClip';
 import {
@@ -13,7 +12,8 @@ import {
 } from './constants';
 import { getClipHash } from './generateID';
 
-function makeStorageClient() {
+async function makeStorageClient() {
+  const Web3Storage = (await import('web3.storage')).Web3Storage;
   if (!web3StorageToken) {
     throw new Error('Missing Web3.storage token');
   }
@@ -24,89 +24,126 @@ function makeStorageClient() {
  * Checks whether a specified CID already exists on IPFS
  */
 export const ipfsCheckCID = async (cid: string): Promise<boolean> => {
-  const client = makeStorageClient();
+  const client = await makeStorageClient();
   const res = await client.get(cid);
   return !res || !res.ok ? false : true;
 };
+
+interface InfuraResponse {
+  Hash: string;
+  Name: string;
+  Size: string;
+}
 
 export const ipfsUpload = (
   setProgress: React.Dispatch<React.SetStateAction<number>>,
   setFileURL: React.Dispatch<React.SetStateAction<string | null>>,
   setCode: React.Dispatch<React.SetStateAction<string | null>>,
+  provider: 'infura' | 'web3.storage',
 ) => {
   return async (files: File[]) => {
-    if (web3StorageToken) {
+    if (!web3StorageToken && provider === 'web3.storage') {
+      toast.error('Web3.storage token not provided');
+      return;
+    }
+
+    if (!files || files.length === 0) {
+      toast.error('Please select a file');
+      return;
+    }
+
+    // show the root cid as soon as it's ready
+    const onRootCidReady = async (cid: string) => {
+      if (await ipfsCheckCID(cid)) {
+        // Todo(ft): handle files already on IPFS, maybe by pinning them
+        //throw new DuplicateError('Already on IPFS');
+      }
+    };
+
+    // when each chunk is stored, update the percentage complete and display
+    const totalSize = [...files].map((f) => f.size).reduce((a, b) => a + b, 0);
+    let uploaded = 0;
+
+    const onStoredChunk = (size: number) => {
+      uploaded += size;
+      const pct = uploaded / totalSize;
+      setProgress(pct * 100);
+    };
+
+    const filesOverLimit = [...files].filter(
+      (file) => file.size > maxIPFSUploadSize,
+    );
+
+    if (filesOverLimit.length > 0) {
+      for (const file of filesOverLimit) {
+        toast.error(`${file.name} is too large, aborting upload`);
+      }
+      return;
+    }
+
+    let rootCID;
+
+    if (provider === 'web3.storage') {
       const Web3Storage = (await import('web3.storage')).Web3Storage;
-      const client = new Web3Storage({ token: web3StorageToken });
-
-      if (!files || files.length === 0) {
-        toast.error('Please select a file');
-        return;
-      }
-
-      // show the root cid as soon as it's ready
-      const onRootCidReady = async (cid: string) => {
-        if (await ipfsCheckCID(cid)) {
-          // Todo(ft): handle files already on IPFS, maybe by pinning them
-          //throw new DuplicateError('Already on IPFS');
-        }
-      };
-
-      // when each chunk is stored, update the percentage complete and display
-      const totalSize = [...files]
-        .map((f) => f.size)
-        .reduce((a, b) => a + b, 0);
-      let uploaded = 0;
-
-      const onStoredChunk = (size: number) => {
-        uploaded += size;
-        const pct = uploaded / totalSize;
-        setProgress(pct * 100);
-      };
-
-      const filesOverLimit = [...files].filter(
-        (file) => file.size > maxIPFSUploadSize,
-      );
-
-      if (filesOverLimit.length > 0) {
-        for (const file of filesOverLimit) {
-          toast.error(`${file.name} is too large, aborting upload`);
-        }
-        return;
-      }
-
-      const rootCID = await client.put(files, {
+      const client = new Web3Storage({ token: web3StorageToken! });
+      rootCID = await client.put(files, {
         maxRetries: 3,
         wrapWithDirectory: files.length > 1,
         onRootCidReady,
         onStoredChunk,
       });
-
-      setProgress(0);
-
-      const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
-      let url;
-      if (files.length > 1) {
-        url = `https://ipfs.io/ipfs/${rootCID}`;
-      } else {
-        url = isVideo
-          ? `https://ipfs.io/ipfs/${rootCID}?filename=${files![0]?.name}`
-          : `${ipfsGateway}/ipfs/${rootCID}?filename=${files![0]?.name}`;
-      }
-      setFileURL(url);
-      const clipResponse = await requestClip(url);
-
-      if (clipResponse.status === 'error') {
-        toast.error(`An error has occured: ${clipResponse.result}`);
-        return;
-      }
-
-      setCode(
-        clipResponse.result.code.slice(0, clipResponse.result.hashLength),
-      );
     } else {
-      toast.error('Web3.storage token not provided');
+      const formData = new FormData();
+      for (const file of files) {
+        formData.append('file', file);
+      }
+
+      const infuraReq = await fetch(
+        `https://ipfs.infura.io:5001/api/v0/add?wrap-with-directory=${
+          files.length > 1 ? 'true' : 'false'
+        }`,
+        {
+          method: 'post',
+          body: formData,
+        },
+      );
+      const infuraDataFiles: string = await infuraReq.text();
+
+      const uploadedFiles: InfuraResponse[] = infuraDataFiles
+        .split(/\r\n|\n\r|\n|\r/)
+        .map((dataLine) => {
+          console.log(dataLine);
+          if (dataLine) return JSON.parse(dataLine);
+        })
+        .filter((item) => item !== undefined);
+
+      rootCID =
+        files.length > 1
+          ? // @ts-ignore
+            uploadedFiles.find((file) => file.Name === '').Hash
+          : uploadedFiles[0].Hash;
     }
+
+    setProgress(0);
+
+    const isVideo = files[0].type.match(new RegExp('video/.{1,10}'));
+    let url;
+    if (files.length > 1) {
+      url = `https://ipfs.io/ipfs/${rootCID}`;
+    } else {
+      url = isVideo
+        ? `https://ipfs.io/ipfs/${rootCID}?filename=${files![0]?.name}`
+        : `${ipfsGateway}/ipfs/${rootCID}?filename=${files![0]?.name}`;
+    }
+    setFileURL(url);
+    const clipResponse = await requestClip(url);
+
+    if (clipResponse.status === 'error') {
+      toast.error(`An error has occured: ${clipResponse.result}`);
+      return;
+    }
+
+    setCode(clipResponse.result.code.slice(0, clipResponse.result.hashLength));
   };
 };
 
