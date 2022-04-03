@@ -24,7 +24,7 @@ export default async function deleteAccount(
   const signedInUserAddress = (await getSession({ req }))?.user?.email!;
   const { address = signedInUserAddress } = req.query;
 
-  // The user is trying to change the settings of another user
+  // The user is trying to delete another user
   if (address !== signedInUserAddress) {
     needsAdmin(req, res);
   }
