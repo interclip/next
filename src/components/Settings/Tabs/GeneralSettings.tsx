@@ -235,6 +235,35 @@ const GeneralSettings = ({
         </SettingsCard>
       )}
       <SettingsCard
+        buttonText="Export"
+        onSave={async () => {
+          const exportRes = await fetch('/api/account/export', {
+            method: 'POST',
+          });
+
+          if (exportRes.status === 429) {
+            toast.error(
+              'Too Many Requests. Please try again in a couple of seconds',
+            );
+            return;
+          }
+
+          const exportData = await exportRes.json();
+          const exportElement = document.createElement('a');
+          exportElement.download = `interclip_data_export${new Date().toISOString()}.json`;
+
+          const dataBlob = new Blob([JSON.stringify(exportData)], {
+            type: 'application/json',
+          });
+          exportElement.href = URL.createObjectURL(dataBlob);
+          exportElement.click();
+        }}
+        title="Export personal data"
+      >
+        Download all data associated with your account. This includes your
+        preferences and clips
+      </SettingsCard>
+      <SettingsCard
         buttonText="Delete Personal Account"
         dangerous
         onSave={async () => {
