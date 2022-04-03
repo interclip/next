@@ -52,6 +52,7 @@ const StorageSettings = ({
         </div>
       </SettingsCard>
       <SettingsCard
+        buttonText={expiration === 0 ? 'Disable' : 'Save'}
         description="Select time after which will clips be deleted. Set to 0 to disable clip expiration"
         isDisabled={expiration === user.clipExpirationPreference}
         onSave={async () => {
