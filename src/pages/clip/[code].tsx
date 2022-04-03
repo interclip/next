@@ -57,7 +57,6 @@ const CodeView = ({
                 className="flex cursor-pointer items-center justify-center"
                 onClick={() => {
                   navigator.clipboard.writeText(code);
-                  toast.success('Successfully copied to clipboard');
                   setIsCopied(true);
                   setTimeout(() => {
                     setIsCopied(false);
