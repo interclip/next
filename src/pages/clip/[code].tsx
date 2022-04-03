@@ -16,7 +16,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { recoverPersonalSignature } from 'eth-sig-util';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import toast from 'react-hot-toast';
 import ReactTooltip from 'react-tooltip';
 import type { OEmbed } from 'src/typings/interclip';
 
