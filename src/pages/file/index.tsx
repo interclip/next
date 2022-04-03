@@ -86,7 +86,7 @@ const RemoteOptionsSelect = ({
                   className={({ active }) =>
                     `${
                       active
-                        ? 'bg-amber-100 text-amber-900 dark:bg-dark-bg dark:text-light-bg'
+                        ? 'bg-gray-100 dark:bg-dark-bg dark:text-light-bg'
                         : 'dark:bg-dark-secondary'
                     }
                     relative cursor-default select-none py-2 pl-10 pr-4 text-dark-text`
@@ -95,7 +95,7 @@ const RemoteOptionsSelect = ({
                   key={optionIdx}
                   value={option}
                 >
-                  {({ selected, active }) => (
+                  {({ selected }) => (
                     <>
                       <span
                         className={`${
@@ -106,10 +106,9 @@ const RemoteOptionsSelect = ({
                       </span>
                       {selected ? (
                         <span
-                          className={`${
-                            active ? 'text-amber-600' : 'text-amber-600'
+                          className={
+                            'absolute inset-y-0 left-0 flex items-center pl-3 text-light-bg'
                           }
-                          absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <CheckIcon aria-hidden="true" className="h-5 w-5" />
                         </span>
