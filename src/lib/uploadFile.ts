@@ -7,7 +7,8 @@ import { APIError, requestClip } from './api/client/requestClip';
 import {
   ipfsGateway,
   IS_PROD,
-  maxIPFSUploadSize,
+  maxIPFSUploadSizeInfura,
+  maxIPFSUploadSizeWeb3Storage,
   web3StorageToken,
 } from './constants';
 import { getClipHash } from './generateID';
@@ -71,7 +72,11 @@ export const ipfsUpload = (
     };
 
     const filesOverLimit = [...files].filter(
-      (file) => file.size > maxIPFSUploadSize,
+      (file) =>
+        file.size >
+        (provider === 'web3.storage'
+          ? maxIPFSUploadSizeWeb3Storage
+          : maxIPFSUploadSizeInfura),
     );
 
     if (filesOverLimit.length > 0) {
