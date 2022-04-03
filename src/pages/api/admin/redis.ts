@@ -84,7 +84,8 @@ export default async function handler(
       });
 
       if (targetedClip) {
-        await storeLinkPreviewInCache(targetedClip.url);
+        if (process.env.REDIS_HOST)
+          await storeLinkPreviewInCache(targetedClip.url);
         res.json({
           status: 'success',
           result: { generated: true },

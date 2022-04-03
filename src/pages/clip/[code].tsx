@@ -263,7 +263,9 @@ export async function getStaticProps({
     if (!selectedClip) {
       return { notFound: true };
     }
-    const additionalDetails = await storeLinkPreviewInCache(selectedClip.url);
+    const additionalDetails =
+      process.env.REDIS_HOST &&
+      (await storeLinkPreviewInCache(selectedClip.url));
 
     return {
       props: {

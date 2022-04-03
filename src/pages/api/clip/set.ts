@@ -48,7 +48,7 @@ async function createClip(
   res.unstable_revalidate('/about');
   res.unstable_revalidate(`/clip/${newClip.code.slice(0, newClip.hashLength)}`);
   res.status(200).json({ status: 'success', result: newClip });
-  await storeLinkPreviewInCache(parsedURL);
+  if (process.env.REDIS_HOST) await storeLinkPreviewInCache(parsedURL);
   await uploadToIPFS(newClip.id);
 }
 

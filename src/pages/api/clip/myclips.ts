@@ -43,6 +43,7 @@ export default async function handler(
     for (const clip of clips) {
       const urlObject = new URL(clip.url);
       const additionalDetails =
+        process.env.REDIS_HOST &&
         ['http', 'https'].includes(urlObject.protocol) &&
         (await storeLinkPreviewInCache(clip.url, redisClient));
 
