@@ -59,7 +59,7 @@
     "simple-xml-to-json": "^1.0.9",
     "ts-node": "^10.7.0",
     "validator": "^13.7.0",
-    "web3": "^1.7.1",
+    "web3": "^1.7.2",
     "web3.storage": "3.5.2",
     "webtorrent": "^1.8.13"
   },
