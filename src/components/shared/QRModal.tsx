@@ -17,6 +17,7 @@ const QRModal = (props: {
       className="text-center"
       initial={{ opacity: 0 }}
     >
+      {/*@ts-ignore*/}
       <AnimatePresence>
         <motion.div
           animate={{ opacity: 1, scale: 1 }}
