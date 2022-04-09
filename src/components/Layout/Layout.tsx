@@ -5,10 +5,10 @@ import { Toaster } from 'react-hot-toast';
 
 import { Navbar } from '../Navbar';
 
-const Layout: React.FC<{ titlePrefix?: string }> = ({
-  children,
-  titlePrefix,
-}): JSX.Element => {
+const Layout: React.FC<{
+  titlePrefix?: string;
+  children: React.ReactElement;
+}> = ({ children, titlePrefix }): JSX.Element => {
   return (
     <>
       <NextSeo
