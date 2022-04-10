@@ -1,6 +1,7 @@
 import { getClipHash } from '@utils/generateID';
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
+import router from 'next/router';
 import React, { useState } from 'react';
 
 import { Layout } from '../components/Layout';
@@ -94,6 +95,12 @@ const Home: NextPage = () => {
                       : undefined,
                   ).then(async (clip) => {
                     if (clip.status === 'success') {
+                      router.push(
+                        `/clip/${clip.result.code.slice(
+                          0,
+                          clip.result.hashLength,
+                        )}`,
+                      );
                       resolve('Success');
                     } else {
                       if (!clip) {
