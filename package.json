@@ -33,7 +33,7 @@
     "ethers": "^5.6.4",
     "faker": "^5.5.3",
     "fetch-blob": "^3.1.5",
-    "framer-motion": "^6.2.9",
+    "framer-motion": "^6.3.0",
     "ioredis": "^5.0.4",
     "js-cookie": "^3.0.1",
     "link-preview-js": "^2.1.13",
