@@ -3,10 +3,11 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import { ClockIcon } from '@heroicons/react/outline';
+import { ClockIcon, HeartIcon } from '@heroicons/react/outline';
 import { Clip } from '@prisma/client';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { ipfsGateway } from '@utils/constants';
+import { getClipHash } from '@utils/generateID';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { isValidClipCode } from '@utils/isClip';
@@ -44,6 +45,8 @@ const CodeView = ({
     clip.signature &&
     recoverPersonalSignature({ data: clip.code, sig: clip.signature });
   const code = clip.code.slice(0, clip.hashLength);
+
+  const matchingHash = getClipHash(clip.url) === clip.code;
 
   return (
     <Layout>
@@ -132,7 +135,10 @@ const CodeView = ({
             <QRModal setQrCodeZoom={setQrCodeZoom} url={clip.url} />
           )}
         </div>
-        {(clip.ipfsHash || clip.signature || clip.expiresAt) && (
+        {(clip.ipfsHash ||
+          clip.signature ||
+          clip.expiresAt ||
+          !matchingHash) && (
           <div className="shadow-custom mb-8 flex w-full flex-col justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
             <H3>Special</H3>
             {clip.ipfsHash && (
@@ -202,6 +208,11 @@ const CodeView = ({
                 >
                   {dayjs(clip.expiresAt).fromNow()}
                 </span>
+              </div>
+            )}
+            {!matchingHash && (
+              <div className="mt-4 flex flex-row items-center gap-1">
+                <HeartIcon height={20} width={20} /> This clip has a custom code{' '}
               </div>
             )}
           </div>
