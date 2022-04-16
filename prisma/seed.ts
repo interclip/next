@@ -97,7 +97,7 @@ async function main() {
 
   youtubeProgress.stop();
 
-  for (const url of urls) {
+  for (const url of urls.values()) {
     try {
       const ownerID = userIDs[Math.floor(Math.random() * userIDs.length)];
       const code = getClipHash(url);
