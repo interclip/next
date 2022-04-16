@@ -1,7 +1,7 @@
 import { getClipHash } from '@utils/generateID';
 import type { NextPage } from 'next';
-import { useSession } from 'next-auth/react';
 import router from 'next/router';
+import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 
 import { Layout } from '../components/Layout';
