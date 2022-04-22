@@ -47,5 +47,9 @@ export const getEmbed = (url: string): HTMLElement | undefined => {
       element = document.createElement('iframe');
       element.src = `https://drive.google.com/viewerng/viewer?embedded=true&url=${url}`;
   }
-  return element;
+  if (element) {
+    element.style.width = '100%';
+    element.style.height = '100%';
+    return element;
+  }
 };

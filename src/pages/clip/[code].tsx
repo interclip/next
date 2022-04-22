@@ -68,18 +68,17 @@ const PreviewDialog = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-dark-secondary dark:text-dark-text">
+            <div className="my-8 inline-block w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-dark-secondary dark:text-dark-text">
               <Dialog.Title
                 as="h3"
                 className="text-lg font-medium leading-6 text-gray-900 dark:text-dark-text"
               >
                 File preview
               </Dialog.Title>
-              <div className="mt-2">
-                <div
-                  dangerouslySetInnerHTML={{ __html: embedElement.outerHTML }}
-                ></div>
-              </div>
+              <div
+                className="h-64 w-full"
+                dangerouslySetInnerHTML={{ __html: embedElement.outerHTML }}
+              ></div>
 
               <div className="mt-4">
                 <button
