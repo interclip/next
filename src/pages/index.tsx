@@ -86,7 +86,7 @@ const Home: NextPage = () => {
               await toast.promise(
                 new Promise((resolve, reject) => {
                   requestClip(
-                    clipURL,
+                    clipURL.trim(),
                     signature
                       ? {
                           signature,
