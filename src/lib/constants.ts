@@ -6,6 +6,8 @@ export const web3StorageToken = process.env.WEB3_TOKEN;
 
 export const ipfsGateway = 'https://ipfs.interclip.app';
 export const githubRepo = 'https://github.com/interclip/next';
+export const filesEndpoint = 'https://files.interclip.app';
+export const proxyURL = 'https://trnck.dev/proxy';
 
 export const maxNameAllowedLength = 64;
 export const maxUsernameAllowedLength = 48;

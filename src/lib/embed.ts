@@ -1,3 +1,4 @@
+import { filesEndpoint, proxyURL } from './constants';
 import { proxied as imgProxy } from './image';
 
 export const getEmbed = (url: string): HTMLElement | undefined => {
@@ -5,6 +6,8 @@ export const getEmbed = (url: string): HTMLElement | undefined => {
   const extension = urlData.pathname.slice(
     urlData.pathname.lastIndexOf('.') + 1,
   );
+
+  const shouldProxy = new URL(filesEndpoint).host !== urlData.host;
 
   let element;
   switch (extension) {
@@ -28,7 +31,7 @@ export const getEmbed = (url: string): HTMLElement | undefined => {
 
     case 'pdf':
       element = document.createElement('embed');
-      element.src = url;
+      element.src = shouldProxy ? `${proxyURL}?url=${url}` : url;
       break;
 
     // file types supported by the Google Drive viewer
