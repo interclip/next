@@ -27,10 +27,12 @@ const PreviewDialog = ({
   isOpen,
   setIsOpen,
   embedElement,
+  url,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   embedElement: HTMLElement;
+  url: Clip['url'];
 }) => {
   return (
     <Transition appear as={Fragment} show={isOpen}>
@@ -83,6 +85,11 @@ const PreviewDialog = ({
               <div className="mt-4">
                 <button
                   className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  onClick={() => {
+                    const el = document.createElement('a');
+                    el.href = url;
+                    el.click();
+                  }}
                   type="button"
                 >
                   Download
@@ -134,6 +141,7 @@ const CodeView = ({
             embedElement={embedElement}
             isOpen={previewOpen}
             setIsOpen={setOpenPreview}
+            url={clip.url}
           />
         )}
         <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
