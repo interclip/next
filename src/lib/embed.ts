@@ -17,6 +17,8 @@ export const getEmbed = (url: string): HTMLElement | undefined => {
     case 'png':
     case 'webp':
     case 'avif':
+    case 'gif':
+    case 'tiff':
       element = document.createElement('img');
       element.src = imgProxy(url);
       break;
