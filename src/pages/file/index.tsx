@@ -3,7 +3,7 @@ import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Loading } from '@nextui-org/react';
 import { APIError, requestClip } from '@utils/api/client/requestClip';
-import { baseUrl, StorageProvider } from '@utils/constants';
+import { baseUrl, filesEndpoint, StorageProvider } from '@utils/constants';
 import { dropLink } from '@utils/dropLink';
 import uploadFile, { ipfsUpload } from '@utils/uploadFile';
 import { getFilesFromDataTransferItems } from 'datatransfer-files-promise';
@@ -126,8 +126,6 @@ const RemoteOptionsSelect = ({
 };
 
 export default function FilePage() {
-  const filesEndpoint = 'https://files.interclip.app';
-
   const [showOverlay, setShowOverlay] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fileURL, setFileURL] = useState<null | string>(null);
