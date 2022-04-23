@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import fs from 'fs/promises';
 
 import { db } from '../src/lib/prisma';
@@ -27,14 +28,24 @@ export interface OldClip {
   if (dataObject && dataObject.data) {
     for (const clip of dataObject.data) {
       console.log(`Creating ${clip.usr}`);
-      await db.clip.create({
-        data: {
-          url: clip.url,
-          code: clip.usr,
-          expiresAt: clip.expires ? new Date(clip.expires) : undefined,
-          createdAt: new Date(clip.date),
-        },
-      });
+      await db.clip
+        .create({
+          data: {
+            url: clip.url,
+            code: clip.usr,
+            expiresAt: clip.expires ? new Date(clip.expires) : undefined,
+            createdAt: new Date(clip.date),
+          },
+        })
+        .catch((error) => {
+          if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            if (error.code === 'P2002') {
+              // Duplicates are ok
+              return;
+            }
+            throw error;
+          }
+        });
     }
   }
 })();
