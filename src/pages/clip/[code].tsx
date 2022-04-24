@@ -131,7 +131,7 @@ const CodeView = ({
     recoverPersonalSignature({ data: clip.code, sig: clip.signature });
   const code = clip.code.slice(0, clip.hashLength);
 
-  const matchingHash = getClipHash(clip.url) === clip.code;
+  const matchingHash = getClipHash(decodeURI(clip.url)) === clip.code;
 
   return (
     <Layout>
