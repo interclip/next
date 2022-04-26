@@ -10507,10 +10507,10 @@ websocket@^1.0.32:
     utf-8-validate "^5.0.2"
     yaeti "^0.0.6"
 
-webtorrent@^1.8.14:
-  version "1.8.14"
-  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.8.14.tgz#b76c7c44dfe9e475a1f24679079a83d271fdca07"
-  integrity sha512-gHgA3rOcBaGpLyYKpRdo4Kvc32cJpawrny+c0+Q+PKhY9Ttoottsp1ixVOS8ejYwy9oNKJ5hNh0viX66jhfAPg==
+webtorrent@^1.8.15:
+  version "1.8.15"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.8.15.tgz#6280057b967f5adb3874b350ea71c1ef4d9df2c7"
+  integrity sha512-1kDXFfryw7O0nCdl+d9h9+aBIScoLyPuJc0lAXwkAjkvCVKxkoLKoOzwY1tEZ3fHA6OV5cPMQz5SBVjaO3pdag==
   dependencies:
     "@webtorrent/http-node" "^1.3.0"
     addr-to-ip-port "^1.5.4"
