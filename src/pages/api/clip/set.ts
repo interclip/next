@@ -29,7 +29,7 @@ async function createClip(
 ) {
   const userPrefferedExpiration = session?.user?.email
     ? (await db.user.findUnique({ where: { email: session.user.email } }))
-        ?.clipExpirationPreference
+      ?.clipExpirationPreference
     : null;
   const expiration = userPrefferedExpiration ?? defaultExpirationLength;
 
@@ -96,6 +96,14 @@ export default async function handler(
       status: 'error',
       result:
         'Too many signature query params provided. Please only provide only one per request.',
+    });
+    return;
+  }
+
+  if (requestedClipURL.length > 200) {
+    res.status(400).json({
+      status: 'error',
+      result: 'URL Too long.',
     });
     return;
   }
