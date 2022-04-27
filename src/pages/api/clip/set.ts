@@ -29,7 +29,7 @@ async function createClip(
 ) {
   const userPrefferedExpiration = session?.user?.email
     ? (await db.user.findUnique({ where: { email: session.user.email } }))
-      ?.clipExpirationPreference
+        ?.clipExpirationPreference
     : null;
   const expiration = userPrefferedExpiration ?? defaultExpirationLength;
 
