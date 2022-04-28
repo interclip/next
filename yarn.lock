@@ -3313,10 +3313,10 @@ bittorrent-peerid@^1.3.3:
   resolved "https://registry.yarnpkg.com/bittorrent-peerid/-/bittorrent-peerid-1.3.4.tgz#81c1597a06a1d424a6ddd1bb196eead98c250d01"
   integrity sha512-Xzk1FJFHmsc9H8IKFtDUkfAZIT1HW8r6UqajfZBBxWmpA1v7FsPO8xPFtnFzCqcXlPN3yi8dDmlqZCemyB7P8w==
 
-bittorrent-protocol@^3.5.3:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/bittorrent-protocol/-/bittorrent-protocol-3.5.3.tgz#b6554d1427310c27014c5a21910197aefabe072e"
-  integrity sha512-00EmWOK45ZNjo/Mqw3mPiG6K4o167kWvNuFtCzYbJFQTOCSCLwWkhnPAfYmbXEljYF6gWbV7eRnFCVvlSdiofw==
+bittorrent-protocol@^3.5.5:
+  version "3.5.5"
+  resolved "https://registry.yarnpkg.com/bittorrent-protocol/-/bittorrent-protocol-3.5.5.tgz#d89233da11996d8978146f8b80ed91fec9e0e9b8"
+  integrity sha512-cfzO//WtJGNLHXS58a4exJCSq1U0dkP2DZCQxgADInYFPdOfV1EmtpEN9toLOluVCXJRYAdwW5H6Li/hrn697A==
   dependencies:
     bencode "^2.0.2"
     bitfield "^4.0.0"
@@ -10527,16 +10527,16 @@ websocket@^1.0.32:
     utf-8-validate "^5.0.2"
     yaeti "^0.0.6"
 
-webtorrent@^1.8.15:
-  version "1.8.15"
-  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.8.15.tgz#6280057b967f5adb3874b350ea71c1ef4d9df2c7"
-  integrity sha512-1kDXFfryw7O0nCdl+d9h9+aBIScoLyPuJc0lAXwkAjkvCVKxkoLKoOzwY1tEZ3fHA6OV5cPMQz5SBVjaO3pdag==
+webtorrent@^1.8.16:
+  version "1.8.16"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.8.16.tgz#4b4056db40cbcd21c09ec6680cb57f27558d4ec6"
+  integrity sha512-cRiCUn+B62KHN+BtQLZ8+9eGJ8aPQtrk9OVnLDehudxY1u/1ajwuE+5p/ho1vT3ysmro0UtCRNnEor0+QmNaDA==
   dependencies:
     "@webtorrent/http-node" "^1.3.0"
     addr-to-ip-port "^1.5.4"
     bitfield "^4.1.0"
     bittorrent-dht "^10.0.2"
-    bittorrent-protocol "^3.5.3"
+    bittorrent-protocol "^3.5.5"
     cache-chunk-store "^3.2.2"
     chrome-net "^3.3.4"
     chunk-store-stream "^4.3.0"
