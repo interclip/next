@@ -3133,10 +3133,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-sdk@*, aws-sdk@^2.1123.0:
-  version "2.1123.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1123.0.tgz#56a94196482d4eb5de8217b9ad2138384caa6c73"
-  integrity sha512-yvPDpuzgz8a3YV99hJ0ChLWpbLxNuCiR8+0Fd4w/AoIf08OBZvTN0MAG/XnPVgTLya5qW8YZtghFTrodzwhYwg==
+aws-sdk@*, aws-sdk@^2.1124.0:
+  version "2.1124.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1124.0.tgz#350550b973f210b092a45184036659251d7cbd1e"
+  integrity sha512-LIj2EmvduQmyjpSLoDPe2TvRBrGWhJKlCuC7lungN4f+qYPOfVWg6/c9GdP99W0q5p2IqhDkCmQ/ZZBpO1Z/Fg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -5404,10 +5404,10 @@ fraction.js@^4.2.0:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.2.0.tgz#448e5109a313a3527f5a3ab2119ec4cf0e0e2950"
   integrity sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==
 
-framer-motion@^6.3.2:
-  version "6.3.2"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-6.3.2.tgz#149bcd1daa4419ca5c0fbef881b4140e89b4799a"
-  integrity sha512-z+W9LyFCrQwn8Q9vTPm9RM+jYdn2WH6NM2/h1qPtsYzDsMvT50quU8RKwG4Iq2pVeojVuY1WADCuNiIln9Y6dQ==
+framer-motion@^6.3.3:
+  version "6.3.3"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-6.3.3.tgz#58978fe6955d13000351ea4c134c9bc052638967"
+  integrity sha512-wo0dCnoq5vn4L8YVOPO9W54dliH78vDaX0Lj+bSPUys6Nt5QaehrS3uaYa0q5eVeikUgtTjz070UhQ94thI5Sw==
   dependencies:
     framesync "6.0.1"
     hey-listen "^1.0.8"
