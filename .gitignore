@@ -40,7 +40,9 @@ sw.js.map
 workbox*.js
 workbox*.js.map
 dump.rdb
+fallback-*.js
 
 # sitemap
 robots.txt
 sitemap.xml
+sitemap-*.xml

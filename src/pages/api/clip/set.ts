@@ -100,6 +100,14 @@ export default async function handler(
     return;
   }
 
+  if (requestedClipURL.length > 200) {
+    res.status(400).json({
+      status: 'error',
+      result: 'URL Too long.',
+    });
+    return;
+  }
+
   const clipHashRequested = getClipHash(requestedClipURL);
 
   if (signature && address) {

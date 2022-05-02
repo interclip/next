@@ -43,7 +43,7 @@ export const dropLink = (e: DropEvent) => {
     }
 
     const firstURL = urls.values().next().value;
-    if ([...urls].length !== 0 && firstURL && firstURL !== '') {
+    if (urls.size !== 0 && firstURL) {
       toast.promise(
         new Promise((resolve, reject) => {
           requestClip(firstURL).then(async (clip) => {
