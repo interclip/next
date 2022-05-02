@@ -20,10 +20,12 @@ export default NextAuth({
   providers: [
     !IS_PROD && DemoProvider,
     Web3Provider,
-    DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      /* Todo(ft): we need to prevent Discord from signing in when the user's email is not verified
+    process.env.DISCORD_CLIENT_ID &&
+      process.env.DISCORD_CLIENT_SECRET &&
+      DiscordProvider({
+        clientId: process.env.DISCORD_CLIENT_ID,
+        clientSecret: process.env.DISCORD_CLIENT_SECRET,
+        /* Todo(ft): we need to prevent Discord from signing in when the user's email is not verified
       profile(profile: DiscordProfile) {
         if (profile.avatar === null) {
           const defaultAvatarNumber = parseInt(profile.discriminator) % 5;
@@ -41,7 +43,7 @@ export default NextAuth({
         };
       },
       */
-    }),
+      }),
     GitlabProvider({
       clientId: process.env.GITLAB_CLIENT_ID,
       clientSecret: process.env.GITLAB_CLIENT_SECRET,
