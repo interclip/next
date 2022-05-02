@@ -75,7 +75,7 @@
     "@types/webtorrent": "^0.109.3",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "autoprefixer": "^10.4.5",
-    "cli-progress": "^3.10.0",
+    "cli-progress": "^3.11.0",
     "eslint": "^8.14.0",
     "eslint-config-next": "12.1.5",
     "eslint-config-prettier": "^8.5.0",
