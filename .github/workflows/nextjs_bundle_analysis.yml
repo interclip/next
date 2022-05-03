@@ -12,6 +12,15 @@ defaults:
     # change this if your nextjs app does not live at the root of the repo
     working-directory: ./
 
+permissions:
+  actions: read
+  checks: write
+  deployments: write
+  issues: write
+  packages: none
+  pull-requests: write
+  statuses: write
+
 jobs:
   analyze:
     runs-on: ubuntu-latest
@@ -48,7 +57,7 @@ jobs:
         run: npx -p nextjs-bundle-analysis report
 
       - name: Upload bundle
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bundle
           path: .next/analyze/__bundle_analysis.json
