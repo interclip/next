@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@types/aws-sdk": "^2.7.0",
-    "@types/cli-progress": "^3.9.2",
+    "@types/cli-progress": "^3.11.0",
     "@types/faker": "^5.5.9",
     "@types/js-cookie": "^3.0.2",
     "@types/lru-cache": "^7.6.1",
