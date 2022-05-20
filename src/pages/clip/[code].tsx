@@ -3,10 +3,14 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import { ClockIcon } from '@heroicons/react/outline';
+import { Dialog, Transition } from '@headlessui/react';
+import { ClockIcon, HeartIcon } from '@heroicons/react/outline';
+import { EyeIcon } from '@heroicons/react/solid';
 import { Clip } from '@prisma/client';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { ipfsGateway } from '@utils/constants';
+import { getEmbed } from '@utils/embed';
+import { getClipHash } from '@utils/generateID';
 import getBestFavicon from '@utils/highestResolutionFavicon';
 import { proxied } from '@utils/image';
 import { isValidClipCode } from '@utils/isClip';
@@ -15,9 +19,89 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { recoverPersonalSignature } from 'eth-sig-util';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import type { OEmbed } from 'src/typings/interclip';
+
+const PreviewDialog = ({
+  isOpen,
+  setIsOpen,
+  embedElement,
+  url,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  embedElement: HTMLElement;
+  url: Clip['url'];
+}) => {
+  return (
+    <Transition appear as={Fragment} show={isOpen}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-10 overflow-y-auto"
+        onClose={() => setIsOpen(false)}
+      >
+        <div className="min-h-screen px-4 text-center">
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Dialog.Overlay className="fixed inset-0" />
+          </Transition.Child>
+
+          {/* This element is to trick the browser into centering the modal contents. */}
+          <span
+            aria-hidden="true"
+            className="inline-block h-screen align-middle"
+          >
+            &#8203;
+          </span>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+          >
+            <div className="my-8 inline-block w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-dark-secondary dark:text-dark-text">
+              <Dialog.Title
+                as="h3"
+                className="text-lg font-medium leading-6 text-gray-900 dark:text-dark-text"
+              >
+                File preview
+              </Dialog.Title>
+              <div
+                className="h-64 w-full"
+                dangerouslySetInnerHTML={{ __html: embedElement.outerHTML }}
+              ></div>
+
+              <div className="mt-4">
+                <button
+                  className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  onClick={() => {
+                    const el = document.createElement('a');
+                    el.href = url;
+                    el.click();
+                  }}
+                  type="button"
+                >
+                  Download
+                </button>
+              </div>
+            </div>
+          </Transition.Child>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+};
 
 dayjs.extend(relativeTime);
 
@@ -35,19 +119,31 @@ const CodeView = ({
   const urlObject = new URL(clip.url);
   const simplifiedURL = truncate(urlObject, 40);
   const bestFavicon = oembed && getBestFavicon(oembed.favicons);
+  const embedElement = typeof window !== 'undefined' && getEmbed(clip.url);
 
   const [qrCodeZoom, setQrCodeZoom] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState(false);
   const [isFaviconShown, setIsFaviconShown] = useState<boolean>(true);
+  const [previewOpen, setOpenPreview] = useState<boolean>(false);
 
   const address =
     clip.signature &&
     recoverPersonalSignature({ data: clip.code, sig: clip.signature });
   const code = clip.code.slice(0, clip.hashLength);
 
+  const matchingHash = getClipHash(decodeURI(clip.url)) === clip.code;
+
   return (
     <Layout>
       <section className="flex h-full w-full max-w-2xl flex-col items-center justify-center pt-[100px]">
+        {embedElement && (
+          <PreviewDialog
+            embedElement={embedElement}
+            isOpen={previewOpen}
+            setIsOpen={setOpenPreview}
+            url={clip.url}
+          />
+        )}
         <div className="shadow-custom mb-8 flex rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
           <div className="mr-6">
             <h2 className="mx-auto mb-2 text-center text-4xl">
@@ -132,9 +228,22 @@ const CodeView = ({
             <QRModal setQrCodeZoom={setQrCodeZoom} url={clip.url} />
           )}
         </div>
-        {(clip.ipfsHash || clip.signature || clip.expiresAt) && (
+        {(clip.ipfsHash ||
+          clip.signature ||
+          clip.expiresAt ||
+          !matchingHash) && (
           <div className="shadow-custom mb-8 flex w-full flex-col justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
             <H3>Special</H3>
+            <div>
+              {embedElement && (
+                <div
+                  className="mt-4 flex cursor-pointer flex-row items-center gap-1"
+                  onClick={() => setOpenPreview(true)}
+                >
+                  <EyeIcon height={20} width={20} /> Preview file
+                </div>
+              )}
+            </div>
             {clip.ipfsHash && (
               <div
                 className="flex cursor-pointer flex-col"
@@ -202,6 +311,11 @@ const CodeView = ({
                 >
                   {dayjs(clip.expiresAt).fromNow()}
                 </span>
+              </div>
+            )}
+            {!matchingHash && (
+              <div className="mt-4 flex flex-row items-center gap-1">
+                <HeartIcon height={20} width={20} /> This clip has a custom code{' '}
               </div>
             )}
           </div>
