@@ -7089,10 +7089,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.1.6.tgz"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
-link-preview-js@^2.1.13:
-  version "2.1.13"
-  resolved "https://registry.yarnpkg.com/link-preview-js/-/link-preview-js-2.1.13.tgz#a8f440acb320f28dd999a94854a63b65816cab71"
-  integrity sha512-HTIVl9l55LZxqRMo3nYDt4eoZplFv+ye1msklZKxdxYYxjUmVYI1Dfn9ZjCvfTEuPBZVNxvZ+Wc7d7e4swZnRQ==
+link-preview-js@^2.1.15:
+  version "2.1.15"
+  resolved "https://registry.yarnpkg.com/link-preview-js/-/link-preview-js-2.1.15.tgz#49c6320af8252c38d7f3063580f4cd30349125a6"
+  integrity sha512-v+JIgt0LgK/81eYrU2zy1t/wOmGLfQ1bmv74DFP2huWDcSWoV8CloPVpvbc2BoxGAKhA8T6EFCmLKC/Er8CmXg==
   dependencies:
     abort-controller "^3.0.0"
     cheerio "1.0.0-rc.10"
