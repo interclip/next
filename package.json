@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@davatar/react": "^1.10.3",
-    "@headlessui/react": "^1.6.3",
+    "@headlessui/react": "^1.6.4",
     "@heroicons/react": "^1.0.6",
     "@next-auth/prisma-adapter": "^1.0.3",
     "@nextui-org/react": "^1.0.2-beta.5",
@@ -83,7 +83,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "next-sitemap": "^2.5.26",
+    "next-sitemap": "^2.5.28",
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",
     "prettier-plugin-tailwindcss": "^0.1.11",
