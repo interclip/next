@@ -39,7 +39,7 @@
     "link-preview-js": "^2.1.15",
     "lru-cache": "^7.10.1",
     "next": "12.1.6",
-    "next-auth": "^4.4.0",
+    "next-auth": "^4.5.0",
     "next-pwa": "^5.5.4",
     "next-seo": "^5.4.0",
     "next-themes": "^0.2.0",
