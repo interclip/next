@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn generate && next dev",
-    "build": "yarn generate && next build",
+    "build": "yarn generate --data-proxy && next build",
     "postbuild": "next-sitemap",
     "generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --preview-feature",
