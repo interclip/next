@@ -36,7 +36,7 @@
     "framer-motion": "^6.3.11",
     "ioredis": "^5.0.6",
     "js-cookie": "^3.0.1",
-    "link-preview-js": "^2.1.15",
+    "link-preview-js": "^2.1.17",
     "lru-cache": "^7.10.1",
     "next": "12.1.6",
     "next-auth": "^4.5.0",
