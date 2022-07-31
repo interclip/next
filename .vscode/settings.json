@@ -1,9 +1,6 @@
 {
   "workbench.iconTheme": "material-icon-theme",
   "editor.formatOnSave": true,
-  "git.autofetch": true,
-  "git.confirmSync": false,
-  "git.enableSmartCommit": true,
   "terminal.integrated.gpuAcceleration": "canvas",
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
