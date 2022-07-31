@@ -71,7 +71,7 @@
     "@types/lru-cache": "^7.10.10",
     "@types/node-fetch": "^3.0.3",
     "@types/react": "18.0.10",
-    "@types/validator": "^13.7.3",
+    "@types/validator": "^13.7.4",
     "@types/webtorrent": "^0.109.3",
     "@typescript-eslint/eslint-plugin": "^5.28.0",
     "autoprefixer": "^10.4.8",
