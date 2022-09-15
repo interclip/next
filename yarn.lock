@@ -1474,10 +1474,10 @@
   dependencies:
     tslib "^2.1.0"
 
-"@headlessui/react@^1.6.4":
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.6.4.tgz#c73084e23386bef5fb86cd16da3352c3a844bb4c"
-  integrity sha512-0yqz1scwbFtwljmbbKjXsSGl5ABEYNICVHZnMCWo0UtOZodo2Tpu94uOVgCRjRZ77l2WcTi2S0uidINDvG7lsA==
+"@headlessui/react@^1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.7.2.tgz#e6a6a8d38342064a53182f1eb2bf6d9c1e53ba6a"
+  integrity sha512-snLv2lxwsf2HNTOBNgHYdvoYZ3ChJE8QszPi1d/hl9js8KrFrUulTaQBfSyPbJP5BybVreWh9DxCgz9S0Z6hKQ==
 
 "@heroicons/react@^1.0.6":
   version "1.0.6"
