@@ -51,10 +51,14 @@ export const ipfsUpload = (
         method: 'post',
         body: formData,
       },
-    );
+    ).catch(() => {});
 
-    if (!infuraResponse.ok) {
-      toast.error(`File${files.length > 1 ? 's' : ''} failed to upload`);
+    if (!infuraResponse || !infuraResponse.ok) {
+      toast.error(
+        `File${
+          files.length > 1 ? 's' : ''
+        } failed to upload (problem with IPFS host)`,
+      );
       return;
     }
 
