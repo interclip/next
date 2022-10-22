@@ -9,7 +9,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["filterJson", "referentialIntegrity", "dataProxy"]
+  previewFeatures = ["referentialIntegrity"]
 }
 
 model Clip {
