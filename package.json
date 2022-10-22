@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "yarn generate && next dev",
     "build": "yarn generate --data-proxy && next build",
+    "build:local": "yarn generate && next build",
     "postbuild": "next-sitemap",
     "generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --preview-feature",
