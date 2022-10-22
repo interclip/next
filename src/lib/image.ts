@@ -7,7 +7,8 @@ export const imageDomains = [
 
 export const proxied = (url: string, width?: number, height?: number) => {
   const domain = new URL(url).hostname;
-  if (imageDomains.includes(domain)) {
+
+  if (!domain || imageDomains.includes(domain)) {
     return url;
   }
 
