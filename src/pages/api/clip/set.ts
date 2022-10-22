@@ -44,8 +44,8 @@ async function createClip(
       hashLength: hashLength || minimumCodeLength,
     },
   });
-  res.unstable_revalidate('/about');
-  res.unstable_revalidate(`/clip/${newClip.code.slice(0, newClip.hashLength)}`);
+  res.revalidate('/about');
+  res.revalidate(`/clip/${newClip.code.slice(0, newClip.hashLength)}`);
   res.status(200).json({ status: 'success', result: newClip });
   if (process.env.REDIS_HOST) await storeLinkPreviewInCache(parsedURL);
 }
