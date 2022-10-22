@@ -8,6 +8,7 @@ import NextNprogress from 'nextjs-progressbar';
 import React, { useEffect } from 'react';
 import { DropEvent } from 'src/typings/interclip';
 
+//@ts-ignore
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   useEffect(() => {
     ((document: Document) => {
