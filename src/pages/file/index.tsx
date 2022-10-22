@@ -135,34 +135,7 @@ export default function FilePage() {
   );
   const [progress, setProgress] = useState<number>(0);
 
-  /*
-  const seedHandler = async (e: any) => {
-    const WebTorrent = (await import('webtorrent')).default;
-    const client = new WebTorrent();
-
-    if (WebTorrent.WEBRTC_SUPPORT) {
-      client.seed(
-        e?.dataTransfer?.files || e.target?.file,
-        (torrent: Torrent) => {
-          setFileURL(torrent.magnetURI);
-          setLoading(false);
-          setCode('g');
-        },
-      );
-    }
-  };
-  */
-
-  /*
-  class DuplicateError extends Error {
-    constructor(message: string) {
-      super(message);
-      this.name = 'DuplicateError';
-    }
-  }
-  */
-
-  const ipfsHandler = ipfsUpload(setProgress, setFileURL, setCode, 'infura');
+  const ipfsHandler = ipfsUpload(setProgress, setFileURL, setCode);
 
   const uploadHandler = async (e: any) => {
     setShowOverlay(false);
@@ -198,11 +171,6 @@ export default function FilePage() {
             }
             setFileURL(fileURL);
             break;
-          /*
-        case 'torrent':
-          await seedHandler(e);
-          break;
-        */
         }
       } catch (error) {
         if (error instanceof APIError) {

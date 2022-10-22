@@ -2,7 +2,6 @@ export const IS_PROD = process.env.NODE_ENV === 'production';
 export const baseUrl = process.env.BASE_URL?.endsWith('/')
   ? process.env.BASE_URL.slice(0, -1)
   : process.env.BASE_URL;
-export const web3StorageToken = process.env.WEB3_TOKEN;
 
 export const ipfsGateway = 'https://ipfs.interclip.app';
 export const githubRepo = 'https://github.com/interclip/next';
@@ -11,7 +10,6 @@ export const proxyURL = 'https://trnck.dev/proxy';
 
 export const maxNameAllowedLength = 64;
 export const maxUsernameAllowedLength = 48;
-export const maxIPFSUploadSizeWeb3Storage = 31_000_000_000;
 export const maxIPFSUploadSizeInfura = 100_000_000;
 export const maxExpirationLength = 365 * 69;
 export const defaultExpirationLength = 30;
