@@ -45,7 +45,8 @@ export const ipfsUpload = (
     }
 
     const infuraResponse = await fetch(
-      `https://ipfs.infura.io:5001/api/v0/add?wrap-with-directory=${files.length > 1 ? 'true' : 'false'
+      `https://ipfs.infura.io:5001/api/v0/add?wrap-with-directory=${
+        files.length > 1 ? 'true' : 'false'
       }`,
       {
         method: 'post',
