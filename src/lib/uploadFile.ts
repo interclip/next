@@ -144,7 +144,7 @@ export const ipfsUpload = (
     const clipResponse = await requestClip(url);
 
     if (clipResponse.status === 'error') {
-      toast.error(`An error has occured: ${clipResponse.result}`);
+      toast.error(`An error has occurred: ${clipResponse.result}`);
       return;
     }
 
@@ -202,9 +202,9 @@ const uploadFile = async (
   } else {
     const plainText = await upload.text();
     const jsonResponse = convertXML(plainText);
-    const erorrMsg = jsonResponse.Error.children[0].Code.content;
+    const errorMsg = jsonResponse.Error.children[0].Code.content;
 
-    switch (erorrMsg) {
+    switch (errorMsg) {
       case 'EntityTooLarge':
         const fileSize = jsonResponse.Error.children[2].ProposedSize.content;
         throw new APIError(`File too large (${formatBytes(fileSize)})`);
