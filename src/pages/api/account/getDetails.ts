@@ -27,6 +27,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (!req.query.params) {
+    res.status(400).json({
+      status: 'error',
+      result: 'Nothing to do.',
+    });
+    return;
+  }
+
   if (typeof req.query.params === 'object') {
     res.status(400).json({
       status: 'error',
@@ -43,7 +51,7 @@ export default async function handler(
   } catch (error) {
     res.status(500).json({
       status: 'error',
-      result: 'An error with the database has occured.',
+      result: 'An error with the database has occurred.',
     });
   }
 }
