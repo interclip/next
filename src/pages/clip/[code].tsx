@@ -233,8 +233,8 @@ const CodeView = ({
           clip.expiresAt ||
           !matchingHash) && (
           <div className="shadow-custom mb-8 flex w-full flex-col justify-between rounded-2xl bg-white p-4 text-black dark:bg-[#262A2B] dark:text-white">
-            <H3>Special</H3>
-            <div>
+            <H3>Meta</H3>
+            <div></div>
               {embedElement && (
                 <div
                   className="mt-4 flex cursor-pointer flex-row items-center gap-1"
