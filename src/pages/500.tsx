@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import React from 'react';
 
-const Error404: React.FC = () => {
+const Error500: React.FC = () => {
   return (
     <Layout>
       <main
@@ -20,7 +20,7 @@ const Error404: React.FC = () => {
           }}
         >
           <Image
-            alt="A paperplane"
+            alt="A paper plane"
             layout="fill"
             objectFit="contain"
             objectPosition="right"
@@ -50,4 +50,4 @@ const Error404: React.FC = () => {
   );
 };
 
-export default Error404;
+export default Error500;

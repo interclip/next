@@ -19,7 +19,7 @@ interface ClipsResponse {
 class AuthError extends Error {
   constructor() {
     super();
-    this.name = 'AthenticationError';
+    this.name = 'AuthenticationError';
   }
 }
 

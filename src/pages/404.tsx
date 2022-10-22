@@ -20,7 +20,7 @@ const Error404: React.FC = () => {
           }}
         >
           <Image
-            alt="A paperplane"
+            alt="A paper plane"
             layout="fill"
             objectFit="contain"
             objectPosition="right"

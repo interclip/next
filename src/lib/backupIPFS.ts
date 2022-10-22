@@ -6,10 +6,10 @@ import { Web3Storage } from 'web3.storage';
 import { web3StorageToken } from './constants';
 
 /**
- * Upload a post to ipfs
+ * Upload a post to IPFS
  * @param id - Id of the post to be uploaded to IPFS
  */
-export const uploadToIPFS = async (id: number): Promise<string> =>
+export const uploadToIpfs = async (id: number): Promise<string> =>
   new Promise(async (reject, resolve) => {
     const clip = await db.clip.findUnique({
       where: { id },

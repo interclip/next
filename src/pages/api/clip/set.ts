@@ -1,4 +1,4 @@
-import { uploadToIPFS } from '@utils/backupIPFS';
+import { uploadToIPS } from '@utils/backupIPFS';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { defaultExpirationLength, minimumCodeLength } from '@utils/constants';
 import { dateAddDays } from '@utils/dates';
@@ -49,7 +49,7 @@ async function createClip(
   res.unstable_revalidate(`/clip/${newClip.code.slice(0, newClip.hashLength)}`);
   res.status(200).json({ status: 'success', result: newClip });
   if (process.env.REDIS_HOST) await storeLinkPreviewInCache(parsedURL);
-  await uploadToIPFS(newClip.id);
+  await uploadToIPS(newClip.id);
 }
 
 export default async function handler(
