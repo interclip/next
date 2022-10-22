@@ -83,9 +83,10 @@ export async function getServerSideProps({
 }): Promise<CodeServerReturnedProps> {
   let userCode = query.code;
 
-  if (userCode && typeof userCode === 'object') {
+  if (!userCode || typeof userCode === 'object') {
     return { notFound: true };
   }
+
   const isPreviewPage = userCode.endsWith('+');
 
   if (isPreviewPage) {
