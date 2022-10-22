@@ -27,6 +27,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  if (!req.query.params) {
+    res.status(400).json({
+      status: 'error',
+      result: 'Nothing to do.',
+    });
+    return;
+  }
+
   if (typeof req.query.params === 'object') {
     res.status(400).json({
       status: 'error',
