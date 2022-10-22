@@ -63,7 +63,7 @@ export const ipfsUpload = (
       return;
     }
 
-    const infuraDataFiles: string = await infuraResponse.text();
+    const infuraDataFiles = await infuraResponse.text();
 
     const uploadedFiles: InfuraResponse[] = infuraDataFiles
       .split(/\r\n|\n\r|\n|\r/)
