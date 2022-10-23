@@ -45,7 +45,7 @@ export default async function handler(
   const s3 = new aws.S3({ endpoint: ep });
   const fileExt = name.slice(((name.lastIndexOf('.') - 1) >>> 0) + 2);
 
-  const fileSizeLimit = session ? 1e10 : 1e8; // up to 10 GB if authenthicated
+  const fileSizeLimit = session ? 1e10 : 1e9; // up to 10 GB if authenthicated
 
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
