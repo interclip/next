@@ -34,10 +34,12 @@ const providers = [
     },
     */
     }),
-  GitlabProvider({
-    clientId: process.env.GITLAB_CLIENT_ID,
-    clientSecret: process.env.GITLAB_CLIENT_SECRET,
-  }),
+  process.env.GITLAB_CLIENT_ID &&
+    process.env.GITLAB_CLIENT_SECRET &&
+    GitlabProvider({
+      clientId: process.env.GITLAB_CLIENT_ID,
+      clientSecret: process.env.GITLAB_CLIENT_SECRET,
+    }),
 ];
 
 if (!IS_PROD) {
@@ -53,5 +55,5 @@ export default NextAuth({
     signIn: '/auth/login',
     signOut: '/auth/logout',
   },
-  providers,
+  providers: providers as any,
 });
