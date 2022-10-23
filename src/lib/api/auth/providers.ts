@@ -54,7 +54,7 @@ export const Web3Provider = CredentialsProvider({
 
     if (address.toLowerCase() !== credentials.address.toLowerCase()) {
       console.error(
-        `Adresses don't match: ${address} vs ${credentials.address}`,
+        `Addresses don't match: ${address} vs ${credentials.address}`,
       );
       return null;
     }
