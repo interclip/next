@@ -1,5 +1,5 @@
 import aws from 'aws-sdk';
-import cuid from 'cuid';
+import { nanoid } from 'nanoid';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -8,16 +8,16 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const session = await getSession({ req });
-  const { name, type } = req.query;
+  const { name: fileName, type } = req.query;
 
-  if (!name) {
+  if (!fileName) {
     return res.status(400).json({
       status: 'error',
       result: 'Missing query params `name`',
     });
   }
 
-  if (typeof name === 'object' || typeof type === 'object') {
+  if (typeof fileName === 'object' || typeof type === 'object') {
     return res.status(400).json({
       status: 'error',
       result:
@@ -41,19 +41,17 @@ export default async function handler(
     signatureVersion: 'v4',
   });
 
-  const ep = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
-  const s3 = new aws.S3({ endpoint: ep });
-  const fileExt = name.slice(((name.lastIndexOf('.') - 1) >>> 0) + 2);
+  const endpoint = new aws.Endpoint(`s3.${process.env.REGION}.wasabisys.com`);
+  const s3 = new aws.S3({ endpoint });
 
-  const fileSizeLimit = session ? 1e10 : 1e9; // up to 10 GB if authenthicated
+  const fileSizeLimit = session ? 1e10 : 1e9; // up to 10 GB if authenticated, otherwise just 1
+  const key = `${nanoid(10)}/${fileName}`;
 
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
     Fields: {
-      key: fileExt ? `${cuid()}.${fileExt}` : cuid(),
+      key,
       'Content-Type': type,
-      // Todo(ft): preserve filenames
-      //'Content-Disposition': `attachment; filename="${name}"`,
     },
     Expires: 60,
     Conditions: [['content-length-range', 0, fileSizeLimit]],
