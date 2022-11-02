@@ -6584,15 +6584,14 @@ fromentries@^1.3.1:
   resolved "https://registry.yarnpkg.com/fromentries/-/fromentries-1.3.2.tgz#e4bca6808816bf8f93b52750f1127f5a6fd86e3a"
   integrity sha512-cHEpEQHUg0f8XdtZCc2ZAhrHzKzT0MrFUTcvx+hfxYu7rGMDc5SKoXFh+n4YigxsHXRzc6OrCshdR1bWH6HHyg==
 
-fs-chunk-store@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/fs-chunk-store/-/fs-chunk-store-2.0.5.tgz#1dd4bdbb371239ac6f7234af6cd4386c72315059"
-  integrity sha512-z3c2BmyaHdQTtIVXJDQOvwZVWN2gNU//0IYKK2LuPr+cZyGoIrgDwI4iDASaTUyQbOBtyg/k6GuDZepB6jQIPw==
+fs-chunk-store@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/fs-chunk-store/-/fs-chunk-store-3.0.1.tgz#3616dc450be813560da6544f7d08dad0ade34cfb"
+  integrity sha512-YrOFuXtUJQBkOZ2QBXBoIrjLJ/TNTpEaGnxV+TmL1qaW5J4ah6lxMh/X9pb3To+hbaoT/pRuBXLkkqoavQoQFw==
   dependencies:
     queue-microtask "^1.2.2"
     random-access-file "^2.0.1"
     randombytes "^2.0.3"
-    rimraf "^3.0.0"
     run-parallel "^1.1.2"
     thunky "^1.0.1"
 
@@ -10707,7 +10706,7 @@ rimraf@^2.6.3:
   dependencies:
     glob "^7.1.3"
 
-rimraf@^3.0.0, rimraf@^3.0.2:
+rimraf@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npmjs.org/rimraf/-/rimraf-3.0.2.tgz"
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
@@ -11259,7 +11258,7 @@ streaming-iterables@^6.0.0, streaming-iterables@^6.2.0:
   resolved "https://registry.yarnpkg.com/streaming-iterables/-/streaming-iterables-6.2.0.tgz#e8079bc56272335b287e2f13274602fbef008e56"
   integrity sha512-3AYC8oB60WyD1ic7uHmN/vm2oRGzRnQ3XFBl/bFMDi1q1+nc5/vjMmiE4vroIya3jG59t87VpyAj/iXYxyw9AA==
 
-streamx@^2.10.3, streamx@^2.12.4:
+streamx@^2.10.3, streamx@^2.12.4, streamx@^2.12.5:
   version "2.12.5"
   resolved "https://registry.yarnpkg.com/streamx/-/streamx-2.12.5.tgz#485d6b6bf74df6f94bc1cc262e67392ed6862dc0"
   integrity sha512-Y+nkFw57Z5JHT3zLlqFm3GccOy2FeYdUrrqita6Dd8kr/8enPn9GKa8IYf3/DmEKfZl/E2sWoSKUnd4qhonrgg==
@@ -12525,10 +12524,10 @@ websocket@^1.0.32:
     utf-8-validate "^5.0.2"
     yaeti "^0.0.6"
 
-webtorrent@^1.8.32:
-  version "1.8.32"
-  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.8.32.tgz#6411bcf39e76cbab98e4aac8464fdc13605cb546"
-  integrity sha512-PjtJn3sY4Uqb1PEuxID+Cps4AshUKZpo3EhkT14y1SySmMVHeSX2crwh1rXIGX3fJUeF0zM5iEg+Ic2mN4CFZw==
+webtorrent@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.9.1.tgz#cf81ddc0f76a1aa572c937a0327b4f99e15550ad"
+  integrity sha512-lFVMY1+GmTJlPAzEuWqQKP3/83c4bGFuJGPjI0lFRgYvUeQqxHv2Qwriz1SOK96MKuhMPKS9y4kf1CddZzoBjQ==
   dependencies:
     "@webtorrent/http-node" "^1.3.0"
     addr-to-ip-port "^1.5.4"
@@ -12544,7 +12543,7 @@ webtorrent@^1.8.32:
     end-of-stream "^1.4.4"
     escape-html "^1.0.3"
     fast-blob-stream "^1.1.1"
-    fs-chunk-store "^2.0.5"
+    fs-chunk-store "^3.0.1"
     immediate-chunk-store "^2.2.0"
     join-async-iterator "^1.1.1"
     load-ip-set "^2.2.1"
@@ -12567,7 +12566,7 @@ webtorrent@^1.8.32:
     simple-sha1 "^3.1.0"
     speed-limiter "^1.0.2"
     stream-with-known-length-to-buffer "^1.0.4"
-    streamx "^2.12.4"
+    streamx "^2.12.5"
     throughput "^1.0.1"
     torrent-discovery "^9.4.14"
     torrent-piece "^2.0.1"
