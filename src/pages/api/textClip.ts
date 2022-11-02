@@ -1,5 +1,7 @@
+import getCacheToken from '@utils/determineCacheToken';
 import formatBytes from '@utils/formatBytes';
 import { createStorageClient } from '@utils/helpers';
+import limiter from '@utils/rateLimit';
 import { nanoid } from 'nanoid';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -7,7 +9,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  await limiter.check(res, 5, getCacheToken(req));
   const { name: fileName = 'clip', content } = req.body;
+
+  if (!req.method || req.method !== 'POST') {
+    return res.status(405).json({
+      status: 'error',
+      result: 'Method not allowed. Use POST',
+    });
+  }
 
   if (!content) {
     return res.status(400).json({
