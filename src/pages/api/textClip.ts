@@ -46,7 +46,7 @@ export default async function handler(
   const fileSizeLimit = 1e5; // 100 KB
 
   if (file.length > fileSizeLimit) {
-    return res.status(400).json({
+    return res.status(413).json({
       status: 'error',
       result: `File is too large (max ${formatBytes(
         fileSizeLimit,
