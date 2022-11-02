@@ -1,4 +1,6 @@
+import getCacheToken from '@utils/determineCacheToken';
 import { createStorageClient } from '@utils/helpers';
+import limiter from '@utils/rateLimit';
 import { nanoid } from 'nanoid';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
@@ -7,6 +9,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  await limiter.check(res, 3, getCacheToken(req));
   const session = await getSession({ req });
   const { name: fileName, type } = req.query;
 
