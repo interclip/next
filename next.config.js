@@ -9,7 +9,6 @@ module.exports = withPWA({
     buildExcludes: [/middleware-manifest\.json$/],
   },
   swcMinify: true,
-  optimizeCss: true,
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],

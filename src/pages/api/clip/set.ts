@@ -1,4 +1,3 @@
-import { uploadToIPS } from '@utils/backupIPFS';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { defaultExpirationLength, minimumCodeLength } from '@utils/constants';
 import { dateAddDays } from '@utils/dates';
@@ -17,7 +16,7 @@ import isMagnetURI from 'validator/lib/isMagnetURI';
 import isURL from 'validator/lib/isURL';
 
 /**
- * This function creates a clip record in the database, uploads a backup of it to IPFS and stores the oembed details in the Redis cache.
+ * This function creates a clip record in the database and stores the oembed details in the Redis cache.
  */
 async function createClip(
   session: Session | null,
@@ -27,11 +26,11 @@ async function createClip(
   res: NextApiResponse<APIResponse>,
   hashLength?: number,
 ) {
-  const userPrefferedExpiration = session?.user?.email
+  const userPreferredExpiration = session?.user?.email
     ? (await db.user.findUnique({ where: { email: session.user.email } }))
         ?.clipExpirationPreference
     : null;
-  const expiration = userPrefferedExpiration ?? defaultExpirationLength;
+  const expiration = userPreferredExpiration ?? defaultExpirationLength;
 
   const newClip = await db.clip.create({
     data: {
@@ -45,11 +44,10 @@ async function createClip(
       hashLength: hashLength || minimumCodeLength,
     },
   });
-  res.unstable_revalidate('/about');
-  res.unstable_revalidate(`/clip/${newClip.code.slice(0, newClip.hashLength)}`);
+  res.revalidate('/about');
+  res.revalidate(`/clip/${newClip.code.slice(0, newClip.hashLength)}`);
   res.status(200).json({ status: 'success', result: newClip });
   if (process.env.REDIS_HOST) await storeLinkPreviewInCache(parsedURL);
-  await uploadToIPS(newClip.id);
 }
 
 export default async function handler(
@@ -210,7 +208,7 @@ export default async function handler(
       console.error(error);
       res.status(500).json({
         status: 'error',
-        result: 'An error with the database has occured.',
+        result: 'An error with the database has occurred.',
       });
     }
   }
