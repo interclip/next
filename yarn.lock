@@ -10402,12 +10402,12 @@ react-native-fetch-api@^2.0.0:
   dependencies:
     p-defer "^3.0.0"
 
-react-qr-code@^2.0.7:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.7.tgz#508304e031e82426a044f5e9490aca87d7c3de38"
-  integrity sha512-NpknL80p7dWbLdHfBSIxQIqLCu3+kBlyzYD692rO0UnVwfCSziIxc1xn/p3JhPEv1RV1lRD8j0w+hR3L7tawTQ==
+react-qr-code@^2.0.9:
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.9.tgz#cfdf82720093273683d7a14db235d1fde034b4ad"
+  integrity sha512-q6CUAzKZXxJyWOe9SFvw2G1hQ80k/1hnIE7eRTMMcNcnQGjm4Ohd+w4tBz7ASz+a76AMs9wPUNOZmES8sfhmuA==
   dependencies:
-    prop-types "^15.7.2"
+    prop-types "^15.8.1"
     qr.js "0.0.0"
 
 react-spinners@^0.12.0:
