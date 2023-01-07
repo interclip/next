@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   await limiter.check(res, 3, getCacheToken(req));
   const session = await getSession({ req });
-  const { name: fileName, type } = req.query;
+  const { name: fileName, type, token } = req.query;
 
   if (!fileName) {
     return res.status(400).json({
@@ -20,7 +20,11 @@ export default async function handler(
     });
   }
 
-  if (typeof fileName === 'object' || typeof type === 'object') {
+  if (
+    typeof fileName === 'object' ||
+    typeof type === 'object' ||
+    typeof token === 'object'
+  ) {
     return res.status(400).json({
       status: 'error',
       result:
@@ -39,7 +43,30 @@ export default async function handler(
 
   const s3 = createStorageClient();
 
-  const fileSizeLimit = session ? 1e10 : 1e9; // up to 10 GB if authenticated, otherwise just 1
+  let fileSizeLimit = 1e9; // up to 10 GB if authenticated, otherwise just 1
+
+  if (session) {
+    fileSizeLimit = 1e9 * 2;
+  }
+
+  if (token) {
+    if (!process.env.FILES_TOKEN) {
+      return res.status(503).json({
+        status: 'error',
+        result: 'Server is misconfigured (missing FILES_TOKEN)',
+      });
+    }
+
+    if (token !== process.env.FILES_TOKEN) {
+      return res.status(403).json({
+        status: 'error',
+        result: 'Bad credentials (token)',
+      });
+    }
+
+    fileSizeLimit = 1e11;
+  }
+
   const key = `${nanoid(10)}/${fileName}`;
 
   const post = s3.createPresignedPost({
