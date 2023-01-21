@@ -1,4 +1,5 @@
 import getCacheToken from '@utils/determineCacheToken';
+import formatBytes from '@utils/formatBytes';
 import { createStorageClient } from '@utils/helpers';
 import limiter from '@utils/rateLimit';
 import { nanoid } from 'nanoid';
@@ -11,7 +12,7 @@ export default async function handler(
 ) {
   await limiter.check(res, 3, getCacheToken(req));
   const session = await getSession({ req });
-  const { name: fileName, type, token } = req.query;
+  const { name: fileName, type, token, size: fileSize } = req.query;
 
   if (!fileName) {
     return res.status(400).json({
@@ -23,7 +24,8 @@ export default async function handler(
   if (
     typeof fileName === 'object' ||
     typeof type === 'object' ||
-    typeof token === 'object'
+    typeof token === 'object' ||
+    typeof fileSize === 'object'
   ) {
     return res.status(400).json({
       status: 'error',
@@ -41,13 +43,33 @@ export default async function handler(
     });
   }
 
-  const s3 = createStorageClient();
-
-  let fileSizeLimit = 1e9; // up to 10 GB if authenticated, otherwise just 1
+  let fileSizeLimit = 1e9; // up to 10 GB if authenticated, otherwise just 1 GB
 
   if (session) {
     fileSizeLimit = 1e9 * 2;
   }
+
+  if (fileSize) {
+    const parsedSize = parseInt(fileSize, 10);
+
+    if (isNaN(parsedSize)) {
+      return res.status(400).json({
+        status: 'error',
+        result: 'The provided file size value is invalid',
+      });
+    }
+
+    if (parsedSize > fileSizeLimit) {
+      return res.status(413).json({
+        status: 'error',
+        result: `Your file is ${formatBytes(
+          parsedSize,
+        )}, which is over the limit of ${formatBytes(fileSizeLimit)}`,
+      });
+    }
+  }
+
+  const s3 = createStorageClient();
 
   if (token) {
     if (!process.env.FILES_TOKEN) {
