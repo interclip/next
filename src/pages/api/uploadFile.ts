@@ -11,7 +11,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   await limiter.check(res, 3, getCacheToken(req));
-  const session = await getSession({ req });
+  const auth = await getSession({ req });
   const { name: fileName, type, token, size: fileSize } = req.query;
 
   if (!fileName) {
@@ -43,10 +43,30 @@ export default async function handler(
     });
   }
 
-  let fileSizeLimit = 1e9; // up to 10 GB if authenticated, otherwise just 1 GB
+  const GIGABYTE = 1024 * 1_048_576;
 
-  if (session) {
-    fileSizeLimit = 1e9 * 2;
+  let fileSizeLimit = GIGABYTE;
+
+  if (auth) {
+    fileSizeLimit = GIGABYTE * 2;
+  }
+
+  if (token) {
+    if (!process.env.FILES_TOKEN) {
+      return res.status(503).json({
+        status: 'error',
+        result: 'Server is misconfigured (missing FILES_TOKEN)',
+      });
+    }
+
+    if (token !== process.env.FILES_TOKEN) {
+      return res.status(403).json({
+        status: 'error',
+        result: 'Bad credentials (token)',
+      });
+    }
+
+    fileSizeLimit = GIGABYTE * 100;
   }
 
   if (fileSize) {
@@ -70,24 +90,6 @@ export default async function handler(
   }
 
   const s3 = createStorageClient();
-
-  if (token) {
-    if (!process.env.FILES_TOKEN) {
-      return res.status(503).json({
-        status: 'error',
-        result: 'Server is misconfigured (missing FILES_TOKEN)',
-      });
-    }
-
-    if (token !== process.env.FILES_TOKEN) {
-      return res.status(403).json({
-        status: 'error',
-        result: 'Bad credentials (token)',
-      });
-    }
-
-    fileSizeLimit = 1e11;
-  }
 
   const key = `${nanoid(10)}/${fileName}`;
 
