@@ -91,7 +91,7 @@ export default async function handler(
 
   const s3 = createStorageClient();
 
-  const key = `${nanoid(10)}/${fileName}`;
+  const key = `fn${nanoid(10)}/${fileName}`;
   const dayExpiration = 1;
 
   const post = s3.createPresignedPost({
