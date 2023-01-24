@@ -3427,10 +3427,10 @@
   resolved "https://registry.npmjs.org/@types/trusted-types/-/trusted-types-2.0.2.tgz"
   integrity sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==
 
-"@types/validator@^13.7.3":
-  version "13.7.3"
-  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.7.3.tgz#3193c0a3c03a7d1189016c62b4fba4b149ef5e33"
-  integrity sha512-DNviAE5OUcZ5s+XEQHRhERLg8fOp8gSgvyJ4aaFASx5wwaObm+PBwTIMXiOFm1QrSee5oYwEAYb7LMzX2O88gA==
+"@types/validator@^13.7.11":
+  version "13.7.11"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.7.11.tgz#96f158d89c16375189a7aa42adbdbe3adc971dbe"
+  integrity sha512-WqTos+CnAKN64YwyBMhgUYhb5VsTNKwUY6AuzG5qu9/pFZJar/RJFMZBXwX7VS+uzYi+lIAr3WkvuWqEI9F2eg==
 
 "@types/webtorrent@^0.109.3":
   version "0.109.3"
