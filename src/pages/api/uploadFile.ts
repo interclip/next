@@ -92,22 +92,15 @@ export default async function handler(
   const s3 = createStorageClient();
 
   const key = `fn${nanoid(10)}/${fileName}`;
-  const dayExpiration = 1;
 
   const post = s3.createPresignedPost({
     Bucket: process.env.BUCKET_NAME,
     Fields: {
       key,
       'Content-Type': type,
-      'x-amz-lifecycle': `{"Rules":[{"Status":"Enabled","Expiration":{"Days":${dayExpiration}}}]}`,
     },
-    Conditions: [
-      {
-        'x-amz-lifecycle': `{"Rules":[{"Status":"Enabled","Expiration":{"Days":${dayExpiration}}}]}`,
-      },
-      ['content-length-range', 0, fileSizeLimit],
-    ],
     Expires: 60,
+    Conditions: [['content-length-range', 0, fileSizeLimit]],
   });
 
   res.status(200).json(post);
