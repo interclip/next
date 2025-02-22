@@ -101,7 +101,9 @@ export async function getStaticProps(): Promise<
 
     const sizeEndpoint = 'https://interclip.app/includes/size.json';
     const response = await fetch(sizeEndpoint).catch(() => null);
-    const sizeData: SizeResponse = response ? await response.json() : { count: 0, bytes: 0 };
+    const sizeData: SizeResponse = response
+      ? await response.json()
+      : { count: 0, bytes: 0 };
 
     // Get current version
 
