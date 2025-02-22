@@ -99,7 +99,7 @@ export async function getStaticProps(): Promise<
 
     // Get file statistics
 
-    const sizeEndpoint = 'https://classic.interclip.app/includes/size.json';
+    const sizeEndpoint = 'https://interclip.app/includes/size.json';
     const response = await fetch(sizeEndpoint);
     const sizeData: SizeResponse = await response.json();
 
