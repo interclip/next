@@ -95,13 +95,13 @@ export async function getStaticProps(): Promise<
     const db = process.env.DATABASE_URL
       ? (await import('@utils/prisma')).db
       : null;
-    const clipCount = db && (await db.clip.count());
+    const clipCount = db && (await db.clip.count().catch(() => 0));
 
     // Get file statistics
 
     const sizeEndpoint = 'https://interclip.app/includes/size.json';
-    const response = await fetch(sizeEndpoint);
-    const sizeData: SizeResponse = await response.json();
+    const response = await fetch(sizeEndpoint).catch(() => null);
+    const sizeData: SizeResponse = response ? await response.json() : { count: 0, bytes: 0 };
 
     // Get current version
 
