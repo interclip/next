@@ -40,7 +40,7 @@
     "lru-cache": "^7.14.1",
     "nanoid": "^4.0.0",
     "next": "^12.3.1",
-    "next-auth": "^4.14.0",
+    "next-auth": "^4.24.12",
     "next-pwa": "^5.5.5",
     "next-seo": "^5.4.0",
     "next-themes": "^0.2.0",
@@ -59,7 +59,7 @@
     "sharp": "^0.30.6",
     "simple-xml-to-json": "^1.0.9",
     "ts-node": "^10.8.1",
-    "validator": "^13.7.0",
+    "validator": "^13.15.20",
     "web3": "^1.7.3",
     "web3.storage": "4.2.0",
     "webtorrent": "^1.8.32"
