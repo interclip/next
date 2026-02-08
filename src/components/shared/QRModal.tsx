@@ -6,7 +6,7 @@ import QRCode from 'react-qr-code';
 const QRModal = (props: {
   url: string;
   setQrCodeZoom: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element => {
+}) => {
   const [width, height] = useWindowSize();
 
   const { url, setQrCodeZoom } = props;

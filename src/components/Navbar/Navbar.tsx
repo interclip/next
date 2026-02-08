@@ -7,8 +7,8 @@ import {
   ExclamationCircleIcon,
   InformationCircleIcon,
   LockClosedIcon,
-  LogoutIcon,
-} from '@heroicons/react/solid';
+  ArrowRightOnRectangleIcon,
+} from '@heroicons/react/24/solid';
 import { githubRepo } from '@utils/constants';
 import clsx from 'clsx';
 import { signIn, signOut, useSession } from 'next-auth/react';
@@ -32,8 +32,8 @@ const MenuItem = ({
   link?: string;
   openInNewTab?: boolean;
   onClick?: () => any;
-  children: JSX.Element;
-}): JSX.Element => {
+  children: React.ReactNode;
+}) => {
   const Button = forwardRef<HTMLInputElement, ComponentProps<'button'>>(
     function Button({ ...props }) {
       return <button {...props}>{props.children}</button>;
@@ -142,7 +142,7 @@ const Navbar = () => {
                         title="Sign out"
                         type="button"
                       >
-                        <LogoutIcon className="mr-2 h-5 w-5" />
+                        <ArrowRightOnRectangleIcon className="mr-2 h-5 w-5" />
                       </MenuItem>
                     </div>
                   </Menu.Items>

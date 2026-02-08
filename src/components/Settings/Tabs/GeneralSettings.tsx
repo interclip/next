@@ -1,5 +1,5 @@
 import { Input } from '@components/Input';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, DialogBackdrop, Transition } from '@headlessui/react';
 import { Switch } from '@headlessui/react';
 import { User } from '@prisma/client';
 import { deleteAccount } from '@utils/api/client/deleteUser';
@@ -47,7 +47,7 @@ const GeneralSettings = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0" />
+              <DialogBackdrop className="fixed inset-0" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}

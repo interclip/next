@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Layout } from '../components/Layout';
 
-const Privacy = (): JSX.Element => {
+const Privacy = () => {
   return (
     <Layout titlePrefix="Privacy policy">
       <main className="flex w-full flex-col items-center" id="maincontent">

@@ -8,7 +8,7 @@ import React from 'react';
  * @param props.titlePrefix - a string to be prepended to the site's `<title>` element.
  * @returns a Head element.
  */
-const PageHead = (props: { titlePrefix?: string }): JSX.Element => {
+const PageHead = (props: { titlePrefix?: string }) => {
   const { titlePrefix } = props;
   const theme = useTheme();
   return (

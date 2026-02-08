@@ -35,7 +35,7 @@ export const handleSettingsErrors = async (
   }
 };
 
-const Settings = (props: { user: User }): JSX.Element => {
+const Settings = (props: { user: User }) => {
   const [settings, setSettings] = useState('General');
   const [user, setUser] = useState<User>(props.user);
   const resolvedEthName = useENS(props.user.email);

@@ -1,7 +1,7 @@
 import { Layout } from '@components/Layout';
 import { Listbox, Transition } from '@headlessui/react';
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
-import { Loading } from '@nextui-org/react';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid';
+import { Spinner } from '@nextui-org/react';
 import { APIError, requestClip } from '@utils/api/client/requestClip';
 import { baseUrl, filesEndpoint, StorageProvider } from '@utils/constants';
 import { dropLink } from '@utils/dropLink';
@@ -61,14 +61,14 @@ const RemoteOptionsSelect = ({
 
   return (
     <main className="w-72" id="maincontent">
-      <Listbox onChange={setSelected} value={selected}>
+      <Listbox onChange={(val) => setSelected(val as { name: StorageProvider })} value={selected}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left text-dark-text shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 dark:bg-dark-secondary sm:text-sm">
             <span className="block truncate text-black dark:text-gray-300">
               {selected.name}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <SelectorIcon
+              <ChevronUpDownIcon
                 aria-hidden="true"
                 className="h-5 w-5 text-gray-400"
               />
@@ -269,7 +269,7 @@ export default function FilePage() {
                               </div>
                               {Math.min(progress, 100).toFixed(2)}%
                             </div>
-                            <Loading />
+                            <Spinner />
                           </div>
                         ) : (
                           <>

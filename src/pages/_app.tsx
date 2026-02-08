@@ -1,5 +1,6 @@
 import 'tailwindcss/tailwind.css';
 
+import { NextUIProvider } from '@nextui-org/react';
 import { dropLink, droppable } from '@utils/dropLink';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
@@ -19,15 +20,17 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   }, []);
   return (
     <SessionProvider refetchInterval={5 * 60} session={session}>
-      <ThemeProvider attribute="class">
-        <NextNprogress
-          color="#157EFB"
-          height={2}
-          options={{ showSpinner: false }}
-          showOnShallow
-        />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <NextUIProvider>
+        <ThemeProvider attribute="class">
+          <NextNprogress
+            color="#157EFB"
+            height={2}
+            options={{ showSpinner: false }}
+            showOnShallow
+          />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </NextUIProvider>
     </SessionProvider>
   );
 }
