@@ -3,9 +3,9 @@ import { Layout } from '@components/Layout';
 import QRModal from '@components/shared/QRModal';
 import { H3 } from '@components/Text/headings';
 import Link from '@components/Text/link';
-import { Dialog, Transition } from '@headlessui/react';
-import { ClockIcon, HeartIcon } from '@heroicons/react/outline';
-import { EyeIcon } from '@heroicons/react/solid';
+import { Dialog, DialogBackdrop, Transition } from '@headlessui/react';
+import { ClockIcon, HeartIcon } from '@heroicons/react/24/outline';
+import { EyeIcon } from '@heroicons/react/24/solid';
 import { Clip } from '@prisma/client';
 import { storeLinkPreviewInCache } from '@utils/clipPreview';
 import { ipfsGateway } from '@utils/constants';
@@ -20,7 +20,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { recoverPersonalSignature } from 'eth-sig-util';
 import Image from 'next/image';
 import React, { Fragment, useState } from 'react';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
 import type { OEmbed } from 'src/typings/interclip';
 
 const PreviewDialog = ({
@@ -51,7 +51,7 @@ const PreviewDialog = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0" />
+            <DialogBackdrop className="fixed inset-0" />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -290,10 +290,11 @@ const CodeView = ({
                   width={20}
                 />
                 <span>Signed by </span>
-                <ReactTooltip effect="solid" place="bottom" />
+                <Tooltip id="address-tooltip" place="bottom" />
                 <a
                   className="underline"
-                  data-tip={address}
+                  data-tooltip-id="address-tooltip"
+                  data-tooltip-content={address}
                   href={`https://debank.com/profile/${address}`}
                   rel={'noopener noreferrer'}
                   target={'_blank'}

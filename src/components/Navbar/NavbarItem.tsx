@@ -5,10 +5,8 @@ type NavbarItemProps = { url: string; name: string };
 
 const NavbarItem: React.FC<NavbarItemProps> = ({ url, name }) => {
   return (
-    <Link href={url} passHref>
-      <a className="cursor-pointer rounded-md px-3 py-1 font-black text-light-bg hover:bg-gray-200 hover:text-black dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white">
-        {name}
-      </a>
+    <Link href={url} className="cursor-pointer rounded-md px-3 py-1 font-black text-light-bg hover:bg-gray-200 hover:text-black dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white">
+      {name}
     </Link>
   );
 };

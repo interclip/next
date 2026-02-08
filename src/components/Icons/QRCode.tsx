@@ -3,7 +3,7 @@ import React from 'react';
 
 export const QRCode = (props: {
   onClick: React.MouseEventHandler<SVGElement>;
-}): JSX.Element => {
+}) => {
   return (
     <motion.svg
       className="h-auto w-12 cursor-pointer fill-current text-black dark:text-white"

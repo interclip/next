@@ -21,7 +21,7 @@ const About = ({
   version,
   GIT_COMMIT_SHA,
   sizeData,
-}: AboutProps['props']): JSX.Element => {
+}: AboutProps['props']) => {
   return (
     <Layout titlePrefix="About">
       <main className="flex w-full flex-col items-center" id="maincontent">

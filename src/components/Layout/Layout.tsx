@@ -1,5 +1,5 @@
 import PageHead from '@components/Head';
-import { NextSeo } from 'next-seo';
+import Head from 'next/head';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 
@@ -7,14 +7,16 @@ import { Navbar } from '../Navbar';
 
 const Layout: React.FC<{
   titlePrefix?: string;
-  children: React.ReactElement;
-}> = ({ children, titlePrefix }): JSX.Element => {
+  children: React.ReactNode;
+}> = ({ children, titlePrefix }) => {
   return (
     <>
-      <NextSeo
-        description="The next generation of sharing files and links with anyone."
-        title={`${titlePrefix ? `${titlePrefix} | ` : ' '}Interclip`}
-      />
+      <Head>
+        <meta
+          name="description"
+          content="The next generation of sharing files and links with anyone."
+        />
+      </Head>
       <PageHead titlePrefix={titlePrefix} />
       <Toaster />
       <a

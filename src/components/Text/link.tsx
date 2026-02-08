@@ -11,15 +11,14 @@ const Link = forwardRef<HTMLInputElement, Props>(function Link({
   ...props
 }) {
   return (
-    <NextLink href={props.href as string}>
-      <a
-        className="underline"
-        rel={openInNewTab ? 'noopener noreferrer' : ''}
-        target={openInNewTab ? '_blank' : ''}
-        {...props}
-      >
-        {props.children}
-      </a>
+    <NextLink
+      href={props.href as string}
+      className={props.className ?? "underline"}
+      rel={openInNewTab ? 'noopener noreferrer' : ''}
+      target={openInNewTab ? '_blank' : ''}
+      {...props}
+    >
+      {props.children}
     </NextLink>
   );
 });

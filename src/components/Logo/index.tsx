@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { ComponentProps, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import React from 'react';
 
 const currentDate = dayjs().format('MM/DD');
@@ -20,17 +20,18 @@ switch (currentDate) {
     logoName = 'logo.svg';
 }
 
-const Logo = forwardRef<HTMLInputElement, ComponentProps<'img'>>(function Logo({
-  ...props
+const Logo = forwardRef<HTMLInputElement, { width?: number; height?: number }>(function Logo({
+  width,
+  height,
 }) {
   return (
-    <NextLink href="/" passHref>
+    <NextLink href="/">
       <Image
         alt="Interclip logo"
         className="md:hide show cursor-pointer"
-        height={props.height}
+        height={height}
         src={`/icons/${logoName}`}
-        width={props.width}
+        width={width}
       />
     </NextLink>
   );

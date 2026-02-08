@@ -3,13 +3,13 @@ import {
   PencilIcon as PencilIconOutline,
   TrashIcon as TrashIconOutline,
   UserIcon as UserIconOutline,
-} from '@heroicons/react/outline';
+} from '@heroicons/react/24/outline';
 import {
   ChevronDownIcon,
   PencilIcon,
   TrashIcon,
   UserIcon,
-} from '@heroicons/react/solid';
+} from '@heroicons/react/24/solid';
 import { User } from '@prisma/client';
 import { deleteAccount } from '@utils/api/client/deleteUser';
 import React, { Fragment } from 'react';
