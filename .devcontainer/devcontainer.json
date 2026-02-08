@@ -1,0 +1,41 @@
+{
+  "name": "Interclip",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/node": {
+      "version": "24"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker": {}
+  },
+  "forwardPorts": [3000, 5555, 3306, 6379],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js App",
+      "onAutoForward": "notify"
+    },
+    "5555": {
+      "label": "Prisma Studio",
+      "onAutoForward": "silent"
+    },
+    "3306": {
+      "label": "MySQL",
+      "onAutoForward": "silent"
+    },
+    "6379": {
+      "label": "Redis",
+      "onAutoForward": "silent"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "prisma.prisma",
+        "bradlc.vscode-tailwindcss",
+        "mikestead.dotenv",
+        "editorconfig.editorconfig"
+      ]
+    }
+  }
+}

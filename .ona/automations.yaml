@@ -1,0 +1,69 @@
+tasks:
+  install-deps:
+    name: Install Dependencies
+    description: Install Node.js dependencies and set up environment file.
+    command: |
+      yarn install --frozen-lockfile --silent --network-timeout 100000
+      if [ ! -f .env ]; then
+        cp .env.example .env
+        echo -e "\n\nNEXTAUTH_SECRET=\"$(head -1 <(fold -w 20 <(tr -dc 'a-zA-Z0-9' </dev/urandom)))\"" >> .env
+      fi
+    triggeredBy:
+      - postDevcontainerStart
+
+  db-setup:
+    name: Database Setup
+    description: Wait for MySQL, run Prisma migrations and seed the database.
+    command: |
+      until docker exec interclip-mysql mysqladmin ping -h 127.0.0.1 --silent 2>/dev/null; do
+        echo "Waiting for MySQL on port 3306..."
+        sleep 2
+      done
+      yarn prisma:migrate
+      yarn prisma:seed
+    triggeredBy:
+      - postDevcontainerStart
+    dependsOn:
+      - install-deps
+
+services:
+  databases:
+    name: Databases
+    description: Start MySQL and Redis containers.
+    commands:
+      start: |
+        docker rm -f interclip-mysql interclip-redis 2>/dev/null || true
+        docker run -d --name interclip-mysql \
+          -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+          -e MYSQL_DATABASE=interclip \
+          -p 3306:3306 \
+          mysql:8.0
+        docker run -d --name interclip-redis \
+          -p 6379:6379 \
+          redis:7-alpine
+        # Keep service alive
+        sleep infinity
+      ready: |
+        docker exec interclip-mysql mysqladmin ping -h 127.0.0.1 --silent
+      stop: |
+        docker rm -f interclip-mysql interclip-redis 2>/dev/null || true
+
+  dev-server:
+    name: Dev Server
+    description: Start the Next.js development server.
+    commands:
+      start: |
+        export BASE_URL="http://localhost:3000"
+        export NEXTAUTH_URL="http://localhost:3000"
+        yarn dev
+      ready: |
+        curl -sf http://localhost:3000
+
+  prisma-studio:
+    name: Prisma Studio
+    description: Start Prisma Studio for database management.
+    commands:
+      start: |
+        BROWSER=none yarn prisma studio
+      ready: |
+        curl -sf http://localhost:5555
