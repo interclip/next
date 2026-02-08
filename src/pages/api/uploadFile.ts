@@ -10,7 +10,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  await limiter.check(res, 3, getCacheToken(req));
+  const cacheToken = getCacheToken(req);
+
+  if (req.method === 'HEAD') {
+    await limiter.check(res, 10, cacheToken);
+    return res.status(200).end();
+  }
+
+  await limiter.check(res, 3, cacheToken);
   const auth = await getSession({ req });
   const { name: fileName, type, token, size: fileSize } = req.query;
 
