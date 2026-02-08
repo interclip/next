@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   turbopack: {},
+  transpilePackages: ['@nextui-org/react', '@nextui-org/theme', '@react-aria/label'],
   reactStrictMode: true,
   images: {
     formats: ['image/avif', 'image/webp'],
