@@ -55,7 +55,7 @@
     "react-spinners": "^0.17.0",
     "react-tooltip": "^5.30.0",
     "sharp": "^0.34.5",
-    "simple-xml-to-json": "^1.0.9",
+    "simple-xml-to-json": "^1.2.3",
     "ts-node": "^10.8.1",
     "validator": "^13.7.0",
     "web3": "^1.7.3",

@@ -12840,10 +12840,10 @@ simple-websocket@^9.1.0:
     readable-stream "^3.6.0"
     ws "^7.4.2"
 
-simple-xml-to-json@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/simple-xml-to-json/-/simple-xml-to-json-1.0.9.tgz#2d8fd35fd300c7125f4be992b96a36ac3895f3b7"
-  integrity sha512-UBfaMjDLDLShSCKy8Dr9WSSCeY4usYoKHMXU5J0Iy7wx7B1UTu1LRVagwunMuP57LTbZwr9xAUWdiINQdhZ9Ww==
+simple-xml-to-json@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/simple-xml-to-json/-/simple-xml-to-json-1.2.3.tgz#79c7188ff99ae209a267b70ee0db06b0e4597787"
+  integrity sha512-kWJDCr9EWtZ+/EYYM5MareWj2cRnZGF93YDNpH4jQiHB+hBIZnfPFSQiVMzZOdk+zXWqTZ/9fTeQNu2DqeiudA==
 
 sisteransi@^1.0.5:
   version "1.0.5"
