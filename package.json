@@ -63,7 +63,7 @@
     "webtorrent": "^1.8.32"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/aws-sdk": "^2.7.0",
     "@types/cli-progress": "^3.11.0",
